@@ -593,6 +593,7 @@ def explore(word=None):
 @app.route('/localize', methods = ['GET'])
 def rememberremember():
     print "Du har flyttat allt till sinus. Remember?"
+    
 
 
 @app.errorhandler(404)

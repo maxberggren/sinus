@@ -7,6 +7,5 @@ Spiders/*.db
 Robert/
 Old/
 Tresprint/
-flaskapp/static/maps/*
 .DS_Store
 Evaluate/
