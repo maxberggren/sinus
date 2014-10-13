@@ -78,7 +78,7 @@ if __name__ == "__main__":
           posttitle text COLLATE utf8_unicode_ci,
           posturl text COLLATE utf8_unicode_ci,
           PRIMARY KEY (id),
-          KEY blog_id (blog_id),
+          KEY blog_id (blog_id)
         ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
         """
 
