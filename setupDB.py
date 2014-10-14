@@ -8,7 +8,7 @@ import config as c
 print c.DOCDB_URI
 
 if __name__ == "__main__":
-    documents = dataset.connect(c.DOCDB_URI)
+    documents = dataset.connect(c.DOCDB_URI) 
     
     q = """
         CREATE TABLE IF NOT EXISTS GMMs (
