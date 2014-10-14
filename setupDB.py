@@ -5,10 +5,10 @@ from textLoc26 import *
 import dataset
 import config as c
 
-print c.DOCDB_URI
+print c.LOCATIONDB
 
 if __name__ == "__main__":
-    documents = dataset.connect(c.DOCDB_URI) 
+    documents = dataset.connect(c.LOCATIONDB) 
     
     q = """
         CREATE TABLE IF NOT EXISTS GMMs (
