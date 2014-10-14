@@ -79,11 +79,11 @@ if __name__ == "__main__":
                                        "FROM blogs LEFT OUTER JOIN metadata "
                                        "ON blogs.url=metadata.url "): 
                                         
-            if not source[UNIQUENAME] in uniqueSources:
+            j += 1
+            url = source[UNIQUENAME]
+            if not url in uniqueSources:
                 uniqueSources.add(source[UNIQUENAME])
-                j += 1
-                url = source[UNIQUENAME]
-                    
+                
                 rows.append(dict(url=source[UNIQUENAME], 
                                  city=source['Ort'],
                                  municipality=source['Kommun'],
@@ -99,11 +99,10 @@ if __name__ == "__main__":
                 if j > 1000: 
                     j = 0                                                                         
                     try:
-                        print str(100*float(j)/float(sources))[0:4] + " %"  
                         sys.stdout.flush() 
                         documents['blogs'].insert_many(rows)
                         rows = [] 
-                           
+                        print str(100*float(j)/float(sources))[0:4] + " %"  
                     except:
                         traceback.print_exc(file=sys.stdout)
                         rows = [] 
