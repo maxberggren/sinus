@@ -8,7 +8,7 @@ import config as c
 print c.LOCATIONDB
 
 if __name__ == "__main__":
-    documents = dataset.connect(c.LOCATIONDB) 
+    documents = dataset.connect(c.LOCATIONDB)
     
     q = """
         CREATE TABLE IF NOT EXISTS GMMs (
