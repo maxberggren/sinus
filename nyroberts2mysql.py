@@ -11,16 +11,48 @@ import json
 import datetime
 import config as c
 
-BLOGSSOURCES = "sources"
-BLOGSOURCE = "source"
-UNIQUENAME = "user"
-SOURCE = 'sweclockers'
-SOURCEFILE = "sweclockers.db"
+BLOGSSOURCES = "blogs"
+BLOGSOURCE = "blog"
+UNIQUENAME = "url"
+SOURCE = 'twingly'
+SOURCEFILE = "db.sqlite"
 
 unicodeBMPpattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
 
 def only3bytes(unicode_string):
     return unicodeBMPpattern.sub(u'\uFFFD', unicode_string)
+
+RE_NORMAL = re.compile(ur"[a-zA-ZåäöÅÄÖé]")
+RE_HIGH = re.compile(ur"[^\u0000-\u00ff]")
+
+LATINIZE_TABLE = dict([
+    (unicode(c2.encode('utf-8'), 'latin1'), c2)
+    for c2 in u"åäöÅÄÖéüÜ"])
+
+RE_LATINIZE = re.compile(ur"|".join(LATINIZE_TABLE.keys()))
+
+def count_normal(s):
+    return len(RE_NORMAL.findall(s))
+
+def latinize(s):
+    try:
+        latinized = unicode(s.encode('latin1'), 'utf-8')
+        if count_normal(latinized) > count_normal(s):
+            return latinized
+    except (UnicodeDecodeError, UnicodeEncodeError):
+        pass
+    return None
+
+def robertFix(post):
+    latinized = latinize(post)
+    if latinized != None:
+        post = latinized
+    else:
+        post = RE_LATINIZE.sub(
+            lambda m: LATINIZE_TABLE[m.group()], post)
+    return post
+
+ 
 
 if __name__ == "__main__":
     localfile = dataset.connect('sqlite:///'+SOURCEFILE)
@@ -38,7 +70,12 @@ if __name__ == "__main__":
             sources = row['c']
         
         # The sqlite3 DB
-        localSources = localfile.query("SELECT * FROM " + BLOGSSOURCES)
+        localSources = localfile.query("SELECT blogs.url, blogs.rowid, "
+                                       "metadata.Ort, metadata.Land, "
+                                       "metadata.Intressen, metadata.Ln, "
+                                       "metadata.Kommun, metadata.text "
+                                       "FROM blogs LEFT OUTER JOIN metadata "
+                                       "ON blogs.url=metadata.url ")
         i, j = 0, 0
         
         for j, source in enumerate(localSources):  
@@ -46,7 +83,7 @@ if __name__ == "__main__":
                 print str(100*float(j)/float(sources))[0:4] + " %"    
 
             url = source[UNIQUENAME]
-            idInSource = source['id']
+            idInSource = source['rowid']
             
             foundInDocumentsDB = documents['blogs'].find_one(url=url)
             
@@ -56,15 +93,16 @@ if __name__ == "__main__":
             # The source needs to be created in documents
             else:
                 documents['blogs'].insert(dict(url=url, 
-                                               city=source['city'],
-                                               municipality='',
-                                               county='', 
-                                               country='',
-                                               intrests='',
-                                               presentation='',
+                                               city=source['Ort'],
+                                               municipality=source['Kommun'],
+                                               county=source['Ln'], 
+                                               country=source['Land'],
+                                               intrests=source['Intressen'],
+                                               presentation=source['text'],
                                                gender='',
                                                source=SOURCE,
-                                               rank=3))
+                                               id=source['rowid'],
+                                               rank=2))
                                                
                 foundInDocumentsDB = documents['blogs'].find_one(url=url)
                 documentID = foundInDocumentsDB['id']
@@ -77,8 +115,8 @@ if __name__ == "__main__":
                                             " " + str(idInSource)):
                     i += 1
                     rows.append(dict(blog_id=documentID,
-                                     date=post['date'],
-                                     text=only3bytes(post['text']))) 
+                                     date=datetime.datetime.fromtimestamp(post['date']),
+                                     text=robertFix(only3bytes(post['text'])))) 
                     
                     if i > 1000: 
                         i = 0                                                                         
