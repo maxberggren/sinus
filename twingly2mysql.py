@@ -69,7 +69,6 @@ if __name__ == "__main__":
         i, j, k = 0, 0, 0
         print "Inserting blogs"
         rows = []
-        #uniqueSources = set()
         
         # Blogs
         for source in localfile.query("SELECT blogs.url, blogs.rowid, "
@@ -77,14 +76,10 @@ if __name__ == "__main__":
                                        "metadata.Intressen, metadata.Ln, "
                                        "metadata.Kommun, metadata.text "
                                        "FROM blogs LEFT OUTER JOIN metadata "
-                                       "ON blogs.url=metadata.url "): 
-                                        
+                                       "ON blogs.url=metadata.url "):                         
             j += 1
             k += 1
-            url = source[UNIQUENAME]
-            #if not url in uniqueSources:
-            #    uniqueSources.add(source[UNIQUENAME])
-            
+            url = source[UNIQUENAME]      
             rows.append(dict(url=source[UNIQUENAME], 
                              city=source['Ort'],
                              municipality=source['Kommun'],
@@ -109,11 +104,10 @@ if __name__ == "__main__":
                     sys.stdout.flush() 
                     rows = [] 
                                            
-
+        # Posts
         print "Inserting posts"
         rows = []
         k = 0
-        # Posts
         for post in localfile.query("SELECT * from posts"):
             i += 1
             k += 1
@@ -132,7 +126,7 @@ if __name__ == "__main__":
                 except:
                     traceback.print_exc(file=sys.stdout)
                     sys.stdout.flush()
-                    rows = [] # means that we trow away whole batch
+                    rows = []
     
         print "And now I'm döne. *tar en ostmacka*"
     
