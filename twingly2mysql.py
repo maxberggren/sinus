@@ -66,10 +66,10 @@ if __name__ == "__main__":
             print "Importerar " + str(row['c']) + " st källor." 
             sources = row['c']
         
-        i, j = 0, 0
+        i, j, k = 0, 0, 0
         print "Inserting blogs"
         rows = []
-        uniqueSources = set()
+        #uniqueSources = set()
         
         # Blogs
         for source in localfile.query("SELECT blogs.url, blogs.rowid, "
@@ -80,39 +80,43 @@ if __name__ == "__main__":
                                        "ON blogs.url=metadata.url "): 
                                         
             j += 1
+            k += 1
             url = source[UNIQUENAME]
-            if not url in uniqueSources:
-                uniqueSources.add(source[UNIQUENAME])
-                
-                rows.append(dict(url=source[UNIQUENAME], 
-                                 city=source['Ort'],
-                                 municipality=source['Kommun'],
-                                 county=source['Ln'], 
-                                 country=source['Land'],
-                                 intrests=source['Intressen'],
-                                 presentation=source['text'],
-                                 gender='',
-                                 source=SOURCE,
-                                 id=source['rowid'],
-                                 rank=2))
-    
-                if j > 1000: 
-                    j = 0                                                                         
-                    try:
-                        sys.stdout.flush() 
-                        documents['blogs'].insert_many(rows)
-                        rows = [] 
-                        print str(100*float(j)/float(sources))[0:4] + " %"  
-                    except:
-                        traceback.print_exc(file=sys.stdout)
-                        rows = [] 
-                                               
+            #if not url in uniqueSources:
+            #    uniqueSources.add(source[UNIQUENAME])
+            
+            rows.append(dict(url=source[UNIQUENAME], 
+                             city=source['Ort'],
+                             municipality=source['Kommun'],
+                             county=source['Ln'], 
+                             country=source['Land'],
+                             intrests=source['Intressen'],
+                             presentation=source['text'],
+                             gender='',
+                             source=SOURCE,
+                             id=source['rowid'],
+                             rank=2))
+
+            if j > 1000: 
+                j = 0                                                                         
+                try:
+                    documents['blogs'].insert_many(rows)
+                    rows = [] 
+                    print str(100*float(k)/float(sources))[0:4] + " %"  
+                    sys.stdout.flush() 
+                except:
+                    traceback.print_exc(file=sys.stdout)
+                    sys.stdout.flush() 
+                    rows = [] 
+                                           
 
         print "Inserting posts"
         rows = []
+        k = 0
         # Posts
         for post in localfile.query("SELECT * from posts"):
             i += 1
+            k += 1
             rows.append(dict(blog_id=post['blog_id'],
                              date=datetime.datetime.fromtimestamp(post['date']),
                              text=robertFix(only3bytes(post['summary'])))) 
@@ -120,16 +124,17 @@ if __name__ == "__main__":
             if i > 1000: 
                 i = 0                                                                         
                 try:
-                    print str(100*float(i)/float(42000000))[0:4] + " %"  
+                    print str(100*float(k)/float(42000000))[0:4] + " %"  
                     sys.stdout.flush()
                     documents['posts'].insert_many(rows)
                     rows = [] 
                        
                 except:
                     traceback.print_exc(file=sys.stdout)
-                    rows = [] 
+                    sys.stdout.flush()
+                    rows = [] # means that we trow away whole batch
     
-        print "And now I'm döne."
+        print "And now I'm döne. *tar en ostmacka*"
     
     except KeyboardInterrupt:
         print "Avbryter..."

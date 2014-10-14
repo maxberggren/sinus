@@ -44,7 +44,7 @@ if __name__ == "__main__":
           source text COLLATE utf8_unicode_ci,
           noCoordinate int(1) DEFAULT NULL,
           PRIMARY KEY (id),
-          UNIQUE KEY url (url(255)),
+          KEY url (url(255)),
           KEY country (country),
           KEY municipality (municipality),
           KEY county (county),
