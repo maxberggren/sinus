@@ -69,7 +69,7 @@ if __name__ == "__main__":
         i, j = 0, 0
         print "Inserting blogs"
         rows = []
-        #uniqueSources = set()
+        uniqueSources = set()
         
         # Blogs
         for source in localfile.query("SELECT blogs.url, blogs.rowid, "
@@ -79,34 +79,34 @@ if __name__ == "__main__":
                                        "FROM blogs LEFT OUTER JOIN metadata "
                                        "ON blogs.url=metadata.url "): 
                                         
-            #if not source[UNIQUENAME] in uniqueSources:
-            #    uniqueSources.add(source[UNIQUENAME])
-            j += 1
-            url = source[UNIQUENAME]
-                
-            rows.append(dict(url=source[UNIQUENAME], 
-                             city=source['Ort'],
-                             municipality=source['Kommun'],
-                             county=source['Ln'], 
-                             country=source['Land'],
-                             intrests=source['Intressen'],
-                             presentation=source['text'],
-                             gender='',
-                             source=SOURCE,
-                             id=source['rowid'],
-                             rank=2))
-
-            if j > 1000: 
-                j = 0                                                                         
-                try:
-                    print str(100*float(j)/float(sources))[0:4] + " %"  
-                    sys.stdout.flush() 
-                    documents['blogs'].insert_many(rows)
-                    rows = [] 
-                       
-                except:
-                    traceback.print_exc(file=sys.stdout)
-                    rows = [] 
+            if not source[UNIQUENAME] in uniqueSources:
+                uniqueSources.add(source[UNIQUENAME])
+                j += 1
+                url = source[UNIQUENAME]
+                    
+                rows.append(dict(url=source[UNIQUENAME], 
+                                 city=source['Ort'],
+                                 municipality=source['Kommun'],
+                                 county=source['Ln'], 
+                                 country=source['Land'],
+                                 intrests=source['Intressen'],
+                                 presentation=source['text'],
+                                 gender='',
+                                 source=SOURCE,
+                                 id=source['rowid'],
+                                 rank=2))
+    
+                if j > 1000: 
+                    j = 0                                                                         
+                    try:
+                        print str(100*float(j)/float(sources))[0:4] + " %"  
+                        sys.stdout.flush() 
+                        documents['blogs'].insert_many(rows)
+                        rows = [] 
+                           
+                    except:
+                        traceback.print_exc(file=sys.stdout)
+                        rows = [] 
                                                
 
         print "Inserting posts"
