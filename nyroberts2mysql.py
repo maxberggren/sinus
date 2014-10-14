@@ -56,7 +56,7 @@ def robertFix(post):
 
 if __name__ == "__main__":
     localfile = dataset.connect('sqlite:///'+SOURCEFILE)
-    documents = dataset.connect(c.DOCDB_URI_LOCAL)
+    documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
     #documents.query("SET AUTOCOMMIT = 0; "
     #                "SET FOREIGN_KEY_CHECKS = 0; "
@@ -116,7 +116,7 @@ if __name__ == "__main__":
                     i += 1
                     rows.append(dict(blog_id=documentID,
                                      date=datetime.datetime.fromtimestamp(post['date']),
-                                     text=robertFix(only3bytes(post['text'])))) 
+                                     text=robertFix(only3bytes(post['summary'])))) 
                     
                     if i > 1000: 
                         i = 0                                                                         
