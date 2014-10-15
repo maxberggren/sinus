@@ -22,9 +22,18 @@ unicodeBMPpattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
 def only3bytes(unicode_string):
     return unicodeBMPpattern.sub(u'\uFFFD', unicode_string)
 
+def encutf8(s):
+    if s is None:
+        return ""
+    else:
+        if isinstance(s, (int, long)):
+            return s 
+        else:
+            return s.encode('utf-8')
+            
 if __name__ == "__main__":
     localfile = dataset.connect('sqlite:///'+SOURCEFILE)
-    documents = dataset.connect(c.DOCDB_URI_LOCAL)
+    documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
     #documents.query("SET AUTOCOMMIT = 0; "
     #                "SET FOREIGN_KEY_CHECKS = 0; "
@@ -55,17 +64,20 @@ if __name__ == "__main__":
                 
             # The source needs to be created in documents
             else:
-                documents['blogs'].insert(dict(url=url, 
-                                               city=source['city'],
-                                               municipality='',
-                                               county=source['county'], 
-                                               country='',
-                                               intrests='',
-                                               presentation='',
-                                               gender=source['gender'],
-                                               age=source['age'],
-                                               source=SOURCE,
-                                               rank=2))
+                blog = dict(url=url, 
+                            city=source['city'],
+                            municipality='',
+                            county=source['county'], 
+                            country='',
+                            intrests='',
+                            presentation='',
+                            gender=source['gender'],
+                            age=source['age'],
+                            source=SOURCE,
+                            rank=2)
+                            
+                blog = dict((k, encutf8(v)) for (k, v) in blog.items())
+                documents['blogs'].insert(blog)
                                                
                 foundInDocumentsDB = documents['blogs'].find_one(url=url)
                 documentID = foundInDocumentsDB['id']
@@ -79,7 +91,7 @@ if __name__ == "__main__":
                     i += 1
                     rows.append(dict(blog_id=documentID,
                                      date=post['date'],
-                                     text=only3bytes(post['text']))) 
+                                     text=only3bytes(post['text'].encode('utf-8')))) 
                     
                     if i > 1000: 
                         i = 0                                                                         

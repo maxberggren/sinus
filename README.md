@@ -12,6 +12,7 @@ Setup
   * If you dont have homebrew run `ruby <(curl -fsSk https://raw.github.com/mxcl/homebrew/go)` first in terminal
 3. Edit `config.example.py` with your MySQL credentials and rename to `config.py`
 4. Run `setupDB.py` to create all tables.
+5. Run `mysql> set character_set_client = 'utf8'; set character_set_connection = 'utf8'; set character_set_database = 'utf8'; set character_set_results = 'utf8'; set character_set_server = 'utf8';` in mysql
 5. Get data: 
   * Run spider scripts in `/Spiders` 
   * or bring your own data

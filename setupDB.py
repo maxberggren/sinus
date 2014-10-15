@@ -5,10 +5,13 @@ from textLoc26 import *
 import dataset
 import config as c
 
-print c.DOCDB_URI_LOCAL
+print c.LOCATIONDB
 
 if __name__ == "__main__":
-    documents = dataset.connect(c.DOCDB_URI_LOCAL)
+    documents = dataset.connect(c.LOCATIONDB)
+
+    q = "set names 'utf8'"
+    documents.query(q)
     
     q = """
         CREATE TABLE IF NOT EXISTS GMMs (
@@ -43,10 +46,10 @@ if __name__ == "__main__":
           rank int(11) DEFAULT NULL,
           source text COLLATE utf8_unicode_ci,
           noCoordinate int(1) DEFAULT NULL,
-          PRIMARY KEY (id),
+          KEY (id),
           KEY url (url(255)),
           KEY country (country),
-          KEY municipality (municipality),
+          KEY munici (municipality),
           KEY county (county),
           KEY city (city)
         ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
@@ -66,7 +69,7 @@ if __name__ == "__main__":
           deltaEnt30 float DEFAULT NULL,
           deltaEnt40 float DEFAULT NULL,
           PRIMARY KEY (id),
-          KEY ind_token (token)
+          KEY ind_tok (token)
         ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
         """
 
@@ -92,10 +95,30 @@ if __name__ == "__main__":
           frequency int(11) DEFAULT NULL,
           token varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
           PRIMARY KEY (id),
-          KEY ind_token (token)
+          KEY ind_tok (token)
         ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
 
         """
 
     documents.query(q)
+    
+    
+    q = "ALTER DATABASE "+ c.DATABASENAME +" CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci'; "
+    documents.query(q)
+    
+    q = "set character_set_client = 'utf8'"
+    documents.query(q)
+    
+    q = "set character_set_connection = 'utf8'" #####
+    documents.query(q)
+    
+    q = "set character_set_database = 'utf8'"
+    documents.query(q)
+    
+    q = "set character_set_results = 'utf8'"
+    documents.query(q)
+    
+    q = "set character_set_server = 'utf8'" #####
+    documents.query(q)
+    
  

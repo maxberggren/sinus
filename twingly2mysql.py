@@ -52,21 +52,28 @@ def robertFix(post):
             lambda m: LATINIZE_TABLE[m.group()], post)
     return post
 
- 
+def encutf8(s):
+    if s is None:
+        return ""
+    else:
+        if isinstance(s, (int, long)):
+            return s 
+        else:
+            return s.encode('utf-8')
 
 if __name__ == "__main__":
     localfile = dataset.connect('sqlite:///'+SOURCEFILE)
-    documents = dataset.connect(c.DOCDB_URI_LOCAL)
+    documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
-     
+    i, j, k = 0, 0, 0
     try:
+        
         result = localfile.query("SELECT count(*) as c "
                                  "from " + BLOGSSOURCES)
         for row in result:
             print "Importerar " + str(row['c']) + " st källor." 
             sources = row['c']
         
-        i, j, k = 0, 0, 0
         print "Inserting blogs"
         rows = []
         
@@ -79,18 +86,23 @@ if __name__ == "__main__":
                                        "ON blogs.url=metadata.url "):                         
             j += 1
             k += 1
-            url = source[UNIQUENAME]      
-            rows.append(dict(url=source[UNIQUENAME], 
-                             city=source['Ort'],
-                             municipality=source['Kommun'],
-                             county=source['Ln'], 
-                             country=source['Land'],
-                             intrests=source['Intressen'],
-                             presentation=source['text'],
-                             gender='',
-                             source=SOURCE,
-                             id=source['rowid'],
-                             rank=2))
+            url = source[UNIQUENAME]   
+            
+            blog = dict(id=source['rowid'],
+                        url=source[UNIQUENAME], 
+                        city=source['Ort'],
+                        municipality=source['Kommun'],
+                        county=source['Ln'], 
+                        country=source['Land'],
+                        intrests=source['Intressen'],
+                        presentation=source['text'],
+                        gender='',
+                        source=SOURCE,
+                        rank=2)
+                        
+            blog = dict((k, encutf8(v)) for (k, v) in blog.items())
+
+            rows.append(blog)
 
             if j > 1000: 
                 j = 0                                                                         
@@ -103,7 +115,8 @@ if __name__ == "__main__":
                     traceback.print_exc(file=sys.stdout)
                     sys.stdout.flush() 
                     rows = [] 
-                                           
+           
+                                       
         # Posts
         print "Inserting posts"
         rows = []
@@ -111,9 +124,10 @@ if __name__ == "__main__":
         for post in localfile.query("SELECT * from posts"):
             i += 1
             k += 1
+            t = robertFix(post['summary']).encode('utf-8')
             rows.append(dict(blog_id=post['blog_id'],
                              date=datetime.datetime.fromtimestamp(post['date']),
-                             text=robertFix(only3bytes(post['summary'])))) 
+                             text=t)) 
             
             if i > 1000: 
                 i = 0                                                                         
