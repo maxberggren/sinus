@@ -109,7 +109,7 @@ if __name__ == "__main__":
     q = "set character_set_client = 'utf8'"
     documents.query(q)
     
-    q = "set character_set_connection = 'utf8'" #####
+    q = "set character_set_connection = 'utf8'" 
     documents.query(q)
     
     q = "set character_set_database = 'utf8'"
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     q = "set character_set_results = 'utf8'"
     documents.query(q)
     
-    q = "set character_set_server = 'utf8'" #####
+    q = "set character_set_server = 'utf8'"
     documents.query(q)
     
  

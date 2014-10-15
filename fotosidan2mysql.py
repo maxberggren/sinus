@@ -90,7 +90,6 @@ if __name__ == "__main__":
                     rows.append(dict(blog_id=documentID,
                                      date=post['date'],
                                      text=only3bytes(encutf8(post['text'])))) 
-                    
                     if i > 1000: 
                         i = 0                                                                         
                         try:
