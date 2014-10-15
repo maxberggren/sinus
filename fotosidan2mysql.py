@@ -26,18 +26,16 @@ def encutf8(s):
     if s is None:
         return ""
     else:
-        if isinstance(s, (int, long)):
+        if isinstance(s, (int, long, str)):
             return s 
         else:
             return s.encode('utf-8')
+            
             
 if __name__ == "__main__":
     localfile = dataset.connect('sqlite:///'+SOURCEFILE)
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
-    #documents.query("SET AUTOCOMMIT = 0; "
-    #                "SET FOREIGN_KEY_CHECKS = 0; "
-    #                "SET UNIQUE_CHECKS = 0;")
     
     try:
         result = localfile.query("SELECT count(*) as c "
@@ -54,11 +52,11 @@ if __name__ == "__main__":
             if j % 1000 == 1:
                 print str(100*float(j)/float(sources))[0:4] + " %"    
 
-            url = source[UNIQUENAME]
+            url = encutf8(source[UNIQUENAME])
             idInSource = source['id']
             
             foundInDocumentsDB = documents['blogs'].find_one(url=url)
-            
+
             if foundInDocumentsDB:
                 documentID = foundInDocumentsDB['id']
                 
@@ -84,13 +82,14 @@ if __name__ == "__main__":
                 # Add the sources posts to the documents DB
                 # with the newly inserted blog id.
                 rows = []
+
                 for post in localfile.query("SELECT * from posts "
                                             "WHERE "+BLOGSOURCE+"_id =" 
                                             " " + str(idInSource)):
                     i += 1
                     rows.append(dict(blog_id=documentID,
                                      date=post['date'],
-                                     text=only3bytes(post['text']).encode('utf-8'))) 
+                                     text=only3bytes(encutf8(post['text'])))) 
                     
                     if i > 1000: 
                         i = 0                                                                         
@@ -104,11 +103,8 @@ if __name__ == "__main__":
         print "And now I'm döne."
     
     except KeyboardInterrupt:
-        #documents.query("SET AUTOCOMMIT = 1; "
-        #                "SET FOREIGN_KEY_CHECKS = 1; "
-        #                "SET UNIQUE_CHECKS = 1;")
         print "Avbryter..."
                         
-    #documents.query("SET AUTOCOMMIT = 1; "
-    #                "SET FOREIGN_KEY_CHECKS = 1; "
-    #                "SET UNIQUE_CHECKS = 1;")
+                        
+                        
+                        

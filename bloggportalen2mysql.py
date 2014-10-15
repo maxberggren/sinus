@@ -26,7 +26,7 @@ def encutf8(s):
     if s is None:
         return ""
     else:
-        if isinstance(s, (int, long)):
+        if isinstance(s, (int, long, str)):
             return s 
         else:
             return s.encode('utf-8')
@@ -54,7 +54,7 @@ if __name__ == "__main__":
             if j % 1000 == 1:
                 print str(100*float(j)/float(sources))[0:4] + " %"    
 
-            url = source[UNIQUENAME]
+            url = encutf8(source[UNIQUENAME])
             idInSource = source['id']
             
             foundInDocumentsDB = documents['blogs'].find_one(url=url)
@@ -89,7 +89,7 @@ if __name__ == "__main__":
                     i += 1
                     rows.append(dict(blog_id=documentID,
                                      date=post['date'],
-                                     text=only3bytes(post['text']).encode('utf-8'))) 
+                                     text=only3bytes(encutf8(post['text'])))) 
                     
                     if i > 1000: 
                         i = 0                                                                         
