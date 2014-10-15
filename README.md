@@ -18,7 +18,7 @@ Setup
   * or bring your own data
 6. Import the data with corresponding importscript `<source>2mysql.py`
 7. Add the fulltext indexing to make searches decently fast (on 18 GB of data this took 24h so keep that in mind) 
-  * `mysql> ALTER TABLE posts ADD FULLTEXT FTItext (text);`
+  * Run `setupFulltext.py`
 8. Run `metadata2coordinates.py` to convert metadata to coordinates trough Google geoencoding API. This is limited to 2000 requests per 24h so if all your data is not converted, keep the script running for some days untill it's finished (if your bored you can continue but without all data avalible in the GUI).
 9. Run `runflask.py` to start webserver
 10. Point browser to `http://localhost:5000/sinus/` for GUI to explore the data.
