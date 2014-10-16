@@ -49,14 +49,17 @@ def emptyFolder(folder):
             print e
 
 def getSynonyms(query):
-    r = requests.get('https://ethersource.gavagai.se/ethersource/'
-                     'rest/v2/suggestTerms?'
-                     'apiKey='+c.ES_APIKEY+'&'
-                     'terms='+query+'&'
-                     'language=SV', 
-                     auth=(c.ES_USER, c.ES_PASSW))
-    
-    synonyms = [row['word'] for row in r.json()['paradigmaticNeighbours']]
+    try:
+        r = requests.get('https://ethersource.gavagai.se/ethersource/'
+                         'rest/v2/suggestTerms?'
+                         'apiKey='+c.ES_APIKEY+'&'
+                         'terms='+query+'&'
+                         'language=SV', 
+                         auth=(c.ES_USER, c.ES_PASSW))
+        
+        synonyms = [row['word'] for row in r.json()['paradigmaticNeighbours']]
+    except:
+        synonyms = [""]
     
     return synonyms
     
@@ -496,7 +499,6 @@ def explore(word=None):
         
     if word:
         synonyms = getSynonyms(word)
-        #synonyms = ['katt', 'hund']
         synonyms.insert(0, word)
         synonyms = ", ".join(synonyms)
     else:
@@ -594,17 +596,19 @@ def explore(word=None):
 def rememberremember():
     print "Du har flyttat allt till sinus. Remember?"
     
-
-
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify( { 'error': 'Not found' } ), 404)
 
-
+# Set up the geotagging model
 model = tweetLoc(c.LOCATIONDB)
+# Connect to DB
 mysqldb = dataset.connect(c.LOCATIONDB) 
-mysqldb.query("set names 'utf8'")
+mysqldb.query("set names 'utf8'") # For safety
 
+# Create set with all Swedish towns to be used to exclude from 
+# the results when hunting for words with low entropy in the data.
+# Towns/cities are by nature with low entropy but of no intrest. 
 s = Set()
 f = codecs.open("flaskapp/orter.txt", encoding="utf-8")
 for line in f:
