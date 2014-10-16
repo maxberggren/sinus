@@ -46,7 +46,7 @@ def deltaEntropy(lats, lons, chunk=0.2):
 
 if __name__ == "__main__":
 
-    mysqldb = dataset.connect(c.DOCDB_URI_LOCAL)
+    mysqldb = dataset.connect(c.LOCATIONDB)
     mysqldb.query("set names 'utf8'")
 
     for row in mysqldb.query("SELECT * from ngrams "

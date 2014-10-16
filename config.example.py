@@ -1,18 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-DOCDB_URI = "mysql://root:asddsasd@127.0.0.1:3307/sinus"
-DOCDB_URI_LOCAL = "mysql://root:asdasdsadasd@localhost/sinus"
-GMMDB_URI = "mysql://gmm:sadsadsd@localhost/gmm"
-LOCATIONDB = "mysql://sinus:5NUasddsasad4KbP8@locationdb.gavagai.se/sinus"
+# Database login
+DATABASENAME = "sinus2"
+LOCATIONDB = "mysql://<username>:<password>@<location>/" + DATABASENAME
 
-ES_USER = "dsasdsd"
-ES_PASSW = "sadsadsad"
-ES_APIKEY = "9es78adsdsadmvkg"
+# Gavagai API credentials
+ES_USER = "user"
+ES_PASSW = "passw"
+ES_APIKEY = "key"
 
-# Twitter
-OAUTH_TOKEN = 'asdasdasdas'
-OAUTH_SECRET = 'asdsad'
-CONSUMER_KEY = 'asddassad'
-CONSUMER_SECRET = 'asdasddas'
+# Twitter API credentials
+OAUTH_TOKEN = 'sdfghhdsdfgqkeH8ggfddfggfdfgdfgdfgdfgdOyVCPCIlTd'
+OAUTH_SECRET = '0lRMyuasdasdsdfffgdgfddfggfddgfgdfdggdfsdfsVLDih3gA'
+CONSUMER_KEY = 'k51dsfdsfdsfsfdsgfdgfdfdsdfsfddsgdfgdfsdfsdffdsPpk4g'
+CONSUMER_SECRET = 'VcOXaCsdfdsfdsfsddfsfdsdfsdsffdsfdsfdsfdsdfsGrZLZjfc'
 

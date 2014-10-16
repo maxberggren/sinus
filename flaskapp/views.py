@@ -602,7 +602,7 @@ def not_found(error):
 
 
 model = tweetLoc(c.LOCATIONDB)
-mysqldb = dataset.connect(c.LOCATIONDB)
+mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'")
 
 s = Set()

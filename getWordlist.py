@@ -18,14 +18,11 @@ if __name__ == "__main__":
     varchar = sqlalchemy.types.String(length=255)
     warnings.simplefilter("ignore")
     
-    db = dataset.connect(c.DOCDB_URI_LOCAL)
-    #result = db.query("SELECT count(*) as c from posts")
-    #for row in result:
-    #    nPosts = row['c']
+    db = dataset.connect(c.LOCATIONDB)
     
     #nPosts = 50000
     #nPosts = 43131671
-    nPosts = int(float(43131671)/float(100))
+    nPosts = int(float(43131671)/float(100)) # only count a percent
     offsets = xrange(0, nPosts, batch)
     
     #bigrams = Counter() 
