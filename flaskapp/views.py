@@ -601,8 +601,8 @@ def not_found(error):
     return make_response(jsonify( { 'error': 'Not found' } ), 404)
 
 
-model = tweetLoc(c.GMMDB_URI)
-mysqldb = dataset.connect(c.DOCDB_URI)
+model = tweetLoc(c.LOCATIONDB)
+mysqldb = dataset.connect(c.LOCATIONDB)
 mysqldb.query("set names 'utf8'")
 
 s = Set()
