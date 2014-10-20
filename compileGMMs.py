@@ -5,4 +5,4 @@ from textLoc26 import *
 
 if __name__ == "__main__":
     model = tweetLoc()
-    model.createGMMs(model.commonWords())
+    print model.createGMMs(model.commonWords())
