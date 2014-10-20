@@ -49,7 +49,7 @@ def timing(f):
     return wrap
 
 class tweetLoc:
-    def __init__(self, db=c.LOCATIONDB, dbtweets=c.LOCATIONDB):
+    def __init__(self, db=c.LOCATIONDB, dbtweets='sqlite:///tweets.db'):
         self.GMMdb = dataset.connect(db)
         
         self.tweetsdb = dataset.connect(dbtweets)
@@ -138,7 +138,7 @@ class tweetLoc:
         # Metadata är användarens självspecifierade ort ex. "svettiga svedala" 
         
         result = self.tweetsdb.query("SELECT * FROM tweets WHERE tweet LIKE '%{}%' or metadata LIKE '%{}%' and used = {}{}".format(word, word, used, limit))
-        print result
+
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
         
