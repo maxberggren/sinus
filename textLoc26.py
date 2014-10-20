@@ -132,11 +132,11 @@ class tweetLoc:
         if limit:
             limit = " LIMIT " + str(limit) 
         else:
-            limit = ""
+            limit = " "
         
         # Hämta koordinater som har ordet i tweeten eller i metadatan
         # Metadata är användarens självspecifierade ort ex. "svettiga svedala" 
-        result = self.tweetsdb.query("SELECT * FROM tweets WHERE tweet LIKE '%inte%'")
+        result = self.tweetsdb.query("SELECT * FROM tweets")
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
         
