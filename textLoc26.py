@@ -116,7 +116,7 @@ class tweetLoc:
 
         return theCommonWords
 
-    def getCoordinatesFor(self, word):
+    def getCoordinatesFor(self, word, getUsed=False, limit=None):
         """
         Letar rätt på alla koordinater från träningdatan som hör till ett ord.
         Ex. "Stockholm" -> [18.23, 59.43], [18.23, 59.23], [18.543, 59.345]
@@ -124,11 +124,19 @@ class tweetLoc:
         redan har använts finns. Detta för att tex använda datan för plottar.
         """
         outputCoordinates = []
+        if getUsed:
+            used = 1
+        else:
+            used = 0
+        
+        if limit:
+            limit = " LIMIT " + str(limit) 
+        else:
+            limit = ""
         
         # Hämta koordinater som har ordet i tweeten eller i metadatan
         # Metadata är användarens självspecifierade ort ex. "svettiga svedala" 
-        q = "SELECT lon, lat FROM tweets WHERE tweet LIKE '%" + word + "%' or metadata LIKE '%" + word + "%' and used = 1"
-        result = self.tweetsdb.query(q)
+        result = self.tweetsdb.query("SELECT * FROM tweets WHERE tweet LIKE '%" + word + "%' or metadata LIKE '%" + word + "%' and used = " + str(used) + limit)
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
         
