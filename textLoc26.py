@@ -113,6 +113,7 @@ class tweetLoc:
         for key, value in counter.iteritems():
             if value >= threshold:
                 theCommonWords.append(key)
+        print theCommonWords
         return theCommonWords
 
     def getCoordinatesFor(self, word, getUsed=False, limit=None):
@@ -136,7 +137,6 @@ class tweetLoc:
         # Hämta koordinater som har ordet i tweeten eller i metadatan
         # Metadata är användarens självspecifierade ort ex. "svettiga svedala" 
         result = self.tweetsdb.query("SELECT * FROM tweets WHERE tweet LIKE '%" + word + "%' or metadata LIKE '%" + word + "%' and used = " + str(used) + limit)
-        print "SELECT * FROM tweets WHERE tweet LIKE '%" + word + "%' or metadata LIKE '%" + word + "%' and used = " + str(used) + limit
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
         
