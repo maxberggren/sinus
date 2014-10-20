@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*- 
 
-from textLoc24 import *
+from textLoc26 import *
 
 if __name__ == "__main__":
     model = tweetLoc()

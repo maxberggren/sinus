@@ -7,6 +7,7 @@ import codecs
 import datetime
 import sys
 import config as c
+import traceback
 
 OAUTH_TOKEN = c.OAUTH_TOKEN
 OAUTH_SECRET = c.OAUTH_SECRET
@@ -16,7 +17,9 @@ CONSUMER_SECRET = c.CONSUMER_SECRET
 from twython import TwythonStreamer
 import json
 
-tweetsdb = dataset.connect('sqlite:///tweets.db')
+print "hej"
+
+tweetsdb = dataset.connect(c.LOCATIONDB)
 tweetsdb.begin()
 twittertable = tweetsdb['tweets']
 
@@ -113,7 +116,7 @@ def saveTweet(data):
                 print "Användarnamn fanns ej i datan."  
                 """
             
-            if country.lower() == "sverige" or country.lower() == "sweden":
+            if country.lower() == c.TWITTERCOUNTRYFILTER_1 or country.lower() == c.TWITTERCOUNTRYFILTER_2:
                 sys.stdout.write('.')  
                 twittertable.insert(dict(tweet=tweetText, 
                                          lon=lon, 
@@ -135,6 +138,10 @@ while True:
     try: 
         #stream.statuses.filter(track='twitter')
         print "Hämtar tweets"
-        stream.statuses.filter(locations='11, 55, 25.068611, 69.329444')
+        stream.statuses.filter(locations=c.TWITTERLOCFILTER)
+    except KeyboardInterrupt:
+        print "\nExiting..."
+        break
     except:
-        print sys.exc_info()[0]
+        #print sys.exc_info()[0]
+        traceback.print_exc(file=sys.stdout)
