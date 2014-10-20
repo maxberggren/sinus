@@ -2,31 +2,21 @@
 # -*- coding: utf-8 -*- 
 
 from __future__ import division
-#import json
-#import re
 import collections
 from collections import OrderedDict
 import itertools
-#import csv
-#import sklearn
 import os
-#import urllib2
-#import urllib
-#import json
 import random
 from math import radians, cos, sin, asin, sqrt, isnan, exp, isnan
-#from collections import defaultdict
 import numpy as np
 import pylab as pl
 from sklearn import mixture
-#import cPickle as pickle
-#from os import walk
 import dataset    
 import codecs   
 import datetime
 import time
-#from geocode import latlon
 from operator import itemgetter
+import config as c
 
 def haversine(coord1, coord2):
     """
@@ -59,7 +49,7 @@ def timing(f):
     return wrap
 
 class tweetLoc:
-    def __init__(self, db="sqlite:///GMMs.db", dbtweets='sqlite:///tweets.db'):
+    def __init__(self, db=c.LOCATIONDB, dbtweets=c.LOCATIONDB):
         self.GMMdb = dataset.connect(db)
         
         self.tweetsdb = dataset.connect(dbtweets)
@@ -293,6 +283,6 @@ class tweetLoc:
 
 if __name__ == "__main__":
 
-    model = tweetLoc("mysql://gmm:tAfQ5LWaPC@localhost/gmm")
+    model = tweetLoc()
     print model.predict("Helsingborg (1912–1971 stavat Hälsingborg) är centralort i Helsingborgs kommun och ligger i Skåne län. Den är med över 91 000 invånare befolkningsmässigt Sveriges åttonde största tätort[4] och ingår i Öresundsregionen. Helsingborg ligger vid Öresunds smalaste del. Endast fyra kilometer skiljer Helsingborg från Helsingör i Danmark. Stadens geografi domineras av den branta sluttningen Landborgen. Den löper längs Öresund, något indragen från kusten. Mellan strandterrassen och landborgsterrassen finns ett antal raviner som bildats under den senaste istiden. I centrum är arkitekturen en tätbyggd stenstad, med monumentala och storstadsmässiga hus mot paradgatorna Drottninggatan och Järnvägsgatan, samt mot Stortorget, Sankt Jörgens plats och Trädgårdsgatan. I gatorna bakom denna bebyggelse är arkitekturen mer småskalig och intim. Helsingborgs historia sträcker sig tillbaka till vikingatiden. Den viktiga plats där Öresund är som smalast har gett staden en strategisk position under lång tid. På medeltiden var staden och dess slott ett av Nordens mäktigaste fästen och därmed inblandat i mycket av den tidens maktspel. Under århundradena har Helsingborg varit platsen för flera politiska konflikter och strider. De många krigen mellan Sverige och Danmark gick hårt åt staden och dess bebyggelse. Men sedan 1700-talet har staden levt i fred. På 1800-talet lyckades Helsingborg återhämta sig ordentligt. Helsingborg blev en av Sveriges snabbast växande städer som en viktig hamn- och industristad. Industrin i Helsingborg domineras inte av några stora privata företag utan består av flera mindre. Den största privata arbetsgivaren är Ikea, som har sitt svenska huvudkontor i staden. Andra viktiga företag sysslar med handel och kommunikationer, samt livsmedel, kemi och läkemedelsteknik. Stadens goda läge gör att det finns flera åkeriföretag och distributionscentraler. Hamnen är även Sveriges näst största containerhamn efter Göteborg och färjetrafiken är omfattande. Två rederier har färjetrafik över Öresund med avgångar dygnet runt. Smeknamn: Sundets pärla alternativt Pärlan vid Sundet. Slogan: Staden för dig som vill något".decode("utf-8"))
 
