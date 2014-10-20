@@ -113,7 +113,7 @@ class tweetLoc:
         for key, value in counter.iteritems():
             if value >= threshold:
                 theCommonWords.append(key)
-        print theCommonWords
+
         return theCommonWords
 
     def getCoordinatesFor(self, word, getUsed=False, limit=None):
@@ -160,6 +160,7 @@ class tweetLoc:
         wordsWithModelAccepted = []
         # Skapar en GMM för alla ord
         for i, word in enumerate(words):
+            print word
             try:
                 coordinateData = self.getCoordinatesFor(word)
     
