@@ -136,7 +136,7 @@ class tweetLoc:
         
         # Hämta koordinater som har ordet i tweeten eller i metadatan
         # Metadata är användarens självspecifierade ort ex. "svettiga svedala" 
-        result = self.tweetsdb.query("SELECT * FROM tweets WHERE tweet LIKE '%" + word + "%' or metadata LIKE '%" + word + "%' and used = " + str(used) + limit)
+        result = self.tweetsdb.query("SELECT * FROM tweets WHERE tweet LIKE '%inte%'")
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
         
