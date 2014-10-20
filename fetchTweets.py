@@ -17,8 +17,6 @@ CONSUMER_SECRET = c.CONSUMER_SECRET
 from twython import TwythonStreamer
 import json
 
-print "hej"
-
 tweetsdb = dataset.connect(c.LOCATIONDB)
 tweetsdb.begin()
 twittertable = tweetsdb['tweets']
