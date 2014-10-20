@@ -161,31 +161,31 @@ class tweetLoc:
         # Skapar en GMM för alla ord
         for i, word in enumerate(words):
             print word
-            try:
-                coordinateData = self.getCoordinatesFor(word)
-    
-                if len(coordinateData) > 3:
-                    print str(i) + "/" + str(len(words)) + " " + word
-    
-                    myGMM = mixture.GMM(n_components=3,
-                                        covariance_type='tied')
-                    myGMM.fit(np.asarray(coordinateData)) # sklearn wants nparray
+            #try:
+            coordinateData = self.getCoordinatesFor(word)
+
+            if len(coordinateData) > 3:
+                print str(i) + "/" + str(len(words)) + " " + word
+
+                myGMM = mixture.GMM(n_components=3,
+                                    covariance_type='tied')
+                myGMM.fit(np.asarray(coordinateData)) # sklearn wants nparray
+                
+                for coordinate in myGMM.means_: # en GMM tar fram 3 toppar
+                    # Empiriskt satt score
+                    scoring = np.exp(-100 / myGMM.score([coordinate]))[0]   
                     
-                    for coordinate in myGMM.means_: # en GMM tar fram 3 toppar
-                        # Empiriskt satt score
-                        scoring = np.exp(-100 / myGMM.score([coordinate]))[0]   
-                        
-                        # In met i databasen         
-                        self.GMMtable.insert(dict(word=word, lon=coordinate[0], 
-                                                  lat=coordinate[1], scoring=scoring,
-                                                  date=datetime.date.today()),
-                                                  n_coordinates=len(coordinateData))
-                    del myGMM 
-                    wordsWithModelAccepted.append(word)     
-            except:
-                """
-                Ordet kunde inte skapas en GMM på
-                """
+                    # In met i databasen         
+                    self.GMMtable.insert(dict(word=word, lon=coordinate[0], 
+                                              lat=coordinate[1], scoring=scoring,
+                                              date=datetime.date.today()),
+                                              n_coordinates=len(coordinateData))
+                del myGMM 
+                wordsWithModelAccepted.append(word)     
+            #except:
+            #    """
+            #    Ordet kunde inte skapas en GMM på
+            #    """
 
         return wordsWithModelAccepted
 
