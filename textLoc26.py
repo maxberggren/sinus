@@ -154,6 +154,8 @@ class tweetLoc:
             print "The database did not contain any tweets that haven't already been compiled."
             return None
             
+        print "Compiling GMMs..."
+            
         wordsWithModelAccepted = []
         # Skapar en GMM för alla ord
         for i, word in enumerate(words):
