@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*- 
 from __future__ import division
-import nltk
+#import nltk
 import dataset
 import re
 import numpy as np
