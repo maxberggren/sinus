@@ -130,7 +130,7 @@ class tweetLoc:
         
         sql = "SELECT * FROM tweets WHERE tweet LIKE '%%s%' or metadata LIKE '%%s%' and used = 0" 
         params = (word, word)
-        print sql
+        print sql % params
         result = self.db.query(sql, params)
         
         #q = "SELECT * FROM tweets WHERE tweet LIKE '%{}%' or metadata LIKE '%{}%' and used = 0".format(word, word)
