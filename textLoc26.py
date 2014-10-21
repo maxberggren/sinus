@@ -160,7 +160,7 @@ class tweetLoc:
             if len(coordinateData) > 3:
                 print str(i) + "/" + str(len(words)) + " " + word
 
-                myGMM = mixture.GMM(n_components=3, covariance_type='tied')
+                myGMM = mixture.GMM(n_components=3)
                 myGMM.fit(np.asarray(coordinateData)) # sklearn wants nparray
                 
                 for coordinate in myGMM.means_: # en GMM tar fram 3 toppar
