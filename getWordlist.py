@@ -42,7 +42,7 @@ if __name__ == "__main__":
     for offset in offsets:
         start = time.time()
         onegrams = Counter() 
-        result = db.query("SELECT text from posts order by rand() limit "
+        result = db.query("SELECT text from posts limit "
                           ""+str(batch)+" offset " + str(offset))
         
         for row in result:
