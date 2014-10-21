@@ -117,7 +117,7 @@ if __name__ == "__main__":
         ) ENGINE=InnoDB AUTO_INCREMENT=937 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
     
         """
-    
+    documents.query(q)
     
     q = "ALTER DATABASE "+ c.DATABASENAME +" CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci'; "
     documents.query(q)
