@@ -120,17 +120,16 @@ class tweetLoc:
         """
         Letar rätt på alla koordinater från träningdatan som hör till ett ord.
         Ex. "Stockholm" -> [18.23, 59.43], [18.23, 59.23], [18.543, 59.345]
-        Dessa hämtas från databasen. Alternativet att även hämta tweets som
-        redan har använts finns. Detta för att tex använda datan för plottar.
+        Dessa hämtas från databasen. 
         """
         outputCoordinates = []
         
         # Hämta koordinater som har ordet i tweeten eller i metadatan
         # Metadata är användarens självspecifierade ort ex. "svettiga svedala" 
         
-        q = "SELECT * FROM tweets WHERE tweet LIKE '%{}%' and used = 0;".format(word)
+        q = "SELECT * FROM tweets WHERE MATCH(tweet, metadata) AGAINST('{}') and used = 0".format(word)
         print q
-        result = self.db.query(q, (,))
+        result = self.db.query(q)
 
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
