@@ -1,1 +1,0 @@
-SELECT blog_id,COUNT(*) as count FROM posts GROUP BY blog_id ORDER BY count DESC;

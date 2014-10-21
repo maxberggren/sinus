@@ -373,7 +373,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         return filename, hits, KWIC, fewResults, gifFileName
         
     else: # if a term has to few hits
-        return None, hits, KWIC, fewResults, gifFileName
+        return None, hits, KWIC, fewResults, None
     
 
 @app.route('/localize/api/v1.0/localize', methods = ['POST'])

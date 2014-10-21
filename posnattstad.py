@@ -25,12 +25,10 @@ import config as c
 
 
 #from getch import _GetchUnix, _GetchWindows, _Getch, _GetchMacCarbon
-from getch import _GetchWindows, _Getch, _GetchMacCarbon
+#from getch import _GetchWindows, _Getch, _GetchMacCarbon
+from getch import _GetchUnix
 
-inkey = _Getch()
-
-
-
+inkey = _GetchUnix()
 
 with open('tatorter.txt') as f:
     tatorter = f.read().splitlines()
@@ -46,8 +44,8 @@ if __name__ == '__main__':
         nblogs = row['nblogs']
     print nblogs
     
-    result = db.query('SELECT * FROM blogs WHERE LENGTH(presentation) > 1 and manuellStad is NULL')
-
+    result = db.query('SELECT * FROM blogs WHERE LENGTH(presentation) > 1 and manuellStad is NULL order by id')
+    
 
     for row in result:
         #print row['presentation']
@@ -60,7 +58,9 @@ if __name__ == '__main__':
 
         if len(kandidater) > 0:
             os.system('clear') # on linux / os x
-
+            print "{:.0%}".format(float(row['id'])/float(nblogs))
+            print ""
+            
             for word in row['presentation'].split():
                 if word.replace(".","").replace(",","").replace("!","").replace("?","") in tatorter:
                     print term.format(term.format(word, term.Attr.BOLD), term.Attr.HILIGHT),
@@ -81,7 +81,7 @@ if __name__ == '__main__':
             except:
                 var = 9
             if var == 9:
-                #db.commit()
+                db.commit()
                 #db.begin()
                 sys.exit(0)
             elif var == 0:

@@ -1,1 +1,0 @@
-python twingly2mysql.py && python nogg2mysql.py && python garaget2mysql.py && python bloggportalen2mysql.py && python zatzy2mysql.py && python sweclockers2mysql.py && python qruiser2mysql.py && python qruiser2mysql.py && fotosidan2mysql.py

@@ -23,6 +23,7 @@ class _GetchWindows:
     def __call__(self):
         import msvcrt
         return msvcrt.getch()
+        
 class _Getch:
     """Gets a single character from standard input.  Does not echo to the
 screen."""
