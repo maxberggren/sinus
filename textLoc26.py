@@ -130,7 +130,7 @@ class tweetLoc:
         
         q = "SELECT * FROM tweets WHERE tweet LIKE '%{}%' and used = 0;".format(word)
         print q
-        result = self.db.query(q)
+        result = self.db.query(q, (,))
 
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
