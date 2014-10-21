@@ -32,7 +32,7 @@ if __name__ == "__main__":
                                 "abcdefghijklmnopqrstuvxyzåäöé")
     punkter = string.punctuation
     
-    print "Räknar ord"
+    print "Räknar ord bland den första procenten"
     try:
         result = db.query("drop table tempngrams")
         print "Tog bort tabellen tempngrams för att göra rum för nytt."
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     for offset in offsets:
         start = time.time()
         onegrams = Counter() 
-        result = db.query("SELECT text from posts limit "
+        result = db.query("SELECT text from posts order by rand() limit "
                           ""+str(batch)+" offset " + str(offset))
         
         for row in result:
