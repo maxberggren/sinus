@@ -49,7 +49,7 @@ def timing(f):
     return wrap
 
 class tweetLoc:
-    def __init__(self, db=c.LOCATIONDB, dbtweets='sqlite:///tweets.db'):
+    def __init__(self, db=c.LOCATIONDB, dbtweets=c.LOCATIONDB):
         self.GMMdb = dataset.connect(db)
         
         self.tweetsdb = dataset.connect(dbtweets)
@@ -116,7 +116,7 @@ class tweetLoc:
 
         return theCommonWords
 
-    def getCoordinatesFor(self, word, getUsed=False, limit=None):
+    def getCoordinatesFor(self, word):
         """
         Letar rätt på alla koordinater från träningdatan som hör till ett ord.
         Ex. "Stockholm" -> [18.23, 59.43], [18.23, 59.23], [18.543, 59.345]
@@ -124,26 +124,16 @@ class tweetLoc:
         redan har använts finns. Detta för att tex använda datan för plottar.
         """
         outputCoordinates = []
-        if getUsed:
-            used = 1
-        else:
-            used = 0
-        
-        if limit:
-            limit = " LIMIT " + str(limit) 
-        else:
-            limit = " "
         
         # Hämta koordinater som har ordet i tweeten eller i metadatan
         # Metadata är användarens självspecifierade ort ex. "svettiga svedala" 
         
-        result = self.tweetsdb.query("SELECT * FROM tweets WHERE tweet LIKE '%{}%' or metadata LIKE '%{}%' and used = {}{}".format(word, word, used, limit))
+        result = self.tweetsdb.query("SELECT * FROM tweets WHERE tweet LIKE '%{}%' or metadata LIKE '%{}%' and used = 0".format(word, word))
 
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
         
-        if not getUsed:
-            flagUsed = self.tweetsdb.query("UPDATE tweets SET used = 1 WHERE tweet LIKE '%" + word + "%' or metadata LIKE '%" + word + "%' and used = 0")
+        flagUsed = self.tweetsdb.query("UPDATE tweets SET used = 1 WHERE tweet LIKE '%" + word + "%' or metadata LIKE '%" + word + "%' and used = 0")
 
         return outputCoordinates
                                
