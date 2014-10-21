@@ -39,15 +39,15 @@ if __name__ == '__main__':
     db = dataset.connect('sqlite:///nattstad.db')
     db.begin()
     table = db['blogs']
-    result = db.query('SELECT count(*) as nblogs FROM blogs WHERE LENGTH(presentation) > 1 and manuellStad is NULL')
+    result = db.query('SELECT count(*) as nblogs FROM blogs')
     for row in result:
         nblogs = row['nblogs']
     print nblogs
     
-    result = db.query('SELECT * FROM blogs WHERE LENGTH(presentation) > 1 and manuellStad is NULL order by id')
+    result = db.query('SELECT * FROM blogs WHERE LENGTH(presentation) > 1 and manuellStad is NULL order by id asc')
     
 
-    for row in result:
+    for i, row in enumerate(result):
         #print row['presentation']
         kandidater = []
         data = row['presentation'].split()
