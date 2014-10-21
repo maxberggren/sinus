@@ -103,6 +103,22 @@ if __name__ == "__main__":
     documents.query(q)
     
     
+    q = """
+        CREATE TABLE IF NOT EXISTS tweets (
+          id int(11) NOT NULL AUTO_INCREMENT,
+          username text COLLATE utf8_unicode_ci,
+          used int(11) DEFAULT NULL,
+          lat float DEFAULT NULL,
+          tweet varchar(255) COLLATE utf8_unicode_ci,
+          lon float DEFAULT NULL,
+          metadata varchar(255) COLLATE utf8_unicode_ci,
+          PRIMARY KEY (`id`),
+          FULLTEXT (tweet,metadata)
+        ) ENGINE=InnoDB AUTO_INCREMENT=937 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+    
+        """
+    
+    
     q = "ALTER DATABASE "+ c.DATABASENAME +" CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci'; "
     documents.query(q)
     

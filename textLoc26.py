@@ -134,7 +134,7 @@ class tweetLoc:
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
         
-        flagUsed = self.db.query("UPDATE tweets SET used = 1 WHERE tweet LIKE '%" + word + "%' or metadata LIKE '%" + word + "%' and used = 0")
+        flagUsed = self.db.query("UPDATE tweets SET used = 1 WHERE MATCH(tweet, metadata) AGAINST('{}') and used = 0")
 
         return outputCoordinates
                                
