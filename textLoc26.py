@@ -132,7 +132,6 @@ class tweetLoc:
         #print q
         table = self.db['tweets'].table
         statement = table.select(table.c.tweet.like('%{}%'.format(word)))
-result = db.query(statement)
         result = self.db.query(statement)
 
         for row in result:
