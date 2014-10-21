@@ -128,9 +128,12 @@ class tweetLoc:
         # Hämta koordinater som har ordet i tweeten eller i metadatan
         # Metadata är användarens självspecifierade ort ex. "svettiga svedala" 
         
-        q = "SELECT * FROM tweets WHERE tweet LIKE '%{}%' or metadata LIKE '%{}%' and used = 0".format(word, word)
-        print q
-        result = self.db.query(q)
+        #q = "SELECT * FROM tweets WHERE tweet LIKE '%{}%' or metadata LIKE '%{}%' and used = 0".format(word, word)
+        #print q
+        table = self.db['tweets'].table
+        statement = table.select(table.c.tweet.like('%{}%'.format(word)))
+result = db.query(statement)
+        result = self.db.query(statement)
 
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
