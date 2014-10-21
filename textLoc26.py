@@ -50,11 +50,11 @@ def timing(f):
 
 class tweetLoc:
     def __init__(self, db=c.LOCATIONDB, dbtweets=c.LOCATIONDB):
-        self.GMMdb = dataset.connect(db)
+        self.db = dataset.connect(db)
         
-        self.tweetsdb = dataset.connect(dbtweets)
-        self.GMMtable = self.GMMdb['GMMs']
-        self.twittertable = self.tweetsdb['tweets']
+        #self.tweetsdb = dataset.connect(dbtweets)
+        #self.GMMtable = self.GMMdb['GMMs']
+        #self.twittertable = self.tweetsdb['tweets']
         self.words = []
     
     def cleanData(self, inputText):
@@ -101,7 +101,7 @@ class tweetLoc:
         """
         Returnerar ord vanligare än tröskelvärdet threshold i databasen tweets
         """
-        result = self.tweetsdb.query("SELECT * FROM tweets WHERE used = 0")
+        result = self.db.query("SELECT * FROM tweets WHERE used = 0")
         
         for row in result:
             self.words.extend(row['tweet'].split()) # sparar alla ord i en lista
@@ -130,12 +130,12 @@ class tweetLoc:
         
         q = "SELECT * FROM tweets WHERE tweet LIKE '%{}%' or metadata LIKE '%{}%' and used = 0".format(word, word)
         print q
-        result = self.tweetsdb.query(q)
+        result = self.db.query(q)
 
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
         
-        flagUsed = self.tweetsdb.query("UPDATE tweets SET used = 1 WHERE tweet LIKE '%" + word + "%' or metadata LIKE '%" + word + "%' and used = 0")
+        flagUsed = self.db.query("UPDATE tweets SET used = 1 WHERE tweet LIKE '%" + word + "%' or metadata LIKE '%" + word + "%' and used = 0")
 
         return outputCoordinates
                                
@@ -170,7 +170,7 @@ class tweetLoc:
                     scoring = np.exp(-100 / myGMM.score([coordinate]))[0]   
                     
                     # In met i databasen         
-                    self.GMMtable.insert(dict(word=word, lon=coordinate[0], 
+                    self.db['GMMs'].insert(dict(word=word, lon=coordinate[0], 
                                               lat=coordinate[1], scoring=scoring,
                                               date=datetime.date.today()),
                                               n_coordinates=len(coordinateData))
