@@ -28,7 +28,7 @@ class NoResultError(Exception):
 
 
 if __name__ == "__main__":
-    db = dataset.connect(c.DOCDB_URI_LOCAL)
+    db = dataset.connect(c.LOCATIONDB)
     #db = dataset.connect(c.DOCDB_URI)
     
     db.query("set names 'utf8'") # important if tunneled
