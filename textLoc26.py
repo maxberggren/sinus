@@ -156,7 +156,7 @@ class tweetLoc:
             print word
             #try:
             coordinateData = self.getCoordinatesFor(word)
-
+            print coordinateData
             if len(coordinateData) > 3:
                 print str(i) + "/" + str(len(words)) + " " + word
 
@@ -170,9 +170,9 @@ class tweetLoc:
                     
                     # In met i databasen         
                     self.db['GMMs'].insert(dict(word=word, lon=coordinate[0], 
-                                              lat=coordinate[1], scoring=scoring,
-                                              date=datetime.date.today()),
-                                              n_coordinates=len(coordinateData))
+                                                lat=coordinate[1], scoring=scoring,
+                                                date=datetime.date.today()),
+                                                n_coordinates=len(coordinateData))
                 del myGMM 
                 wordsWithModelAccepted.append(word)     
             #except:
