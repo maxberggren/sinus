@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- 
 
 from textLoc26 import *
-import sys
+import sys, traceback
 import dataset
 import re
 import numpy as np
@@ -13,60 +13,102 @@ import config as c
 
 BLOGSSOURCES = "blogs"
 BLOGSOURCE = "blog"
-USERURL = "url"
+UNIQUENAME = "username"
 SOURCE = 'nattstad'
 SOURCEFILE = "nattstad.db"
 
+unicodeBMPpattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
+
+def only3bytes(unicode_string):
+    return unicodeBMPpattern.sub(u'\uFFFD', unicode_string)
+
+def encutf8(s):
+    if s is None:
+        return ""
+    else:
+        if isinstance(s, (int, long, str)):
+            return s 
+        else:
+            return s.encode('utf-8')
+            
 if __name__ == "__main__":
     localfile = dataset.connect('sqlite:///'+SOURCEFILE)
-    documents = dataset.connect(c.DOCDB_URI_LOCAL)
-    
-    result = localfile.query("SELECT count(*) as c from " + BLOGSSOURCES)
-    for row in result:
-        print "Importerar " + str(row['c']) + " st källor. Letse go *supermarioröst*!" 
-    print "D = duplicate, skipping"
-    print "S#nr = Source nr # beeing inserted"
-    print "P = post being inserted"
-    
-    # The sqlite3 DB
-    localSources = localfile.query("SELECT * from " + BLOGSSOURCES)
-    
-    i = 0
-    for source in localSources:
-        i += 1
-        url = source[USERURL]
-        idInSource = source['id']
+    documents = dataset.connect(c.LOCATIONDB)
+    documents.query("set names 'utf8';")
+    #documents.query("SET AUTOCOMMIT = 0; "
+    #                "SET FOREIGN_KEY_CHECKS = 0; "
+    #                "SET UNIQUE_CHECKS = 0;")
+     
+    try:
+        result = localfile.query("SELECT count(*) as c "
+                                 "from " + BLOGSSOURCES)
+        for row in result:
+            print "Importerar " + str(row['c']) + " st källor." 
+            sources = row['c']
         
-        foundInDocumentsDB = documents['blogs'].find_one(url=url)
+        # The sqlite3 DB
+        localSources = localfile.query("SELECT * FROM " + BLOGSSOURCES)
+        i, j = 0, 0
         
-        if foundInDocumentsDB:
-            documentID = foundInDocumentsDB['id']
-            sys.stdout.write('D')
-            
-        # The source needs to be created in documents
-        else:
-            documents['blogs'].insert(dict(url=url, 
-                                           city=source['manuellStad'], 
-                                           presentation=source['presentation'],
-                                           source=SOURCE,
-                                           rank=1))
-            sys.stdout.write('S#'+str(i))
+        for j, source in enumerate(localSources):  
+            if j % 1000 == 1:
+                print str(100*float(j)/float(sources))[0:4] + " %"    
+
+            url = encutf8(source[UNIQUENAME])
+            idInSource = source['id']
             
             foundInDocumentsDB = documents['blogs'].find_one(url=url)
-            documentID = foundInDocumentsDB['id']
             
-            # Now add the sources posts to the documents DB
-            # with the newly inserted blog id.
-            
-            for post in localfile.query("SELECT * from posts "
-                                        "WHERE "+BLOGSOURCE+"_id = " + str(idInSource)):
+            if foundInDocumentsDB:
+                documentID = foundInDocumentsDB['id']
                 
-                try:
-                    documents['posts'].insert(dict(blog_id=documentID,
-                                                   date=post['date'],
-                                                   text=post['text']))
-                    sys.stdout.write('P')
-                except:
-                    sys.stdout.write('X')
-
-    print "And now I'm döne."
+            # The source needs to be created in documents
+            else:
+                blog = dict(url=url, 
+                            city=source['manuellStad'],
+                            municipality='',
+                            county='', 
+                            country='',
+                            intrests='',
+                            presentation='',
+                            gender='',
+                            source=SOURCE,
+                            rank=2)
+                            
+                blog = dict((k, encutf8(v)) for (k, v) in blog.items())
+                documents['blogs'].insert(blog)
+                                               
+                foundInDocumentsDB = documents['blogs'].find_one(url=url)
+                documentID = foundInDocumentsDB['id']
+                
+                # Add the sources posts to the documents DB
+                # with the newly inserted blog id.
+                rows = []
+                for post in localfile.query("SELECT * from posts "
+                                            "WHERE "+BLOGSOURCE+"_id =" 
+                                            " " + str(idInSource)):
+                    i += 1
+                    rows.append(dict(blog_id=documentID,
+                                     date=post['date'],
+                                     text=encutf8(only3bytes(post['text'])))) 
+                    
+                    if i > 1000: 
+                        i = 0                                                                         
+                        try:
+                            documents['posts'].insert_many(rows)
+                            rows = [] 
+                        except:
+                            traceback.print_exc(file=sys.stdout)
+                            rows = [] 
+        
+        print "And now I'm döne."
+    
+    except KeyboardInterrupt:
+        #documents.query("SET AUTOCOMMIT = 1; "
+        #                "SET FOREIGN_KEY_CHECKS = 1; "
+        #                "SET UNIQUE_CHECKS = 1;")
+        print "Avbryter..."
+                        
+    #documents.query("SET AUTOCOMMIT = 1; "
+    #                "SET FOREIGN_KEY_CHECKS = 1; "
+    #                "SET UNIQUE_CHECKS = 1;")
