@@ -132,7 +132,7 @@ class tweetLoc:
         print q
         #table = self.db['tweets'].table
         #q = table.select(table.c.tweet.like('%{}%'.format(word)))
-        result = self.db.query(q)
+        result = self.db.query(q,)
 
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
