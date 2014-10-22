@@ -65,16 +65,16 @@ def maxFix(text):
             #print type(assumedUTF8)
             
             if count_normal(assumedLatin1) > count_normal(assumedUTF8):
-                print "It's probably latin-1"
-                print count_normal(assumedLatin1)
-                print "vs"
-                print count_normal(assumedUTF8)
+                #print "It's probably latin-1"
+                #print count_normal(assumedLatin1)
+                #print "vs"
+                #print count_normal(assumedUTF8)
                 return assumedLatin1
             else:
-                print "It's probably utf-8"
-                print count_normal(assumedLatin1)
-                print "vs"
-                print count_normal(assumedUTF8)
+                #print "It's probably utf-8"
+                #print count_normal(assumedLatin1)
+                #print "vs"
+                #print count_normal(assumedUTF8)
                 return assumedUTF8
         else:
             return u""
@@ -127,7 +127,7 @@ if __name__ == "__main__":
                 print post
             
             print "Belägger " + row['url'] + "..."
-            print text[0:200].encode('utf-8')
+            print text[0:200]
             
             """
             predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
