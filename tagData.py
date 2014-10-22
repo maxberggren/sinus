@@ -120,20 +120,16 @@ if __name__ == "__main__":
         
         text = u""
         for post in posts:
-            #print post
-            #print maxFix(post['text'])
-            #print type(post['text'].decode('latin-1'))
-            #print type(post['text'].decode('latin-1').encode('utf-8')) # funkar 
-            #print post['text'].decode('latin-1').encode('utf-8')
-
             text = text + u"\n\n" + maxFix(post['text'])
         
-        print text[0:150].encode('utf-8')
+        print "Belägger " + post['url'] + "..."
         
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
         if predictedCoordinate and score > 0.0:
             print predictedCoordinate
+        else:
+            print "Beläggning misslyckades"
             
             
             
