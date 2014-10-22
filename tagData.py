@@ -116,7 +116,6 @@ if __name__ == "__main__":
             text = unicode(text + u"\n\n" + maxFix(post['text']))
         
         print text[0:150]
-        break
         
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
