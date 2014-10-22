@@ -270,6 +270,7 @@ class tweetLoc:
         coordinate, score = self.weightedMean(coordinates, scores)
   
         wordsAndScores = zip(acceptedWords, scores, wordFreqs)
+        print wordsAndScores
         # Sortera
         sortedByScore = sorted(wordsAndScores, key=itemgetter(1), reverse=True)
         
