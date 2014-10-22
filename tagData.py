@@ -51,8 +51,15 @@ def maxFix(text):
             return text
         elif isinstance(text, str):
         
-            assumedLatin1 = text.decode('latin-1') # unicode
-            assumedUTF8 = text.decode('utf-8') # unicode
+            try:
+                assumedLatin1 = text.decode('latin-1') # unicode
+            except UnicodeDecodeError:
+                assumedLatin1 = u""
+                
+            try:    
+                assumedUTF8 = text.decode('utf-8') # unicode
+            except:
+                assumedUTF8 = u""
             
             if count_normal(assumedLatin1) > count_normal(assumedUTF8):
                 # It's probably latin-1
