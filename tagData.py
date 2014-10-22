@@ -122,7 +122,7 @@ if __name__ == "__main__":
         for post in posts:
             text = text + u"\n\n" + maxFix(post['text'])
         
-        print "Belägger " + post['url'] + "..."
+        print "Belägger " + row['url'] + "..."
         
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
