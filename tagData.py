@@ -61,20 +61,20 @@ def maxFix(text):
             except:
                 assumedUTF8 = u""
                 
-            print type(assumedLatin1)
-            print type(assumedUTF8)
+            #print type(assumedLatin1)
+            #print type(assumedUTF8)
             
             if count_normal(assumedLatin1) > count_normal(assumedUTF8):
-                print  "It's probably latin-1"
-                print count_normal(assumedLatin1)
-                print "vs"
-                print count_normal(assumedUTF8)
+                #print "It's probably latin-1"
+                #print count_normal(assumedLatin1)
+                #print "vs"
+                #print count_normal(assumedUTF8)
                 return assumedLatin1
             else:
-                print "It's probably utf-8"
-                print count_normal(assumedLatin1)
-                print "vs"
-                print count_normal(assumedUTF8)
+                #print "It's probably utf-8"
+                #print count_normal(assumedLatin1)
+                #print "vs"
+                #print count_normal(assumedUTF8)
                 return assumedUTF8
         else:
             return u""
@@ -122,6 +122,7 @@ if __name__ == "__main__":
         for post in posts:
             print post
             print maxFix(post['text'])
+            print post['text'].decode('latin-1')
             text = unicode(text + u"\n\n" + maxFix(post['text']))
         
         print text[0:150]
