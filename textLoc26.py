@@ -253,6 +253,7 @@ class tweetLoc:
                 batchcoordinates.append(coordinate)
     
                 wordFreq += freqInBatch
+                print freqInBatch
             
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
                 
