@@ -51,10 +51,8 @@ def timing(f):
 class tweetLoc:
     def __init__(self, db=c.LOCATIONDB, dbtweets=c.LOCATIONDB):
         self.db = dataset.connect(db)
+        utf8 = self.db.query("set names 'utf8'")
         
-        #self.tweetsdb = dataset.connect(dbtweets)
-        #self.GMMtable = self.GMMdb['GMMs']
-        #self.twittertable = self.tweetsdb['tweets']
         self.words = []
     
     def cleanData(self, inputText):
