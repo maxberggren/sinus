@@ -136,6 +136,7 @@ if __name__ == "__main__":
                 try:
                     data = dict(longitude=lon,
                                 latitude=lat,
+                                rank=4,
                                 id=blogId)
                                
                     db['blogs'].update(data, ['id'])
@@ -146,6 +147,10 @@ if __name__ == "__main__":
             
             else:
                 print "Beläggning misslyckades"
+                
+        except KeyboardInterrupt:
+            print "Avslutar"
+            break  
         except:
             print "hmm..."                      
             
