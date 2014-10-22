@@ -239,6 +239,7 @@ class tweetLoc:
                 result = self.db.query("SELECT * FROM GMMs " 
                                        "WHERE word = '" + word + "' "
                                        "AND date = '" + date + "'")
+                                       
                 subscores, subcoordinates = [], []
                 for row in result:
                     subscores.append(row['scoring'])
@@ -248,8 +249,10 @@ class tweetLoc:
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
                 batchscores.append(score)
                 batchcoordinates.append(coordinate)
-                if freqInBatch:
-                    wordFreq += freqInBatch
+                if not freqInBatch:
+                    freqInBatch = 0
+    
+                wordFreq += freqInBatch
             
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
                 
