@@ -60,12 +60,15 @@ def maxFix(text):
                 assumedUTF8 = text.decode('utf-8') # unicode
             except:
                 assumedUTF8 = u""
+                
+            print type(assumedLatin1)
+            print type(assumedUTF8)
             
             if count_normal(assumedLatin1) > count_normal(assumedUTF8):
-                # It's probably latin-1
+                print  "It's probably latin-1"
                 return assumedLatin1
             else:
-                # It's probably utf-8
+                print "It's probably utf-8"
                 return assumedUTF8
         else:
             return u""
