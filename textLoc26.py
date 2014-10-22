@@ -153,33 +153,32 @@ class tweetLoc:
         # Skapar en GMM för alla ord
         for i, word in enumerate(words):
             print word
-            #try:
-                           
-            coordinateData = self.getCoordinatesFor(word)
-            #print coordinateData
-            if len(coordinateData) > 3:
-                print str(i) + "/" + str(len(words)) + " " + word
-
-                myGMM = mixture.GMM(n_components=3, covariance_type='tied')
-                myGMM.fit(np.asarray(coordinateData)) # sklearn wants nparray
-                
-                for coordinate in myGMM.means_: # en GMM tar fram 3 toppar
-                    # Empiriskt satt score
-                    scoring = np.exp(-100 / myGMM.score([coordinate]))[0]   
+            try:                  
+                coordinateData = self.getCoordinatesFor(word)
+                #print coordinateData
+                if len(coordinateData) > 3:
+                    print str(i) + "/" + str(len(words)) + " " + word
+    
+                    myGMM = mixture.GMM(n_components=3, covariance_type='tied')
+                    myGMM.fit(np.asarray(coordinateData)) # sklearn wants nparray
                     
-                    # In met i databasen         
-                    self.db['GMMs'].insert(dict(word=word, 
-                                                lon=coordinate[0], 
-                                                lat=coordinate[1], 
-                                                scoring=scoring,
-                                                date=datetime.date.today(),
-                                                n_coordinates=len(coordinateData)))
-                del myGMM 
-                wordsWithModelAccepted.append(word)     
-            #except:
-            #    """
-            #    Ordet kunde inte skapas en GMM på
-            #    """
+                    for coordinate in myGMM.means_: # en GMM tar fram 3 toppar
+                        # Empiriskt satt score
+                        scoring = np.exp(-100 / myGMM.score([coordinate]))[0]   
+                        
+                        # In met i databasen         
+                        self.db['GMMs'].insert(dict(word=word, 
+                                                    lon=coordinate[0], 
+                                                    lat=coordinate[1], 
+                                                    scoring=scoring,
+                                                    date=datetime.date.today(),
+                                                    n_coordinates=len(coordinateData)))
+                    del myGMM 
+                    wordsWithModelAccepted.append(word)     
+            except:
+                """
+                Ordet kunde inte skapas en GMM på
+                """
 
         # Kasta gamla använda tweets
         result = self.db.query("DELETE from tweets WHERE used = 1")
@@ -232,7 +231,6 @@ class tweetLoc:
         for word in words:
             batchscores, batchcoordinates = [], []
             wordFreq, freqInBatch = 0, 0
-            print word
             
             for date in batches:
                 result = self.db.query("SELECT * FROM GMMs " 
@@ -250,10 +248,9 @@ class tweetLoc:
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
                 batchscores.append(score)
                 batchcoordinates.append(coordinate)
-    
                 wordFreq += freqInBatch
-                print freqInBatch
             
+            # Vikta samman batcharna. TODO: fallande vikt efter datum
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
                 
             if score > 1e40:
@@ -261,8 +258,6 @@ class tweetLoc:
                 scores.append(score)
                 acceptedWords.append(word)
                 wordFreqs.append(wordFreq)
-                print "summa summarum"
-                print wordFreq
         
             # Räkna ord som är out of vocabulary
             if score == 0.0:
