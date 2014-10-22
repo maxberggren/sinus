@@ -66,9 +66,15 @@ def maxFix(text):
             
             if count_normal(assumedLatin1) > count_normal(assumedUTF8):
                 print  "It's probably latin-1"
+                print count_normal(assumedLatin1)
+                print "vs"
+                print count_normal(assumedUTF8)
                 return assumedLatin1
             else:
                 print "It's probably utf-8"
+                print count_normal(assumedLatin1)
+                print "vs"
+                print count_normal(assumedUTF8)
                 return assumedUTF8
         else:
             return u""
