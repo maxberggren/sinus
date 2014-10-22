@@ -44,7 +44,6 @@ def robertFix(post):
     return post
 
 def predictViaAPI(text):
-    print text
     payload = json.dumps({'text': text})
     headers = {'content-type': 'application/json'}
     r = requests.post("http://ext-web.gavagai.se:5000/localize/api/v1.0/localize", 
@@ -77,6 +76,7 @@ if __name__ == "__main__":
         
         text = ""
         for post in posts:
+            post['text']
             text = text + "\n\n" + robertFix(post['text'])
             
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
