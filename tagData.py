@@ -130,6 +130,20 @@ if __name__ == "__main__":
             
             if predictedCoordinate and score > 0.0:
                 print predictedCoordinate
+                lon = predictedCoordinate[1]
+                lat = predictedCoordinate[0]
+            
+                try:
+                    data = dict(longitude=lon,
+                                latitude=lat,
+                                id=blogId)
+                               
+                    db['blogs'].update(data, ['id'])
+                
+                except:
+                    print "Unexpected error:", sys.exc_info()[0]
+            
+            
             else:
                 print "Beläggning misslyckades"
         except:
