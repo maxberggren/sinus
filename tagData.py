@@ -91,10 +91,19 @@ if __name__ == "__main__":
         
         text = ""
         for post in posts:
+            print post
             text = text + "\n\n" + maxFix(post['text'])
-            
+        
         print text[0:150]
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
         if predictedCoordinate and score > 0.0:
             print predictedCoordinate
+            
+            
+            
+            
+            
+            
+            
+            
