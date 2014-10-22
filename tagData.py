@@ -116,21 +116,24 @@ if __name__ == "__main__":
                       "latitude is NULL")
     
     for row in result:
-        posts = db.query("SELECT * FROM posts WHERE blog_id = " + str(row['id']) + ";")
-        
-        text = u""
-        for post in posts:
-            text = text + u"\n\n" + maxFix(post['text'])
-        
-        print "Belägger " + row['url'] + "..."
-        
-        predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
-        
-        if predictedCoordinate and score > 0.0:
-            print predictedCoordinate
-        else:
-            print "Beläggning misslyckades"
+        try:
+            blogId = row['id']
+            posts = db.query("SELECT * FROM posts WHERE blog_id = " + str(blogId) + " limit 100;")
             
+            text = u""
+            for post in posts:
+                text = text + u"\n\n" + maxFix(post['text'])
+            
+            print "Belägger " + row['url'] + "..."
+            
+            predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
+            
+            if predictedCoordinate and score > 0.0:
+                print predictedCoordinate
+            else:
+                print "Beläggning misslyckades"
+        except:
+            print "hmm..."                      
             
             
             
