@@ -44,21 +44,32 @@ def robertFix(post):
     return post
 
 def maxFix(text):
-    """ Returnerar alltid unicode """
-    
     if text is None:
         return u""
     else:
         if isinstance(text, unicode):
             return text
+        elif isinstance(text, str):
+        
+            assumedLatin1 = text.decode('latin-1') # unicode
+            assumedUTF8 = text.decode('utf-8') # unicode
+            
+            if count_normal(assumedLatin1) > count_normal(assumedUTF8):
+                # It's probably latin-1
+                return assumedLatin1
+            else:
+                # It's probably utf-8
+                return assumedUTF8
         else:
-            try:
-                return text.decode('utf-8')
-            except UnicodeDecodeError:
-                try:
-                    return text.decode('latin-1')
-                except UnicodeDecodeError:
-                    return u""
+            return u""
+            
+        #    try:
+        #        return text.decode('utf-8')
+        #    except UnicodeDecodeError:
+        #        try:
+        #            return text.decode('latin-1')
+        #        except UnicodeDecodeError:
+        #            return u""
 
 def predictViaAPI(text):
     payload = json.dumps({'text': text})
