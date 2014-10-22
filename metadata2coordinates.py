@@ -17,6 +17,7 @@ import sys
 import time
 from datetime import datetime, timedelta
 import config as c
+import sqlalchemy
 
 NumberTypes = (types.IntType, types.LongType, types.FloatType, types.ComplexType)
 
@@ -132,6 +133,9 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             break
             print "Avslutar"
+            
+        except sqlalchemy.exc.OperationalError:
+            continue
             
         except geocode.QueryLimitError:
             print "Googles API bjuder inte på mer nu. Måste vänta 24h."
