@@ -152,7 +152,7 @@ class tweetLoc:
         wordsWithModelAccepted = []
         # Skapar en GMM för alla ord
         for i, word in enumerate(words):
-            print word
+            #print word
             try:                  
                 coordinateData = self.getCoordinatesFor(word)
                 #print coordinateData
@@ -263,7 +263,7 @@ class tweetLoc:
             if score == 0.0:
                 OOVcount += 1 
                 
-        print acceptedWords, wordFreqs
+        #print acceptedWords, wordFreqs
                  
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
