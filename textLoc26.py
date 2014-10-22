@@ -245,12 +245,13 @@ class tweetLoc:
                     subscores.append(row['scoring'])
                     subcoordinates.append([row['lat'], row['lon']])
                     freqInBatch = row['n_coordinates']
+                    if not freqInBatch:
+                        freqInBatch = 0
+                        print "!!!!!"
                 
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
                 batchscores.append(score)
                 batchcoordinates.append(coordinate)
-                if not freqInBatch:
-                    freqInBatch = 0
     
                 wordFreq += freqInBatch
             
@@ -265,7 +266,7 @@ class tweetLoc:
             # Räkna ord som är out of vocabulary
             if score == 0.0:
                 OOVcount += 1 
-        print coordinates, scores, acceptedWords, wordFreqs
+        print acceptedWords, wordFreqs
                  
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
