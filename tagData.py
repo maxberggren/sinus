@@ -44,7 +44,7 @@ def robertFix(post):
     return post
 
 def predictViaAPI(text):
-
+    print text
     payload = json.dumps({'text': text})
     headers = {'content-type': 'application/json'}
     r = requests.post("http://ext-web.gavagai.se:5000/localize/api/v1.0/localize", 
