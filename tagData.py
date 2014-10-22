@@ -44,6 +44,8 @@ def robertFix(post):
     return post
 
 def maxFix(text):
+    """ Returnerar alltid unicode """
+    
     if text is None:
         return u""
     else:
@@ -52,10 +54,10 @@ def maxFix(text):
         else:
             try:
                 return text.decode('utf-8')
-            except:
+            except UnicodeDecodeError:
                 try:
                     return text.decode('latin-1')
-                except:
+                except UnicodeDecodeError:
                     return u""
 
 def predictViaAPI(text):
@@ -91,8 +93,8 @@ if __name__ == "__main__":
         
         text = ""
         for post in posts:
-            print post
-            text = text + "\n\n" + maxFix(post['text'])
+            #print post
+            text = text + u"\n\n" + maxFix(post['text'])
         
         print text[0:150]
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
