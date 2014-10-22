@@ -25,3 +25,13 @@ Setup
 10. Point browser to `http://localhost:5000/sinus/` for GUI to explore the data.
 11. Run `getWordlist.py` to generate a wordlist.
 12. Run `getEntropy.py` to start collecting words with low entropy. This corresponds to words being used very locally. E.g. `nypotatis` will have low entropy because that it's mainly used in southern Sweden. Words like `och, att, på` will have high entropy as they are used in the whole country. The findings of `getEntropy.py` can be found in the web GUI under `/explore`.
+
+Geotagger
+---------
+
+To use the geotagger to tag data without metadata:
+
+1. Run `fetchTweets.py` for a couple of months. This will get geotagged tweets to be used as a training set.
+2. Run `compileGMMs.py` to build the model.
+3. Run `xxxx.py` to give your data coordinates (of resonable accuracy) if it is without metadata.
+4. Search in the GUI with the flag `lowqualdata: 1`.
