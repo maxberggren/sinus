@@ -113,7 +113,8 @@ if __name__ == "__main__":
                       "and municipality = '' and county = '' and "
                       "city = '' and "
                       "longitude is NULL and "
-                      "latitude is NULL")
+                      "latitude is NULL and "
+                      "rank <> 999")
     
     for row in result:
         try:
@@ -147,6 +148,14 @@ if __name__ == "__main__":
             
             else:
                 print "Beläggning misslyckades"
+                try:
+                    data = dict(rank=9999
+                                id=blogId)
+                               
+                    db['blogs'].update(data, ['id'])
+                
+                except:
+                    print "Unexpected error:", sys.exc_info()[0]
                 
         except KeyboardInterrupt:
             print "Avslutar"
