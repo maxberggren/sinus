@@ -120,15 +120,15 @@ if __name__ == "__main__":
         
         text = u""
         for post in posts:
-            print post
-            print maxFix(post['text'])
-            print type(post['text'].decode('latin-1'))
-            print type(post['text'].decode('latin-1').encode('utf-8'))
-            print post['text'].decode('latin-1').encode('utf-8')
+            #print post
+            #print maxFix(post['text'])
+            #print type(post['text'].decode('latin-1'))
+            #print type(post['text'].decode('latin-1').encode('utf-8')) # funkar 
+            #print post['text'].decode('latin-1').encode('utf-8')
 
-            text = unicode(text + u"\n\n" + maxFix(post['text']))
+            text = text + u"\n\n" + maxFix(post['text'])
         
-        print text[0:150]
+        print text[0:150].encode('utf-8')
         
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
