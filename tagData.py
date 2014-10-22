@@ -122,7 +122,7 @@ if __name__ == "__main__":
         for post in posts:
             print post
             print maxFix(post['text'])
-            print post['text'].decode('latin-1')
+            print str(post['text']).decode('latin-1')
             text = unicode(text + u"\n\n" + maxFix(post['text']))
         
         print text[0:150]
