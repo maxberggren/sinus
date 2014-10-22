@@ -114,7 +114,7 @@ if __name__ == "__main__":
                       "city = '' and "
                       "longitude is NULL and "
                       "latitude is NULL and "
-                      "rank <> 999")
+                      "rank <> 9999")
     
     for row in result:
         try:
