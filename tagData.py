@@ -58,6 +58,7 @@ def predictViaAPI(text):
         mentions = r.json()['mentions']
         return [lon, lat], placeness, mostUsefulWords, mentions
     except:
+        print "predictViaAPI failed"
         return None, None, None, None
 
 
