@@ -101,7 +101,7 @@ class tweetLoc:
         """
         Returnerar ord vanligare än tröskelvärdet threshold i databasen tweets
         """
-        result = self.db.query("SELECT * FROM tweets WHERE used = 0")
+        result = self.db.query("SELECT * FROM tweets")
         
         for row in result:
             self.words.extend(row['tweet'].split()) # sparar alla ord i en lista
@@ -126,15 +126,13 @@ class tweetLoc:
         
         # Hämta koordinater som har ordet i tweeten eller i metadatan
         # Metadata är användarens självspecifierade ort ex. "svettiga svedala" 
+        # Hämta bara de som är flaggade som used. Dvs ett snapshot.
         
-        q = "SELECT * FROM tweets WHERE MATCH(tweet, metadata) AGAINST('{}') and used = 0".format(word)
-        print q
+        q = "SELECT * FROM tweets WHERE MATCH(tweet, metadata) AGAINST('{}') and used = 1".format(word)
         result = self.db.query(q)
 
         for row in result:
             outputCoordinates.append([row['lon'], row['lat']])
-        
-        flagUsed = self.db.query("UPDATE tweets SET used = 1 WHERE MATCH(tweet, metadata) AGAINST('{}') and used = 0")
 
         return outputCoordinates
                                
@@ -149,14 +147,18 @@ class tweetLoc:
             return None
             
         print "Compiling GMMs..."
+        
+        # Flagga snapshotet som ska användas
+        result = self.db.query("UPDATE tweets set used = 1")
             
         wordsWithModelAccepted = []
         # Skapar en GMM för alla ord
         for i, word in enumerate(words):
             print word
             #try:
+                           
             coordinateData = self.getCoordinatesFor(word)
-            print coordinateData
+            #print coordinateData
             if len(coordinateData) > 3:
                 print str(i) + "/" + str(len(words)) + " " + word
 
@@ -168,9 +170,12 @@ class tweetLoc:
                     scoring = np.exp(-100 / myGMM.score([coordinate]))[0]   
                     
                     # In met i databasen         
-                    self.db['GMMs'].insert(dict(word=word, lon=coordinate[0], 
-                                                lat=coordinate[1], scoring=scoring,
-                                                date=datetime.date.today()))
+                    self.db['GMMs'].insert(dict(word=word, 
+                                                lon=coordinate[0], 
+                                                lat=coordinate[1], 
+                                                scoring=scoring,
+                                                date=datetime.date.today(),
+                                                n_coordinates=len(coordinateData)))
                 del myGMM 
                 wordsWithModelAccepted.append(word)     
             #except:
@@ -178,6 +183,9 @@ class tweetLoc:
             #    Ordet kunde inte skapas en GMM på
             #    """
 
+        # Kasta gamla använda tweets
+        result = self.db.query("DELETE from tweets WHERE used = 1")
+        
         return wordsWithModelAccepted
 
     def weightedMean(self, coordinates, scores):
@@ -218,7 +226,7 @@ class tweetLoc:
  
         # Hämta alla unika datum (batchar) där GMMer satts in i databasen
         batches = []
-        for row in self.GMMdb.query("SELECT DISTINCT date FROM GMMs"):
+        for row in self.db.query("SELECT DISTINCT date FROM GMMs"):
             # TODO: byt ut till en separat tabell istället för _^
             batches.append(row['date'])
         
@@ -228,9 +236,9 @@ class tweetLoc:
             
             for date in batches:
                 freqInBatch = 0
-                result = self.GMMdb.query("SELECT * FROM GMMs " 
-                                          "WHERE word = '" + word + "' "
-                                          "AND date = '" + date + "'")
+                result = self.db.query("SELECT * FROM GMMs " 
+                                       "WHERE word = '" + word + "' "
+                                       "AND date = '" + date + "'")
                 subscores, subcoordinates = [], []
                 for row in result:
                     subscores.append(row['scoring'])
