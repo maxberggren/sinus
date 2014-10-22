@@ -223,13 +223,14 @@ class tweetLoc:
         coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
  
         # Hämta alla unika datum (batchar) där GMMer satts in i databasen
-        batches = []
+        batches, wordFreqs = [], []
+        
         for row in self.db.query("SELECT DISTINCT date FROM GMMs"):
             # TODO: byt ut till en separat tabell istället för _^
             batches.append(row['date'])
         
         for word in words:
-            batchscores, batchcoordinates, wordFreqs = [], [], []
+            batchscores, batchcoordinates = [], []
             wordFreq, freqInBatch = 0, 0
             print word
             
@@ -266,6 +267,7 @@ class tweetLoc:
             # Räkna ord som är out of vocabulary
             if score == 0.0:
                 OOVcount += 1 
+                
         print acceptedWords, wordFreqs
                  
         # Vikta samman alla ord efter deras "platsighet"
