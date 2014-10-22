@@ -94,7 +94,7 @@ if __name__ == "__main__":
         text = ""
         for post in posts:
             #print post
-            text = text + u"\n\n" + maxFix(post['text'])
+            text = unicode(text + u"\n\n" + maxFix(post['text']))
         
         print type(text[0:150])
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
