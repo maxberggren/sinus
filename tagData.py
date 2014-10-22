@@ -44,13 +44,13 @@ def robertFix(post):
     return post
 
 def predictViaAPI(text):
-    try:
-        payload = json.dumps({'text': text})
-        headers = {'content-type': 'application/json'}
-        r = requests.post("http://ext-web.gavagai.se:5000/localize/api/v1.0/localize", 
-                           data=payload, headers=headers)
-        
-        
+
+    payload = json.dumps({'text': text})
+    headers = {'content-type': 'application/json'}
+    r = requests.post("http://ext-web.gavagai.se:5000/localize/api/v1.0/localize", 
+                       data=payload, headers=headers)
+    
+    try:    
         lat = r.json()['latitude']
         lon = r.json()['longitude']
         placeness = r.json()['placeness']
