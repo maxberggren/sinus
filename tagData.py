@@ -58,7 +58,7 @@ def maxFix(text):
                 
             try:    
                 assumedUTF8 = text.decode('utf-8') # unicode
-            except:
+            except UnicodeDecodeError:
                 assumedUTF8 = u""
                 
             #print type(assumedLatin1)
@@ -122,7 +122,9 @@ if __name__ == "__main__":
         for post in posts:
             print post
             print maxFix(post['text'])
-            print str(post['text']).decode('latin-1')
+            print post['text'].decode('latin-1')
+            print post['text'].decode('utf-8')
+
             text = unicode(text + u"\n\n" + maxFix(post['text']))
         
         print text[0:150]
