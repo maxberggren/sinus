@@ -149,7 +149,7 @@ if __name__ == "__main__":
             else:
                 print "Beläggning misslyckades"
                 try:
-                    data = dict(rank=9999
+                    data = dict(rank=9999,
                                 id=blogId)
                                
                     db['blogs'].update(data, ['id'])
