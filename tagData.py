@@ -74,7 +74,8 @@ if __name__ == "__main__":
         
         text = ""
         for post in posts:
-            text = text + "\n\n" + robertFix(post['text'].encode('utf-8'))
+            print type(post['text'])
+            text = text + "\n\n" + post['text'].encode('utf-8')
             
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
