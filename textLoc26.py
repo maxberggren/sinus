@@ -232,7 +232,7 @@ class tweetLoc:
         
         for word in words:
             batchscores, batchcoordinates, wordFreqs = [], [], []
-            wordFreq = 0
+            wordFreq, freqInBatch = 0, 0
             print word
             
             for date in batches:
