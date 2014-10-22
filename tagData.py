@@ -122,8 +122,9 @@ if __name__ == "__main__":
         for post in posts:
             print post
             print maxFix(post['text'])
+            print type(post['text'].decode('latin-1'))
+            print type(post['text'].decode('latin-1').encode('utf-8'))
             print post['text'].decode('latin-1').encode('utf-8')
-            print post['text'].decode('utf-8')
 
             text = unicode(text + u"\n\n" + maxFix(post['text']))
         
