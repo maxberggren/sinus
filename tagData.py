@@ -119,14 +119,16 @@ if __name__ == "__main__":
     for row in result:
         try:
             blogId = row['id']
-            posts = db.query("SELECT * FROM posts WHERE blog_id = " + str(blogId) + " limit 100;")
+            posts = db.query("SELECT * FROM posts WHERE blog_id = " + str(blogId) + " limit 5000;")
             
             text = u""
             for post in posts:
                 text = text + u"\n\n" + maxFix(post['text'])
             
             print "Belägger " + row['url'] + "..."
+            print text[0:200].encode('utf-8')
             
+            """
             predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
             
             if predictedCoordinate and score > 0.0:
@@ -140,7 +142,7 @@ if __name__ == "__main__":
                                 rank=4,
                                 id=blogId)
                                
-                    db['blogs'].update(data, ['id'])
+                    #db['blogs'].update(data, ['id'])
                 
                 except:
                     print "Unexpected error:", sys.exc_info()[0]
@@ -152,11 +154,11 @@ if __name__ == "__main__":
                     data = dict(rank=9999,
                                 id=blogId)
                                
-                    db['blogs'].update(data, ['id'])
+                    #db['blogs'].update(data, ['id'])
                 
                 except:
                     print "Unexpected error:", sys.exc_info()[0]
-                
+            """    
         except KeyboardInterrupt:
             print "Avslutar"
             break  
