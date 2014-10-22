@@ -260,6 +260,7 @@ class tweetLoc:
                 scores.append(score)
                 acceptedWords.append(word)
                 wordFreqs.append(wordFreq)
+                print "summa summarum"
                 print wordFreq
         
             # Räkna ord som är out of vocabulary
