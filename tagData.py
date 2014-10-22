@@ -114,7 +114,7 @@ if __name__ == "__main__":
                       "city = '' and "
                       "longitude is NULL and "
                       "latitude is NULL and "
-                      "rank <> 999")
+                      "rank <> 999 and url = 'http://myrann.blogg.se/'")
     
     for row in result:
         try:
@@ -124,6 +124,7 @@ if __name__ == "__main__":
             text = u""
             for post in posts:
                 text = text + u"\n\n" + maxFix(post['text'])
+                print post
             
             print "Belägger " + row['url'] + "..."
             print text[0:200].encode('utf-8')
