@@ -112,10 +112,13 @@ if __name__ == "__main__":
         text = u""
         for post in posts:
             print post
+            print maxFix(post['text'])
             text = unicode(text + u"\n\n" + maxFix(post['text']))
             break
         
         print text[0:150]
+        break
+        
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
         if predictedCoordinate and score > 0.0:
