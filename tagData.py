@@ -91,7 +91,7 @@ if __name__ == "__main__":
     for row in result:
         posts = db.query("SELECT * FROM posts WHERE blog_id = " + str(row['id']) + ";")
         
-        text = ""
+        text = u""
         for post in posts:
             #print post
             text = unicode(text + u"\n\n" + maxFix(post['text']))
