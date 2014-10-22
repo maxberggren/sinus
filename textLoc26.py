@@ -231,7 +231,7 @@ class tweetLoc:
             batches.append(row['date'])
         
         for word in words:
-            batchscores, batchcoordinates, wordFreq = [], [], 0
+            batchscores, batchcoordinates, wordFreqs = [], [], []
             wordFreq = 0
             
             for date in batches:
