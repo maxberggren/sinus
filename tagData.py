@@ -17,8 +17,8 @@ RE_NORMAL = re.compile(ur"[a-zA-ZåäöÅÄÖé]")
 RE_HIGH = re.compile(ur"[^\u0000-\u00ff]")
 
 LATINIZE_TABLE = dict([
-    (unicode(c.encode('utf-8'), 'latin1'), c)
-    for c in u"åäöÅÄÖéüÜ"])
+    (unicode(cr.encode('utf-8'), 'latin1'), cr)
+    for cr in u"åäöÅÄÖéüÜ"])
 
 RE_LATINIZE = re.compile(ur"|".join(LATINIZE_TABLE.keys()))
 
