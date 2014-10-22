@@ -233,9 +233,9 @@ class tweetLoc:
         for word in words:
             batchscores, batchcoordinates, wordFreqs = [], [], []
             wordFreq = 0
+            print word
             
             for date in batches:
-                freqInBatch = 0
                 result = self.db.query("SELECT * FROM GMMs " 
                                        "WHERE word = '" + word + "' "
                                        "AND date = '" + date + "'")
