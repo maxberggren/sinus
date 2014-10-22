@@ -43,14 +43,20 @@ def robertFix(post):
             lambda m: LATINIZE_TABLE[m.group()], post)
     return post
 
-def maxFix(s):
-    if s is None:
-        return ""
+def maxFix(text):
+    if text is None:
+        return u""
     else:
-        if isinstance(s, (int, long, str)):
-            return s 
+        if isinstance(text, unicode):
+            return text
         else:
-            return s.encode('utf-8')
+            try:
+                return text.decode('utf-8')
+            except:
+                try:
+                    return text.decode('latin-1')
+                except:
+                    return u""
 
 def predictViaAPI(text):
     payload = json.dumps({'text': text})
@@ -85,8 +91,8 @@ if __name__ == "__main__":
         
         text = ""
         for post in posts:
-            print post['text'].encode('latin-1')
-            text = text + "\n\n" + robertFix(post['text'])
+            print maxFix(post['text'])
+            text = text + "\n\n" + maxFix(post['text'])
             
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
