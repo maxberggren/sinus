@@ -127,7 +127,7 @@ if __name__ == "__main__":
                 print post
             
             print "Belägger " + row['url'] + "..."
-            print text[0:200]
+            print type(text)
             
             """
             predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
