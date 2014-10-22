@@ -265,12 +265,12 @@ class tweetLoc:
             # Räkna ord som är out of vocabulary
             if score == 0.0:
                 OOVcount += 1 
+        print coordinates, scores, acceptedWords, wordFreqs
                  
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
   
         wordsAndScores = zip(acceptedWords, scores, wordFreqs)
-        print wordsAndScores
         # Sortera
         sortedByScore = sorted(wordsAndScores, key=itemgetter(1), reverse=True)
         
