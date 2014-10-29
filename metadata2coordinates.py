@@ -88,10 +88,10 @@ if __name__ == "__main__":
                             coordinate = None
                 # ------------------------------------------------
         
-                city = row['city']
-                muni = row['municipality'] 
-                county = row['county'] 
-                country = row['country']   
+                city = row['city'].decode('utf-8')
+                muni = row['municipality'].decode('utf-8')
+                county = row['county'].decode('utf-8')
+                country = row['country'].decode('utf-8')
                   
                 if coordinate:
                     print (city + "," if city else ""),
@@ -102,10 +102,10 @@ if __name__ == "__main__":
                     #try:
                     data = dict(longitude=coordinate[1],
                                 latitude=coordinate[0],
-                                city=city.decode('utf-8'),
-                                municipality=muni.decode('utf-8'),
-                                county=county.decode('utf-8'),
-                                country=country.decode('utf-8'))
+                                city=city,
+                                municipality=muni,
+                                county=county,
+                                country=country
 
                     
                     city = (row['city'] if row['city'] else u"")
