@@ -443,10 +443,7 @@ def site(urlSearch=None):
         zoom = None
             
     if len(queryWords) > 0:
-        filename, hits, KWICs, fewResults, gifFileName = getData(queryWords, 
-                                                                 xBins=xbins,
-                                                                 scatter=scatter,
-                                                                 zoom=zoom)
+        filename, hits, KWICs, fewResults, gifFileName = getData(queryWords, xBins=xbins,scatter=scatter,zoom=zoom)
                               
         documentQuery = { 'query': query,
                           'filename': filename,
