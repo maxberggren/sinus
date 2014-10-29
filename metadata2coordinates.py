@@ -40,11 +40,17 @@ if __name__ == "__main__":
                               "county, country FROM "
                               "(select * from blogs "
                               "  WHERE (latitude is NULL "
-                              "         AND noCoordinate is NULL) "
+                              "         AND noCoordinate is NULL "
+                              "         AND city = 'Rörö') "
                               "  AND "
-                              "        (city is not NULL or "
-                              "         municipality is not NULL "
-                              "         OR county is not NULL) "
+                              "        ((city is not NULL or "
+                              "          municipality is not NULL "
+                              "          OR county is not NULL) "
+                              "         OR "
+                              "         (city <> '' or "
+                              "          municipality <> '' "
+                              "          OR county <> ''))"
+                              " ) "
                               ") AS not_processed ")
                                   
             for row in result:
