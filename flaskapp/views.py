@@ -558,7 +558,7 @@ def site(urlSearch=None):
     stats = {}
     
     # Get sourcecount for sources that have lon lat
-    key = "sourceswithlatlon8"
+    key = "sourceswithlatlon"
     if not cache.get(key):
         stats[key] = []
         result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
@@ -567,25 +567,26 @@ def site(urlSearch=None):
         for row in result:
             stats[key].append(row)
         
-        cache.set(key, stats[key], timeout=60*60*3) # cache for 3 hours    
+        cache.set(key, stats[key], timeout=1) # cache for 3 hours    
     else:
         stats[key] = cache.get(key)
     
     # Get sourcecount for sources that yet have no lat lon
-    key = "sourceswithoutlatlon8"
+    key = "sourceswithoutlatlon"
     if not cache.get(key):
         stats[key] = []
         result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
-                               "WHERE longitude is NULL AND rank <> 9999 "
-                               "AND noCoordinate is NULL "
-                               "AND city is not NULL OR "
+                               "WHERE (longitude is NULL AND rank <> 9999 "
+                               "AND noCoordinate is NULL) "
+                               "AND "
+                               "(city is not NULL OR "
                                "municipality is not NULL "
-                               "OR county is not NULL "
+                               "OR county is not NULL) "
                                "GROUP BY source, rank ORDER BY count DESC") 
         for row in result:
             stats[key].append(row)
         
-        cache.set(key, stats[key], timeout=60*60*3) # cache for 3 hours    
+        cache.set(key, stats[key], timeout=1) # cache for 3 hours    
     else:
         stats[key] = cache.get(key)
 
