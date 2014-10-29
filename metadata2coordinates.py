@@ -113,6 +113,7 @@ if __name__ == "__main__":
                     county = (row['county'] if row['county'] else "")
                     country = (row['country'] if row['country'] else "")                     
                     
+                    print type(row['city'])
                     print type(city), type(muni), type(country), type(county)
 
                           
