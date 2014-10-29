@@ -22,3 +22,7 @@ hr {
 .rawdata strong { background-color: #F3F3F3; }
 
 .hideoverflow { overflow: hidden; }
+
+td, th {
+padding: 1px;
+}
