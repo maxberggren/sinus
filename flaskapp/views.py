@@ -555,16 +555,17 @@ def site(urlSearch=None):
 
     """  
     # Get some stats
-    if not cache.get("uniqesources"):
+    if not cache.get("sourcerankcount"):
         stats = []
         result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
+                               "WHERE longitude is not NULL "
                                "GROUP BY source, rank ORDER BY count DESC") 
         for row in result:
             stats.append(row)
         
-        stats = cache.set("uniqesources", stats, timeout=60*60*3) # cache for 3 hours    
+        stats = cache.set("sourcerankcount", stats, timeout=60*60*3) # cache for 3 hours    
     else:
-        stats = cache.get("uniqesources")
+        stats = cache.get("sourcerankcount")
       
     # Classify text
     try:
