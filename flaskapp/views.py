@@ -349,8 +349,9 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         fewResults, filename, gifFileName = genImages(coordinatesByWord, xBins,words,zoom,xyRatio, blurFactor, minCoordinates, scatter,hits,chunks=1)
         # Get time series gif
         fewResults, giffile, gifFileName = genImages(coordinatesByWord, xBins,words,zoom,xyRatio, blurFactor, minCoordinates, scatter,hits,chunks=7,dates=dates)
-                                                     
-        dateHistogram(dates, gifFileName)
+        
+        if gifFileName: # no gif = no histogram                                     
+            dateHistogram(dates, gifFileName)
 
         return filename, hits, KWIC, fewResults, gifFileName
         
