@@ -472,7 +472,7 @@ def site(urlSearch=None):
         uselowqualdata = int([o.split(":")[1].strip()
                for o in operators if "uselowqualdata:" in o][0])
     except:
-        uselowqualdata = None
+        uselowqualdata = 0
             
             
     if len(queryWords) > 0:
