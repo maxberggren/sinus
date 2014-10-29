@@ -559,6 +559,9 @@ def site(urlSearch=None):
     result = mysqldb.query("select distinct source, rank from blogs") 
     cache.set("uniqesources", result)
     
+    for row in cache.get("uniqesources"):
+        print row
+    
       
     # Classify text
     try:
