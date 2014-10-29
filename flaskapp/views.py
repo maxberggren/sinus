@@ -560,7 +560,7 @@ def site(urlSearch=None):
     cache.set("uniqesources", result)
     
     for row in cache.get("uniqesources"):
-        print row
+        print row['source']
     
       
     # Classify text
