@@ -99,7 +99,7 @@ if __name__ == "__main__":
                     print (county + "," if county else ""),
                     print (country + "," if country else ""),
                     print "->", coordinate
-                    
+                    print "rett"
                     #try:
                     data = dict(longitude=coordinate[1],
                                 latitude=coordinate[0],
