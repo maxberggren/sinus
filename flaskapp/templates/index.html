@@ -205,7 +205,26 @@
                 </tr>
               </thead>
               <tbody>
-                {% for row in stats %} 
+                {% for row in stats['sourceswithlatlon'] %} 
+                <tr>
+                  <td>{{ row['source'] }}</td>
+                  <td>{{ row['rank'] }}</td>
+                  <td class="text-right">{{ row['count'] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+			<table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Källor utan koordinat</th>
+                  <th>Rank</th>
+                  <th class="text-right">#</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in stats['sourceswithoutlatlon'] %} 
                 <tr>
                   <td>{{ row['source'] }}</td>
                   <td>{{ row['rank'] }}</td>

@@ -554,18 +554,38 @@ def site(urlSearch=None):
         the index view rendered with render_template("index.html")
 
     """  
-    # Get some stats
-    if not cache.get("sourcerankcount3"):
-        stats = []
+    # Initialize for stats
+    stats = {}
+    
+    # Get sourcecount for sources that have lon lat
+    key = "sourceswithlatlon"
+    if not cache.get(key):
+        stats[key] = []
         result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
                                "WHERE longitude is not NULL "
                                "GROUP BY source, rank ORDER BY count DESC") 
         for row in result:
-            stats.append(row)
+            stats[key].append(row)
         
-        cache.set("sourcerankcount3", stats, timeout=60*60*3) # cache for 3 hours    
+        cache.set(key, stats, timeout=60*60*3) # cache for 3 hours    
     else:
-        stats = cache.get("sourcerankcount3")
+        stats[key] = cache.get(key)
+    
+    # Get sourcecount for sources that yet have no lat lon
+    key = "sourceswithoutlatlon"
+    if not cache.get(key):
+        stats[key] = []
+        result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
+                               "WHERE longitude is NULL AND rank <> 9999"
+                               "GROUP BY source, rank ORDER BY count DESC") 
+        for row in result:
+            stats[key].append(row)
+        
+        cache.set(key, stats, timeout=60*60*3) # cache for 3 hours    
+    else:
+        stats[key] = cache.get(key)
+
+
       
     # Classify text
     try:
