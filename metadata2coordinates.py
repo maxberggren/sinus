@@ -34,18 +34,20 @@ if __name__ == "__main__":
     
     db.query("set names 'utf8'") # important if tunneled
     
-    
     while True:
         try:
             result = db.query("SELECT distinct city, municipality, "
                               "county, country FROM "
                               "(select * from blogs "
-                              " WHERE latitude is NULL "
-                              " AND noCoordinate is NULL) "
-                              "AS not_processed "
-                              "WHERE city is not NULL or "
-                              "municipality is not NULL "
-                              "OR county is not NULL")
+                              "  WHERE (latitude is NULL "
+                              "         AND noCoordinate is NULL) "
+                              "  AND "
+                              "        (city is not NULL or "
+                              "         municipality is not NULL "
+                              "         OR county is not NULL) "
+                              ") AS not_processed "
+                              " "
+                              " ")
                                   
             for row in result:
                 # Set Nones to empty strings so latlon gets it
