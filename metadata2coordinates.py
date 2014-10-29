@@ -45,9 +45,7 @@ if __name__ == "__main__":
                               "        (city is not NULL or "
                               "         municipality is not NULL "
                               "         OR county is not NULL) "
-                              ") AS not_processed "
-                              " "
-                              " ")
+                              ") AS not_processed ")
                                   
             for row in result:
                 # Set Nones to empty strings so latlon gets it

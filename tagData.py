@@ -109,11 +109,15 @@ if __name__ == "__main__":
     model = tweetLoc(c.LOCATIONDB) 
     db = dataset.connect(c.LOCATIONDB)
     result = db.query("set names 'utf8'")
-    result = db.query("select * from blogs WHERE country = '' "
-                      "and municipality = '' and county = '' and "
-                      "city = '' and "
-                      "longitude is NULL and "
-                      "latitude is NULL and "
+    
+    result = db.query("select * from blogs "
+                      "WHERE "
+                      "( (country = '' and municipality = '' "
+                      "   and county = '' and city = '') "
+                      "  OR (country is NULL and municipality is NULL "
+                      "      and county is NULL and city is NULL)"
+                      ") "
+                      "AND longitude is NULL AND latitude is NULL AND "
                       "rank <> 9999")
     
     for row in result:
