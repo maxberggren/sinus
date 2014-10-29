@@ -195,9 +195,8 @@
 		  </div>
 		  
 		  <div class="panel-body">
-		    {{ stats['sourceswithlatlon'] }}<br>
-<br> 
-		    {{ stats['sourceswithoutlatlon'] }}			<table class="table table-striped">
+		    
+			<table class="table table-striped">
               <thead>
                 <tr>
                   <th>Källor med koordinat</th>
@@ -206,7 +205,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for row in stats['sourceswithlatlon'] %} 
+                {% for row in stats['sourceswithlatlon2'] %} 
                 <tr>
                   <td>{{ row['source'] }}</td>
                   <td>{{ row['rank'] }}</td>
@@ -225,7 +224,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for row in stats['sourceswithoutlatlon'] %} 
+                {% for row in stats['sourceswithoutlatlon2'] %} 
                 <tr>
                   <td>{{ row['source'] }}</td>
                   <td>{{ row['rank'] }}</td>
