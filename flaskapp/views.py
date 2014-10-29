@@ -286,7 +286,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     return fewResults, filename, gifFileName
 
 def getData(words, xBins=None, scatter=None, zoom=None,
-            xyRatio=1.8, blurFactor=0.6, lowqualdata=0):
+            xyRatio=1.8, blurFactor=0.6, uselowqualdata=0):
     
     coordinatesByWord = ()
     minCoordinates = 99999999999999 # Shame!
@@ -296,12 +296,12 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     for word in words:
         coordinates, dates = [], []
         fewResults = False
-        print "lowqualdata"
-        print lowqualdata
-        if lowqualdata == 0:
-            querylowqualdata = "AND rank <> 4"
+        print "uselowqualdata"
+        print uselowqualdata
+        if uselowqualdata == 0:
+            queryuselowqualdata = "AND rank <> 4"
         else:
-            querylowqualdata = ""
+            queryuselowqualdata = ""
 
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
@@ -315,7 +315,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "AGAINST ('" + word + "' "
                                "IN BOOLEAN MODE) "
                                "AND blogs.latitude is not NULL "
-                               " " + querylowqualdata + " "
+                               " " + queryuselowqualdata + " "
                                "ORDER BY posts.date ") 
                                #ORDER BY RAND() limit 15000?
         
@@ -450,7 +450,7 @@ def site(urlSearch=None):
                                and "xbins:" not in w
                                and "scatter:" not in w
                                and "zoom:" not in w
-                               and "lowqualdata:" not in w]
+                               and "uselowqualdata:" not in w]
     
     try:
         xbins = int([o.split(":")[1].strip()
@@ -469,10 +469,10 @@ def site(urlSearch=None):
     except:
         zoom = None
     try:
-        lowqualdata = int([o.split(":")[1].strip()
-               for o in operators if "lowqualdata:" in o][0])
+        uselowqualdata = int([o.split(":")[1].strip()
+               for o in operators if "uselowqualdata:" in o][0])
     except:
-        lowqualdata = None
+        uselowqualdata = None
             
             
     if len(queryWords) > 0:
@@ -480,7 +480,7 @@ def site(urlSearch=None):
                          xBins=xbins,
                          scatter=scatter,
                          zoom=zoom,
-                         lowqualdata=lowqualdata)
+                         uselowqualdata=uselowqualdata)
                          
         filename, hits, KWICs, fewResults, gifFileName = touple
                               
