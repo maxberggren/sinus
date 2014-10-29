@@ -114,7 +114,7 @@ if __name__ == "__main__":
                     county = (row['county'] if row['county'] else "")
                     country = (row['country'] if row['country'] else "")                     
                     
-                    db.query("update blogs set longitude = "+coordinate[1]+" and latitude = "+coordinate[0]+" WHERE city = '"+city+"' and municipality = '"+muni+"' and country='"+country+"' and county = '"+county+"'")     
+                    db.query("update blogs set longitude = "+str(coordinate[1])+" and latitude = "+str(coordinate[0])+" WHERE city = '"+city+"' and municipality = '"+muni+"' and country='"+country+"' and county = '"+county+"'")     
                           
                     #db['blogs'].update(data, ['city',
                     #                          'municipality',
