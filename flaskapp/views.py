@@ -114,9 +114,12 @@ def kwic(text, word, source):
     
     if " or " in word.lower():
         words = word.lower().split(" or ")
-        word = words[0] # Choose the first
+        word = words[0] # Quickfix: choose the first in the or-clause
     if type(text) is str:
-        text = text.decode("utf-8")
+        try:
+            text = text.decode("utf-8")
+        except:
+            return ""
         
     text = text.lower()
     left, sep, right = text.partition(word.lower().replace('"', ""))
@@ -207,7 +210,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
                               len(lon_bins)-1))*0.00000000000000001
         
         for kordinater in coordinatesByWord:
-            # kordinater ska delas upp i chunks
+            # Coordinates to be put into chunks
             kordinater = np.array_split(kordinater, chunks)
             
             totCoordinates += len(kordinater[chunk])
@@ -372,8 +375,6 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     # If timeseries created - GIFfify it!
     if chunks > 1: 
         gifFilenames = gifFilenames + gifFilenames[::-1]
-        print gifFilenames
-        print filename
         images = [Image.open(fn) for fn in gifFilenames]
         gif2file = "flaskapp/static/maps/" + filename +".gif"
         writeGif(gif2file, images, duration=0.5)
@@ -479,7 +480,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 
     if minCoordinates > 4:
 
-        if not xBins: # xbins not set? guestimate that 2 hits per bin is good
+        if not xBins: # xBins not set? "guestimate" that 2 hits per bin is good
             xBins = math.sqrt(float(minCoordinates)/
                                          (float(xyRatio)*float(2)))
             xBins = int(xBins)            
@@ -538,7 +539,7 @@ def api():
 @app.route('/sinus/', methods = ['GET', 'POST'])
 @app.route('/sinus/search/<urlSearch>', methods = ['GET'])
 def site(urlSearch=None):
-    """Run if index/search view in choosen
+    """Run if index/search view if choosen
 
     Parameters
     ----------
@@ -686,7 +687,7 @@ def explore(word=None):
         synonyms = None
 
 
-    # get delta entropy 10 % (difference between first and last 10%)
+    # Get delta entropy 10 % (difference between first and last 10%)
     result = mysqldb.query("select * from ngrams "
                            "where deltaEnt10 is not NULL "
                            "and deltaEnt10 > 1 "
@@ -700,7 +701,7 @@ def explore(word=None):
 
     deltaEnt10Words = zip(deltaEnt10Words, ent10)
 
-    # get delta entropy 20 %
+    # Get delta entropy 20 %
     result = mysqldb.query("select * from ngrams "
                            "where deltaEnt20 is not NULL "
                            "and deltaEnt20 > 1 "
@@ -714,7 +715,7 @@ def explore(word=None):
 
     deltaEnt20Words = zip(deltaEnt20Words, ent20)
 
-    # get delta entropy 30 %
+    # Get delta entropy 30 %
     result = mysqldb.query("select * from ngrams "
                            "where deltaEnt30 is not NULL "
                            "and deltaEnt30 > 1 "
@@ -728,7 +729,7 @@ def explore(word=None):
 
     deltaEnt30Words = zip(deltaEnt30Words, ent30)
 
-    # get delta entropy 40 %
+    # Get delta entropy 40 %
     result = mysqldb.query("select * from ngrams "
                            "where deltaEnt40 is not NULL "
                            "and deltaEnt40 > 1 "
@@ -742,7 +743,7 @@ def explore(word=None):
 
     deltaEnt40Words = zip(deltaEnt40Words, ent40)
 
-    # get delta entropy 50 %
+    # Get delta entropy 50 %
     result = mysqldb.query("select * from ngrams "
                            "where deltaEnt50 is not NULL "
                            "and deltaEnt50 > 1 "
