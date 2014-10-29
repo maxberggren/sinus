@@ -287,7 +287,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     return fewResults, filename, gifFileName
 
 def getData(words, xBins=None, scatter=None, zoom=None,
-            xyRatio=1.8, blurFactor=0.6):
+            xyRatio=1.8, blurFactor=0.6, lowqualdata=0):
     
     coordinatesByWord = ()
     minCoordinates = 99999999999999 # Shame!
@@ -297,6 +297,11 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     for word in words:
         coordinates, dates = [], []
         fewResults = False
+        
+        if lowqualdata == 0:
+            querylowqualdata = "AND rank <> 4"
+        else:
+            querylowqualdata = ""
 
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
@@ -310,6 +315,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "AGAINST ('" + word + "' "
                                "IN BOOLEAN MODE) "
                                "AND blogs.latitude is not NULL "
+                               " " + querylowqualdata + " "
                                "ORDER BY posts.date ") 
                                #ORDER BY RAND() limit 15000?
         
@@ -339,16 +345,34 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 
     if minCoordinates > 4:
 
-        if not xBins:
-            # Guestimate that 2 hits per bin is good
+        if not xBins: # xbins not set? guestimate that 2 hits per bin is good
             xBins = math.sqrt(float(minCoordinates)/
                                          (float(xyRatio)*float(2)))
             xBins = int(xBins)            
 
         # Get main image
-        fewResults, filename, gifFileName = genImages(coordinatesByWord, xBins,words,zoom,xyRatio, blurFactor, minCoordinates, scatter,hits,chunks=1)
+        fewResults, filename, gifFileName = genImages(coordinatesByWord, 
+                                                      xBins,
+                                                      words,
+                                                      zoom,
+                                                      xyRatio, 
+                                                      blurFactor, 
+                                                      minCoordinates,
+                                                      scatter,
+                                                      hits,
+                                                      chunks=1)
         # Get time series gif
-        fewResults, giffile, gifFileName = genImages(coordinatesByWord, xBins,words,zoom,xyRatio, blurFactor, minCoordinates, scatter,hits,chunks=7,dates=dates)
+        fewResults, giffile, gifFileName = genImages(coordinatesByWord, 
+                                                     xBins,
+                                                     words,
+                                                     zoom,
+                                                     xyRatio, 
+                                                     blurFactor, 
+                                                     minCoordinates,
+                                                     scatter,
+                                                     hits,
+                                                     chunks=7,
+                                                     dates=dates)
         
         if gifFileName: # no gif = no histogram                                     
             dateHistogram(dates, gifFileName)
@@ -401,7 +425,7 @@ def site(urlSearch=None):
     else:
         localizeText = None
         
-    # Document database
+    # Search in document database
     if request.method == 'POST' and len(textInput) == 0:
         query = request.form['queryInput']
         queryWords = query.split(",")
@@ -417,14 +441,16 @@ def site(urlSearch=None):
                                or "gender:" in o
                                or "xbins:" in o
                                or "scatter:" in o
-                               or "zoom:" in o]
+                               or "zoom:" in o
+                               or "uselowqualdata:" in o]
                                
     queryWords = [w.strip() for w in queryWords 
                             if "age:" not in w 
                                and "gender:" not in w
                                and "xbins:" not in w
                                and "scatter:" not in w
-                               and "zoom:" not in w]
+                               and "zoom:" not in w
+                               and "lowqualdata:" not in w]
     
     try:
         xbins = int([o.split(":")[1].strip()
@@ -442,9 +468,21 @@ def site(urlSearch=None):
                for o in operators if "zoom:" in o][0])
     except:
         zoom = None
+    try:
+        lowqualdata = int([o.split(":")[1].strip()
+               for o in operators if "lowqualdata:" in o][0])
+    except:
+        lowqualdata = None
+            
             
     if len(queryWords) > 0:
-        filename, hits, KWICs, fewResults, gifFileName = getData(queryWords, xBins=xbins,scatter=scatter,zoom=zoom)
+        touple = getData(queryWords,        
+                         xBins=xbins,
+                         scatter=scatter,
+                         zoom=zoom,
+                         lowqualdata=lowqualdata)
+                         
+        filename, hits, KWICs, fewResults, gifFileName = *touple
                               
         documentQuery = { 'query': query,
                           'filename': filename,
