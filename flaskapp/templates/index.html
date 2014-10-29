@@ -205,7 +205,8 @@
                 </tr>
               </thead>
               <tbody>
-                {% for source, rank, count in stats.iteritems() %} 
+                {{ stats }}
+                {% for source, rank, count in stats %} 
                 <tr>
                   <td>{{ source }}</td>
                   <td>{{ rank }}</td>
