@@ -432,8 +432,6 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     for word in words:
         coordinates, dates = [], []
         fewResults = False
-        print "uselowqualdata"
-        print uselowqualdata
         if uselowqualdata == 0:
             queryuselowqualdata = "AND rank <> 4"
         else:
@@ -540,7 +538,21 @@ def api():
 @app.route('/sinus/', methods = ['GET', 'POST'])
 @app.route('/sinus/search/<urlSearch>', methods = ['GET'])
 def site(urlSearch=None):
+    """Run if index/search view in choosen
 
+    Parameters
+    ----------
+    urlSearch : str
+        if a document database search is queryed
+        by querystring instead of POST
+
+    Returns
+    -------
+    index.html : html
+        the index view rendered with render_template("index.html")
+
+    """  
+      
     # Classify text
     try:
         textInput = request.form['textInput']
@@ -646,6 +658,11 @@ def explore(word=None):
     ----------
     word : str
         the word to explore
+        
+    Returns
+    -------
+    explore.html : html
+        the explore view rendered with render_template("explore.html")
 
     """    
     result = mysqldb.query("select * from ngrams "
