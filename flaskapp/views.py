@@ -576,7 +576,7 @@ def site(urlSearch=None):
     if not cache.get(key):
         stats[key] = []
         result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
-                               "WHERE longitude is NULL AND rank <> 9999"
+                               "WHERE longitude is NULL AND rank <> 9999 "
                                "GROUP BY source, rank ORDER BY count DESC") 
         for row in result:
             stats[key].append(row)
