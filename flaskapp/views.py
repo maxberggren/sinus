@@ -83,7 +83,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     # Making of time series gif only possible when
     # looking at only one word.
     if chunks > 1 and len(coordinatesByWord) != 1:
-        return False, None 
+        return False, None, None
         
     fewResults = False
     gifFileName = None
