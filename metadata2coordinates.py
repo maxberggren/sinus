@@ -107,11 +107,19 @@ if __name__ == "__main__":
                                 municipality=muni,
                                 county=county,
                                 country=country)
-                               
-                    db['blogs'].update(data, ['city',
-                                              'municipality',
-                                              'county',
-                                              'country'])
+
+    
+                    city = (row['city'] if row['city'] else "")
+                    muni = (row['municipality'] if row['municipality'] else "")
+                    county = (row['county'] if row['county'] else "")
+                    country = (row['country'] if row['country'] else "")                     
+                    
+                    db.query("update blogs set longitude = "+coordinate[1]+" and latitude = "+coordinate[0]+" WHERE city = '"+city+"' and municipality = '"+muni+"' and country='"+country+"' and county = '"+county+"'")     
+                          
+                    #db['blogs'].update(data, ['city',
+                    #                          'municipality',
+                    #                          'county',
+                    #                          'country'])
                 
                     #except:
                     #    print "Unexpected error:", sys.exc_info()[0]
