@@ -28,6 +28,16 @@ import os
 import config as c
 
 def dateHistogram(dates, filename):
+    """Create histogram of given dates
+
+    Parameters
+    ----------
+    dates : list
+        dates to make histogram over
+    filename : str
+        the filename it should be saved to
+    """
+
     startYear = 2000
     endYear = datetime.datetime.now().year
     years = [date.year for date in dates]
@@ -40,6 +50,14 @@ def dateHistogram(dates, filename):
     plt.savefig(filename, dpi=100)
 
 def emptyFolder(folder):
+    """Empty folder so we won't run out of hdd space
+
+    Parameters
+    ----------
+    folder : str
+        path to folder
+    """
+
     for the_file in os.listdir(folder):
         file_path = os.path.join(folder, the_file)
         try:
@@ -49,6 +67,19 @@ def emptyFolder(folder):
             print e
 
 def getSynonyms(query):
+    """Connect to Gavagai API to get synonyms
+
+    Parameters
+    ----------
+    query : str
+        term to be looked up with gavagai
+
+    Returns
+    -------
+    synonyms : list
+        list with synonyms
+    """
+
     try:
         r = requests.get('https://ethersource.gavagai.se/ethersource/'
                          'rest/v2/suggestTerms?'
@@ -64,6 +95,23 @@ def getSynonyms(query):
     return synonyms
     
 def kwic(text, word, source):
+    """Make KeyWord In Context
+
+    Parameters
+    ----------
+    text : str
+        full text to be trunicated to a kwic
+    word : str
+        word to be highlighted
+    source : str
+        source of the text to be prepended the kwic e.g. [twingly]
+
+    Returns
+    -------
+    kwic : str
+        e.g. [twingly] this is a text with WORD to be highlighted
+    """
+    
     if " or " in word.lower():
         words = word.lower().split(" or ")
         word = words[0] # Choose the first
@@ -78,6 +126,54 @@ def kwic(text, word, source):
 def genImages(coordinatesByWord, xBins, words, zoom,
               xyRatio, blurFactor, minCoordinates, 
               scatter, hits, chunks=1, dates=None):
+
+    """Generate the images i.e. the main image, the 
+       time series gif and the histogram.
+
+    Parameters
+    ----------
+    coordinatesByWord : tuple
+        tuple with lists of the coordinates
+    xBins : int
+        how many bins there should be on the x-axis
+    words : list
+        list of words corresponding to the lists in 
+        the tuple coordinatesByWord.
+    zoom : int
+        1 if the user wants the map to be zoomed in 
+        around the avalible data. if 0 it defaults
+        to around sweden.
+    xyRatio : int
+        correction to make the bins square in
+        mercurator projection map
+    blurFactor : float
+        if blurring the 2d bin data should be applied
+        do it by this amount
+    minCoordinates : int
+        threshold under where the map falls back to
+        making an scatterplot since the binplot 
+        would be kinda useless
+    scatter : int
+        1 if manual override so scatterplot 
+        should be used
+    hits : dict
+        storing how many hits a keyword has
+    chunks : int
+        how many chunks that the dates should be split
+        into when generating a gif
+    dates : list
+        the dates for the histogram
+
+    Returns
+    -------
+    fewResults : bool
+        true if a keyword had to few hits in the
+        documents database
+    filename : str
+        name of the file that should be saved (main image)
+    gifFileName : str
+        filename of the gif
+    """
 
     # Making of time series gif only possible when
     # looking at only one word.
@@ -287,6 +383,46 @@ def genImages(coordinatesByWord, xBins, words, zoom,
 
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, uselowqualdata=0):
+
+    """Retrive data from the document database
+
+    Parameters
+    ----------
+    words : list
+        list of n-grams that should be queried
+    xBins : int
+        how many bins there should be on the x-axis
+    scatter : int
+        1 if scatterplot should be forced
+    zoom : int
+        1 if the user wants the map to be zoomed in 
+        around the avalible data. if 0 it defaults
+        to around sweden.
+    xyRatio : int
+        correction to make the bins square in
+        mercurator projection map
+    blurFactor : float
+        if blurring the 2d bin data should be applied
+        do it by this amount
+    uselowqualdata : int
+        1 if blogs that only have inferred coordinate
+        should be used. that means the geotagging done
+        by tagData.py
+
+    Returns
+    -------
+    filename : str
+        filename of main image
+    hits : dict
+        dict of the querywords number of hits in 
+        the document database
+    KWIC : dict
+        dict with the querywords kwics
+    fewResults : bool
+        if a word has to few hits in document database
+    gifFileName : str
+        filename of the gif
+    """
     
     coordinatesByWord = ()
     minCoordinates = 99999999999999 # Shame!
@@ -384,11 +520,12 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     
 
 @app.route('/localize/api/v1.0/localize', methods = ['POST'])
-def api():
+def api(): 
     if not request.json or not 'text' in request.json:
         abort(400)
-        
-    coordinate, placeness, mostUsefulWords, OOV, mentions = model.predict(request.json['text'])
+     
+    touple = model.predict(request.json['text'])   
+    coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]
     lat = coordinate[1]
     return jsonify( { 'latitude': lat, 
@@ -411,7 +548,9 @@ def site(urlSearch=None):
         textInput = ""
     
     if request.method == 'POST' and len(textInput) > 0:
-        coordinate, placeness, mostUsefulWords, OOV, mentions = model.predict(request.form['textInput'])
+        touple = model.predict(request.form['textInput'])
+        coordinate, placeness, mostUsefulWords, OOV, mentions = touple
+        
         if not placeness == 0.0:
             placeness = int(math.log(placeness))
         else:
@@ -501,7 +640,14 @@ def site(urlSearch=None):
 @app.route('/sinus/explore', methods = ['GET', 'POST'])
 @app.route('/sinus/explore/<word>', methods = ['GET'])
 def explore(word=None):
-    
+    """Run if explore in the menu is choosen
+
+    Parameters
+    ----------
+    word : str
+        the word to explore
+
+    """    
     result = mysqldb.query("select * from ngrams "
                            "where entropy < 3 "
                            "and entropy > 0 "
@@ -523,6 +669,7 @@ def explore(word=None):
         synonyms = None
 
 
+    # get delta entropy 10 % (difference between first and last 10%)
     result = mysqldb.query("select * from ngrams "
                            "where deltaEnt10 is not NULL "
                            "and deltaEnt10 > 1 "
@@ -536,8 +683,7 @@ def explore(word=None):
 
     deltaEnt10Words = zip(deltaEnt10Words, ent10)
 
-    # ---
-
+    # get delta entropy 20 %
     result = mysqldb.query("select * from ngrams "
                            "where deltaEnt20 is not NULL "
                            "and deltaEnt20 > 1 "
@@ -551,8 +697,7 @@ def explore(word=None):
 
     deltaEnt20Words = zip(deltaEnt20Words, ent20)
 
-    # ---
-
+    # get delta entropy 30 %
     result = mysqldb.query("select * from ngrams "
                            "where deltaEnt30 is not NULL "
                            "and deltaEnt30 > 1 "
@@ -566,8 +711,7 @@ def explore(word=None):
 
     deltaEnt30Words = zip(deltaEnt30Words, ent30)
 
-    # ---
-    
+    # get delta entropy 40 %
     result = mysqldb.query("select * from ngrams "
                            "where deltaEnt40 is not NULL "
                            "and deltaEnt40 > 1 "
@@ -581,8 +725,7 @@ def explore(word=None):
 
     deltaEnt40Words = zip(deltaEnt40Words, ent40)
 
-    # ---
-
+    # get delta entropy 50 %
     result = mysqldb.query("select * from ngrams "
                            "where deltaEnt50 is not NULL "
                            "and deltaEnt50 > 1 "
@@ -609,10 +752,6 @@ def explore(word=None):
     return render_template("explore.html", data=data)
 
 
-@app.route('/localize/', methods = ['GET', 'POST'])
-@app.route('/localize', methods = ['GET'])
-def rememberremember():
-    print "Du har flyttat allt till sinus. Remember?"
     
 @app.errorhandler(404)
 def not_found(error):
