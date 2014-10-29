@@ -48,8 +48,7 @@ if __name__ == "__main__":
                               "         (city <> '' or "
                               "          municipality <> '' "
                               "          OR county <> ''))"
-                              " )np "
-                              " ")
+                              " )np ")
                                   
             for row in result:
                 # Set Nones to empty strings so latlon gets it
@@ -133,7 +132,7 @@ if __name__ == "__main__":
         
                     except:
                         print "Unexpected error:", sys.exc_info()[0]
-        
+            break
         except KeyboardInterrupt:
             break
             print "Avslutar"
