@@ -658,7 +658,8 @@ def site(urlSearch=None):
         documentQuery = None
         
     return render_template("index.html", localizeText=localizeText,
-                                         documentQuery=documentQuery)
+                                         documentQuery=documentQuery,
+                                         stats=stats)
 
 
 

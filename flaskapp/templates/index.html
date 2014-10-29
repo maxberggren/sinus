@@ -199,27 +199,19 @@
 			<table class="table table-striped">
               <thead>
                 <tr>
+                  <th>Source</th>
+                  <th>Rank</th>
                   <th>#</th>
-                  <th>First Name</th>
-                  <th>Username</th>
                 </tr>
               </thead>
               <tbody>
+                {% for source, rank, count in stats.iteritems() %} 
                 <tr>
-                  <td>1</td>
-                  <td>Mark</td>
-                  <td>@mdo</td>
+                  <td>{{ source }}</td>
+                  <td>{{ rank }}</td>
+                  <td>{{ count }}</td>
                 </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Jacob</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Larry</td>
-                  <td>@twitter</td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
 
