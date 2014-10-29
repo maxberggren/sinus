@@ -30,14 +30,12 @@ class NoResultError(Exception):
 
 if __name__ == "__main__":
     db = dataset.connect(c.LOCATIONDB)
-    #db = dataset.connect(c.DOCDB_URI)
-    
-    db.query("set names 'utf8'") # important if tunneled
+    db.query("set names 'utf8'") 
     
     while True:
         try:
-            result = db.query("SELECT distinct city, municipality, "
-                              "county, country FROM "
+            result = db.query("SELECT distinct np.city, np.municipality, "
+                              "np.county, np.country FROM "
                               "(select * from blogs "
                               "  WHERE (latitude is NULL "
                               "         AND noCoordinate is NULL "
@@ -50,8 +48,8 @@ if __name__ == "__main__":
                               "         (city <> '' or "
                               "          municipality <> '' "
                               "          OR county <> ''))"
-                              " ) "
-                              ") AS not_processed ")
+                              " )np "
+                              " ")
                                   
             for row in result:
                 # Set Nones to empty strings so latlon gets it
