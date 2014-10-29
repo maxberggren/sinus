@@ -99,7 +99,6 @@ if __name__ == "__main__":
                     print (county + "," if county else ""),
                     print (country + "," if country else ""),
                     print "->", coordinate
-                    print "rett"
                     #try:
                     data = dict(longitude=coordinate[1],
                                 latitude=coordinate[0],
@@ -108,14 +107,14 @@ if __name__ == "__main__":
                                 county=county,
                                 country=country)
 
-    
+                    
                     city = (row['city'] if row['city'] else "")
                     muni = (row['municipality'] if row['municipality'] else "")
                     county = (row['county'] if row['county'] else "")
                     country = (row['country'] if row['country'] else "")                     
                     
-                    print "update blogs set longitude = "+str(coordinate[1])+" and latitude = "+str(coordinate[0])+" WHERE city = '"+city+"' and municipality = '"+muni+"' and country='"+country+"' and county = '"+county+"'"
-                    db.query("update blogs set longitude = "+str(coordinate[1])+" and latitude = "+str(coordinate[0])+" WHERE city = '"+city+"' and municipality = '"+muni+"' and country='"+country+"' and county = '"+county+"'")     
+                    print type(city), type(muni), type(country), type(county)
+
                           
                     #db['blogs'].update(data, ['city',
                     #                          'municipality',
