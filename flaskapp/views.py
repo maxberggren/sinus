@@ -482,7 +482,7 @@ def site(urlSearch=None):
                          zoom=zoom,
                          lowqualdata=lowqualdata)
                          
-        filename, hits, KWICs, fewResults, gifFileName = *touple
+        filename, hits, KWICs, fewResults, gifFileName = touple
                               
         documentQuery = { 'query': query,
                           'filename': filename,
