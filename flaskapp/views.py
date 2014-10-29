@@ -567,7 +567,7 @@ def site(urlSearch=None):
         for row in result:
             stats[key].append(row)
         
-        cache.set(key, stats, timeout=60*60*3) # cache for 3 hours    
+        cache.set(key, stats[key], timeout=60*60*3) # cache for 3 hours    
     else:
         stats[key] = cache.get(key)
     
@@ -581,7 +581,7 @@ def site(urlSearch=None):
         for row in result:
             stats[key].append(row)
         
-        cache.set(key, stats, timeout=60*60*3) # cache for 3 hours    
+        cache.set(key, stats[key], timeout=60*60*3) # cache for 3 hours    
     else:
         stats[key] = cache.get(key)
 
