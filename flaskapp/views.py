@@ -346,28 +346,9 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             xBins = int(xBins)            
 
         # Get main image
-        fewResults, filename, gifFileName = genImages(coordinatesByWord, 
-                                                      xBins,
-                                                      words,
-                                                      zoom,
-                                                      xyRatio, 
-                                                      blurFactor, 
-                                                      minCoordinates, 
-                                                      scatter,
-                                                      hits,
-                                                      chunks=1)
+        fewResults, filename, gifFileName = genImages(coordinatesByWord, xBins,words,zoom,xyRatio, blurFactor, minCoordinates, scatter,hits,chunks=1)
         # Get time series gif
-        fewResults, giffile, gifFileName = genImages(coordinatesByWord, 
-                                                     xBins,
-                                                     words,
-                                                     zoom,
-                                                     xyRatio, 
-                                                     blurFactor, 
-                                                     minCoordinates, 
-                                                     scatter,
-                                                     hits,
-                                                     chunks=7,
-                                                     dates=dates)
+        fewResults, giffile, gifFileName = genImages(coordinatesByWord, xBins,words,zoom,xyRatio, blurFactor, minCoordinates, scatter,hits,chunks=7,dates=dates)
                                                      
         dateHistogram(dates, gifFileName)
 
