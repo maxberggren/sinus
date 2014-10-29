@@ -558,7 +558,7 @@ def site(urlSearch=None):
     stats = {}
     
     # Get sourcecount for sources that have lon lat
-    key = "sourceswithlatlon9"
+    key = "sourceswithlatlon10"
     if not cache.get(key):
         stats[key] = []
         result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
@@ -572,7 +572,7 @@ def site(urlSearch=None):
         stats[key] = cache.get(key)
     
     # Get sourcecount for sources that yet have no lat lon
-    key = "sourceswithoutlatlon9"
+    key = "sourceswithoutlatlon10"
     if not cache.get(key):
         stats[key] = []
         result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
