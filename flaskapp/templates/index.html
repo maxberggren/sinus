@@ -98,7 +98,8 @@
 		</div>
 		{% endif %}
 
-
+        
+        {% if documentQuery.filename %}
         {% for word, KWIC in documentQuery['KWICs'].iteritems() %} 
         <div class="panel panel-default hideoverflow">
 		  <div class="panel-heading">
@@ -119,6 +120,7 @@
 
 		</div>
 		{% endfor %}
+		{% endif %}
 
         <div class="panel panel-default hideoverflow">
 		  <div class="panel-heading">
