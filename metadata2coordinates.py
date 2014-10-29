@@ -113,8 +113,7 @@ if __name__ == "__main__":
                     county = (row['county'] if row['county'] else u"")
                     country = (row['country'] if row['country'] else u"")                     
                     
-                    print type(row['city'])
-                    print type(city), type(muni), type(country), type(county)
+                    print "hej"
 
                           
                     db['blogs'].update(data, ['city',
