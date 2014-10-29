@@ -68,6 +68,7 @@ def kwic(text, word, source):
         words = word.lower().split(" or ")
         word = words[0] # Choose the first
     if type(text) is str:
+        print text
         text = text.decode("utf-8")
         
     text = text.lower()
