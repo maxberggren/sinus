@@ -26,6 +26,7 @@ from images2gif import writeGif
 from PIL import Image
 import os
 import config as c
+from sqlite_cache import SqliteCache
 
 def dateHistogram(dates, filename):
     """Create histogram of given dates
@@ -553,6 +554,11 @@ def site(urlSearch=None):
         the index view rendered with render_template("index.html")
 
     """  
+    # Get some stats
+    
+    result = mysqldb.query("select distinct source, rank from blogs") 
+    cache.set("uniqesources", result)
+    
       
     # Classify text
     try:
@@ -788,3 +794,5 @@ s = Set()
 f = codecs.open("flaskapp/orter.txt", encoding="utf-8")
 for line in f:
     s.add(line.lower().strip())
+    
+cache = SqliteCache("cache")
