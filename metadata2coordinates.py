@@ -100,21 +100,21 @@ if __name__ == "__main__":
                     print (country + "," if country else ""),
                     print "->", coordinate
                     
-                    try:
-                        data = dict(longitude=coordinate[1],
-                                    latitude=coordinate[0],
-                                    city=city,
-                                    municipality=muni,
-                                    county=county,
-                                    country=country)
-                                   
-                        db['blogs'].update(data, ['city',
-                                                  'municipality',
-                                                  'county',
-                                                  'country'])
-                    
-                    except:
-                        print "Unexpected error:", sys.exc_info()[0]
+                    #try:
+                    data = dict(longitude=coordinate[1],
+                                latitude=coordinate[0],
+                                city=city,
+                                municipality=muni,
+                                county=county,
+                                country=country)
+                               
+                    db['blogs'].update(data, ['city',
+                                              'municipality',
+                                              'county',
+                                              'country'])
+                
+                    #except:
+                    #    print "Unexpected error:", sys.exc_info()[0]
         
                 else: 
                     # No coordinate found -> flag as DoNotTryAgain
