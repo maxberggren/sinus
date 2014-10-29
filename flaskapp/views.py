@@ -297,7 +297,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     for word in words:
         coordinates, dates = [], []
         fewResults = False
-        
+        print "lowqualdata"
+        print lowqualdata
         if lowqualdata == 0:
             querylowqualdata = "AND rank <> 4"
         else:
