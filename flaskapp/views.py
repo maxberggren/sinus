@@ -555,13 +555,14 @@ def site(urlSearch=None):
 
     """  
     # Get some stats
-    
-    result = mysqldb.query("select distinct source, rank from blogs") 
-    cache.set("uniqesources", result)
-    
-    for row in cache.get("uniqesources"):
-        print row['source']
-    
+    stats = []
+    result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
+                           "GROUP BY source, rank ORDER BY count DESC") 
+    for row in result:
+        stats.append(row)
+        
+    cache.set("uniqesources", stats)
+    print cache.get("uniqesources")
       
     # Classify text
     try:
