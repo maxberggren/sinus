@@ -205,12 +205,11 @@
                 </tr>
               </thead>
               <tbody>
-                {{ stats }}
-                {% for source, rank, count in stats %} 
+                {% for row in stats %} 
                 <tr>
-                  <td>{{ source }}</td>
-                  <td>{{ rank }}</td>
-                  <td>{{ count }}</td>
+                  <td>{{ row['source'] }}</td>
+                  <td>{{ row['rank'] }}</td>
+                  <td>{{ row['count'] }}</td>
                 </tr>
                 {% endfor %}
               </tbody>
