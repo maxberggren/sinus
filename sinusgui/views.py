@@ -10,7 +10,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
 import numpy as np
 import matplotlib.pyplot as plt
-from flaskapp import app
+from sinusgui import app
 from flask import Flask, jsonify, make_response, request, render_template, redirect
 from textLoc26 import *
 import math
@@ -47,7 +47,7 @@ def dateHistogram(dates, filename):
     plt.xlabel(u'År')
     plt.ylabel('Frekvens')
     plt.xlim(startYear, endYear)
-    filename = "flaskapp/static/maps/" + filename +"_hist.png"
+    filename = "sinusgui/static/maps/" + filename +"_hist.png"
     plt.savefig(filename, dpi=100)
 
 def emptyFolder(folder):
@@ -364,22 +364,22 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         # Create images
         if chunks > 1: # We are saving a timeseries
         
-            gifFilename = "flaskapp/static/maps/" 
+            gifFilename = "sinusgui/static/maps/" 
             gifFilename += filename +"_"+str(chunk)+".png"
                           
             gifFilenames.append(gifFilename) # Save for giffing
             plt.savefig(gifFilename, dpi=100)
             
         else: # Just saving one image
-            emptyFolder('flaskapp/static/maps/')
-            plt.savefig("flaskapp/static/maps/" + filename +".png", dpi=100)
-            plt.savefig("flaskapp/static/maps/" + filename +".pdf", dpi=100)        
+            emptyFolder('sinusgui/static/maps/')
+            plt.savefig("sinusgui/static/maps/" + filename +".png", dpi=100)
+            plt.savefig("sinusgui/static/maps/" + filename +".pdf", dpi=100)        
 
     # If timeseries created - GIFfify it!
     if chunks > 1: 
         gifFilenames = gifFilenames + gifFilenames[::-1]
         images = [Image.open(fn) for fn in gifFilenames]
-        gif2file = "flaskapp/static/maps/" + filename +".gif"
+        gif2file = "sinusgui/static/maps/" + filename +".gif"
         writeGif(gif2file, images, duration=0.5)
         gifFileName = filename
     
@@ -860,7 +860,7 @@ mysqldb.query("set names 'utf8'") # For safety
 # the results when hunting for words with low entropy in the data.
 # Towns/cities are by nature with low entropy but of no intrest. 
 s = Set()
-f = codecs.open("flaskapp/orter.txt", encoding="utf-8")
+f = codecs.open("sinusgui/orter.txt", encoding="utf-8")
 for line in f:
     s.add(line.lower().strip())
     
