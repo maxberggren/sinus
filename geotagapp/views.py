@@ -55,13 +55,4 @@ model = tweetLoc(c.LOCATIONDB)
 # Connect to DB
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
-
-# Create set with all Swedish towns to be used to exclude from 
-# the results when hunting for words with low entropy in the data.
-# Towns/cities are by nature with low entropy but of no intrest. 
-s = Set()
-f = codecs.open("geotagapp/orter.txt", encoding="utf-8")
-for line in f:
-    s.add(line.lower().strip())
-    
 cache = SqliteCache("cache")
