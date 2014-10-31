@@ -234,6 +234,25 @@
               </tbody>
             </table>
 
+			<table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Källor helt utan metadata</th>
+                  <th>Rank</th>
+                  <th class="text-right">#</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in stats['sourceswithoutanymetadata10'] %} 
+                <tr>
+                  <td>{{ row['source'] }}</td>
+                  <td>{{ row['rank'] }}</td>
+                  <td class="text-right">{{ row['count'] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
 		  </div>
 		</div>
 

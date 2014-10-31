@@ -591,6 +591,26 @@ def site(urlSearch=None):
     else:
         stats[key] = cache.get(key)
 
+    # Get sourcecount for sources that yet have no lat lon
+    key = "sourceswithoutanymetadata10"
+    if not cache.get(key):
+        stats[key] = []
+        result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
+                               "WHERE "
+                               "    (longitude is NULL AND rank <> 9999 "
+                               "     AND noCoordinate is NULL) "
+                               "AND "
+                               "   ((city is NULL OR city = '') OR"
+                               "    (municipality is NULL OR municipality = '') OR"
+                               "    (county is NULL or county = ''))"
+                               "GROUP BY source, rank ORDER BY count DESC") 
+        for row in result:
+            stats[key].append(row)
+        
+        cache.set(key, stats[key], timeout=1) # cache for 3 hours    
+    else:
+        stats[key] = cache.get(key)
+
 
       
     # Classify text
