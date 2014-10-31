@@ -597,12 +597,12 @@ def site(urlSearch=None):
         stats[key] = []
         result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
                                "WHERE "
-                               "    (longitude is NULL AND rank <> 9999 "
-                               "     AND noCoordinate is NULL) "
-                               "AND "
-                               "   ((city is NULL OR city = '') AND"
-                               "    (municipality is NULL OR municipality = '') AND"
-                               "    (county is NULL or county = ''))"
+                               "( (country = '' and municipality = '' "
+                               "   and county = '' and city = '') "
+                               "  OR (country is NULL and municipality is NULL "
+                               "      and county is NULL and city is NULL)"
+                               ") "
+                               "AND longitude is NULL AND latitude is NULL AND "
                                "GROUP BY source, rank ORDER BY count DESC") 
         for row in result:
             stats[key].append(row)
