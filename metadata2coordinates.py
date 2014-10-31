@@ -47,7 +47,6 @@ if __name__ == "__main__":
                               "         (city <> '' or "
                               "          municipality <> '' "
                               "          OR county <> '')) "
-                              "  AND source = 'fotosidan'"
                               " )np ")
                                   
             for row in result:
