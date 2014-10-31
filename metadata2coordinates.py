@@ -64,7 +64,7 @@ if __name__ == "__main__":
                     county = (row['county'].decode('latin-1').encode('utf8') if row['county'] else "")
                     country = (row['country'].decode('latin-1').encode('utf8') if row['country'] else "")
                                     
-                
+                 
                                     
                 coordinate = None
         
