@@ -5,4 +5,4 @@ from textLoc26 import *
 
 app = Flask(__name__)
 
-from sinusguiapp import views
+from sinusGUIapp import views

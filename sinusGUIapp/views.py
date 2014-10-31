@@ -10,7 +10,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
 import numpy as np
 import matplotlib.pyplot as plt
-from sinusguiapp import app
+from sinusGUIapp import app
 from flask import Flask, jsonify, make_response, request, render_template, redirect
 from textLoc26 import *
 import math
@@ -47,7 +47,7 @@ def dateHistogram(dates, filename):
     plt.xlabel(u'År')
     plt.ylabel('Frekvens')
     plt.xlim(startYear, endYear)
-    filename = "sinusgui/static/maps/" + filename +"_hist.png"
+    filename = "sinusGUIapp/static/maps/" + filename +"_hist.png"
     plt.savefig(filename, dpi=100)
 
 def emptyFolder(folder):
@@ -364,22 +364,22 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         # Create images
         if chunks > 1: # We are saving a timeseries
         
-            gifFilename = "sinusgui/static/maps/" 
+            gifFilename = "sinusGUIapp/static/maps/" 
             gifFilename += filename +"_"+str(chunk)+".png"
                           
             gifFilenames.append(gifFilename) # Save for giffing
             plt.savefig(gifFilename, dpi=100)
             
         else: # Just saving one image
-            emptyFolder('sinusgui/static/maps/')
-            plt.savefig("sinusgui/static/maps/" + filename +".png", dpi=100)
-            plt.savefig("sinusgui/static/maps/" + filename +".pdf", dpi=100)        
+            emptyFolder('sinusGUIapp/static/maps/')
+            plt.savefig("sinusGUIapp/static/maps/" + filename +".png", dpi=100)
+            plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", dpi=100)        
 
     # If timeseries created - GIFfify it!
     if chunks > 1: 
         gifFilenames = gifFilenames + gifFilenames[::-1]
         images = [Image.open(fn) for fn in gifFilenames]
-        gif2file = "sinusgui/static/maps/" + filename +".gif"
+        gif2file = "sinusGUIapp/static/maps/" + filename +".gif"
         writeGif(gif2file, images, duration=0.5)
         gifFileName = filename
     
