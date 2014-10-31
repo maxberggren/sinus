@@ -30,7 +30,6 @@ from sqlite_cache import SqliteCache
 
 
 @app.route('/geotag/api/v1.0/tag', methods=['POST'])
-@app.route('/geotag/api/v1.0/tag/', methods=['POST'])
 @app.route('/geotag/api/v1.0/tag/placenessThreshold/<threshold>', methods=['POST'])
 def api(threshold=None): 
     if not request.json or not 'text' in request.json:
