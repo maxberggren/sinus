@@ -35,7 +35,8 @@ def api(threshold=None):
     if not request.json or not 'text' in request.json:
         abort(400)
     
-    print type(threshold)
+    if isinstance(threshold, (unicode)):
+        threshold = float(threshold)
     
     touple = model.predict(request.json['text'], threshold=float(threshold))   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
