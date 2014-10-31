@@ -218,6 +218,9 @@ class tweetLoc:
         Output: koordinat (lon, lat) och "platsighet" (hur säker modellen är),
                 de top 20 mest platsiga orden samt procent out of vocabulary
         """      
+        if not threshold:
+            threshold = 1e40
+        
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar                          
         coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
  

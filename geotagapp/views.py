@@ -40,9 +40,6 @@ def api(threshold=None):
             threshold = float(threshold)
         except:
             return jsonify( { 'error': "Threshold should be of the form 1e40." } )
-    
-    if not threshold:
-        threshold = 1e40
         
     touple = model.predict(request.json['text'], threshold=threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
