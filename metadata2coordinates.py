@@ -52,20 +52,10 @@ if __name__ == "__main__":
             for row in result:
                 # Set Nones to empty strings so latlon gets it
                 
-                #if row['source'] == "fotosidan":
                 city = (row['city'] if row['city'] else "")
                 muni = (row['municipality'] if row['municipality'] else "")
                 county = (row['county'] if row['county'] else "")
-                country = (row['country'] if row['country'] else "")
-
-                """
-                else:                          
-                    city = (row['city'].decode('latin-1').encode('utf8') if row['city'] else "")
-                    muni = (row['municipality'].decode('latin-1').encode('utf8') if row['municipality'] else "")
-                    county = (row['county'].decode('latin-1').encode('utf8') if row['county'] else "")
-                    country = (row['country'].decode('latin-1').encode('utf8') if row['country'] else "")
-                """                    
-                 
+                country = (row['country'] if row['country'] else "")               
                                     
                 coordinate = None
         
