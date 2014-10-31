@@ -29,12 +29,13 @@ import config as c
 from sqlite_cache import SqliteCache
 
 
-@app.route('/localize/api/v1.0/localize', methods = ['POST'])
-def api(): 
+@app.route('/geotag/api/v1.0/tag', methods=['POST'])
+@app.route('/geotag/api/v1.0/tag/placenessThreshold/<threshold>', methods=['POST'])
+def api(threshold=None): 
     if not request.json or not 'text' in request.json:
         abort(400)
      
-    touple = model.predict(request.json['text'])   
+    touple = model.predict(request.json['text'], threshold=threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]
     lat = coordinate[1]
@@ -45,7 +46,12 @@ def api():
                       'outOfVocabulary': OOV, 
                       'mentions': mentions } )
 
-    
+
+
+@app.route('/geotag/api/v1.0/localize', methods=['POST'])
+def api(): 
+    pass
+
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify( { 'error': 'Not found' } ), 404)

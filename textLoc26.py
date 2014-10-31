@@ -211,7 +211,7 @@ class tweetLoc:
         else:
             return [0.0, 0.0], 0.0
 
-    def predict(self, text):
+    def predict(self, text, threshold=1e40):
         """ 
         Förutsäger en koordinat för en bunte text
         Input: text
@@ -253,7 +253,7 @@ class tweetLoc:
             # Vikta samman batcharna. TODO: fallande vikt efter datum
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
                 
-            if score > 1e40:
+            if score > threshold:
                 coordinates.append(coordinate)
                 scores.append(score)
                 acceptedWords.append(word)
