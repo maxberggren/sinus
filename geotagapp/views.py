@@ -34,11 +34,14 @@ from sqlite_cache import SqliteCache
 def api(threshold=None): 
     if not request.json or not 'text' in request.json:
         abort(400)
+
+    if isinstance(threshold, (float, int)):
+        return jsonify( { 'error': "Threshold should be on the form 1eXX. No small numbers here." } )
     
     if isinstance(threshold, (unicode)):
         threshold = float(threshold)
     
-    touple = model.predict(request.json['text'], threshold=float(threshold))   
+    touple = model.predict(request.json['text'], threshold=threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]
     lat = coordinate[1]
