@@ -35,7 +35,7 @@ if __name__ == "__main__":
     while True:
         try:
             result = db.query("SELECT distinct np.city, np.municipality, "
-                              "np.county, np.country FROM "
+                              "np.county, np.country, np.source FROM "
                               "(select * from blogs "
                               "  WHERE (latitude is NULL "
                               "         AND noCoordinate is NULL) "
@@ -46,17 +46,26 @@ if __name__ == "__main__":
                               "         OR "
                               "         (city <> '' or "
                               "          municipality <> '' "
-                              "          OR county <> ''))"
+                              "          OR county <> '')) "
+                              "  AND source = 'fotosidan'"
                               " )np ")
                                   
             for row in result:
                 # Set Nones to empty strings so latlon gets it
                 
-                city = (row['city'] if row['city'] else "")
-                muni = (row['municipality'] if row['municipality'] else "")
-                county = (row['county'] if row['county'] else "")
-                country = (row['country'] if row['country'] else "")
-                                
+                if row['source'] == "fotosidan":
+                    city = (row['city'] if row['city'] else "")
+                    muni = (row['municipality'] if row['municipality'] else "")
+                    county = (row['county'] if row['county'] else "")
+                    country = (row['country'] if row['country'] else "")
+                else:                          
+                    city = (row['city'].decode('latin-1').encode('utf8') if row['city'] else "")
+                    muni = (row['municipality'].decode('latin-1').encode('utf8') if row['municipality'] else "")
+                    county = (row['county'].decode('latin-1').encode('utf8') if row['county'] else "")
+                    country = (row['country'].decode('latin-1').encode('utf8') if row['country'] else "")
+                                    
+                
+                                    
                 coordinate = None
         
                 # ------------------------------------------------
