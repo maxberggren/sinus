@@ -220,6 +220,9 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             subdensity, _, _ = np.histogram2d(lats, lons, 
                                               [lat_bins, lon_bins])
             totDensity += subdensity
+
+            # Filter out bins with to few hits
+            totDensity[totDensity < 5] = 9999999999999 
                 
         #totDensity = ndimage.gaussian_filter(totDensity, blurFactor)
             
@@ -277,9 +280,6 @@ def genImages(coordinatesByWord, xBins, words, zoom,
                                            lons, 
                                            [lat_bins, 
                                             lon_bins])
-                                            
-            # Filter out bins with to few hits
-            density[density < 5] = 0 
     
             #density = ndimage.gaussian_filter(density, blurFactor)
     
