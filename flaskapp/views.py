@@ -129,7 +129,7 @@ def kwic(text, word, source):
 
 def genImages(coordinatesByWord, xBins, words, zoom,
               xyRatio, blurFactor, minCoordinates, 
-              scatter, hits, chunks=1, dates=None):
+              scatter, hits, chunks=1, dates=None, binThreshold=5):
 
     """Generate the images i.e. the main image, the 
        time series gif and the histogram.
@@ -167,6 +167,8 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         into when generating a gif
     dates : list
         the dates for the histogram
+    binThreshold : int
+        threshold required for a bin to count and be plotted
 
     Returns
     -------
@@ -222,7 +224,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             totDensity += subdensity
 
             # Filter out bins with to few hits
-            totDensity[totDensity < 5] = 9999999999999 
+            totDensity[totDensity < binThreshold] = 9999999999999 
                 
         #totDensity = ndimage.gaussian_filter(totDensity, blurFactor)
             
@@ -384,7 +386,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     return fewResults, filename, gifFileName
 
 def getData(words, xBins=None, scatter=None, zoom=None,
-            xyRatio=1.8, blurFactor=0.6, uselowqualdata=0):
+            xyRatio=1.8, blurFactor=0.6, uselowqualdata=0, binThreshold=5):
 
     """Retrive data from the document database
 
@@ -410,6 +412,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         1 if blogs that only have inferred coordinate
         should be used. that means the geotagging done
         by tagData.py
+    binThreshold : int
+        number of hits required in a bin for it to count
 
     Returns
     -------
@@ -496,7 +500,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                                       minCoordinates,
                                                       scatter,
                                                       hits,
-                                                      chunks=1)
+                                                      chunks=1,
+                                                      binThreshold=binThreshold)
         # Get time series gif
         fewResults, giffile, gifFileName = genImages(coordinatesByWord, 
                                                      xBins,
@@ -508,7 +513,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                                      scatter,
                                                      hits,
                                                      chunks=7,
-                                                     dates=dates)
+                                                     dates=dates,
+                                                     binThreshold=binThreshold)
         
         if gifFileName: # no gif = no histogram                                     
             dateHistogram(dates, gifFileName)
@@ -654,7 +660,8 @@ def site(urlSearch=None):
                                or "xbins:" in o
                                or "scatter:" in o
                                or "zoom:" in o
-                               or "uselowqualdata:" in o]
+                               or "uselowqualdata:" in o
+                               or "binthreshold:" in o]
                                
     queryWords = [w.strip() for w in queryWords 
                             if "age:" not in w 
@@ -662,7 +669,8 @@ def site(urlSearch=None):
                                and "xbins:" not in w
                                and "scatter:" not in w
                                and "zoom:" not in w
-                               and "uselowqualdata:" not in w]
+                               and "uselowqualdata:" not in w
+                               and "binthreshold:" not in w]
     
     try:
         xbins = int([o.split(":")[1].strip()
@@ -685,6 +693,11 @@ def site(urlSearch=None):
                for o in operators if "uselowqualdata:" in o][0])
     except:
         uselowqualdata = 0
+    try:
+        binThreshold = int([o.split(":")[1].strip()
+               for o in operators if "binthreshold:" in o][0])
+    except:
+        binThreshold = 5
             
             
     if len(queryWords) > 0:
@@ -692,7 +705,8 @@ def site(urlSearch=None):
                          xBins=xbins,
                          scatter=scatter,
                          zoom=zoom,
-                         uselowqualdata=uselowqualdata)
+                         uselowqualdata=uselowqualdata,
+                         binThreshold=binThreshold)
                          
         filename, hits, KWICs, fewResults, gifFileName = touple
                               
