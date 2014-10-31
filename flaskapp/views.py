@@ -603,6 +603,7 @@ def site(urlSearch=None):
                                "      and county is NULL and city is NULL)"
                                ") "
                                "AND longitude is NULL AND latitude is NULL AND "
+                               "rank <> 9999 "
                                "GROUP BY source, rank ORDER BY count DESC") 
         for row in result:
             stats[key].append(row)
