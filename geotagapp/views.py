@@ -34,7 +34,9 @@ from sqlite_cache import SqliteCache
 def api(threshold=None): 
     if not request.json or not 'text' in request.json:
         abort(400)
-    print float(threshold)
+    
+    print type(threshold)
+    
     touple = model.predict(request.json['text'], threshold=float(threshold))   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]
