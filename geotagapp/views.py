@@ -48,9 +48,6 @@ def api(threshold=None):
 
 
 
-@app.route('/geotag/api/v1.0/localize', methods=['POST'])
-def api(): 
-    pass
 
 @app.errorhandler(404)
 def not_found(error):
