@@ -860,7 +860,7 @@ mysqldb.query("set names 'utf8'") # For safety
 # the results when hunting for words with low entropy in the data.
 # Towns/cities are by nature with low entropy but of no intrest. 
 s = Set()
-f = codecs.open("sinusgui/orter.txt", encoding="utf-8")
+f = codecs.open("sinusGUIapp/orter.txt", encoding="utf-8")
 for line in f:
     s.add(line.lower().strip())
     
