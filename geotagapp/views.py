@@ -30,6 +30,7 @@ from sqlite_cache import SqliteCache
 
 
 @app.route('/geotag/api/v1.0/tag', methods=['POST'])
+@app.route('/geotag/api/v1.0/tag/', methods=['POST'])
 @app.route('/geotag/api/v1.0/tag/placenessThreshold/<threshold>', methods=['POST'])
 def api(threshold=None): 
     if not request.json or not 'text' in request.json:
@@ -41,6 +42,9 @@ def api(threshold=None):
         except:
             return jsonify( { 'error': "Threshold should be of the form 1e40." } )
     
+    if not threshold:
+        threshold = 1e40
+        
     touple = model.predict(request.json['text'], threshold=threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]
