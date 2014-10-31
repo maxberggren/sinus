@@ -1,0 +1,28 @@
+hr {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.panel-footer {
+  font-size: 12px;
+}
+
+.nav {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.rawdata {
+  font-family: Consolas, Lucida Console, monospace;
+  overflow: hidden;
+  color: #000;
+  background-color: #fff;
+}
+
+.rawdata strong { background-color: #F3F3F3; }
+
+.hideoverflow { overflow: hidden; }
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+  padding: 1px;
+}

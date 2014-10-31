@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Gavagai GeoPosServer 0.5</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+    
+  </head>
+
+  <body>
+  	<form action="/sinus/" method="post">
+    <div class="container">
+
+
+      <div class="row">
+          <div class="col-md-12">
+              <ul class="nav nav-tabs" role="tablist">
+                  {% block menu %}
+                  <li class="active"><a href="/sinus/">Dokumentdatabasen</a></li>
+                  <li><a href="/sinus/explore">Utforska ord</a></li>
+                  {% endblock %}
+              </ul>
+          </div>
+      </div>
+
+      {% block content %}
+
+      <div class="row">
+        <div class="col-md-8">
+
+
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Gör sökning i dokumentdatabasen</h3>
+		  </div>
+
+		  <div class="panel-body">
+		    <div class="input-group">
+		      <input type="text" class="form-control" placeholder="Sökord, &quot;ett utryck&quot;, xbins: auto, scatter: 0, zoom: 0, uselowqualdata: 0, binthreshold: 5"  id="queryInput" name="queryInput" value="{% if documentQuery['query'] %}{{ documentQuery['query'] }}{% endif %}">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="submit">Kör</button>
+		      </span> 
+		    </div><!-- /input-group -->
+		  </div>
+		  
+		  <div class="panel-footer">
+  		  <code>xbins: 15</code> definierar antalet bins i x-ledd (default: auto), 
+  		  <code>scatter: 1</code> om scatterplot önskas (default: 0), 
+  		  <code>zoom: 1</code> för att zooma till karta (default: 0), 
+  		  <code>uselowqualdata: 1</code> för att använda data med rank > 3 (alltså av lägre kvalitet eftersom den är inferrerad) (default: 0), <code>binthreshold: 5</code> antalet träffar i en "bin" som krävs för att denna ska visas (default: 5)
+  		     
+  		  </div>
+  		  
+		</div>
+
+
+        {% if documentQuery and not localizeText %}
+        {% if documentQuery.filename %}
+        <div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">
+		    <div class="pull-right" style="margin-top: -3px;">
+            {% if documentQuery.filename %}
+            <a class="btn btn-default btn-xs" href="{{ url_for('static', filename='maps/') }}{{documentQuery.filename}}.pdf"><span class="glyphicon glyphicon-download-alt"></span> Ladda ner karta (pdf)</a>
+            {% endif %}
+            </div>
+		    Relativ förekomst
+		    </h3>
+		  </div>
+		  <div class="panel-body">
+  		  <a href="{{ url_for('static', filename='maps/') }}{{documentQuery.filename}}.pdf"><img src="{{ url_for('static', filename='maps/') }}{{documentQuery.filename}}.png" class="img-responsive img-rounded" alt=""></a> 
+          </div>
+          {% if documentQuery.fewResults %}
+          <div class="panel-footer">
+  		  Eftersom färre än 50 träffar på ett sökord så returneras en scatterplot på de första 50 träffarna. Ta bort söktermen med för få träffar om detta ej är önskvärt. 
+  		  </div>
+  		  {% endif %}
+		</div>
+		{% endif %}
+		
+		{% if not documentQuery.filename %}
+		<div class="alert alert-danger"><strong>För kartgenerering krävs fler än 4 träffar på samtliga söktermer</strong><br /> 
+		
+		{% for word, hit in documentQuery.hits.iteritems() %} {{ word }} ({{ hit }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %}
+		
+		</div>
+		{% endif %}
+
+        
+        {% if documentQuery.filename %}
+        {% for word, KWIC in documentQuery['KWICs'].iteritems() %} 
+        <div class="panel panel-default hideoverflow">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">
+		    KWIC - {{ word }} (50 första)
+		    </h3>
+		  </div>
+		  <div class="panel-body">
+		  <code class="rawdata">
+		  {% for sentence in KWIC %}
+		  {% if sentence %} 
+		  {% for w in sentence.split() %}{% if word in w %}<strong>{% endif %} {{ w }} {% if word in w %}</strong>{% endif %}{% endfor %}
+		  {% if not loop.last %} <br />{% endif %} 
+		  {% endif %}
+		  {% endfor %}
+		  </code>
+          </div>
+
+		</div>
+		{% endfor %}
+
+        {% if documentQuery.gifFileName %}
+        <div class="panel panel-default hideoverflow">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">
+		    Tidsserie (gif)
+		    </h3>
+		  </div>
+		  <div class="panel-body">
+		  <code class="rawdata">
+		  <img src="{{ url_for('static', filename='maps/') }}{{documentQuery.gifFileName}}.gif" class="img-responsive img-rounded" alt="">
+		  </code>
+          </div>
+		</div>
+
+        <div class="panel panel-default hideoverflow">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">
+		    Förekomst över år
+		    </h3>
+		  </div>
+		  <div class="panel-body">
+		  <code class="rawdata">
+		  <img src="{{ url_for('static', filename='maps/') }}{{documentQuery.gifFileName}}_hist.png" class="img-responsive img-rounded" alt="">
+		  </code>
+          </div>
+		</div>
+
+		{% endif %}
+		{% endif %}
+        {% endif %}
+        
+        
+
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Lokalisera inklistrad text</h3>
+		  </div>
+		  <div class="panel-body">
+			
+			<textarea rows="10" type="text" class="form-control" id="textInput" name="textInput"></textarea>
+			<div class="pull-right" style="margin-top:15px;"><button type="submit" class="btn btn-default">Kör</button></div>
+			
+		  </div>
+
+          {% if localizeText and localizeText.placeness > 0.0 %}
+  		  
+  		  <div class="panel-footer">
+  		  
+  		  Resultat - <a href="http://maps.google.com/?q={{ localizeText.lon }},{{ localizeText.lat }}">longitud: <strong>{{ localizeText.lon }}</strong>, latitud: <strong>{{ localizeText.lat }}</strong></a >, genomsnittlig platsighet: {{ localizeText.placeness }}.<br />
+  		  <strong>Ord med högst signal</strong>: {% for word, object in localizeText.mostUsefulWords.iteritems() %} {{ word }}{% if not loop.last %},{% else %}.{% endif %} {% endfor %}
+  		  </div>
+  		  
+  		  {% endif %}
+
+		</div>
+
+        {% if localizeText and localizeText.placeness == 0.0 %}
+  		<div class="alert alert-danger">Inget tillräckligt säkert svar kunde göras.</div>
+  		{% endif %}
+
+        </div>
+        <div class="col-md-4">
+
+
+
+
+
+
+
+
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Statistik (uppdateras varje timma)</h3>
+		  </div>
+		  
+		  <div class="panel-body">
+		    
+			<table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Källor med koordinat</th>
+                  <th>Rank</th>
+                  <th class="text-right">#</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in stats['sourceswithlatlon'] %} 
+                <tr>
+                  <td>{{ row['source'] }}</td>
+                  <td>{{ row['rank'] }}</td>
+                  <td class="text-right">{{ row['count'] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+			<table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Källor utan koordinat</th>
+                  <th>Rank</th>
+                  <th class="text-right">#</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in stats['sourceswithoutlatlon'] %} 
+                <tr>
+                  <td>{{ row['source'] }}</td>
+                  <td>{{ row['rank'] }}</td>
+                  <td class="text-right">{{ row['count'] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+			<table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Källor utan metadata</th>
+                  <th>Rank</th>
+                  <th class="text-right">#</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in stats['sourceswithoutanymetadata'] %} 
+                <tr>
+                  <td>{{ row['source'] }}</td>
+                  <td>{{ row['rank'] }}</td>
+                  <td class="text-right">{{ row['count'] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+
+		  <div class="alert alert-warning">Data helt utan metadata beläggs just nu med koordinater. Tids nog kommer alltså allt under rubriken <em>källor utan metadata</em> hamna under <em>källor med koordinat</em>. Med <em>tids nog</em> menas att det bör vara klart februari -15. Om du vill använda denna inferrerade data skicka med flaggan <code>uselowqualdata: 1</code> </div>
+
+		  </div>
+		</div>
+
+        </div>
+      </div>
+
+      <hr>
+
+
+
+      {% endblock %}
+
+    </div> <!-- /container -->
+	</form>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  </body>
+</html>

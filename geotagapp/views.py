@@ -10,7 +10,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
 import numpy as np
 import matplotlib.pyplot as plt
-from sinusgui import app
+from geotagapp import app
 from flask import Flask, jsonify, make_response, request, render_template, redirect
 from textLoc26 import *
 import math
