@@ -21,7 +21,7 @@ Setup
   * Run `setupFulltext.py`
   * Note that for me the fulltext index needed 250 GB free hard drive space temporarily while generating the index on 58 GB.
 8. Run `metadata2coordinates.py` to convert metadata to coordinates trough Google geoencoding API. This is limited to 2000 requests per 24h so if all your data is not converted, keep the script running for some days untill it's finished (if your bored you can continue but without all data avalible in the GUI).
-9. Run `runflask.py` to start webserver
+9. Run `runGUI.py` to start webserver
 10. Point browser to `http://localhost:5000/sinus/` for GUI to explore the data.
 11. Run `getWordlist.py` to generate a wordlist.
 12. Run `getEntropy.py` to start collecting words with low entropy. This corresponds to words being used very locally. E.g. `nypotatis` will have low entropy because that it's mainly used in southern Sweden. Words like `och, att, på` will have high entropy as they are used in the whole country. The findings of `getEntropy.py` can be found in the web GUI under `/explore`.
@@ -33,5 +33,5 @@ To use the geotagger to tag data without metadata:
 
 1. Run `fetchTweets.py` for a couple of months. This will get geotagged tweets to be used as a training set.
 2. Run `compileGMMs.py` to build the model.
-3. Run `xxxx.py` to give your data coordinates (of resonable accuracy) if it is without metadata.
-4. Search in the GUI with the flag `lowqualdata: 1`.
+3. Run `tagData.py` to give your data coordinates (of resonable accuracy) if it is without metadata.
+4. Search in the GUI with the flag `lowqualdata: 1`. This includes the inferred data `tagData.py` has produced.
