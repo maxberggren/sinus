@@ -600,8 +600,8 @@ def site(urlSearch=None):
                                "    (longitude is NULL AND rank <> 9999 "
                                "     AND noCoordinate is NULL) "
                                "AND "
-                               "   ((city is NULL OR city = '') OR"
-                               "    (municipality is NULL OR municipality = '') OR"
+                               "   ((city is NULL OR city = '') AND"
+                               "    (municipality is NULL OR municipality = '') AND"
                                "    (county is NULL or county = ''))"
                                "GROUP BY source, rank ORDER BY count DESC") 
         for row in result:
