@@ -47,7 +47,7 @@ def dateHistogram(dates, filename):
     plt.xlabel(u'År')
     plt.ylabel('Frekvens')
     plt.xlim(startYear, endYear)
-    filename = "sinusgui/static/maps/" + filename +"_hist.png"
+    filename = "geotagapp/static/maps/" + filename +"_hist.png"
     plt.savefig(filename, dpi=100)
 
 def emptyFolder(folder):
@@ -364,22 +364,22 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         # Create images
         if chunks > 1: # We are saving a timeseries
         
-            gifFilename = "sinusgui/static/maps/" 
+            gifFilename = "geotagapp/static/maps/" 
             gifFilename += filename +"_"+str(chunk)+".png"
                           
             gifFilenames.append(gifFilename) # Save for giffing
             plt.savefig(gifFilename, dpi=100)
             
         else: # Just saving one image
-            emptyFolder('sinusgui/static/maps/')
-            plt.savefig("sinusgui/static/maps/" + filename +".png", dpi=100)
-            plt.savefig("sinusgui/static/maps/" + filename +".pdf", dpi=100)        
+            emptyFolder('geotagapp/static/maps/')
+            plt.savefig("geotagapp/static/maps/" + filename +".png", dpi=100)
+            plt.savefig("geotagapp/static/maps/" + filename +".pdf", dpi=100)        
 
     # If timeseries created - GIFfify it!
     if chunks > 1: 
         gifFilenames = gifFilenames + gifFilenames[::-1]
         images = [Image.open(fn) for fn in gifFilenames]
-        gif2file = "sinusgui/static/maps/" + filename +".gif"
+        gif2file = "geotagapp/static/maps/" + filename +".gif"
         writeGif(gif2file, images, duration=0.5)
         gifFileName = filename
     
@@ -860,7 +860,7 @@ mysqldb.query("set names 'utf8'") # For safety
 # the results when hunting for words with low entropy in the data.
 # Towns/cities are by nature with low entropy but of no intrest. 
 s = Set()
-f = codecs.open("sinusgui/orter.txt", encoding="utf-8")
+f = codecs.open("geotagapp/orter.txt", encoding="utf-8")
 for line in f:
     s.add(line.lower().strip())
     
