@@ -193,9 +193,6 @@ class tweetLoc:
         Input: koordinater och deras vikt 
         Output: koordinat och dess säkerhet
         """
-        if len(coordinates) == 1:
-             return coordinates, scores
-             
         if len(coordinates) > 0:
             """"
             numberOfCoordinates, nominator, denominator = 0, 0, 0
@@ -277,7 +274,7 @@ class tweetLoc:
                 print "subcoordinates"
                 print self.weightedMean(subcoordinates, subscores)
                 batchscores = np.append(batchscores, score)
-                batchcoordinates = np.append(batchcoordinates, coordinate)
+                batchcoordinates = np.append(batchcoordinates, [coordinate])
                 wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
