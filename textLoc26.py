@@ -247,7 +247,7 @@ class tweetLoc:
             batches = self.cache.get("batches")
         
         for word in words:
-            batchscores, batchcoordinates = np.array([]), np.array([], ndmin=2)
+            batchscores, batchcoordinates = np.array([]), np.array([])
             wordFreq, freqInBatch = 0, 0
             
             for date in batches:
@@ -255,18 +255,21 @@ class tweetLoc:
                                        "WHERE word = '" + word + "' "
                                        "AND date = '" + date + "'")
                                        
-                subscores, subcoordinates = np.array([]), np.array([])
+                subscores, subcoordinates = [], []
                 for row in result:
-                    subscores = np.append(subscores, [row['scoring']])
-                    latlon = np.array([row['lat'], row['lon']])
-                    print latlon
-                    subcoordinates = np.vstack((subcoordinates, latlon)) 
+                    subscores.append(row['scoring'])
+                    subcoordinates.append([row['lat'], row['lon']])
                     
                     freqInBatch = row['n_coordinates']
                     if not freqInBatch:
                         freqInBatch = 0
                 
                 print "subcoord", subcoordinates
+                subscores = np.asarray(subscores)
+                subcoordinates = np.asarray
+                print "subcoord", subcoordinates
+                print "subvsccores", subscores
+                
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
                 np.append(batchscores, score)
                 np.append(batchcoordinates, coordinate)
