@@ -31,7 +31,7 @@ import collections
 
 def convert(data):
     if isinstance(data, basestring):
-        return data.encode("utf-8")
+        return data.encode('utf-8')
     elif isinstance(data, collections.Mapping):
         return dict(map(convert, data.iteritems()))
     elif isinstance(data, collections.Iterable):
@@ -108,7 +108,8 @@ def getData(ammountData=None, random=0):
                                   'text': blogtext  }
             
     #print blogs
-    return jsonify( convert(blogs) )
+    print convert(blogs)
+    return jsonify( blogs )
                       
 
 @app.errorhandler(404)
