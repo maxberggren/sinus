@@ -61,7 +61,7 @@ def pickRandomData(ammountData=None):
 @app.route('/geotag/api/v1.0/trainingData/<ammountData>', methods=['GET'])
 def getData(ammountData=None, random=0): 
 
-    if not isinstance(ammountData, (int)):
+    if not ammountData:
         ammountData = 10
     if random == 1:
         randomQ = " ORDER BY RAND()"
