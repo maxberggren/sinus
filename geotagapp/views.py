@@ -98,7 +98,7 @@ def getData(ammountData=None, random=0):
                                   'text': blogtext  }
             
     #print blogs
-    return jsonify( blogs )
+    return jsonify( blogs ).encode('utf8')
                       
 
 @app.errorhandler(404)
