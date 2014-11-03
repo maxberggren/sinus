@@ -88,7 +88,8 @@ def getData(ammountData=None, random=0):
             #except UnicodeDecodeError:
             #    pass
             
-        blogs[blogrow['url']] = { 'latitude': blogrow['latitude'], 
+        blogs[blogrow['url']] = { 'id': blogrow['id'],
+                                  'latitude': blogrow['latitude'], 
                                   'longitude': blogrow['longitude'],
                                   'city': blogrow['city'].decode('latin-1'),
                                   'county': blogrow['county'].decode('latin-1'),
