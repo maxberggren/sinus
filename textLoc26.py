@@ -260,12 +260,13 @@ class tweetLoc:
                     subscores = np.append(subscores, [row['scoring']])
                     latlon = np.asarray([row['lat'], row['lon']])
                     subcoordinates = np.concatenate((subcoordinates, latlon)) 
-                    print subscores
+                    
                     
                     freqInBatch = row['n_coordinates']
                     if not freqInBatch:
                         freqInBatch = 0
                 
+                print subcoordinates
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
                 np.append(batchscores, score)
                 np.append(batchcoordinates, coordinate)
