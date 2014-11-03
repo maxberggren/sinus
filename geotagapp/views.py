@@ -108,6 +108,13 @@ def getData(ammountData=None, random=0):
     return jsonify( blogs )
                       
 
+@app.route('/geotag/api/v1.0/evaulate', methods=['POST'])
+def evaulate(): 
+
+    print request.json
+            
+    return jsonify( {'none':'none'} )
+
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify( { 'error': 'Not found' } ), 404)
