@@ -67,7 +67,7 @@ def getData(ammountData=None, random=0):
         randomQ = " ORDER BY RAND()"
     else:
         randomQ = ""
-            
+    print ammountData        
     
     blogs = {}    
     mysqldb.query("set names 'utf8'")           
@@ -80,8 +80,8 @@ def getData(ammountData=None, random=0):
         blogtext = ""                  
         for postrow in mysqldb.query("SELECT * from posts "
                                      "WHERE blog_id = " + str(blogrow['id'])):
-            print type(postrow['text'])
-            print postrow
+            #print type(postrow['text'])
+            #print postrow
             #try:
             blogtext += "\n\n" + postrow['text'].decode('latin-1')
             #except UnicodeDecodeError:
