@@ -103,7 +103,7 @@ def getData(ammountData=None, random=0):
                      "country": blogrow['country'].decode('latin-1'),
                      'text': blogtext  }
                      
-        blogs[blogrow['url']] = blogdata
+        blogs[blogrow['url'].decode('latin-1')] = blogdata
             
     return jsonify( blogs )
                       
