@@ -280,7 +280,7 @@ class tweetLoc:
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
             print batchcoordinates, batchscores
-            coordinate, score = self.weightedMean(batchcoordinates, batchscores)
+            coordinate, score = self.weightedMean(np.array([batchcoordinates]), batchscores)
             print "batcghcordinates"
             print self.weightedMean(batchcoordinates, batchscores)     
                 
