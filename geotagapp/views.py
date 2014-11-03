@@ -27,7 +27,17 @@ from PIL import Image
 import os
 import config as c
 from sqlite_cache import SqliteCache
+import collection
 
+def convert(data):
+    if isinstance(data, basestring):
+        return str(data)
+    elif isinstance(data, collections.Mapping):
+        return dict(map(convert, data.iteritems()))
+    elif isinstance(data, collections.Iterable):
+        return type(data)(map(convert, data))
+    else:
+        return data
 
 @app.route('/geotag/api/v1.0/tag', methods=['POST'])
 @app.route('/geotag/api/v1.0/tag/placenessThreshold/<threshold>', methods=['POST'])
@@ -98,7 +108,7 @@ def getData(ammountData=None, random=0):
                                   'text': blogtext  }
             
     #print blogs
-    return jsonify( blogs ).encode('utf8')
+    return jsonify( convert(blogs) )
                       
 
 @app.errorhandler(404)
