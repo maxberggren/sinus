@@ -66,8 +66,7 @@ def getData(ammountData=None, random=0):
     if random == 1:
         randomQ = " ORDER BY RAND()"
     else:
-        randomQ = ""
-    print ammountData        
+        randomQ = ""     
     
     blogs = {}    
     mysqldb.query("set names 'utf8'")           
@@ -87,12 +86,12 @@ def getData(ammountData=None, random=0):
             #except UnicodeDecodeError:
             #    pass
             
-        blogs[blogrow['url']] = { 'latitude': 1, 
-                                  'longitude': 1,
-                                  'city': "sad",
-                                  'county': "saddsa",
-                                  "municipality": "saddsa",
-                                  "country": "ssdsdweee",
+        blogs[blogrow['url']] = { 'latitude': blogrow['latitude'], 
+                                  'longitude': blogrow['longitude'],
+                                  'city': blogrow['city'].decode('latin-1'),
+                                  'county': blogrow['county'].decode('latin-1'),
+                                  "municipality": blogrow['municipality'].decode('latin-1'),
+                                  "country": blogrow['country'].decode('latin-1'),
                                   'text': blogtext  }
             
     print blogs
