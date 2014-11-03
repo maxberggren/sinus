@@ -70,8 +70,9 @@ def getData(ammountData=None, random=0):
     
     blogs = {}    
     mysqldb.query("set names 'utf8'")           
-    for blogrow in mysqldb.query("SELECT * from blogs "
-                                 "WHERE rank < 4 AND "
+    for blogrow in mysqldb.query("SELECT b.* from blogs b"
+                                 "WHERE (select count(*) from posts p where " 
+                                 "       p.blog_id=b.id) > 0 AND rank < 4 AND "
                                  "longitude is not NULL "
                                  " " + randomQ + " "
                                  "limit " + str(ammountData)):
