@@ -213,17 +213,11 @@ class tweetLoc:
             return weightedMean, score 
             """
             if np.sum(scores) > 0:
-                print "coord", coordinates
-                print "scores", scores
-                print "sum", np.sum(scores)
-                print np.multiply(coordinates.T, scores).T
                 nominator = np.sum(np.multiply(coordinates.T, scores).T, axis=0)
                 denominator = np.sum(scores)
                 score = np.sum(scores)/len(coordinates)
-                
-                print nominator/denominator
-                print score
-                return nominator/denominator, score
+
+                return (nominator/denominator).tolist(), score
             
         else:
             return [0.0, 0.0], 0.0
