@@ -266,7 +266,7 @@ class tweetLoc:
                 
                 print "subcoord", subcoordinates
                 subscores = np.asarray(subscores)
-                subcoordinates = np.asarray
+                subcoordinates = np.asarray(subcoordinates)
                 print "subcoord", subcoordinates
                 print "subvsccores", subscores
                 
