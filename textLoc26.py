@@ -266,7 +266,7 @@ class tweetLoc:
                     if not freqInBatch:
                         freqInBatch = 0
                 
-                print subcoordinates
+                print "subcoord", subcoordinates
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
                 np.append(batchscores, score)
                 np.append(batchcoordinates, coordinate)
