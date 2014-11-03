@@ -79,7 +79,7 @@ def getData(ammountData=None, random=0):
         blogtext = ""                  
         for postrow in mysqldb.query("SELECT * from posts "
                                      "WHERE blog_id = " + str(blogrow['id'])):
-            blogtext += "\n\n" + postrow['text']
+            blogtext += "\n\n" + postrow['text'].encode('utf-8')
             
         blogs[blogrow['url']] = { 'latitude': 1, 
                                   'longitude': 1,
