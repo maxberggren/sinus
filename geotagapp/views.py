@@ -77,7 +77,7 @@ def getData(ammountData=None, random=0):
                       'outOfVocabulary': OOV, 
                       'mentions': mentions } )
     """
-
+    return jsonify( { 'tja': 'hej' } )
 
 @app.errorhandler(404)
 def not_found(error):
