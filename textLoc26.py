@@ -218,6 +218,8 @@ class tweetLoc:
                 score = np.sum(scores)/len(coordinates)
 
                 return (nominator/denominator).tolist(), score
+            else:
+                return [0.0, 0.0], 0.0
             
         else:
             return [0.0, 0.0], 0.0
@@ -269,12 +271,14 @@ class tweetLoc:
                 subcoordinates = np.asarray(subcoordinates)
                 
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
+                print self.weightedMean(subcoordinates, subscores)
                 np.append(batchscores, score)
                 np.append(batchcoordinates, coordinate)
                 wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
-            coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
+            coordinate, score = self.weightedMean(batchcoordinates, batchscores)
+            print self.weightedMean(batchcoordinates, batchscores)     
                 
             if score > threshold:
                 np.append(coordinates, coordinate)
@@ -290,6 +294,7 @@ class tweetLoc:
                  
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
+        print self.weightedMean(coordinates, scores)
   
         wordsAndScores = zip(acceptedWords, scores, wordFreqs)
         # Sortera
