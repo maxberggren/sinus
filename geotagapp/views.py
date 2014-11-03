@@ -60,24 +60,38 @@ def pickRandomData(ammountData=None):
     
 @app.route('/geotag/api/v1.0/trainingData/<ammountData>', methods=['GET'])
 def getData(ammountData=None, random=0): 
-    print ammountData, random
-    """
+
     if not isinstance(ammountData, (int)):
         ammountData = 10
+    if random == 1:
+        randomQ = " ORDER BY RAND()"
+    else:
+        randomQ = ""
+            
+    
+    blogs = {}               
+    for blogrow in mysqldb.query("SELECT * from blogs "
+                                 "WHERE rank < 4 AND "
+                                 "longitude is not NULL "
+                                 " " + randomQ + " "
+                                 "limit " + str(ammountData)):
+        
+        blogtext = ""                  
+        for postrow in mysqldb.query("SELECT * from posts "
+                                     "WHERE blog_id = " + blogrow['id']):
+            blogtext += "\n\n" + postrow['text']
+            
+        blogs[blogrow['url']] = { 'latitude': 1, 
+                                  'longitude': 1,
+                                  'city': "sad",
+                                  'county': "saddsa",
+                                  "municipality": "saddsa",
+                                  "country": "ssdsdweee",
+                                  'text': blogtext  }
+            
 
-    result = mysqldb.query("SELECT * from blogs "
-                           "WHERE  "
-                           "limit " + str(ammountData))
-
-
-    return jsonify( { 'latitude': lat, 
-                      'longitude': lon, 
-                      'placeness': placeness, 
-                      'mostUsefulWords': mostUsefulWords,
-                      'outOfVocabulary': OOV, 
-                      'mentions': mentions } )
-    """
-    return jsonify( { 'tja': 'hej' } )
+    return jsonify( { blogs )
+                      
 
 @app.errorhandler(404)
 def not_found(error):
