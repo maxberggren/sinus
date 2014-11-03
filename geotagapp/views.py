@@ -83,7 +83,7 @@ def getData(ammountData=None, random=0):
             print type(postrow['text'])
             print postrow
             #try:
-            blogtext += "\n\n" + postrow['text'].encode('latin-1')
+            blogtext += "\n\n" + postrow['text'].decode('latin-1')
             #except UnicodeDecodeError:
             #    pass
             
