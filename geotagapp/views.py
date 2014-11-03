@@ -114,7 +114,10 @@ def evaluate():
     print request.json 
     
     for key, val in request.json.iteritems():
-        print key, val
+        prediction = val
+        blog = mysqldb['blogs'].find_one(id=int(key))
+        print blog
+        print prediction
         
     return jsonify( { 'soon':'soon' } )
 
