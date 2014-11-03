@@ -250,7 +250,7 @@ class tweetLoc:
             batches = self.cache.get("batches")
         
         for word in words:
-            batchscores, batchcoordinates = np.array([]), np.array([])
+            batchscores, batchcoordinates = np.array([]), np.asarray([[]])
             wordFreq, freqInBatch = 0, 0
             
             for date in batches:
@@ -274,7 +274,7 @@ class tweetLoc:
                 print "subcoordinates"
                 print self.weightedMean(subcoordinates, subscores)
                 batchscores = np.append(batchscores, score)
-                batchcoordinates = np.append(batchcoordinates, np.array(coordinate))
+                batchcoordinates = np.append(batchcoordinates, coordinate)
                 wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
