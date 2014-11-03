@@ -258,7 +258,7 @@ class tweetLoc:
                 subscores, subcoordinates = np.array([]), np.array([])
                 for row in result:
                     subscores = np.append(subscores, [row['scoring']])
-                    latlon = np.asaray([row['lat'], row['lon']]).T
+                    latlon = np.asarray([row['lat'], row['lon']]).T
                     subcoordinates = np.hstack((subcoordinates, latlon)) 
                     print subscores
                     
