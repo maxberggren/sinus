@@ -254,8 +254,8 @@ class tweetLoc:
                                        
                 subscores, subcoordinates = np.array([]), np.array([])
                 for row in result:
-                    np.append(subscores, row['scoring'])
-                    np.append(subcoordinates, [row['lat'], row['lon']])
+                    subscores = np.append(subscores, row['scoring'])
+                    subscores = np.append(subcoordinates, [row['lat'], row['lon']])
                     print subscores
                     
                     freqInBatch = row['n_coordinates']
