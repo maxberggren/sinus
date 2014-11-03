@@ -17,6 +17,7 @@ import datetime
 import time
 from operator import itemgetter
 import config as c
+from sqlite_cache import SqliteCache
 
 def haversine(coord1, coord2):
     """
@@ -52,6 +53,7 @@ class tweetLoc:
     def __init__(self, db=c.LOCATIONDB, dbtweets=c.LOCATIONDB):
         self.db = dataset.connect(db)
         utf8 = self.db.query("set names 'utf8'")
+        cache = SqliteCache("cache")
         
         self.words = []
     
@@ -227,9 +229,12 @@ class tweetLoc:
         # Hämta alla unika datum (batchar) där GMMer satts in i databasen
         batches, wordFreqs = [], []
         
-        for row in self.db.query("SELECT DISTINCT date FROM GMMs"):
-            # TODO: byt ut till en separat tabell istället för _^
-            batches.append(row['date'])
+        if not cache.get("batches"):
+            for row in self.db.query("SELECT DISTINCT date FROM GMMs"):
+                batches.append(row['date'])
+            cache.set("batches", batches, timeout=60*60) # cache for 1 hours    
+        else:
+            batches = cache.get("batches")
         
         for word in words:
             batchscores, batchcoordinates = [], []
