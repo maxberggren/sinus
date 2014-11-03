@@ -213,9 +213,9 @@ class tweetLoc:
             return weightedMean, score 
             """
             if np.sum(scores) > 0:
-                print coordinates
-                print scores
-                print np.sum(scores)
+                print "coord", coordinates
+                print "scores", scores
+                print "sum", np.sum(scores)
                 print (np.multiply(coordinates, scores) / np.sum(scores)), np.sum(scores)/len(coordinates)
             
         else:
