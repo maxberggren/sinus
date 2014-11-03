@@ -82,7 +82,7 @@ def getData(ammountData=None, random=0):
         for postrow in mysqldb.query("SELECT * from posts "
                                      "WHERE blog_id = " + str(blogrow['id'])):
             #print type(postrow['text'])
-            print postrow
+            #print postrow
             #try:
             blogtext += "\n\n" + postrow['text'].decode('latin-1')
             #except UnicodeDecodeError:
@@ -96,7 +96,7 @@ def getData(ammountData=None, random=0):
                                   "country": blogrow['country'].decode('latin-1'),
                                   'text': blogtext  }
             
-    print blogs
+    #print blogs
     return jsonify( blogs )
                       
 
