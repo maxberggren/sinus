@@ -31,7 +31,7 @@ from sqlite_cache import SqliteCache
 
 @app.route('/geotag/api/v1.0/tag', methods=['POST'])
 @app.route('/geotag/api/v1.0/tag/placenessThreshold/<threshold>', methods=['POST'])
-def api(threshold=None): 
+def tag(threshold=None): 
     if not request.json or not 'text' in request.json:
         abort(400)
 
@@ -53,6 +53,30 @@ def api(threshold=None):
                       'mentions': mentions } )
 
 
+
+@app.route('/geotag/api/v1.0/trainingData/<ammountData>/pickRandom', methods=['GET'])
+def pickRandomData(ammountData=None): 
+    getData(ammountData=ammountData, random=1)    
+    
+@app.route('/geotag/api/v1.0/trainingData/<ammountData>', methods=['GET'])
+def getData(ammountData=None, random=0): 
+    print ammountData, random
+    """
+    if not isinstance(ammountData, (int)):
+        ammountData = 10
+
+    result = mysqldb.query("SELECT * from blogs "
+                           "WHERE  "
+                           "limit " + str(ammountData))
+
+
+    return jsonify( { 'latitude': lat, 
+                      'longitude': lon, 
+                      'placeness': placeness, 
+                      'mostUsefulWords': mostUsefulWords,
+                      'outOfVocabulary': OOV, 
+                      'mentions': mentions } )
+    """
 
 
 @app.errorhandler(404)
