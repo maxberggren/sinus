@@ -90,7 +90,7 @@ def getData(ammountData=None, random=0):
                                   'text': blogtext  }
             
 
-    return jsonify( { blogs )
+    return jsonify( blogs )
                       
 
 @app.errorhandler(404)
