@@ -273,8 +273,8 @@ class tweetLoc:
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
                 print "subcoordinates"
                 print self.weightedMean(subcoordinates, subscores)
-                np.append(batchscores, score)
-                np.append(batchcoordinates, coordinate)
+                batchscores = np.append(batchscores, score)
+                batchcoordinates = np.append(batchcoordinates, coordinate)
                 wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
