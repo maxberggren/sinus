@@ -89,7 +89,7 @@ def getData(ammountData=None, random=0):
                                   "country": "ssdsdweee",
                                   'text': blogtext  }
             
-
+    print blogs
     return jsonify( blogs )
                       
 
