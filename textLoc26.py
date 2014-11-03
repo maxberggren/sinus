@@ -194,6 +194,7 @@ class tweetLoc:
         Output: koordinat och dess säkerhet
         """
         if len(coordinates) > 0:
+            """"
             numberOfCoordinates, nominator, denominator = 0, 0, 0
             
             for score, coordinate in zip(scores, coordinates):
@@ -210,6 +211,10 @@ class tweetLoc:
             score = denominator / numberOfCoordinates # avg score
                 
             return weightedMean, score 
+            """
+            if np.sum(scores) > 0:
+                print (np.multiply(coordinates, scores) / np.sum(scores)), np.sum(scores)/len(coordinates)
+            
         else:
             return [0.0, 0.0], 0.0
 
@@ -224,7 +229,9 @@ class tweetLoc:
             threshold = 1e40
         
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar                          
-        coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
+        acceptedWords, OOVcount, wordFreqs = [], 0, []
+        coordinates = np.array([])
+        scores = np.array([])
  
         # Hämta alla unika datum (batchar) där GMMer satts in i databasen
         batches, wordFreqs = [], []
@@ -237,7 +244,7 @@ class tweetLoc:
             batches = self.cache.get("batches")
         
         for word in words:
-            batchscores, batchcoordinates = [], []
+            batchscores, batchcoordinates = np.array([]), np.array([])
             wordFreq, freqInBatch = 0, 0
             
             for date in batches:
@@ -245,25 +252,26 @@ class tweetLoc:
                                        "WHERE word = '" + word + "' "
                                        "AND date = '" + date + "'")
                                        
-                subscores, subcoordinates = [], []
+                subscores, subcoordinates = np.array([]), np.array([])
                 for row in result:
-                    subscores.append(row['scoring'])
-                    subcoordinates.append([row['lat'], row['lon']])
+                    np.append(subscores, row['scoring'])
+                    np.append(subcoordinates, [row['lat'], row['lon']])
+                    
                     freqInBatch = row['n_coordinates']
                     if not freqInBatch:
                         freqInBatch = 0
                 
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
-                batchscores.append(score)
-                batchcoordinates.append(coordinate)
+                np.append(batchscores, score)
+                np.append(batchcoordinates, coordinate)
                 wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
                 
             if score > threshold:
-                coordinates.append(coordinate)
-                scores.append(score)
+                np.append(coordinates, coordinate)
+                np.append(scores, score)
                 acceptedWords.append(word)
                 wordFreqs.append(wordFreq)
         
