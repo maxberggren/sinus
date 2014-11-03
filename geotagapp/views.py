@@ -111,7 +111,7 @@ def getData(ammountData=None, random=0):
 @app.route('/geotag/api/v1.0/evaulate', methods=['POST'])
 def evaulate(): 
 
-    print request.json
+    print request.json 
             
     return jsonify( {'none':'none'} )
 
