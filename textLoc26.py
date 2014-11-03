@@ -217,7 +217,7 @@ class tweetLoc:
                 print "scores", scores
                 print "sum", np.sum(scores)
                 print np.multiply(coordinates.T, scores).T
-                print (np.multiply(coordinates.T, scores).T / np.sum(scores))
+                print (np.sum(np.multiply(coordinates.T, scores).T) / np.sum(scores))
                 
                 return (np.multiply(coordinates.T, scores).T / np.sum(scores)), np.sum(scores)/len(coordinates)
             
