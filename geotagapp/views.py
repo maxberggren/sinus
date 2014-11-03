@@ -108,12 +108,17 @@ def getData(ammountData=None, random=0):
     return jsonify( blogs )
                       
 
+
 @app.route('/geotag/api/v1.0/evaluate', methods=['POST'])
 def evaluate(): 
-
     print request.json 
-            
-    return jsonify( {'none':'none'} )
+    return jsonify( { 'latitude': "sadasd", 
+                      'longitude': "asdads", 
+                      'placeness': 23233, 
+                      'mostUsefulWords': 2332,
+                      'outOfVocabulary': 2323, 
+                      'mentions': 2323 } )
+
 
 @app.errorhandler(404)
 def not_found(error):
