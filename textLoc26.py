@@ -279,7 +279,7 @@ class tweetLoc:
                 wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
-            print batchscores, batchcoordinates
+            print batchcoordinates, batchscores
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)
             print "batcghcordinates"
             print self.weightedMean(batchcoordinates, batchscores)     
