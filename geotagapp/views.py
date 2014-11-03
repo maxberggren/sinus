@@ -111,17 +111,15 @@ def getData(ammountData=None, random=0):
 
 @app.route('/geotag/api/v1.0/evaluate', methods=['POST'])
 def evaluate(): 
-    print request.json 
     
+    errors = []    
     for key, val in request.json.iteritems():
         prediction = val
         blog = mysqldb['blogs'].find_one(id=int(key))
-        print blog['longitude']
-        print blog['latitude']
-        print prediction['latitude']
-        print prediction['longitude']
-        print haversine([blog['longitude'], blog['latitude']], 
-                        [prediction['longitude'], prediction['latitude']])
+        error = haversine([blog['longitude'], blog['latitude']], 
+                          [prediction['longitude'], prediction['latitude']])
+        errors.append(error)
+    print errors
         
     return jsonify( { 'soon':'soon' } )
 
