@@ -56,7 +56,7 @@ def tag(threshold=None):
 
 @app.route('/geotag/api/v1.0/trainingData/<ammountData>/pickRandom', methods=['GET'])
 def pickRandomData(ammountData=None): 
-    getData(ammountData=ammountData, random=1)    
+    return getData(ammountData=ammountData, random=1)    
     
 @app.route('/geotag/api/v1.0/trainingData/<ammountData>', methods=['GET'])
 def getData(ammountData=None, random=0): 
