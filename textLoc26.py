@@ -53,7 +53,7 @@ class tweetLoc:
     def __init__(self, db=c.LOCATIONDB, dbtweets=c.LOCATIONDB):
         self.db = dataset.connect(db)
         utf8 = self.db.query("set names 'utf8'")
-        cache = SqliteCache("cache")
+        self.cache = SqliteCache("cache")
         
         self.words = []
     
@@ -229,12 +229,12 @@ class tweetLoc:
         # Hämta alla unika datum (batchar) där GMMer satts in i databasen
         batches, wordFreqs = [], []
         
-        if not cache.get("batches"):
+        if not self.cache.get("batches"):
             for row in self.db.query("SELECT DISTINCT date FROM GMMs"):
                 batches.append(row['date'])
-            cache.set("batches", batches, timeout=60*60) # cache for 1 hours    
+            self.cache.set("batches", batches, timeout=60*60) # cache for 1 hours    
         else:
-            batches = cache.get("batches")
+            batches = self.cache.get("batches")
         
         for word in words:
             batchscores, batchcoordinates = [], []
