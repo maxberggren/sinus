@@ -69,7 +69,8 @@ def getData(ammountData=None, random=0):
         randomQ = ""
             
     
-    blogs = {}               
+    blogs = {}    
+    mysqldb.query("set names 'utf8'")           
     for blogrow in mysqldb.query("SELECT * from blogs "
                                  "WHERE rank < 4 AND "
                                  "longitude is not NULL "
