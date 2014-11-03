@@ -108,8 +108,8 @@ def getData(ammountData=None, random=0):
     return jsonify( blogs )
                       
 
-@app.route('/geotag/api/v1.0/evaulate', methods=['POST'])
-def evaulate(): 
+@app.route('/geotag/api/v1.0/evaluate', methods=['POST'])
+def evaluate(): 
 
     print request.json 
             
