@@ -91,24 +91,20 @@ def getData(ammountData=None, random=0):
         blogtext = ""                  
         for postrow in mysqldb.query("SELECT * from posts "
                                      "WHERE blog_id = " + str(blogrow['id'])):
-            #print type(postrow['text'])
-            #print postrow
-            #try:
+
             blogtext += "\n\n" + postrow['text'].decode('latin-1')
-            #except UnicodeDecodeError:
-            #    pass
             
-        blogs[blogrow['url']] = { 'id': blogrow['id'],
-                                  'latitude': blogrow['latitude'], 
-                                  'longitude': blogrow['longitude'],
-                                  'city': blogrow['city'].decode('latin-1'),
-                                  'county': blogrow['county'].decode('latin-1'),
-                                  "municipality": blogrow['municipality'].decode('latin-1'),
-                                  "country": blogrow['country'].decode('latin-1'),
-                                  'text': blogtext  }
+        blogdata = { 'id': blogrow['id'],
+                     'latitude': blogrow['latitude'], 
+                     'longitude': blogrow['longitude'],
+                     'city': blogrow['city'].decode('latin-1'),
+                     'county': blogrow['county'].decode('latin-1'),
+                     "municipality": blogrow['municipality'].decode('latin-1'),
+                     "country": blogrow['country'].decode('latin-1'),
+                     'text': blogtext  }
+                     
+        blogs[blogrow['url']] = blogdata
             
-    #print blogs
-    print convert(blogs)
     return jsonify( blogs )
                       
 
