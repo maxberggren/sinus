@@ -116,8 +116,12 @@ def evaluate():
     for key, val in request.json.iteritems():
         prediction = val
         blog = mysqldb['blogs'].find_one(id=int(key))
-        print blog
-        print prediction
+        print blog['longitude']
+        print blog['latitude']
+        print prediction['latitude']
+        print prediction['longitude']
+        print haversine([blog['longitude'], blog['latitude']], 
+                        [prediction['longitude'], prediction['latitude']])
         
     return jsonify( { 'soon':'soon' } )
 
