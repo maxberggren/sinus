@@ -219,8 +219,7 @@ class tweetLoc:
 
                 return nominator/denominator, score
             else:
-                return [0.0, 0.0], 0.0
-            
+                return [0.0, 0.0], 0.0 
         else:
             return [0.0, 0.0], 0.0
 
@@ -270,20 +269,14 @@ class tweetLoc:
                 subscores = np.asarray(subscores)
                 subcoordinates = np.asarray(subcoordinates)
                 
-                print subcoordinates, subscores
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
-                print "subcoordinates"
-                print self.weightedMean(subcoordinates, subscores)
                 batchscores = np.append(batchscores, score)
                 batchcoordinates = np.append(batchcoordinates, coordinate)
                 wordFreq += freqInBatch
             
             batchcoordinates = np.array([batchcoordinates])
             # Vikta samman batcharna. TODO: fallande vikt efter datum
-            print np.array([batchcoordinates]), batchscores
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)
-            print "batcghcordinates"
-            print self.weightedMean(batchcoordinates, batchscores)     
                 
             if score > threshold:
                 coordinates = np.append(coordinates, coordinate)
@@ -294,14 +287,10 @@ class tweetLoc:
             # Räkna ord som är out of vocabulary
             if score == 0.0:
                 OOVcount += 1 
-                
-        #print acceptedWords, wordFreqs
-                 
+                                 
         # Vikta samman alla ord efter deras "platsighet"
         coordinates = np.array([coordinates])
         coordinate, score = self.weightedMean(coordinates, scores)
-        print "alla ord"
-        print self.weightedMean(coordinates, scores)
   
         wordsAndScores = zip(acceptedWords, scores, wordFreqs)
         # Sortera
