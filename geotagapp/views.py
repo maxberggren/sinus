@@ -27,7 +27,7 @@ from PIL import Image
 import os
 import config as c
 from sqlite_cache import SqliteCache
-import collection
+import collections
 
 def convert(data):
     if isinstance(data, basestring):
