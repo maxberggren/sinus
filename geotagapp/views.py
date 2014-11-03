@@ -112,12 +112,11 @@ def getData(ammountData=None, random=0):
 @app.route('/geotag/api/v1.0/evaluate', methods=['POST'])
 def evaluate(): 
     print request.json 
-    return jsonify( { 'latitude': "sadasd", 
-                      'longitude': "asdads", 
-                      'placeness': 23233, 
-                      'mostUsefulWords': 2332,
-                      'outOfVocabulary': 2323, 
-                      'mentions': 2323 } )
+    
+    for key, val in request.json.iteritems():
+        print key, val
+        
+    return jsonify( { 'soon':'soon' } )
 
 
 @app.errorhandler(404)
