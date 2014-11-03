@@ -279,14 +279,14 @@ class tweetLoc:
                 wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
-            print batchcoordinates, batchscores
+            print np.array([batchcoordinates]), batchscores
             coordinate, score = self.weightedMean(np.array([batchcoordinates]), batchscores)
             print "batcghcordinates"
             print self.weightedMean(batchcoordinates, batchscores)     
                 
             if score > threshold:
-                np.append(coordinates, coordinate)
-                np.append(scores, score)
+                coordinates = np.append(coordinates, coordinate)
+                scores = np.append(scores, score)
                 acceptedWords.append(word)
                 wordFreqs.append(wordFreq)
         
