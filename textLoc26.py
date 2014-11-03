@@ -217,7 +217,7 @@ class tweetLoc:
                 denominator = np.sum(scores)
                 score = np.sum(scores)/len(coordinates)
 
-                return nominator/denominator, score
+                return [nominator/denominator], score
             else:
                 return [0.0, 0.0], 0.0
             
