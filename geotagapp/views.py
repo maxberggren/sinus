@@ -114,11 +114,14 @@ def evaluate():
     
     errors = []    
     for key, val in request.json.iteritems():
-        prediction = val
-        blog = mysqldb['blogs'].find_one(id=int(key))
-        error = haversine([blog['longitude'], blog['latitude']], 
-                          [prediction['longitude'], prediction['latitude']])
-        errors.append(error)
+        try;
+            prediction = val
+            blog = mysqldb['blogs'].find_one(id=int(key))
+            error = haversine([blog['longitude'], blog['latitude']], 
+                              [prediction['longitude'], prediction['latitude']])
+            errors.append(error)
+        except TypeError:
+            pass
     print errors
         
     return jsonify( { 'soon':'soon' } )
