@@ -576,7 +576,7 @@ def site(urlSearch=None):
                 break
             except OperationalError:
                 pass
-                 
+                  
         for row in result:
             stats[key].append(row)
         
