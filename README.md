@@ -43,4 +43,4 @@ The GUI is usually accessible through `http://localhost:5000/sinus/`. Email `max
 
 ### Searching the document database for a word
 
-![Search for a single term](/readmeimages/litta3.png)
+![Search for a single term](../blob/master/readmeimages/litta3.gif?raw=true)
