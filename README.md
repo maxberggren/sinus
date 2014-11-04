@@ -59,7 +59,7 @@ Here `scatter: 1` will force it to produce a scatterplot instead. This can be be
 
 ### Searching the document database for words against each other
 
-Search results will now be in percent. E.g. av search for `dog` vs `cat` will show in percent how many of the hits corresponding to dog respective cat.
+Search results will now be in percent. E.g. av search for `tipspromenad` vs `tipsrunda` vs `poängpromenad` (a common swedish game) will show in percent how many of the hits corresponding to each term against the other.
 
 ![Geotag text](../master/readmeimages/multiple.gif?raw=true)
 
