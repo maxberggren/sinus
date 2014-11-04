@@ -112,14 +112,14 @@ def getData(ammountData=None, random=0):
 @app.route('/geotag/api/v1.0/evaluate', methods=['POST'])
 def evaluate(): 
     
-    errors = []    
+    errors = {}   
     for key, val in request.json.iteritems():
         try:
             prediction = val
             blog = mysqldb['blogs'].find_one(id=int(key))
             error = haversine([blog['longitude'], blog['latitude']], 
                               [prediction['longitude'], prediction['latitude']])
-            errors.append(error)
+            errors[int(key)] = error
         except TypeError:
             pass
     print errors
