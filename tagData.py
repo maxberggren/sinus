@@ -12,6 +12,7 @@ import requests
 import json
 from collections import OrderedDict
 import config as c
+import time
 
 RE_NORMAL = re.compile(ur"[a-zA-ZåäöÅÄÖé]")
 RE_HIGH = re.compile(ur"[^\u0000-\u00ff]")
@@ -90,7 +91,7 @@ def maxFix(text):
 def predictViaAPI(text):
     payload = json.dumps({'text': text})
     headers = {'content-type': 'application/json'}
-    r = requests.post("http://ext-web.gavagai.se:5000/localize/api/v1.0/localize", 
+    r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/tag", 
                        data=payload, headers=headers)
     
     try:    
@@ -131,7 +132,15 @@ if __name__ == "__main__":
             
             print "Belägger " + row['url'] + "..."
             
-            predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
+            while True:
+                try:
+                    data = predictViaAPI(text)
+                    predictedCoordinate, score, mostUsefulWords, mentions = data
+                    break
+                except requests.exceptions.ConnectionError:
+                    print "Kunde inte koppla mot api:et. Väntar 5 sek."
+                    time.sleep(5)
+                    pass
             
             if predictedCoordinate and score > 0.0:
                 print predictedCoordinate
@@ -164,6 +173,8 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             print "Avslutar"
             break  
+        
+            
         #except:
         #    print "hmm..."                      
             
