@@ -124,11 +124,11 @@ def evaluate():
             pass
     print errors
     
-    print list(errors)
+    print list(errors.values())
         
     return jsonify( { 'errors': errors,
-                      'meanError': np.mean(list(errors)),
-                      'medianError': np.median(list(errors)) } )
+                      'meanError': np.mean(list(errors.values())),
+                      'medianError': np.median(list(errors.values())) } )
 
 
 @app.errorhandler(404)
