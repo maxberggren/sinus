@@ -567,9 +567,16 @@ def site(urlSearch=None):
     key = "sourceswithlatlon"
     if not cache.get(key):
         stats[key] = []
-        result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
-                               "WHERE longitude is not NULL "
-                               "GROUP BY source, rank ORDER BY count DESC") 
+        while True:
+            try:
+                result = mysqldb.query("SELECT source, rank, COUNT(*) "
+                                       "as count FROM blogs "
+                                       "WHERE longitude is not NULL "
+                                       "GROUP BY source, rank ORDER BY count DESC")
+                break
+            except OperationalError:
+                pass
+                 
         for row in result:
             stats[key].append(row)
         
