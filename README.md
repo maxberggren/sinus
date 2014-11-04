@@ -36,8 +36,8 @@ To use the geotagger to tag data without metadata:
 3. Run `tagData.py` to give your data coordinates (of resonable accuracy) if it is without metadata.
 4. Search in the GUI with the flag `lowqualdata: 1`. This includes the inferred data `tagData.py` has produced.
 
-Usage
------
+Usage of GUI
+------------
 
 The GUI is usually accessible through `http://localhost:5000/sinus/`. Email `maxberggren@gmail.com` if you want to try our setup.
 
@@ -63,7 +63,7 @@ Search results will now be in percent. E.g. av search for `tipspromenad` vs `tip
 
 ![Geotag text](../master/readmeimages/multiple.gif?raw=true)
 
-And let's try searching of phrases rather than just words. `flak öl` vs `platta öl` vs `karta öl` (different phrases in swedish describing 24 beer cans).
+And let's try searching of phrases rather than just words. `flak öl` vs `platta öl` vs `karta öl` (different phrases in swedish describing 24 beer cans). Notice how it used a scatterplot since the last term `karta öl` had so few hits in the database.
 
 ![Geotag text](../master/readmeimages/kartaplatta.gif?raw=true)
 
