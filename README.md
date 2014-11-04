@@ -65,5 +65,7 @@ Search results will now be in percent. E.g. av search for `tipspromenad` vs `tip
 
 ### Trying out the geotager (that is used by `tagData.py`)
 
+The GUI can also access the geotagger that is used to tag data that have no metadata. 
+
 ![Geotag text](../master/readmeimages/hbg.gif?raw=true)
 
