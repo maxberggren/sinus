@@ -43,6 +43,8 @@ The GUI is usually accessible through `http://localhost:5000/sinus/`. Email `max
 
 ### Searching the document database for a word
 
+Results will be on logaritimic frequency.
+
 ![Search for a single term](../master/readmeimages/litta3.gif?raw=true)
 
 This animation uses `xbins: <number>` that specifies how many bins/pixels that should be used on the x-axis. This coresponds to how fine grained resolution you want.
@@ -54,6 +56,12 @@ Here `scatter: 1` will force it to produce a scatterplot instead. This can be be
 `binthreshold: <number>` will set how many hits per bin that is required for it to count. Default is 5 if not specified.
 
 `uselowqualdata: 1` will use data of low rank. That means that e.g. tagged with the geotagger will be used.
+
+### Searching the document database for words against each other
+
+Search results will now be in percent. E.g. av search for `dog` vs `cat` will show in percent how many of the hits corresponding to dog respective cat.
+
+![Geotag text](../master/readmeimages/multiple.gif?raw=true)
 
 ### Trying out the geotager (that is used by `tagData.py`)
 
