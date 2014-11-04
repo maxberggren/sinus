@@ -49,7 +49,7 @@
 		    <div class="input-group">
 		      <input type="text" class="form-control" placeholder="Sökord, &quot;ett utryck&quot;, xbins: auto, scatter: 0, zoom: 0, uselowqualdata: 0, binthreshold: 5"  id="queryInput" name="queryInput" value="{% if documentQuery['query'] %}{{ documentQuery['query'] }}{% endif %}">
 		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="submit">Kör</button>
+		        <button class="btn btn-default" type="submit" data-loading-text="Kör..."  autocomplete="off">Kör</button>
 		      </span> 
 		    </div><!-- /input-group -->
 		  </div>
@@ -275,5 +275,10 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="../dist/js/bootstrap.min.js"></script>
+  <script src="../assets/js/docs.min.js"></script>
+
   </body>
 </html>
