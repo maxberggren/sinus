@@ -15,7 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
-
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     
   </head>
 
@@ -51,18 +51,11 @@
 		      <input type="text" class="form-control" placeholder="Sökord, &quot;ett utryck&quot;, xbins: auto, scatter: 0, zoom: 0, uselowqualdata: 0, binthreshold: 5"  id="queryInput" name="queryInput" value="{% if documentQuery['query'] %}{{ documentQuery['query'] }}{% endif %}">
 		      <span class="input-group-btn">
 		        <button class="btn btn-default docdbbutton" type="submit" data-loading-text="Kör..."  autocomplete="off">Kör</button>
-		        
-		            <script>
-                	$('.docdbbutton').click(function(){
-                		var $this = $(this);
-                		$this.toggleClass('docdbbutton');
-                		if($this.hasClass('docdbbutton')){
-                			$this.text('Kör');			
-                		} else {
-                			$this.text('Kör...');
-                		}
-                	});
-                    </script>
+		       <script>
+                    $(".docdbbutton").click(function () {
+                        $(this).text("Kor...");
+                    });
+               </script>
 		      </span> 
 		    </div><!-- /input-group --> 
 		  </div>
@@ -289,9 +282,6 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="../static/js/bootstrap.min.js"></script>
-  <script src="../static/js/docs.min.js"></script>
 
   </body>
 </html>
