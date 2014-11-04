@@ -112,7 +112,7 @@ def getData(ammountData=None, random=0):
 @app.route('/geotag/api/v1.0/evaluate', methods=['POST'])
 def evaluate(): 
     
-    errors = {}   
+    errors = {}
     for key, val in request.json.iteritems():
         try:
             prediction = val
@@ -123,10 +123,12 @@ def evaluate():
         except TypeError:
             pass
     print errors
+    
+    print list(errors)
         
     return jsonify( { 'errors': errors,
-                      'meanError': np.mean(errors),
-                      'medianError': np.median(errors) } )
+                      'meanError': np.mean(list(errors)),
+                      'medianError': np.median(list(errors)) } )
 
 
 @app.errorhandler(404)
