@@ -50,16 +50,18 @@
 		    <div class="input-group">
 		      <input type="text" class="form-control" placeholder="Sökord, &quot;ett utryck&quot;, xbins: auto, scatter: 0, zoom: 0, uselowqualdata: 0, binthreshold: 5"  id="queryInput" name="queryInput" value="{% if documentQuery['query'] %}{{ documentQuery['query'] }}{% endif %}">
 		      <span class="input-group-btn">
-		        <button id="docdbbutton" class="btn btn-default" type="submit" data-loading-text="Kör..."  autocomplete="off">Kör</button><button type="button" id="myButton" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
-  Loading state
-</button>
+		        <button class="btn btn-default docdbbutton" type="submit" data-loading-text="Kör..."  autocomplete="off">Kör</button>
 		        
 		            <script>
-                      $('#docdbbutton').on('click', function () {
-                        var $btn = $(this).button('Kör...')
-                        // business logic...
-                        $btn.button('reset')
-                      })
+                	$('.docdbbutton').click(function(){
+                		var $this = $(this);
+                		$this.toggleClass('docdbbutton');
+                		if($this.hasClass('docdbbutton')){
+                			$this.text('Kör');			
+                		} else {
+                			$this.text('Kör...');
+                		}
+                	});
                     </script>
 		      </span> 
 		    </div><!-- /input-group --> 
