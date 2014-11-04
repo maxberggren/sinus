@@ -52,10 +52,12 @@
 		      <span class="input-group-btn">
 		        <button class="btn btn-default docdbbutton" type="submit" data-loading-text="Kör..."  autocomplete="off">Kör</button>
 		       <script>
+                    $(".docdbbutton").click(function () {
+                        $(this).text("Kör...")
+                    });
                     $('form').submit(function(){
-    // On submit disable its submit button
-    $('button[type=submit]', this).attr('disabled', 'disabled');
-});
+                        $('button[type=submit]', this).attr('disabled', 'disabled');
+                    });
                </script>
 		      </span> 
 		    </div><!-- /input-group --> 
