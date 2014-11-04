@@ -50,7 +50,7 @@
 		    <div class="input-group">
 		      <input type="text" class="form-control" placeholder="Sökord, &quot;ett utryck&quot;, xbins: auto, scatter: 0, zoom: 0, uselowqualdata: 0, binthreshold: 5"  id="queryInput" name="queryInput" value="{% if documentQuery['query'] %}{{ documentQuery['query'] }}{% endif %}">
 		      <span class="input-group-btn">
-		        <button class="btn btn-default docdbbutton" type="submit" data-loading-text="Kör..."  autocomplete="off">Kör</button>
+		        <button class="btn btn-default docdbbutton" type="submit">Kör</button>
 		       <script>
                     $(".docdbbutton").click(function () {
                         $(this).text("Kör...")
