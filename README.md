@@ -44,3 +44,9 @@ The GUI is usually accessible through `http://localhost:5000/sinus/`. Email `max
 ### Searching the document database for a word
 
 ![Search for a single term](../master/readmeimages/litta3.gif?raw=true)
+
+This animation uses `xbins: <number>` that specifies how many bins/pixels that should be used on the x-axis. This coresponds to how fine grained resolution you want.
+
+![Search for a single term](../master/readmeimages/litta_scatter.gif?raw=true)
+
+Here `scatter: 1` will force it to produce a scatterplot instead.
