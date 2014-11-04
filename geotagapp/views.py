@@ -114,7 +114,7 @@ def evaluate():
     
     errors = []    
     for key, val in request.json.iteritems():
-        try;
+        try:
             prediction = val
             blog = mysqldb['blogs'].find_one(id=int(key))
             error = haversine([blog['longitude'], blog['latitude']], 
