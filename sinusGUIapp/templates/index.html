@@ -116,12 +116,15 @@
 		    </h3>
 		  </div>
 		  <div class="panel-body">
-		  <code class="rawdata">{% for sentence in KWIC %}{% if sentence %}{% for w in sentence.split() %}{% if word in w %}<strong>{% endif %} {{ w.strip() }} {% if word in w %}</strong>{% endif %}{% endfor %}
+		  <code class="rawdata">
+		  {% for sentence in KWIC %}
+		  {% if sentence %} 
+		  {% for w in sentence.split() %}{% if word in w %}<strong>{% endif %}{{ w }} {% if word in w %}</strong>{% endif %}{% endfor %}
 		  {% if not loop.last %} <br />{% endif %} 
 		  {% endif %}
 		  {% endfor %}
 		  </code>
-          </div> 
+          </div>
 
 		</div>
 		{% endfor %}
