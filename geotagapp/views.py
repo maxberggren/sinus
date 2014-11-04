@@ -124,7 +124,7 @@ def evaluate():
             pass
     print errors
         
-    return jsonify( { 'soon':'soon' } )
+    return jsonify( { 'errors': errors } )
 
 
 @app.errorhandler(404)
