@@ -43,7 +43,7 @@ The GUI is usually accessible through `http://localhost:5000/sinus/`. Email `max
 
 ### Searching the document database for a word
 
-Results will be on logaritimic frequency.
+Results will be on logaritimic frequency when only one search term is used.
 
 ![Search for a single term](../master/readmeimages/litta3.gif?raw=true)
 
@@ -57,11 +57,15 @@ Here `scatter: 1` will force it to produce a scatterplot instead. This can be be
 
 `uselowqualdata: 1` will use data of low rank. That means that e.g. tagged with the geotagger will be used.
 
-### Searching the document database for words against each other
+### Searching the document database for words/terms against each other
 
 Search results will now be in percent. E.g. av search for `tipspromenad` vs `tipsrunda` vs `poängpromenad` (a common swedish game) will show in percent how many of the hits corresponding to each term against the other.
 
 ![Geotag text](../master/readmeimages/multiple.gif?raw=true)
+
+And let's try searching of phrases rather than just words. `flak öl` vs `platta öl` vs `karta öl` (different phrases in swedish describing 24 beer cans).
+
+![Geotag text](../master/readmeimages/kartaplatta.gif?raw=true)
 
 ### Trying out the geotager (that is used by `tagData.py`)
 
