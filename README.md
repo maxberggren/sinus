@@ -49,4 +49,8 @@ This animation uses `xbins: <number>` that specifies how many bins/pixels that s
 
 ![Search for a single term](../master/readmeimages/litta_scatter.gif?raw=true)
 
-Here `scatter: 1` will force it to produce a scatterplot instead.
+Here `scatter: 1` will force it to produce a scatterplot instead. This can be better in some cases where the hits in the database are very few.
+
+`binthreshold: <number>` will set how many hits per bin that is required for it to count. Default is 5 if not specified.
+
+`uselowqualdata: 1` will use data of low rank. That means that e.g. tagged with the geotagger will be used.
