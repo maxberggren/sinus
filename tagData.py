@@ -111,6 +111,7 @@ if __name__ == "__main__":
     db = dataset.connect(c.LOCATIONDB)
     result = db.query("set names 'utf8'")
     
+    """
     result = db.query("select * from blogs "
                       "WHERE "
                       "( (country = '' and municipality = '' "
@@ -119,7 +120,12 @@ if __name__ == "__main__":
                       "      and county is NULL and city is NULL)"
                       ") "
                       "AND longitude is NULL AND latitude is NULL AND "
-                      "rank <> 9999 LIMIT 1")
+                      "rank <> 9999")
+    """
+    result = db.query("select * from blogs "
+                      "WHERE url = 'http://kultforum.blogspot.com/'")                  
+                      
+                      #http://kultforum.blogspot.com/
     
     for row in result:
         try:
