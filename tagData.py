@@ -51,7 +51,7 @@ def maxFix(text):
         if isinstance(text, unicode):
             return text
         elif isinstance(text, str):
-            
+        
             try:
                 assumedLatin1 = text.decode('latin-1') # unicode
             except UnicodeDecodeError:
@@ -60,31 +60,24 @@ def maxFix(text):
             try:    
                 assumedUTF8 = text.decode('utf-8') # unicode
             except UnicodeDecodeError:
-                assumedUTF8 = u""    
-                            
-            try:
-                forcedLatin1 = unicode(text, 'latin-1')
-            except:
-                forcedLatin1 = u""                  
-            try:
-                forcedUTF8 = unicode(text, 'utf-8')
-            except:
-                forcedUTF8 = u""    
-                
-                                                       
+                assumedUTF8 = u""
+             
+            #print assumedLatin1
+            #print assumedUTF8   
+            #print type(assumedLatin1)
+            #print type(assumedUTF8)
+            
             if count_normal(assumedLatin1) > count_normal(assumedUTF8):
-                # latin-1
-                print "It's probably latin-1"
-                print count_normal(assumedLatin1)
-                print "vs"
-                print count_normal(assumedUTF8)
+                #print "It's probably latin-1"
+                #print count_normal(assumedLatin1)
+                #print "vs"
+                #print count_normal(assumedUTF8)
                 return assumedLatin1
             else:
-                # utf-8
-                print "It's probably utf-8"
-                print count_normal(assumedLatin1)
-                print "vs"
-                print count_normal(assumedUTF8)
+                #print "It's probably utf-8"
+                #print count_normal(assumedLatin1)
+                #print "vs"
+                #print count_normal(assumedUTF8)
                 return assumedUTF8
         else:
             return u""
@@ -145,10 +138,8 @@ if __name__ == "__main__":
             for post in posts:
                 text = text + u"\n\n" + maxFix(post['text'])
             
-            print repr(text)
-            
             print "Belägger " + row['url'] + "..."
-            #print text
+            print text
             while True:
                 try:
                     data = predictViaAPI(text)
