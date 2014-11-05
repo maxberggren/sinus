@@ -154,6 +154,8 @@ if __name__ == "__main__":
                                 id=blogId)
                                
                     db['blogs'].update(data, ['id'])
+                    print "temp tar vi bara en itaget"
+                    break
                 
                 except:
                     print "Unexpected error:", sys.exc_info()[0]
