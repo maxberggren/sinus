@@ -62,7 +62,7 @@ def maxFix(text):
             except UnicodeDecodeError:
                 assumedUTF8 = u""
              
-            print assumedUTF8
+            #print assumedLatin1
             #print assumedUTF8   
             #print type(assumedLatin1)
             #print type(assumedUTF8)
@@ -136,6 +136,7 @@ if __name__ == "__main__":
             
             text = u""
             for post in posts:
+                print post
                 text = text + u"\n\n" + maxFix(post['text'])
             
             print "Belägger " + row['url'] + "..."
