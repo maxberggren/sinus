@@ -119,7 +119,7 @@ if __name__ == "__main__":
                       "      and county is NULL and city is NULL)"
                       ") "
                       "AND longitude is NULL AND latitude is NULL AND "
-                      "rank <> 9999")
+                      "rank <> 9999 LIMIT 1")
     
     for row in result:
         try:
@@ -154,8 +154,6 @@ if __name__ == "__main__":
                                 id=blogId)
                                
                     db['blogs'].update(data, ['id'])
-                    print "temp tar vi bara en itaget"
-                    break
                 
                 except:
                     print "Unexpected error:", sys.exc_info()[0]
