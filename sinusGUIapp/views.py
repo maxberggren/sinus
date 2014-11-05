@@ -537,7 +537,7 @@ def api():
     if not request.json or not 'text' in request.json:
         abort(400)
      
-    touple = model.predict(request.json['text'])   
+    touple = model.predict(request.json['text'])    
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]
     lat = coordinate[1]

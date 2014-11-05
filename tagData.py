@@ -131,7 +131,7 @@ if __name__ == "__main__":
                 text = text + u"\n\n" + maxFix(post['text'])
             
             print "Belägger " + row['url'] + "..."
-            
+            print text
             while True:
                 try:
                     data = predictViaAPI(text)
