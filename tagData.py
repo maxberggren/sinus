@@ -45,6 +45,7 @@ def robertFix(post):
     return post
 
 def maxFix(text):
+    print type(text)
     if text is None:
         return u""
     else:
