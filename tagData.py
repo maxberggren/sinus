@@ -45,7 +45,6 @@ def robertFix(post):
     return post
 
 def maxFix(text):
-    print type(text)
     if text is None:
         return u""
     else:
@@ -62,7 +61,9 @@ def maxFix(text):
                 assumedUTF8 = text.decode('utf-8') # unicode
             except UnicodeDecodeError:
                 assumedUTF8 = u""
-                
+             
+            print assumedLatin1
+            print assumedUTF8   
             #print type(assumedLatin1)
             #print type(assumedUTF8)
             
