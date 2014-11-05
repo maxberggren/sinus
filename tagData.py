@@ -60,8 +60,14 @@ def maxFix(text):
             try:    
                 assumedUTF8 = text.decode('utf-8') # unicode
             except UnicodeDecodeError:
-                assumedUTF8 = u""
+                assumedUTF8 = u""    
+                            
+            try:    
+                assumedW1252 = text.decode('Windows-1252') # unicode
+            except UnicodeDecodeError:
+                assumedW1252 = u""
              
+            print assumedW1252
             #print assumedLatin1
             #print assumedUTF8   
             #print type(assumedLatin1)
@@ -125,7 +131,7 @@ if __name__ == "__main__":
                       "rank <> 9999")
     """
     result = db.query("select * from blogs "
-                      "WHERE url = 'http://kultforum.blogspot.com/'")                  
+                      "WHERE url = 'http://kultforum.blogspot.com/' LIMIT 1")                  
                       
                       #http://kultforum.blogspot.com/
     
