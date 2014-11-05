@@ -145,7 +145,7 @@ if __name__ == "__main__":
             for post in posts:
                 text = text + u"\n\n" + maxFix(post['text'])
             
-            print text
+            print repr(text)
             
             print "Belägger " + row['url'] + "..."
             #print text
