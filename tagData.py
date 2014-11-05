@@ -51,7 +51,7 @@ def maxFix(text):
         if isinstance(text, unicode):
             return text
         elif isinstance(text, str):
-        
+            
             try:
                 assumedLatin1 = text.decode('latin-1') # unicode
             except UnicodeDecodeError:
@@ -73,14 +73,14 @@ def maxFix(text):
                 
                                                        
             if count_normal(assumedLatin1) > count_normal(assumedUTF8):
+                # latin-1
                 print "It's probably latin-1"
                 print count_normal(assumedLatin1)
                 print "vs"
                 print count_normal(assumedUTF8)
-                print "hej"
-                print count_normal(forcedLatin1)
                 return assumedLatin1
             else:
+                # utf-8
                 print "It's probably utf-8"
                 print count_normal(assumedLatin1)
                 print "vs"
@@ -143,8 +143,9 @@ if __name__ == "__main__":
             
             text = u""
             for post in posts:
-                print post
                 text = text + u"\n\n" + maxFix(post['text'])
+            
+            print text
             
             print "Belägger " + row['url'] + "..."
             #print text
