@@ -27,6 +27,7 @@ from PIL import Image
 import os
 import config as c
 from sqlite_cache import SqliteCache
+import sqlalchemy
 
 def dateHistogram(dates, filename):
     """Create histogram of given dates
@@ -574,7 +575,7 @@ def site(urlSearch=None):
                                        "WHERE longitude is not NULL "
                                        "GROUP BY source, rank ORDER BY count DESC")
                 break
-            except OperationalError:
+            except sqlalchemy.exc.OperationalError:
                 pass
                   
         for row in result:
