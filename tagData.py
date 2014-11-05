@@ -140,6 +140,7 @@ if __name__ == "__main__":
             
             print "Belägger " + row['url'] + "..."
             #text = text.encode('utf-8')
+            print text
             while True:
                 try:
                     data = predictViaAPI(text)
