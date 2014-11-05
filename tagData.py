@@ -62,7 +62,7 @@ def maxFix(text):
             except UnicodeDecodeError:
                 assumedUTF8 = u""
              
-            print assumedLatin1
+            print assumedUTF8
             #print assumedUTF8   
             #print type(assumedLatin1)
             #print type(assumedUTF8)
