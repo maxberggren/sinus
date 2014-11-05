@@ -62,28 +62,27 @@ def maxFix(text):
             except UnicodeDecodeError:
                 assumedUTF8 = u""    
                             
-            try:    
-                assumedW1252 = text.decode('Windows-1252') # unicode
-            except UnicodeDecodeError:
-                assumedW1252 = u""
-             
-            print assumedW1252
-            #print assumedLatin1
-            #print assumedUTF8   
-            #print type(assumedLatin1)
-            #print type(assumedUTF8)
-            
+            try:
+                forcedLatin1 = unicode(text, 'latin-1')
+            except:
+                forcedLatin1 = u""                  
+            try:
+                forcedUTF8 = unicode(text, 'utf-8')
+            except:
+                forcedUTF8 = u""    
+                
+                                                       
             if count_normal(assumedLatin1) > count_normal(assumedUTF8):
-                #print "It's probably latin-1"
-                #print count_normal(assumedLatin1)
-                #print "vs"
-                #print count_normal(assumedUTF8)
+                print "It's probably latin-1"
+                print count_normal(assumedLatin1)
+                print "vs"
+                print count_normal(assumedUTF8)
                 return assumedLatin1
             else:
-                #print "It's probably utf-8"
-                #print count_normal(assumedLatin1)
-                #print "vs"
-                #print count_normal(assumedUTF8)
+                print "It's probably utf-8"
+                print count_normal(assumedLatin1)
+                print "vs"
+                print count_normal(assumedUTF8)
                 return assumedUTF8
         else:
             return u""
