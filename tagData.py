@@ -77,6 +77,8 @@ def maxFix(text):
                 print count_normal(assumedLatin1)
                 print "vs"
                 print count_normal(assumedUTF8)
+                print "hej"
+                print count_normal(forcedLatin1)
                 return assumedLatin1
             else:
                 print "It's probably utf-8"
