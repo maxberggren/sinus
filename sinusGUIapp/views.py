@@ -29,6 +29,7 @@ import config as c
 from sqlite_cache import SqliteCache
 import sqlalchemy
 
+
 def dateHistogram(dates, filename):
     """Create histogram of given dates
 
@@ -51,6 +52,7 @@ def dateHistogram(dates, filename):
     filename = "sinusGUIapp/static/maps/" + filename +"_hist.png"
     plt.savefig(filename, dpi=100)
 
+
 def emptyFolder(folder):
     """Empty folder so we won't run out of hdd space
 
@@ -67,6 +69,7 @@ def emptyFolder(folder):
                 os.unlink(file_path)
         except Exception as e:
             print e
+
 
 def getSynonyms(query):
     """Connect to Gavagai API to get synonyms
@@ -95,6 +98,7 @@ def getSynonyms(query):
         synonyms = [""]
     
     return synonyms
+    
     
 def kwic(text, word, source):
     """Make KeyWord In Context
@@ -127,6 +131,7 @@ def kwic(text, word, source):
     left, sep, right = text.partition(word.lower().replace('"', ""))
     if sep:
         return "[" + source + "] " + left[-26:] + sep + right[:46]
+
 
 def genImages(coordinatesByWord, xBins, words, zoom,
               xyRatio, blurFactor, minCoordinates, 
@@ -386,6 +391,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     
     return fewResults, filename, gifFileName
 
+
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, uselowqualdata=0, binThreshold=5):
 
@@ -525,7 +531,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     else: # if a term has to few hits
         return None, hits, KWIC, fewResults, None
     
-
+"""
 @app.route('/localize/api/v1.0/localize', methods = ['POST'])
 def api(): 
     if not request.json or not 'text' in request.json:
@@ -541,7 +547,7 @@ def api():
                       'mostUsefulWords': mostUsefulWords,
                       'outOfVocabulary': OOV, 
                       'mentions': mentions } )
-
+"""
 
 @app.route('/sinus', methods = ['GET', 'POST'])
 @app.route('/sinus/', methods = ['GET', 'POST'])
@@ -732,7 +738,6 @@ def site(urlSearch=None):
                                          stats=stats)
 
 
-
 @app.route('/sinus/explore', methods = ['GET', 'POST'])
 @app.route('/sinus/explore/<word>', methods = ['GET'])
 def explore(word=None):
@@ -852,11 +857,11 @@ def explore(word=None):
              
     return render_template("explore.html", data=data)
 
-
     
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify( { 'error': 'Not found' } ), 404)
+
 
 # Set up the geotagging model
 model = tweetLoc(c.LOCATIONDB)
