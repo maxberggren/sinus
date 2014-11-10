@@ -137,13 +137,12 @@ if __name__ == "__main__":
             text = u""
             for post in posts:
                 text = text + u"\n\n" + maxFix(post['text'])
-            text = text.encode('utf-8')
             
             print "Belägger " + row['url'] + "..."
             print text.encode('utf-8')
             while True:
                 try:
-                    data = predictViaAPI(text)
+                    data = predictViaAPI(text.encode('utf-8'))
                     predictedCoordinate, score, mostUsefulWords, mentions = data
                     break
                 except requests.exceptions.ConnectionError:
