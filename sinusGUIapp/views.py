@@ -461,6 +461,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "AGAINST ('" + word + "' "
                                "IN BOOLEAN MODE) "
                                "AND blogs.latitude is not NULL "
+                               "AND blogs.longitude is not NULL "
                                "AND blogs.rank <= " + str(rankthreshold) + " "
                                "ORDER BY posts.date ") 
                                #ORDER BY RAND() limit 1000?
