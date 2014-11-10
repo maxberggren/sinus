@@ -154,7 +154,8 @@ if __name__ == "__main__":
                 print predictedCoordinate
                 lon = predictedCoordinate[1]
                 lat = predictedCoordinate[0]
-            
+                
+                """
                 try:
                     data = dict(longitude=lon,
                                 latitude=lat,
@@ -165,6 +166,7 @@ if __name__ == "__main__":
                 
                 except:
                     print "Unexpected error:", sys.exc_info()[0]
+                """
             
             
             else:
