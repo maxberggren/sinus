@@ -710,12 +710,7 @@ def site(urlSearch=None):
             
             
     if len(queryWords) > 0:
-        touple = getData(queryWords,        
-                         xBins=xbins,
-                         scatter=scatter,
-                         zoom=zoom,
-                         rankthreshold=rankthreshold,
-                         binThreshold=binThreshold)
+        touple = getData(queryWords,xBins=xbins,scatter=scatter,zoom=zoom,rankthreshold=rankthreshold,binThreshold=binThreshold)
                          
         filename, hits, KWICs, fewResults, gifFileName = touple
                               
