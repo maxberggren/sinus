@@ -393,7 +393,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
 
 
 def getData(words, xBins=None, scatter=None, zoom=None,
-            xyRatio=1.8, blurFactor=0.6, uselowqualdata=0, binThreshold=5):
+            xyRatio=1.8, blurFactor=0.6, rankthreshold=3, binThreshold=5):
 
     """Retrive data from the document database
 
@@ -415,10 +415,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     blurFactor : float
         if blurring the 2d bin data should be applied
         do it by this amount
-    uselowqualdata : int
-        1 if blogs that only have inferred coordinate
-        should be used. that means the geotagging done
-        by tagData.py
+    rankthreshold : int
+        which rank to be the highes included
     binThreshold : int
         number of hits required in a bin for it to count
 
@@ -445,10 +443,6 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     for word in words:
         coordinates, dates = [], []
         fewResults = False
-        if uselowqualdata == 0:
-            queryuselowqualdata = "AND rank <> 4"
-        else:
-            queryuselowqualdata = ""
 
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
@@ -462,7 +456,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "AGAINST ('" + word + "' "
                                "IN BOOLEAN MODE) "
                                "AND blogs.latitude is not NULL "
-                               " " + queryuselowqualdata + " "
+                               "AND rank =< " + str(rankthreshold) + " "
                                "ORDER BY posts.date ") 
                                #ORDER BY RAND() limit 1000?
         
@@ -675,7 +669,7 @@ def site(urlSearch=None):
                                or "xbins:" in o
                                or "scatter:" in o
                                or "zoom:" in o
-                               or "uselowqualdata:" in o
+                               or "rankthreshold:" in o
                                or "binthreshold:" in o]
                                
     queryWords = [w.strip() for w in queryWords 
@@ -684,7 +678,7 @@ def site(urlSearch=None):
                                and "xbins:" not in w
                                and "scatter:" not in w
                                and "zoom:" not in w
-                               and "uselowqualdata:" not in w
+                               and "rankthreshold:" not in w
                                and "binthreshold:" not in w]
     
     try:
@@ -704,10 +698,10 @@ def site(urlSearch=None):
     except:
         zoom = None
     try:
-        uselowqualdata = int([o.split(":")[1].strip()
-               for o in operators if "uselowqualdata:" in o][0])
+        rankthreshold = int([o.split(":")[1].strip()
+               for o in operators if "rankthreshold:" in o][0])
     except:
-        uselowqualdata = 0
+        rankthreshold = 0
     try:
         binThreshold = int([o.split(":")[1].strip()
                for o in operators if "binthreshold:" in o][0])
@@ -720,7 +714,7 @@ def site(urlSearch=None):
                          xBins=xbins,
                          scatter=scatter,
                          zoom=zoom,
-                         uselowqualdata=uselowqualdata,
+                         rankthreshold=rankthreshold,
                          binThreshold=binThreshold)
                          
         filename, hits, KWICs, fewResults, gifFileName = touple

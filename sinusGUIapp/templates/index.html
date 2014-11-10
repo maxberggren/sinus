@@ -48,7 +48,7 @@
 
 		  <div class="panel-body">
 		    <div class="input-group">
-		      <input type="text" class="form-control" placeholder="Sökord, &quot;ett utryck&quot;, xbins: auto, scatter: 0, zoom: 0, uselowqualdata: 0, binthreshold: 5"  id="queryInput" name="queryInput" value="{% if documentQuery['query'] %}{{ documentQuery['query'] }}{% endif %}">
+		      <input type="text" class="form-control" placeholder="Sökord, &quot;ett utryck&quot;, xbins: auto, scatter: 0, zoom: 0, rankthreshold: 3, binthreshold: 5"  id="queryInput" name="queryInput" value="{% if documentQuery['query'] %}{{ documentQuery['query'] }}{% endif %}">
 		      <span class="input-group-btn">
 		        <button class="btn btn-default docdbbutton" type="submit">Kör</button>
 		       <script>
@@ -67,7 +67,7 @@
   		  <code>xbins: 15</code> definierar antalet bins i x-ledd (default: auto), 
   		  <code>scatter: 1</code> om scatterplot önskas (default: 0), 
   		  <code>zoom: 1</code> för att zooma till karta (default: 0), 
-  		  <code>uselowqualdata: 1</code> för att använda data med rank > 3 (alltså av lägre kvalitet eftersom den är inferrerad) (default: 0), <code>binthreshold: 5</code> antalet träffar i en "bin" som krävs för att denna ska visas (default: 5)
+  		  <code>rankthreshold: 4</code> högsta rank på datan att använda (default: 3), <code>binthreshold: 5</code> antalet träffar i en "bin" som krävs för att denna ska visas (default: 5)
   		     
   		  </div>
   		  
@@ -264,7 +264,7 @@
             </table>
 
 
-		  <div class="alert alert-warning">Data helt utan metadata beläggs just nu med koordinater. Tids nog kommer alltså allt under rubriken <em>källor utan metadata</em> hamna under <em>källor med koordinat</em>. Med <em>tids nog</em> menas att det bör vara klart februari -15. Om du vill använda denna inferrerade data skicka med flaggan <code>uselowqualdata: 1</code> </div>
+		  <div class="alert alert-warning">Data helt utan metadata beläggs just nu med koordinater. Tids nog kommer alltså allt under rubriken <em>källor utan metadata</em> hamna under <em>källor med koordinat</em>. Med <em>tids nog</em> menas att det bör vara klart februari -15. Om du vill använda denna inferrerade data skicka med flaggan <code>rankthreshold: 4</code> </div>
 
 		  </div>
 		</div>
