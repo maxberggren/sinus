@@ -140,7 +140,7 @@ if __name__ == "__main__":
                 text = text + u"\n\n" + maxFix(post['text'])
             
             print "Belägger " + row['url'] + "..."
-            start = time.clock() 
+            start = time.time() 
             #print text.encode('utf-8')
             while True:
                 try:
@@ -183,7 +183,7 @@ if __name__ == "__main__":
                 except:
                     print "Unexpected error:", sys.exc_info()[0]
             
-            print "Tog: ", time.clock() - start    
+            print "Tog: ", time.time() - start    
             
         except KeyboardInterrupt:
             print "Avslutar"
