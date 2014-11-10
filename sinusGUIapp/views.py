@@ -416,7 +416,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         if blurring the 2d bin data should be applied
         do it by this amount
     rankthreshold : int
-        which rank to be the highes included
+        which rank to be the highest included
     binThreshold : int
         number of hits required in a bin for it to count
 
@@ -456,7 +456,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "AGAINST ('" + word + "' "
                                "IN BOOLEAN MODE) "
                                "AND blogs.latitude is not NULL "
-                               "AND rank <= " + str(rankthreshold) + " "
+                               "AND blogs.rank <= " + str(rankthreshold) + " "
                                "ORDER BY posts.date ") 
                                #ORDER BY RAND() limit 1000?
         
