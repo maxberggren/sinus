@@ -132,7 +132,8 @@ if __name__ == "__main__":
     for row in result:
         try:
             blogId = row['id']
-            posts = db.query("SELECT * FROM posts WHERE blog_id = " + str(blogId) + " limit 200;")
+            posts = db.query("SELECT * FROM posts WHERE "
+                             "blog_id = " + str(blogId) + " limit 200;")
             
             text = u""
             for post in posts:
