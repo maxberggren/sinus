@@ -701,7 +701,7 @@ def site(urlSearch=None):
         rankthreshold = int([o.split(":")[1].strip()
                for o in operators if "rankthreshold:" in o][0])
     except:
-        rankthreshold = 0
+        rankthreshold = 3
     try:
         binThreshold = int([o.split(":")[1].strip()
                for o in operators if "binthreshold:" in o][0])
