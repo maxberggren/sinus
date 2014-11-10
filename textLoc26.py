@@ -258,8 +258,7 @@ class tweetLoc:
             for date in batches:
                 result = self.db.query("SELECT * FROM GMMs " 
                                        "WHERE word = '" + word + "' "
-                                       "AND date = '" + date + "' "
-                                       "AND n_coordinates > 100 ")
+                                       "AND date = '" + date + "' ")
                                        
                 subscores, subcoordinates = [], []
                 for row in result:
@@ -344,8 +343,7 @@ class tweetLoc:
             for date in batches:
                 result = self.db.query("SELECT * FROM GMMs " 
                                        "WHERE word = '" + word + "' "
-                                       "AND date = '" + date + "'"
-                                       "AND n_coordinates > 100 ")
+                                       "AND date = '" + date + "'")
                                        
                 subscores, subcoordinates = [], []
                 for row in result:
