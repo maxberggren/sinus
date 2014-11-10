@@ -392,7 +392,8 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     return fewResults, filename, gifFileName
 
 
-def getData(words, xBins=None, scatter=None, zoom=None, xyRatio=1.8, blurFactor=0.6, rankthreshold=3, binThreshold=5):
+def getData(words, xBins=None, scatter=None, zoom=None,
+            xyRatio=1.8, blurFactor=0.6, rankthreshold=3, binThreshold=5):
 
     """Retrive data from the document database
 
@@ -501,7 +502,8 @@ def getData(words, xBins=None, scatter=None, zoom=None, xyRatio=1.8, blurFactor=
                                                       scatter,
                                                       hits,
                                                       chunks=1,
-                                                      binThreshold=binThreshold)
+                                                      binThreshold=binThreshold,
+                                                      rankthreshold=rankthreshold)
         # Get time series gif
         fewResults, giffile, gifFileName = genImages(coordinatesByWord, 
                                                      xBins,
@@ -514,7 +516,8 @@ def getData(words, xBins=None, scatter=None, zoom=None, xyRatio=1.8, blurFactor=
                                                      hits,
                                                      chunks=7,
                                                      dates=dates,
-                                                     binThreshold=binThreshold)
+                                                     binThreshold=binThreshold,
+                                                     rankthreshold=rankthreshold)
         
         if gifFileName: # no gif = no histogram                                     
             dateHistogram(dates, gifFileName)
@@ -709,7 +712,12 @@ def site(urlSearch=None):
             
             
     if len(queryWords) > 0:
-        touple = getData(queryWords,xBins=xbins,scatter=scatter,zoom=zoom,rankthreshold=rankthreshold,binThreshold=binThreshold)
+        touple = getData(queryWords,        
+                         xBins=xbins,
+                         scatter=scatter,
+                         zoom=zoom,
+                         rankthreshold=rankthreshold,
+                         binThreshold=binThreshold)
                          
         filename, hits, KWICs, fewResults, gifFileName = touple
                               
