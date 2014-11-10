@@ -195,9 +195,7 @@ class tweetLoc:
         """
         
         if len(coordinates) > 0:
-            
-            # Original
-            """
+                        
             numberOfCoordinates, nominator, denominator = 0, 0, 0
             
             for score, coordinate in zip(scores, coordinates):
@@ -216,7 +214,7 @@ class tweetLoc:
             return weightedMean, score 
             
             """
-            # Vektoriserat
+            # Vektoriserat alternat
             
             if np.sum(scores) > 0:
                 nominator = np.sum(np.multiply(coordinates.T, scores).T, axis=0)
@@ -226,7 +224,7 @@ class tweetLoc:
                 return nominator/denominator, score
             else:
                 return [0.0, 0.0], 0.0 
-            
+            """
             
         else:
             return [0.0, 0.0], 0.0
@@ -238,8 +236,6 @@ class tweetLoc:
         Output: koordinat (lon, lat) och "platsighet" (hur säker modellen är),
                 de top 20 mest platsiga orden samt procent out of vocabulary
         """  
-        """
-        # Original
            
         if not threshold:
             threshold = 1e40
@@ -311,15 +307,15 @@ class tweetLoc:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
                                         
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
-        """
+        
         """ 
         Förutsäger en koordinat för en bunte text
         Input: text
         Output: koordinat (lon, lat) och "platsighet" (hur säker modellen är),
                 de top 20 mest platsiga orden samt procent out of vocabulary
         """      
-        
-        # Vektoriserat
+        """
+        # Vektoriserat som ej verkar funka bra
         
         if not threshold:
             threshold = 1e40
@@ -400,7 +396,7 @@ class tweetLoc:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
                                         
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
-        
+        """
 
 if __name__ == "__main__":
 
