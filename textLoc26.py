@@ -194,7 +194,7 @@ class tweetLoc:
         Output: koordinat och dess säkerhet
         """
         if len(coordinates) > 0:
-            
+            """"
             numberOfCoordinates, nominator, denominator = 0, 0, 0
             
             for score, coordinate in zip(scores, coordinates):
@@ -211,7 +211,6 @@ class tweetLoc:
             score = denominator / numberOfCoordinates # avg score
                 
             return weightedMean, score 
-            
             """
             if np.sum(scores) > 0:
                 nominator = np.sum(np.multiply(coordinates.T, scores).T, axis=0)
@@ -221,7 +220,6 @@ class tweetLoc:
                 return nominator/denominator, score
             else:
                 return [0.0, 0.0], 0.0 
-            """
         else:
             return [0.0, 0.0], 0.0
 
@@ -232,84 +230,6 @@ class tweetLoc:
         Output: koordinat (lon, lat) och "platsighet" (hur säker modellen är),
                 de top 20 mest platsiga orden samt procent out of vocabulary
         """      
-        if not threshold:
-            threshold = 1e40
-        
-        words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar                          
-        coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
- 
-        # Hämta alla unika datum (batchar) där GMMer satts in i databasen
-        batches, wordFreqs = [], []
-        
-        for row in self.db.query("SELECT DISTINCT date FROM GMMs"):
-            # TODO: byt ut till en separat tabell istället för _^
-            batches.append(row['date'])
-        
-        for word in words:
-            batchscores, batchcoordinates = [], []
-            wordFreq, freqInBatch = 0, 0
-            
-            for date in batches:
-                result = self.db.query("SELECT * FROM GMMs " 
-                                       "WHERE word = '" + word + "' "
-                                       "AND date = '" + date + "'")
-                                       
-                subscores, subcoordinates = [], []
-                for row in result:
-                    subscores.append(row['scoring'])
-                    subcoordinates.append([row['lat'], row['lon']])
-                    freqInBatch = row['n_coordinates']
-                    if not freqInBatch:
-                        freqInBatch = 0
-                
-                coordinate, score = self.weightedMean(subcoordinates, subscores)
-                batchscores.append(score)
-                batchcoordinates.append(coordinate)
-                wordFreq += freqInBatch
-            
-            # Vikta samman batcharna. TODO: fallande vikt efter datum
-            coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
-                
-            if score > threshold:
-                coordinates.append(coordinate)
-                scores.append(score)
-                acceptedWords.append(word)
-                wordFreqs.append(wordFreq)
-        
-            # Räkna ord som är out of vocabulary
-            if score == 0.0:
-                OOVcount += 1 
-                
-        #print acceptedWords, wordFreqs
-                 
-        # Vikta samman alla ord efter deras "platsighet"
-        coordinate, score = self.weightedMean(coordinates, scores)
-  
-        wordsAndScores = zip(acceptedWords, scores, wordFreqs)
-        # Sortera
-        sortedByScore = sorted(wordsAndScores, key=itemgetter(1), reverse=True)
-        
-        # Skapa dict med platsighet för top 50
-        mostUsefullWords = OrderedDict((word, score) for word, score, wordFreq in 
-                                        sortedByScore[0:50]) 
-        # Skapa dict med koordinatfrekvens för top 50                                
-        mentions = OrderedDict((word, int(wordFreq)) for word, score, wordFreq in 
-                                sortedByScore[0:50]) 
-        
-        if len(words) == 0:
-            outOfVocabulary = 0                                
-        else:
-            outOfVocabulary = (float(OOVcount) / float(len(words)))
-                                        
-        return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
-                
-        """ 
-        Förutsäger en koordinat för en bunte text
-        Input: text
-        Output: koordinat (lon, lat) och "platsighet" (hur säker modellen är),
-                de top 20 mest platsiga orden samt procent out of vocabulary
-        """      
-        """
         if not threshold:
             threshold = 1e40
         
@@ -389,7 +309,7 @@ class tweetLoc:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
                                         
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
-        """
+
 
 if __name__ == "__main__":
 
