@@ -464,7 +464,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "AND blogs.longitude is not NULL "
                                "AND blogs.rank <= " + str(rankthreshold) + " "
                                "ORDER BY posts.date ") 
-                               #ORDER BY RAND() limit 1000?
+                               #ORDER BY RAND() limit 1000? 
         
         # Get all lon and lats, and dates
         # and keywords in contexts (kwic)
