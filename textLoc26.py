@@ -211,7 +211,7 @@ class tweetLoc:
                 weightedMean = nominator / denominator
                 weightedMean = weightedMean.tolist()
             
-            score = denominator / numberOfCoordinates # avg score
+            score = denominator / float(numberOfCoordinates) # avg score
                 
             return weightedMean, score 
             

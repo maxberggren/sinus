@@ -154,6 +154,7 @@ if __name__ == "__main__":
             
             if predictedCoordinate and score > 0.0:
                 print predictedCoordinate
+                print mostUsefulWords
                 #time.sleep(5)
                 lon = predictedCoordinate[1]
                 lat = predictedCoordinate[0]
