@@ -225,13 +225,8 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             totCoordinates += len(kordinater[chunk])
             
             lons, lats = zip(*kordinater[chunk])
-            print "LATS"
-            print lats
-            print "LONS"
-            print lons
-            print "DUNNO"
-            print [lat_bins, lon_bins]
-            subdensity, _, _ = np.histogram2d(lats, lons, [lat_bins, lon_bins])
+            subdensity, _, _ = np.histogram2d(lats, lons, 
+                                              [lat_bins, lon_bins])
             totDensity += subdensity
 
         # Filter out bins with to few hits
