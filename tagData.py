@@ -139,6 +139,7 @@ if __name__ == "__main__":
                 text = text + u"\n\n" + maxFix(post['text'])
             
             print "Belägger " + row['url'] + "..."
+            start = time.clock() 
             #print text.encode('utf-8')
             while True:
                 try:
@@ -152,6 +153,7 @@ if __name__ == "__main__":
             
             if predictedCoordinate and score > 0.0:
                 print predictedCoordinate
+                print "Tog: ", time.clock() - start
                 #time.sleep(5)
                 lon = predictedCoordinate[1]
                 lat = predictedCoordinate[0]
