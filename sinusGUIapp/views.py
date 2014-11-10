@@ -392,8 +392,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     return fewResults, filename, gifFileName
 
 
-def getData(words, xBins=None, scatter=None, zoom=None,
-            xyRatio=1.8, blurFactor=0.6, rankthreshold=3, binThreshold=5):
+def getData(words, xBins=None, scatter=None, zoom=None, xyRatio=1.8, blurFactor=0.6, rankthreshold=3, binThreshold=5):
 
     """Retrive data from the document database
 
