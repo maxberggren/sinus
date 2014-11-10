@@ -502,8 +502,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                                       scatter,
                                                       hits,
                                                       chunks=1,
-                                                      binThreshold=binThreshold,
-                                                      rankthreshold=rankthreshold)
+                                                      binThreshold=binThreshold)
         # Get time series gif
         fewResults, giffile, gifFileName = genImages(coordinatesByWord, 
                                                      xBins,
@@ -516,8 +515,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                                      hits,
                                                      chunks=7,
                                                      dates=dates,
-                                                     binThreshold=binThreshold,
-                                                     rankthreshold=rankthreshold)
+                                                     binThreshold=binThreshold)
         
         if gifFileName: # no gif = no histogram                                     
             dateHistogram(dates, gifFileName)
