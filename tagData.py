@@ -142,7 +142,7 @@ if __name__ == "__main__":
             print text.encode('utf-8')
             while True:
                 try:
-                    data = predictViaAPI(text.encode('utf-8'))
+                    data = predictViaAPI(text)
                     predictedCoordinate, score, mostUsefulWords, mentions = data
                     break
                 except requests.exceptions.ConnectionError:
