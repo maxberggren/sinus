@@ -197,7 +197,7 @@ class tweetLoc:
         if len(coordinates) > 0:
             
             # Original
-            """
+            
             numberOfCoordinates, nominator, denominator = 0, 0, 0
             
             for score, coordinate in zip(scores, coordinates):
@@ -226,7 +226,7 @@ class tweetLoc:
                 return nominator/denominator, score
             else:
                 return [0.0, 0.0], 0.0 
-            
+            """
             
         else:
             return [0.0, 0.0], 0.0
@@ -238,7 +238,7 @@ class tweetLoc:
         Output: koordinat (lon, lat) och "platsighet" (hur säker modellen är),
                 de top 20 mest platsiga orden samt procent out of vocabulary
         """  
-        """
+        
         # Original
            
         if not threshold:
@@ -311,14 +311,14 @@ class tweetLoc:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
                                         
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
-        """
+        
         """ 
         Förutsäger en koordinat för en bunte text
         Input: text
         Output: koordinat (lon, lat) och "platsighet" (hur säker modellen är),
                 de top 20 mest platsiga orden samt procent out of vocabulary
         """      
-        
+        """
         # Vektoriserat
         
         if not threshold:
@@ -400,7 +400,7 @@ class tweetLoc:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
                                         
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
-        
+        """
 
 if __name__ == "__main__":
 
