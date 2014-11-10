@@ -139,8 +139,7 @@ if __name__ == "__main__":
                 text = text + u"\n\n" + maxFix(post['text'])
             
             print "Belägger " + row['url'] + "..."
-            #text = text.encode('utf-8')
-            print text
+            print text.encode('utf-8')
             while True:
                 try:
                     data = predictViaAPI(text)
