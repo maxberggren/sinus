@@ -153,7 +153,6 @@ if __name__ == "__main__":
             
             if predictedCoordinate and score > 0.0:
                 print predictedCoordinate
-                print "Tog: ", time.clock() - start
                 #time.sleep(5)
                 lon = predictedCoordinate[1]
                 lat = predictedCoordinate[0]
@@ -182,7 +181,9 @@ if __name__ == "__main__":
                 
                 except:
                     print "Unexpected error:", sys.exc_info()[0]
-                
+            
+            print "Tog: ", time.clock() - start    
+            
         except KeyboardInterrupt:
             print "Avslutar"
             break  

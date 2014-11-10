@@ -9,7 +9,7 @@ import os
 import random
 from math import radians, cos, sin, asin, sqrt, isnan, exp, isnan
 import numpy as np
-import pylab as pl
+#import pylab as pl
 from sklearn import mixture
 import dataset    
 import codecs   
