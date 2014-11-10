@@ -579,6 +579,7 @@ def site(urlSearch=None):
                 result = mysqldb.query("SELECT source, rank, COUNT(*) "
                                        "as count FROM blogs "
                                        "WHERE longitude is not NULL "
+                                       "AND rank <> 9999 "
                                        "GROUP BY source, rank ORDER BY count DESC")
                 break
             except sqlalchemy.exc.OperationalError:
