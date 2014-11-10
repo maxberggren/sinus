@@ -221,7 +221,7 @@ class tweetLoc:
             if np.sum(scores) > 0:
                 nominator = np.sum(np.multiply(coordinates.T, scores).T, axis=0)
                 denominator = np.sum(scores)
-                score = np.sum(scores)/len(coordinates)
+                score = float(np.sum(scores))/float(len(coordinates))
 
                 return nominator/denominator, score
             else:
