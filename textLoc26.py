@@ -154,10 +154,8 @@ class tweetLoc:
         wordsWithModelAccepted = []
         # Skapar en GMM för alla ord
         for i, word in enumerate(words):
-            #print word
             try:                  
                 coordinateData = self.getCoordinatesFor(word)
-                #print coordinateData
                 if len(coordinateData) > 3:
                     print str(i) + "/" + str(len(words)) + " " + word
     
@@ -265,7 +263,6 @@ class tweetLoc:
                                        "AND date = '" + date + "'")                   
                 subscores, subcoordinates = [], []
                 for row in result:
-                    print row
                     subscores.append(row['scoring'])
                     subcoordinates.append([row['lat'], row['lon']])
                     freqInBatch = row['n_coordinates']
