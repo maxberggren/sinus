@@ -260,7 +260,7 @@ class tweetLoc:
             wordFreq, freqInBatch = 0, 0
             
             for date in batches:
-                result = self.db['GMMs'].find(word=word.encode('utf-8'), date=date)             
+                result = self.db['GMMs'].find(word=word, date=date)             
                 subscores, subcoordinates = [], []
                 for row in result:
                     print row
