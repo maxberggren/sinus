@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*- 
 
-from textLoc24 import *
+from textLoc26 import *
 #import sys
 import dataset
 import re
