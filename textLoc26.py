@@ -242,7 +242,7 @@ class tweetLoc:
         
         self.db.query("set names 'utf8'")
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
-        words = [word.decode('latin-1') for word in words]                         
+        #words = [word.encode('utf-8') for word in words]                         
         coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
  
         # Hämta alla unika datum (batchar) där GMMer satts in i databasen
@@ -260,9 +260,10 @@ class tweetLoc:
             wordFreq, freqInBatch = 0, 0
             
             for date in batches:
-                result = self.db.query("SELECT * FROM GMMs " 
-                                       "WHERE word = '" + word + "' "
-                                       "AND date = '" + date + "'")                   
+                result = self.db['GMMs'].find(word=word, date=date)
+                #result = self.db.query("SELECT * FROM GMMs " 
+                #                       "WHERE word = '" + word + "' "
+                #                       "AND date = '" + date + "'")                   
                 subscores, subcoordinates = [], []
                 for row in result:
                     print row
