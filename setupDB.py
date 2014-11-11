@@ -78,13 +78,13 @@ if __name__ == "__main__":
         CREATE TABLE IF NOT EXISTS posts (
           id int(11) NOT NULL AUTO_INCREMENT,
           date datetime DEFAULT NULL,
-          text text COLLATE utf8_unicode_ci,
+          text text COLLATE utf8_general_ci,
           blog_id int(11) DEFAULT NULL,
-          posttitle text COLLATE utf8_unicode_ci,
-          posturl text COLLATE utf8_unicode_ci,
+          posttitle text COLLATE utf8_general_ci,
+          posturl text COLLATE utf8_general_ci,
           PRIMARY KEY (id),
           KEY blog_id (blog_id)
-        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
         """
 
     documents.query(q)
