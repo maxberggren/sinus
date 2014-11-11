@@ -32,6 +32,7 @@ def predictViaAPI(text):
 
 if __name__ == "__main__":
     db = dataset.connect(c.LOCATIONDB)
+    db.query("set names 'utf8'")
     result = db.query("SELECT * FROM blogs "
                       "WHERE longitude is not NULL "
                       "AND latitude is not NULL "
