@@ -261,6 +261,7 @@ class tweetLoc:
             
             for date in batches:
                 print word
+                print type(word)
                 result = self.db['GMMs'].find(word=word, date=date)
                 #result = self.db.query("SELECT * FROM GMMs " 
                 #                       "WHERE word = '" + word + "' "
