@@ -51,6 +51,7 @@ def tag(threshold=None):
         except:
             return jsonify( { 'error': "Threshold should be of the form 1e40." } )
         
+    print type(request.json['text'])
     touple = model.predict(request.json['text'], threshold=threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]
