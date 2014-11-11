@@ -246,9 +246,12 @@ class tweetLoc:
         # Hämta alla unika datum (batchar) där GMMer satts in i databasen
         batches, wordFreqs = [], []
         
-        for row in self.db.query("SELECT DISTINCT date FROM GMMs"):
-            # TODO: byt ut till en separat tabell istället för _^
-            batches.append(row['date'])
+        if not self.cache.get("batches"):
+            for row in self.db.query("SELECT DISTINCT date FROM GMMs"):
+                batches.append(row['date'])
+            self.cache.set("batches", batches, timeout=60*60) # cache for 1 hours    
+        else:
+            batches = self.cache.get("batches")
         
         for word in words:
             batchscores, batchcoordinates = [], []
@@ -258,7 +261,7 @@ class tweetLoc:
                 result = self.db.query("SELECT * FROM GMMs " 
                                        "WHERE word = '" + word + "' "
                                        "AND date = '" + date + "'")
-                                       
+                print result                    
                 subscores, subcoordinates = [], []
                 for row in result:
                     subscores.append(row['scoring'])
