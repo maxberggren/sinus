@@ -54,7 +54,7 @@ if __name__ == "__main__":
         #sdsda
         for post in posts:
             print post
-            print type(post)
+            print type(post['text'])
             text = text + "\n\n" + post['text']
             
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
