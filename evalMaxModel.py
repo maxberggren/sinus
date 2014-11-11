@@ -76,7 +76,6 @@ if __name__ == "__main__":
             for word, score in mostUsefulWords.iteritems():
                 print word.encode('utf-8'), score, "(",mentions[word],"),",
             
-                
             print "\nFel: {} km".format(fel)
             print "-----"
             print "Median: {}".format(np.median(felen))
@@ -87,6 +86,6 @@ if __name__ == "__main__":
             print "Svarsprocent: {}".format(float(chooseToAnswer)/float(i))
             print "-----"
             
-            print tabulate.tabulate([[i], [predictedCoordinate], [[row['latitude'], row['longitude']]]],["#", "Predicted", "Real"], "rst", floatfmt=".0f")
+            #print tabulate.tabulate([[i], [predictedCoordinate], [[row['latitude'], row['longitude']]]],["#", "Predicted", "Real"], "rst", floatfmt=".0f")
 
     
