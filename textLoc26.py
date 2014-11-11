@@ -240,6 +240,7 @@ class tweetLoc:
         if not threshold:
             threshold = 1e40
         
+        self.db.query("set names 'utf8'")
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar                          
         coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
  
