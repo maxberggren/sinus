@@ -55,6 +55,7 @@ if __name__ == "__main__":
         for post in posts:
             print post
             print type(post['text'])
+            print post['text'].decode('utf-8')
             text = text + "\n\n" + post['text']
             
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
