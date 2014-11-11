@@ -46,7 +46,7 @@ if __name__ == "__main__":
         i += 1
     
         blogurl = row['url']
-        blogid = row['rowid']
+        blogid = row['id']
         
         posts = db.query("SELECT * FROM posts WHERE blog_id = " + str(blogid) + ";") 
         
