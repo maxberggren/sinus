@@ -260,7 +260,7 @@ class tweetLoc:
             wordFreq, freqInBatch = 0, 0
             
             for date in batches:
-                print word
+                print word.encode('utf-8')
                 print type(word)
                 result = self.db['GMMs'].find(word=word, date=date)
                 #result = self.db.query("SELECT * FROM GMMs " 
