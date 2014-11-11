@@ -12,7 +12,7 @@ import requests
 import json
 from collections import OrderedDict
 import config as c
-import tabular
+import tabulate
 
 def predictViaAPI(text):
     payload = json.dumps({'text': text})
