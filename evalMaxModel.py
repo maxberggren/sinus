@@ -38,23 +38,18 @@ if __name__ == "__main__":
                       "AND latitude is not NULL "
                       "AND rank = 2 ")
     
-    fel = []
+    felen = []
     i = 0
     acceptableAnswer = 0
     chooseToAnswer = 0
     
     for row in result:
         i += 1
-    
-        blogurl = row['url']
         blogid = row['id']
         
         posts = db['posts'].find(blog_id=blogid)
-        
         text = ""   
         for post in posts:
-            #print post
-            #print type(post['text'])
             text = text + u"\n\n" + post['text'].decode('latin-1')
             
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
@@ -62,17 +57,17 @@ if __name__ == "__main__":
         if predictedCoordinate and score > 0.0:
 
             chooseToAnswer += 1
-            print "Förutspår koordinat från " + str(len(text)) + " tecken. Nr #"+str(i)
+            print "Förutspår koordinat från {} tecken. Nr #{}".format(len(text), i)
+            fel = haversine([row['latitude'], row['longitude']], predictedCoordinate)
             
-            if haversine([row['latitude'], row['longitude']], 
-                          predictedCoordinate) < 100:
+            if fel < 100: # Acceptabelt fel
                 acceptableAnswer += 1
             
-            fel.append(haversine([row['latitude'], row['longitude']], 
-                                 predictedCoordinate))
+            felen.append(fel)
 
-            print "Förutspådd koordinat: " + str(predictedCoordinate) 
-            print "Platsighet: " + str(score) 
+            print "Förutspådd koordinat: {}".format(predictedCoordinate) 
+            print "Riktig koordinat: {}".format([row['latitude'], row['longitude']]) 
+            print "Platsighet: {}".format(score) 
             
             mostUsefulWords = OrderedDict(sorted(mostUsefulWords.items(), 
                                                  key=lambda x: x[1]))
@@ -81,12 +76,13 @@ if __name__ == "__main__":
                 print word.encode('utf-8'), score, "(",mentions[word],"),",
             
                 
-            print "\nFel: " + str(haversine([row['latitude'], row['longitude']], predictedCoordinate)) + " km"
+            print "\nFel: {} km".format(fel)
             print "-----"
-            print "Median: " + str(np.median(fel))
-            print "Medelv: " + str(np.mean(fel))
-            print "Acceptabelt svar totalt: " + str(float(acceptableAnswer)/float(i))
-            print "Acceptabelt svar av svarade: " + str(float(acceptableAnswer)/float(chooseToAnswer))
-            print "Svarsprocent: " + str(float(chooseToAnswer)/float(i))
+            print "Median: {}".format(np.median(felen))
+            print "Medelv: {}".format(np.mean(felen))
+            print "Acceptabelt svar totalt: {}".format(float(acceptableAnswer)/float(i))
+            print "Acceptabelt svar av svarade: {}".format(float(acceptableAnswer)/
+                                                           float(chooseToAnswer))
+            print "Svarsprocent: {}".format(float(chooseToAnswer)/float(i))
             print "-----"
     
