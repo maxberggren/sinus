@@ -239,7 +239,7 @@ class tweetLoc:
            
         if not threshold:
             threshold = 1e40
-        print type(text)
+        
         self.db.query("set names 'utf8'")
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
         #words = [word.encode('utf-8') for word in words]                         
@@ -260,7 +260,9 @@ class tweetLoc:
             wordFreq, freqInBatch = 0, 0
             
             for date in batches:
-                result = self.db['GMMs'].find(word=word.encode('utf-8'), date=date)             
+                result = self.db.query("SELECT * FROM GMMs " 
+                                       "WHERE word = '" + word + "' "
+                                       "AND date = '" + date + "'")                   
                 subscores, subcoordinates = [], []
                 for row in result:
                     print row
