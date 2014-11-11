@@ -64,11 +64,11 @@ if __name__ == "__main__":
             chooseToAnswer += 1
             print "Förutspår koordinat från " + str(len(text)) + " tecken. Nr #"+str(i)
             
-            if haversine([row['longitude'], row['latitude']], 
+            if haversine([row['latitude'], row['longitude']], 
                           predictedCoordinate) < 100:
                 acceptableAnswer += 1
             
-            fel.append(haversine([row['longitude'], row['latitude']], 
+            fel.append(haversine([row['latitude'], row['longitude']], 
                                  predictedCoordinate))
 
             print "Förutspådd koordinat: " + str(predictedCoordinate) 
@@ -81,7 +81,7 @@ if __name__ == "__main__":
                 print word.encode('utf-8'), score, "(",mentions[word],"),",
             
                 
-            print "\nFel: " + str(haversine([row['longitude'], row['latitude']], predictedCoordinate)) + " km"
+            print "\nFel: " + str(haversine([row['latitude'], row['longitude']], predictedCoordinate)) + " km"
             print "-----"
             print "Median: " + str(np.median(fel))
             print "Medelv: " + str(np.mean(fel))
