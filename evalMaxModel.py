@@ -49,7 +49,7 @@ if __name__ == "__main__":
         blogurl = row['url']
         blogid = row['id']
         
-        posts = db.query("SELECT * FROM posts WHERE blog_id = " + str(blogid) + ";") 
+        posts = db['posts'].find(blog_id=blogid)
         
         text = ""   
         #sdsda
