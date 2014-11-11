@@ -53,6 +53,8 @@ if __name__ == "__main__":
         text = ""   
         #sdsda
         for post in posts:
+            print post
+            print type(post)
             text = text + "\n\n" + post['text']
             
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
@@ -62,7 +64,8 @@ if __name__ == "__main__":
             chooseToAnswer += 1
             print "Förutspår koordinat från " + str(len(text)) + " tecken. Nr #"+str(i)
             
-            if haversine([row['longitude'], row['latitude']], predictedCoordinate) < 100:
+            if haversine([row['longitude'], row['latitude']], 
+                          predictedCoordinate) < 100:
                 acceptableAnswer += 1
             
             fel.append(haversine([row['longitude'], row['latitude']], 
