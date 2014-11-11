@@ -242,7 +242,7 @@ class tweetLoc:
         
         self.db.query("set names 'utf8'")
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
-        print words                         
+        words = [word.encode('latin-1') for word in words]                         
         coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
  
         # Hämta alla unika datum (batchar) där GMMer satts in i databasen
