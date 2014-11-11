@@ -239,7 +239,7 @@ class tweetLoc:
            
         if not threshold:
             threshold = 1e40
-        
+        print type(text)
         self.db.query("set names 'utf8'")
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
         #words = [word.encode('utf-8') for word in words]                         
