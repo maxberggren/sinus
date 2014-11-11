@@ -12,6 +12,7 @@ import requests
 import json
 from collections import OrderedDict
 import config as c
+import tabular
 
 def predictViaAPI(text):
     payload = json.dumps({'text': text})
@@ -85,4 +86,7 @@ if __name__ == "__main__":
                                                            float(chooseToAnswer))
             print "Svarsprocent: {}".format(float(chooseToAnswer)/float(i))
             print "-----"
+            
+            print tabulate.tabulate([predictedCoordinate, [row['latitude'], row['longitude']]],["Förutspådd", "Riktig"], "rst", floatfmt=".0f")
+
     
