@@ -260,10 +260,10 @@ class tweetLoc:
             for date in batches:
                 result = self.db.query("SELECT * FROM GMMs " 
                                        "WHERE word = '" + word + "' "
-                                       "AND date = '" + date + "'")
-                print result                    
+                                       "AND date = '" + date + "'")                   
                 subscores, subcoordinates = [], []
                 for row in result:
+                    print row
                     subscores.append(row['scoring'])
                     subcoordinates.append([row['lat'], row['lon']])
                     freqInBatch = row['n_coordinates']
