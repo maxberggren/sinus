@@ -52,12 +52,11 @@ if __name__ == "__main__":
         posts = db['posts'].find(blog_id=blogid)
         
         text = ""   
-        #sdsda
         for post in posts:
             print post
             print type(post['text'])
             print post['text'].encode('utf-8')
-            text = text + "\n\n" + post['text']
+            text = text + u"\n\n" + post['text']
             
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
