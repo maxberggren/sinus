@@ -35,8 +35,7 @@ if __name__ == "__main__":
     result = db.query("SELECT * FROM blogs "
                       "WHERE longitude is not NULL "
                       "AND latitude is not NULL "
-                      "AND rank = 2 "
-                      "ORDER BY count DESC")
+                      "AND rank = 2 ")
     
     fel = []
     i = 0
