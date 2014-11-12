@@ -45,18 +45,20 @@ if __name__ == "__main__":
     i = 0
     acceptableAnswer = 0
     chooseToAnswer = 0
-    headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}".format(fel="fel",median="mdn", medelv="mdv", AST="AST", ASV="ASV", SP="SP", test="#T")
+    
     
     for row in result:
         i += 1
         
+        headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}".format(fel="fel",median="mdn", medelv="mdv", AST="AST", ASV="ASV", SP="SP", test="#T")
+        
         if (i-1) % 10 == 0: 
-            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |  {text:<40}"
+            pattern = "{id:>4} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
             head = pattern.format(id="-"*4, 
                                   tecken="-"*8, 
                                   T1="-"*35, 
                                   T2="-"*35,
-                                  text="-"*40)
+                                  text="-"*70)
             print head
         
             head = pattern.format(id="#", 
@@ -104,28 +106,6 @@ if __name__ == "__main__":
                 bestWords.append(word.encode('utf-8'))
                 
             bestWords = ", ".join(bestWords[::-1][0:6])
-
-            """
-            print "Förutspådd koordinat: {}".format(predictedCoordinate) 
-            print "Riktig koordinat: {}".format([row['latitude'], row['longitude']]) 
-            print "Platsighet: {}".format(score) 
-            
-            mostUsefulWords = OrderedDict(sorted(mostUsefulWords.items(), 
-                                                 key=lambda x: x[1]))
-            
-            for word, score in mostUsefulWords.iteritems():
-                print word.encode('utf-8'), score, "(",mentions[word],"),",
-            
-            print "\nFel: {} km".format(fel)
-            print "-----" 
-            print "Median: {}".format(np.median(felen))
-            print "Medelv: {}".format(np.mean(felen))
-            print "Acceptabelt svar totalt: {}".format(float(acceptableAnswer)/float(i))
-            print "Acceptabelt svar av svarade: {}".format(float(acceptableAnswer)/
-                                                           float(chooseToAnswer))
-            print "Svarsprocent: {}".format(float(chooseToAnswer)/float(i))
-            print "-----"
-            """
             
             pattern = "{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} {AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}"
             T1 = pattern.format(fel=fel,
@@ -136,7 +116,7 @@ if __name__ == "__main__":
                                 SP=float(chooseToAnswer)/float(i), 
                                 test="T1")
     
-            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |  {text:<40}[..]"
+            pattern = "{id:>4} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
             row = pattern.format(tecken=len(text), 
                                  T1=T1, 
                                  T2=T1, 
@@ -147,7 +127,7 @@ if __name__ == "__main__":
 
             
         else:
-            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |  {text:<40}[..]"
+            pattern = "{id:>4} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
             row = pattern.format(tecken=len(text), 
                                  T1="###", 
                                  T2="###", 
