@@ -37,7 +37,7 @@ if __name__ == "__main__":
     result = db.query("SELECT * FROM blogs "
                       "WHERE longitude is not NULL "
                       "AND latitude is not NULL "
-                      "AND rank = 2 ")
+                      "AND rank = 2 order by id DESC")
     
     felen = []
     i = 0
@@ -90,4 +90,4 @@ if __name__ == "__main__":
             print "-----"
             
         else:
-            print "Kunde en belägga"
+            print "Kunde ej belägga"
