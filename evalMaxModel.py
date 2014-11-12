@@ -48,6 +48,8 @@ if __name__ == "__main__":
         i += 1
         blogid = row['id']
         
+        print row['url']
+        
         posts = db['posts'].find(blog_id=blogid)
         text = ""   
         for post in posts:
@@ -60,7 +62,6 @@ if __name__ == "__main__":
         if predictedCoordinate and score > 0.0:
 
             chooseToAnswer += 1
-            print row['url']
             print "Förutspår koordinat från {} tecken. Nr #{}".format(len(text), i)
             fel = haversine([row['latitude'], row['longitude']], predictedCoordinate)
             
