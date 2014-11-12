@@ -51,7 +51,7 @@ if __name__ == "__main__":
         posts = db['posts'].find(blog_id=blogid)
         text = ""   
         for post in posts:
-            text = text + u"\n\n" + post['text'].decode('latin-1')
+            text = text + u"\n\n" + post['text']
             
         print text[0:200].encode('utf-8')
             
