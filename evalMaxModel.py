@@ -38,7 +38,7 @@ if __name__ == "__main__":
                       "WHERE (SELECT count(*) FROM posts p WHERE " 
                       "       p.blog_id=b.id) > 0 "
                       "AND rank = 2 AND "
-                      "longitude is not NULL "
+                      "longitude is not NULL AND "
                       "latitude is not NULL "
                       "ORDER by id DESC")
     
