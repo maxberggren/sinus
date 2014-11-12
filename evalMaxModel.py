@@ -119,7 +119,7 @@ if __name__ == "__main__":
                                  T1=T1, 
                                  T2=T1, 
                                  id=i,
-                                 text=text[0:200].encode('utf-8').strip())
+                                 text=text[0:40].encode('utf-8').strip())
     
             print row
 
