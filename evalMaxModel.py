@@ -51,7 +51,7 @@ if __name__ == "__main__":
         i += 1
         
         if i % 10 or i == 1: 
-            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}"
+            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |   "
             head = pattern.format(id="#", 
                                   tecken="Tecken", 
                                   T1=headpattern, 
@@ -71,16 +71,11 @@ if __name__ == "__main__":
         #print row['url']
         #print text[0:200].encode('utf-8').strip()
         #print "Förutspår koordinat från {} tecken. Nr #{}".format(len(text), i)
-        
-        pattern = "      | {text:>80}"
-        row = pattern.format(text=text[0:60].encode('utf-8').strip())
-        print row
     
         if predictedCoordinate and score > 0.0:
             chooseToAnswer += 1
            
-            fel = haversine([row['latitude'], row['longitude']], 
-                            predictedCoordinate)
+            fel = haversine([row['latitude'], row['longitude']], predictedCoordinate)
             
             if fel < 100: # Acceptabelt fel
                 acceptableAnswer += 1
@@ -118,11 +113,12 @@ if __name__ == "__main__":
                                 SP=float(chooseToAnswer)/float(i), 
                                 test="T1")
     
-            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}"
+            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |  {text:<80}"
             row = pattern.format(tecken=len(text), 
                                  T1=T1, 
                                  T2=T1, 
-                                 id=i)
+                                 id=i,
+                                 text=text[0:200].encode('utf-8').strip())
     
             print row
 
