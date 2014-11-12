@@ -260,25 +260,25 @@ class tweetLoc:
             batchscores, batchcoordinates = [], []
             wordFreq, freqInBatch = 0, 0
             
-            #for date in batches:
-            result = self.db.query("SELECT * FROM GMMs " 
-                                   "WHERE word = '" + word + "' ") 
-                                   # "AND date = '" + date + "'"                 
-            subscores, subcoordinates = [], []
-            for row in result:
-                subscores.append(row['scoring'])
-                subcoordinates.append([row['lat'], row['lon']])
-                freqInBatch = row['n_coordinates']
-                if not freqInBatch:
-                    freqInBatch = 0
-            
-            coordinate, score = self.weightedMean(subcoordinates, subscores)
-            #batchscores.append(score)
-            #batchcoordinates.append(coordinate)
-            wordFreq += freqInBatch
+            for date in batches:
+                result = self.db.query("SELECT * FROM GMMs " 
+                                       "WHERE word = '" + word + "' "
+                                       "AND date = '" + date + "'")                   
+                subscores, subcoordinates = [], []
+                for row in result:
+                    subscores.append(row['scoring'])
+                    subcoordinates.append([row['lat'], row['lon']])
+                    freqInBatch = row['n_coordinates']
+                    if not freqInBatch:
+                        freqInBatch = 0
+                
+                coordinate, score = self.weightedMean(subcoordinates, subscores)
+                batchscores.append(score)
+                batchcoordinates.append(coordinate)
+                wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
-            #coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
+            coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
                 
             if score > threshold:
                 coordinates.append(coordinate)

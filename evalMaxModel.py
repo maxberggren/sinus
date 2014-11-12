@@ -41,7 +41,6 @@ if __name__ == "__main__":
                       "longitude is not NULL AND "
                       "latitude is not NULL "
                       "ORDER by id DESC")
-    
     felen = []
     i = 0
     acceptableAnswer = 0
