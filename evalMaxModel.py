@@ -77,7 +77,7 @@ if __name__ == "__main__":
                 print word.encode('utf-8'), score, "(",mentions[word],"),",
             
             print "\nFel: {} km".format(fel)
-            print "-----"
+            print "-----" 
             print "Median: {}".format(np.median(felen))
             print "Medelv: {}".format(np.mean(felen))
             print "Acceptabelt svar totalt: {}".format(float(acceptableAnswer)/float(i))

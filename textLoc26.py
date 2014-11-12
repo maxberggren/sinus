@@ -192,6 +192,9 @@ class tweetLoc:
         Output: koordinat och dess säkerhet
         """
         
+        if len(coordinates) == 1:
+            return coordinates[0], scores[0]
+        
         if len(coordinates) > 0:
                         
             numberOfCoordinates, nominator, denominator = 0, 0, 0
@@ -257,25 +260,25 @@ class tweetLoc:
             batchscores, batchcoordinates = [], []
             wordFreq, freqInBatch = 0, 0
             
-            for date in batches:
-                result = self.db.query("SELECT * FROM GMMs " 
-                                       "WHERE word = '" + word + "' "
-                                       "AND date = '" + date + "'")                   
-                subscores, subcoordinates = [], []
-                for row in result:
-                    subscores.append(row['scoring'])
-                    subcoordinates.append([row['lat'], row['lon']])
-                    freqInBatch = row['n_coordinates']
-                    if not freqInBatch:
-                        freqInBatch = 0
-                
-                coordinate, score = self.weightedMean(subcoordinates, subscores)
-                batchscores.append(score)
-                batchcoordinates.append(coordinate)
-                wordFreq += freqInBatch
+            #for date in batches:
+            result = self.db.query("SELECT * FROM GMMs " 
+                                   "WHERE word = '" + word + "' ") 
+                                   # "AND date = '" + date + "'"                 
+            subscores, subcoordinates = [], []
+            for row in result:
+                subscores.append(row['scoring'])
+                subcoordinates.append([row['lat'], row['lon']])
+                freqInBatch = row['n_coordinates']
+                if not freqInBatch:
+                    freqInBatch = 0
+            
+            coordinate, score = self.weightedMean(subcoordinates, subscores)
+            #batchscores.append(score)
+            #batchcoordinates.append(coordinate)
+            wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
-            coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
+            #coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
                 
             if score > threshold:
                 coordinates.append(coordinate)
@@ -287,7 +290,6 @@ class tweetLoc:
             if score == 0.0:
                 OOVcount += 1 
                 
-        #print acceptedWords, wordFreqs
                  
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
@@ -310,12 +312,7 @@ class tweetLoc:
                                         
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
         
-        """ 
-        Förutsäger en koordinat för en bunte text
-        Input: text
-        Output: koordinat (lon, lat) och "platsighet" (hur säker modellen är),
-                de top 20 mest platsiga orden samt procent out of vocabulary
-        """      
+     
         """
         # Vektoriserat som ej verkar funka bra
         
