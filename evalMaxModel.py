@@ -45,9 +45,19 @@ if __name__ == "__main__":
     i = 0
     acceptableAnswer = 0
     chooseToAnswer = 0
+    headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}".format(fel="fel",median="mdn", medelv="mdv", AST="AST", ASV="ASV", SP="SP", test="#T")
     
     for row in result:
         i += 1
+        
+        if i %% 1:
+            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}"
+            head = pattern.format(id="#", 
+                                  tecken="Tecken", 
+                                  T1=headpattern, 
+                                  T2=headpattern)
+            print head
+        
         blogid = row['id']
         
         posts = db['posts'].find(blog_id=blogid)
@@ -57,10 +67,10 @@ if __name__ == "__main__":
             
         # Test 1: släpp igenom ord med platsighet > 1e40
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
-        
-        print row['url']
-        print text[0:200].encode('utf-8').strip()
-        print "Förutspår koordinat från {} tecken. Nr #{}".format(len(text), i)
+                
+        #print row['url']
+        #print text[0:200].encode('utf-8').strip()
+        #print "Förutspår koordinat från {} tecken. Nr #{}".format(len(text), i)
         
         if predictedCoordinate and score > 0.0:
             chooseToAnswer += 1
@@ -72,7 +82,8 @@ if __name__ == "__main__":
                 acceptableAnswer += 1
             
             felen.append(fel)
-
+            
+            """
             print "Förutspådd koordinat: {}".format(predictedCoordinate) 
             print "Riktig koordinat: {}".format([row['latitude'], row['longitude']]) 
             print "Platsighet: {}".format(score) 
@@ -92,6 +103,25 @@ if __name__ == "__main__":
                                                            float(chooseToAnswer))
             print "Svarsprocent: {}".format(float(chooseToAnswer)/float(i))
             print "-----"
+            """
+            
+            pattern = "{test:<4} {fel:<4} {median:<4,.00f} {medelv:<4,.00f} {AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}"
+            T1 = pattern.format(fel=fel,
+                                median=np.median(felen), 
+                                medelv=np.mean(felen), 
+                                AST=float(acceptableAnswer)/float(i), 
+                                ASV=float(acceptableAnswer)/float(chooseToAnswer), 
+                                SP=float(chooseToAnswer)/float(i), 
+                                test="T1")
+    
+            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}"
+            row = pattern.format(tecken=len(text), 
+                                 T1=T1, 
+                                 T2=T1, 
+                                 id=i)
+    
+            print row
+
             
         else:
             print "Kunde ej belägga"
