@@ -60,8 +60,9 @@ if __name__ == "__main__":
                                       test="#T")
         
         if (i-1) % 10 == 0: 
-            pattern = "{id:>4} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
-            head = pattern.format(id="-"*4, 
+            pattern = "{id:>4} | {blogid:>6} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
+            head = pattern.format(id="-"*4,
+                                  blogid="-"*6, 
                                   tecken="-"*8, 
                                   T1="-"*35, 
                                   T2="-"*35,
@@ -69,6 +70,7 @@ if __name__ == "__main__":
             print head
         
             head = pattern.format(id="#", 
+                                  blogid="Blogid", 
                                   tecken="Tecken", 
                                   T1=testhead, 
                                   T2=testhead,
@@ -76,6 +78,7 @@ if __name__ == "__main__":
             print head
         
             head = pattern.format(id="-"*4, 
+                                  blogid="-"*6, 
                                   tecken="-"*8, 
                                   T1="-"*35, 
                                   T2="-"*35,
@@ -120,8 +123,9 @@ if __name__ == "__main__":
                                 SP=float(chooseToAnswer)/float(i), 
                                 test="T1")
     
-            pattern = "{id:>4} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
-            row = pattern.format(tecken=len(text), 
+            pattern = "{id:>4} | {blogid:>6} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
+            row = pattern.format(tecken=len(text),
+                                 blogid=blogid, 
                                  T1=T1, 
                                  T2=T1, 
                                  id=i,
@@ -131,8 +135,9 @@ if __name__ == "__main__":
 
             
         else:
-            pattern = "{id:>4} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
+            pattern = "{id:>4} | {blogid:>6} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
             row = pattern.format(tecken=len(text), 
+                                 blogid=blogid, 
                                  T1="###", 
                                  T2="###", 
                                  id=i,
