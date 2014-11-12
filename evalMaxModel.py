@@ -50,7 +50,7 @@ if __name__ == "__main__":
     for row in result:
         i += 1
         
-        if i % 10 or i == 1:
+        if i % 10 or i == 1: 
             pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}"
             head = pattern.format(id="#", 
                                   tecken="Tecken", 
