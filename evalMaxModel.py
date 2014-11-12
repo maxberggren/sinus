@@ -56,7 +56,7 @@ if __name__ == "__main__":
                                   tecken="Tecken", 
                                   T1=headpattern, 
                                   T2=headpattern,
-                                  text="Text")
+                                  text="Bästa orden")
             print head
         
         blogid = row['id']
@@ -82,7 +82,15 @@ if __name__ == "__main__":
                 acceptableAnswer += 1
             
             felen.append(fel)
-            
+
+            mostUsefulWords = OrderedDict(sorted(mostUsefulWords.items(), 
+                                                 key=lambda x: x[1]))
+            bestWords = []
+            for word, score in mostUsefulWords.iteritems():
+                bestWords.append(word.encode('utf-8'))
+                
+            bestWords = ", ".join(bestWords.reverse()[0:8])
+
             """
             print "Förutspådd koordinat: {}".format(predictedCoordinate) 
             print "Riktig koordinat: {}".format([row['latitude'], row['longitude']]) 
@@ -114,19 +122,20 @@ if __name__ == "__main__":
                                 SP=float(chooseToAnswer)/float(i), 
                                 test="T1")
     
-            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |  {text:<40}"
+            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |  {text:<40}[..]"
             row = pattern.format(tecken=len(text), 
                                  T1=T1, 
                                  T2=T1, 
                                  id=i,
-                                 text=text[0:40].encode('utf-8').strip())
+                                 text=bestWords)
     
             print row
 
             
         else:
-            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}"
+            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |  {text:<40}[..]"
             row = pattern.format(tecken=len(text), 
                                  T1="###", 
                                  T2="###", 
-                                 id=i)
+                                 id=i,
+                                 text=bestWords)
