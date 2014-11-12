@@ -89,6 +89,5 @@ if __name__ == "__main__":
             print "Svarsprocent: {}".format(float(chooseToAnswer)/float(i))
             print "-----"
             
-            #print tabulate.tabulate([[i], [predictedCoordinate], [[row['latitude'], row['longitude']]]],["#", "Predicted", "Real"], "rst", floatfmt=".0f")
-
-    
+        else:
+            print "Kunde en belägga"
