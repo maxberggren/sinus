@@ -54,11 +54,11 @@ if __name__ == "__main__":
         for post in posts:
             text = text + u"\n\n" + post['text']
             
-        print text[0:200].encode('utf-8')
             
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
         print row['url']
+        print text[0:200].encode('utf-8').strip()
         print "Förutspår koordinat från {} tecken. Nr #{}".format(len(text), i)
         
         if predictedCoordinate and score > 0.0:
