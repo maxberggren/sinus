@@ -34,10 +34,13 @@ def predictViaAPI(text):
 if __name__ == "__main__":
     db = dataset.connect(c.LOCATIONDB+ "?charset=utf8") #  + "?charset=utf8"
     db.query("set names 'utf8'")
-    result = db.query("SELECT * FROM blogs "
-                      "WHERE longitude is not NULL "
-                      "AND latitude is not NULL "
-                      "AND rank = 2 order by id DESC")
+    result = db.query("SELECT b.* FROM blogs b "
+                      "WHERE (SELECT count(*) FROM posts p WHERE " 
+                      "       p.blog_id=b.id) > 0 "
+                      "AND rank = 2 AND "
+                      "longitude is not NULL "
+                      "latitude is not NULL "
+                      "ORDER by id DESC")
     
     felen = []
     i = 0
