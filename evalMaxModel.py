@@ -50,13 +50,13 @@ if __name__ == "__main__":
     for row in result:
         i += 1
         
-        #if i % 1:
-        pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}"
-        head = pattern.format(id="#", 
-                              tecken="Tecken", 
-                              T1=headpattern, 
-                              T2=headpattern)
-        print head
+        if i % 10 or i == 1:
+            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}"
+            head = pattern.format(id="#", 
+                                  tecken="Tecken", 
+                                  T1=headpattern, 
+                                  T2=headpattern)
+            print head
         
         blogid = row['id']
         
@@ -124,4 +124,8 @@ if __name__ == "__main__":
 
             
         else:
-            print "Kunde ej belägga"
+            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}"
+            row = pattern.format(tecken=len(text), 
+                                 T1="###", 
+                                 T2="###", 
+                                 id=i)
