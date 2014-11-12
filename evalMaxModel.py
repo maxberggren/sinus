@@ -52,11 +52,25 @@ if __name__ == "__main__":
         
         if (i-1) % 10 == 0: 
             pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |  {text:<40}"
+            head = pattern.format(id="-"*4, 
+                                  tecken="-"*8, 
+                                  T1="-"*35, 
+                                  T2="-"*35,
+                                  text="-"*40)
+            print head
+        
             head = pattern.format(id="#", 
                                   tecken="Tecken", 
                                   T1=headpattern, 
                                   T2=headpattern,
                                   text="Bästa orden")
+            print head
+        
+            head = pattern.format(id="-"*4, 
+                                  tecken="-"*8, 
+                                  T1="-"*35, 
+                                  T2="-"*35,
+                                  text="-"*40)
             print head
         
         blogid = row['id']
