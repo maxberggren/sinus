@@ -70,8 +70,8 @@ if __name__ == "__main__":
         
             head = pattern.format(id="#", 
                                   tecken="Tecken", 
-                                  T1=headpattern, 
-                                  T2=headpattern,
+                                  T1=testhead, 
+                                  T2=testhead,
                                   text="Bästa orden")
             print head
         
@@ -110,7 +110,8 @@ if __name__ == "__main__":
                 
             bestWords = ", ".join(bestWords[::-1][0:6])
             
-            pattern = "{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} {AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}"
+            pattern = ("{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
+                       "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
             T1 = pattern.format(fel=fel,
                                 median=np.median(felen), 
                                 medelv=np.mean(felen), 
