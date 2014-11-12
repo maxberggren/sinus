@@ -32,7 +32,7 @@ def predictViaAPI(text):
 
 
 if __name__ == "__main__":
-    db = dataset.connect(c.LOCATIONDB+ "?charset=utf8") #  + "?charset=utf8"
+    db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
     db.query("set names 'utf8'")
     result = db.query("SELECT b.* FROM blogs b "
                       "WHERE (SELECT count(*) FROM posts p WHERE " 
@@ -46,11 +46,18 @@ if __name__ == "__main__":
     acceptableAnswer = 0
     chooseToAnswer = 0
     
-    
     for row in result:
         i += 1
         
-        headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}".format(fel="fel",median="mdn", medelv="mdv", AST="AST", ASV="ASV", SP="SP", test="#T")
+        headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}"
+        
+        testhead = headpattern.format(fel="fel",
+                                      median="mdn", 
+                                      medelv="mdv", 
+                                      AST="AST", 
+                                      ASV="ASV", 
+                                      SP="SP", 
+                                      test="#T")
         
         if (i-1) % 10 == 0: 
             pattern = "{id:>4} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
@@ -72,7 +79,7 @@ if __name__ == "__main__":
                                   tecken="-"*8, 
                                   T1="-"*35, 
                                   T2="-"*35,
-                                  text="-"*40)
+                                  text="-"*70)
             print head
         
         blogid = row['id']
@@ -84,10 +91,6 @@ if __name__ == "__main__":
             
         # Test 1: släpp igenom ord med platsighet > 1e40
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
-        
-        #print row['url']
-        #print text[0:200].encode('utf-8').strip()
-        #print "Förutspår koordinat från {} tecken. Nr #{}".format(len(text), i)
     
         if predictedCoordinate and score > 0.0:
             chooseToAnswer += 1
@@ -107,7 +110,8 @@ if __name__ == "__main__":
                 
             bestWords = ", ".join(bestWords[::-1][0:6])
             
-            pattern = "{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} {AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}"
+            pattern = ("{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
+                       "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
             T1 = pattern.format(fel=fel,
                                 median=np.median(felen), 
                                 medelv=np.mean(felen), 
@@ -133,3 +137,4 @@ if __name__ == "__main__":
                                  T2="###", 
                                  id=i,
                                  text=bestWords)
+            print row
