@@ -50,12 +50,13 @@ if __name__ == "__main__":
     for row in result:
         i += 1
         
-        if i % 10 or i == 1: 
-            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |   "
+        if (i-1) % 10 == 0: 
+            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |  {text:<40}"
             head = pattern.format(id="#", 
                                   tecken="Tecken", 
                                   T1=headpattern, 
-                                  T2=headpattern)
+                                  T2=headpattern,
+                                  text="Text")
             print head
         
         blogid = row['id']
@@ -113,7 +114,7 @@ if __name__ == "__main__":
                                 SP=float(chooseToAnswer)/float(i), 
                                 test="T1")
     
-            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |  {text:<80}"
+            pattern = "{id:>4}  |  {tecken:>8}  |  {T1:<35}  |  {T2:<35}  |  {text:<40}"
             row = pattern.format(tecken=len(text), 
                                  T1=T1, 
                                  T2=T1, 
