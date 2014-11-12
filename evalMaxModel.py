@@ -72,8 +72,8 @@ if __name__ == "__main__":
         #print text[0:200].encode('utf-8').strip()
         #print "Förutspår koordinat från {} tecken. Nr #{}".format(len(text), i)
         
-        pattern = "{url:>20}  |  {text:>60}"
-        row = pattern.format(url=row['url'], text=text[0:60].encode('utf-8').strip())
+        pattern = "      | {text:>80}"
+        row = pattern.format(text=text[0:60].encode('utf-8').strip())
         print row
     
         if predictedCoordinate and score > 0.0:
