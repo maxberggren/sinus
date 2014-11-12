@@ -103,7 +103,7 @@ if __name__ == "__main__":
             for word, score in mostUsefulWords.iteritems():
                 bestWords.append(word.encode('utf-8'))
                 
-            bestWords = ", ".join(bestWords.reverse()[0:8])
+            bestWords = ", ".join(bestWords)
 
             """
             print "Förutspådd koordinat: {}".format(predictedCoordinate) 
