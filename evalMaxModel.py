@@ -32,7 +32,7 @@ def predictViaAPI(text):
 
 
 if __name__ == "__main__":
-    db = dataset.connect(c.LOCATIONDB)
+    db = dataset.connect(c.LOCATIONDB) #  + "?charset=utf8"
     db.query("set names 'utf8'")
     result = db.query("SELECT * FROM blogs "
                       "WHERE longitude is not NULL "
@@ -60,6 +60,7 @@ if __name__ == "__main__":
         if predictedCoordinate and score > 0.0:
 
             chooseToAnswer += 1
+            print row['url']
             print "Förutspår koordinat från {} tecken. Nr #{}".format(len(text), i)
             fel = haversine([row['latitude'], row['longitude']], predictedCoordinate)
             
