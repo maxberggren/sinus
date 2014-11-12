@@ -50,13 +50,12 @@ if __name__ == "__main__":
         i += 1
         blogid = row['id']
         
-        
         posts = db['posts'].find(blog_id=blogid)
         text = ""   
         for post in posts:
             text = text + u"\n\n" + post['text']
             
-            
+        # Test 1: släpp igenom ord med platsighet > 1e40
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
         print row['url']
@@ -64,10 +63,10 @@ if __name__ == "__main__":
         print "Förutspår koordinat från {} tecken. Nr #{}".format(len(text), i)
         
         if predictedCoordinate and score > 0.0:
-
             chooseToAnswer += 1
            
-            fel = haversine([row['latitude'], row['longitude']], predictedCoordinate)
+            fel = haversine([row['latitude'], row['longitude']], 
+                            predictedCoordinate)
             
             if fel < 100: # Acceptabelt fel
                 acceptableAnswer += 1

@@ -263,7 +263,8 @@ class tweetLoc:
             for date in batches:
                 result = self.db.query("SELECT * FROM GMMs " 
                                        "WHERE word = '" + word + "' "
-                                       "AND date = '" + date + "'")                   
+                                       "AND date = '" + date + "' "
+                                       "AND n_coordinates > 100")                   
                 subscores, subcoordinates = [], []
                 for row in result:
                     subscores.append(row['scoring'])
