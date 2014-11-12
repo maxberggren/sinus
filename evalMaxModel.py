@@ -53,7 +53,7 @@ if __name__ == "__main__":
         for post in posts:
             text = text + u"\n\n" + post['text'].decode('latin-1')
             
-        print text[0:200]
+        print text[0:200].encode('utf-8')
             
         predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
         
