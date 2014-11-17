@@ -468,7 +468,7 @@ class tweetLoc:
                 wordFreq += freqInBatch
                                         
         topLatInd, topLonInd = np.where(theGrid==theGrid.max())
-        score = theGrid[np.where(theGrid==theGrid.max())]
+        score = theGrid[np.where(theGrid==theGrid.max())][0]
         coordinate = [lat_bins[topLatInd[0]], lon_bins[topLonInd[0]]]
         
         return coordinate, score, {}, 0, {}
