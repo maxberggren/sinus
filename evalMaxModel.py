@@ -102,7 +102,7 @@ if __name__ == "__main__":
            
             felT1 = haversine([row['latitude'], row['longitude']], predictedCoordinateT1)
             
-            if felT1 < 100: # Acceptabelt felT1
+            if felT1 < 100: # Acceptabelt fel
                 acceptableAnswerT1 += 1
             
             felT1en.append(felT1)
@@ -124,27 +124,20 @@ if __name__ == "__main__":
                                 ASV=float(acceptableAnswerT1)/float(chooseToAnswerT1), 
                                 SP=float(chooseToAnswerT1)/float(i), 
                                 test="T1")
-    
-            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
-            row = pattern.format(tecken=len(text),
-                                 blogid=blogid, 
-                                 T1=T1, 
-                                 T2=T1, 
-                                 id=i,
-                                 text=bestWordsT1)
-    
-            print row
 
             
         else:
-            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
+            T1 = "###"
             bestWordsT1 = "###"
-            row = pattern.format(tecken=len(text), 
-                                 blogid=blogid, 
-                                 T1="###", 
-                                 T2="###", 
-                                 id=i,
-                                 text=bestWordsT1)
-            print row
-            
+        
+        T2 = "###"   
+        pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
+        row = pattern.format(tecken=len(text),
+                             blogid=blogid, 
+                             T1=T1, 
+                             T2=T2, 
+                             id=i,
+                             text=bestWordsT1)
+        print row
+
             
