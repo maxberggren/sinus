@@ -243,9 +243,12 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             if dates:
                 maxdateInChunk = max(dates[chunk])
                 mindateInChunk = min(dates[chunk])
-                fig.suptitle('{:%Y-%m-%d} - {:%Y-%m-%d}'.format(mindateInChunk, 
-                                                                maxdateInChunk),
-                             fontsize=9)             
+                try:
+                    fig.suptitle('{:%Y-%m-%d} - {:%Y-%m-%d}'.format(mindateInChunk, 
+                                                                    maxdateInChunk),
+                                 fontsize=9)             
+                except: # Some dates might be wierd in the DB
+                    pass
             
             lons, lats = zip(*kordinater[chunk])             
             lons = np.array(lons)

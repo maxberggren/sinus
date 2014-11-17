@@ -14,19 +14,19 @@ from collections import OrderedDict
 import config as c
 import tabulate
 
-def predictViaAPI(text):
+def predictViaAPI(text, extra=""):
     payload = json.dumps({'text': text})
     headers = {'content-type': 'application/json'}
-    r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/tag", 
+    r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/tag"+extra, 
                        data=payload, headers=headers)
     
     try:
         lat = r.json()['latitude']
         lon = r.json()['longitude']
         placeness = r.json()['placeness']
-        mostUsefulWords = r.json()['mostUsefulWords']
-        mentions = r.json()['mentions']
-        return [lon, lat], placeness, mostUsefulWords, mentions
+        mostUsefulWordsT1 = r.json()['mostUsefulWordsT1']
+        mentionsT1 = r.json()['mentionsT1']
+        return [lon, lat], placeness, mostUsefulWordsT1, mentionsT1
     except:
         return None, None, None, None
 
@@ -41,23 +41,23 @@ if __name__ == "__main__":
                       "longitude is not NULL AND "
                       "latitude is not NULL "
                       "ORDER by id DESC")
-    felen = []
+    felT1en = []
     i = 0
-    acceptableAnswer = 0
-    chooseToAnswer = 0
+    acceptableAnswerT1 = 0
+    chooseToAnswerT1 = 0
     
     for row in result:
         i += 1
         
-        headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}"
+        headpattern = "{test:<4} {felT1:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}"
         
-        testhead = headpattern.format(fel="fel",
+        testhead = headpattern.format(felT1="felT1",
                                       median="mdn", 
                                       medelv="mdv", 
                                       AST="AST", 
                                       ASV="ASV", 
                                       SP="SP", 
-                                      test="#T")
+                                      test="T#")
         
         if (i-1) % 10 == 0: 
             pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
@@ -93,34 +93,34 @@ if __name__ == "__main__":
             text = text + u"\n\n" + post['text']
             
         # Test 1: släpp igenom ord med platsighet > 1e40
-        predictedCoordinate, score, mostUsefulWords, mentions = predictViaAPI(text)
+        predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = predictViaAPI(text)
     
-        if predictedCoordinate and score > 0.0:
-            chooseToAnswer += 1
+        if predictedCoordinateT1 and scoreT1 > 0.0:
+            chooseToAnswerT1 += 1
            
-            fel = haversine([row['latitude'], row['longitude']], predictedCoordinate)
+            felT1 = haversine([row['latitude'], row['longitude']], predictedCoordinateT1)
             
-            if fel < 100: # Acceptabelt fel
-                acceptableAnswer += 1
+            if felT1 < 100: # Acceptabelt felT1
+                acceptableAnswerT1 += 1
             
-            felen.append(fel)
+            felT1en.append(felT1)
 
-            mostUsefulWords = OrderedDict(sorted(mostUsefulWords.items(), 
+            mostUsefulWordsT1 = OrderedDict(sorted(mostUsefulWordsT1.items(), 
                                                  key=lambda x: x[1]))
-            bestWords = []
-            for word, score in mostUsefulWords.iteritems():
-                bestWords.append(word.encode('utf-8'))
+            bestWordsT1 = []
+            for word, scoreT1 in mostUsefulWordsT1.iteritems():
+                bestWordsT1.append(word.encode('utf-8'))
                 
-            bestWords = ", ".join(bestWords[::-1][0:6])
+            bestWordsT1 = ", ".join(bestWordsT1[::-1][0:6])
             
-            pattern = ("{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
+            pattern = ("{test:<4} {felT1:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
                        "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
-            T1 = pattern.format(fel=fel,
-                                median=np.median(felen), 
-                                medelv=np.mean(felen), 
-                                AST=float(acceptableAnswer)/float(i), 
-                                ASV=float(acceptableAnswer)/float(chooseToAnswer), 
-                                SP=float(chooseToAnswer)/float(i), 
+            T1 = pattern.format(felT1=felT1,
+                                median=np.median(felT1en), 
+                                medelv=np.mean(felT1en), 
+                                AST=float(acceptableAnswerT1)/float(i), 
+                                ASV=float(acceptableAnswerT1)/float(chooseToAnswerT1), 
+                                SP=float(chooseToAnswerT1)/float(i), 
                                 test="T1")
     
             pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
@@ -129,17 +129,18 @@ if __name__ == "__main__":
                                  T1=T1, 
                                  T2=T1, 
                                  id=i,
-                                 text=bestWords)
+                                 text=bestWordsT1)
     
             print row
 
             
         else:
             pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
+            bestWordsT1 = "###"
             row = pattern.format(tecken=len(text), 
                                  blogid=blogid, 
                                  T1="###", 
                                  T2="###", 
                                  id=i,
-                                 text=bestWords)
+                                 text=bestWordsT1)
             print row

@@ -76,15 +76,16 @@ def getData(ammountData=None, random=0):
     if random == 1:
         randomQ = " ORDER BY RAND()"
     else:
-        randomQ = ""     
+        randomQ = " ORDER by id DESC"     
     
     blogs = {}    
     mysqldb.query("set names 'utf8'")           
     for blogrow in mysqldb.query("SELECT b.* from blogs b "
                                  "WHERE (select count(*) from posts p where " 
                                  "       p.blog_id=b.id) > 0 "
-                                 "AND rank < 4 AND "
+                                 "AND rank = 2 AND "
                                  "longitude is not NULL "
+                                 "latitude is not NULL "
                                  " " + randomQ + " "
                                  "limit " + str(ammountData)):
         
