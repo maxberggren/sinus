@@ -39,8 +39,8 @@ def convert(data):
     else:
         return data
 
-@app.route('/geotag/api/v1.0/tagbyvote1', methods=['POST'])
-@app.route('/geotag/api/v1.0/tagbyvote1/threshold/<threshold>', methods=['POST'])
+@app.route('/geotag/api/v1.0/vote1', methods=['POST'])
+@app.route('/geotag/api/v1.0/vote1/threshold/<threshold>', methods=['POST'])
 def tag(threshold=None): 
     touple = model.predictByVoteNaive(request.json['text'], threshold=threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
