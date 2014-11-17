@@ -24,9 +24,9 @@ def predictViaAPI(text, extra=""):
     lat = r.json()['latitude']
     lon = r.json()['longitude']
     placeness = r.json()['placeness']
-    mostUsefulWordsT1 = r.json()['mostUsefulWordsT1']
-    mentionsT1 = r.json()['mentionsT1']
-    return [lon, lat], placeness, mostUsefulWordsT1, mentionsT1
+    mostUsefulWords = r.json()['mostUsefulWords']
+    mentions = r.json()['mentions']
+    return [lon, lat], placeness, mostUsefulWords, mentions
     #except:
     #    return None, None, None, None
 
