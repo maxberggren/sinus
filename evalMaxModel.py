@@ -20,15 +20,15 @@ def predictViaAPI(text, extra=""):
     r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/tag"+extra, 
                        data=payload, headers=headers)
     
-    try:
-        lat = r.json()['latitude']
-        lon = r.json()['longitude']
-        placeness = r.json()['placeness']
-        mostUsefulWordsT1 = r.json()['mostUsefulWordsT1']
-        mentionsT1 = r.json()['mentionsT1']
-        return [lon, lat], placeness, mostUsefulWordsT1, mentionsT1
-    except:
-        return None, None, None, None
+    #try:
+    lat = r.json()['latitude']
+    lon = r.json()['longitude']
+    placeness = r.json()['placeness']
+    mostUsefulWordsT1 = r.json()['mostUsefulWordsT1']
+    mentionsT1 = r.json()['mentionsT1']
+    return [lon, lat], placeness, mostUsefulWordsT1, mentionsT1
+    #except:
+    #    return None, None, None, None
 
 
 if __name__ == "__main__":
