@@ -14,10 +14,10 @@ from collections import OrderedDict
 import config as c
 import tabulate
 
-def predictViaAPI(text, extra=""):
+def predictViaAPI(text, path="tag"):
     payload = json.dumps({'text': text})
     headers = {'content-type': 'application/json'}
-    r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/tag"+extra, 
+    r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/"+path, 
                        data=payload, headers=headers)
     
     try:
@@ -93,11 +93,11 @@ if __name__ == "__main__":
             text = text + u"\n\n" + post['text']
             
         # Test 1: släpp igenom ord med platsighet > 1e40
-        data = predictViaAPI(text, extra="")
+        data = predictViaAPI(text, path="tag")
         predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = data
         
         # Test 2: röstningsförfarandet
-        data2 = predictViaAPI(text, extra="/vote")
+        data2 = predictViaAPI(text, path="tagbyvote1")
         predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT2 = data2
     
         # Test 1
