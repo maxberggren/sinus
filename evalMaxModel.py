@@ -93,7 +93,9 @@ if __name__ == "__main__":
             text = text + u"\n\n" + post['text']
             
         # Test 1: släpp igenom ord med platsighet > 1e40
-        predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = predictViaAPI(text)
+        data = = predictViaAPI(text, extra="")
+        print data
+        predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = data
     
         if predictedCoordinateT1 and scoreT1 > 0.0:
             chooseToAnswerT1 += 1
@@ -144,3 +146,5 @@ if __name__ == "__main__":
                                  id=i,
                                  text=bestWordsT1)
             print row
+            
+            
