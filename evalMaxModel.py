@@ -93,7 +93,7 @@ if __name__ == "__main__":
             text = text + u"\n\n" + post['text']
             
         # Test 1: släpp igenom ord med platsighet > 1e40
-        data = = predictViaAPI(text, extra="")
+        data = predictViaAPI(text, extra="")
         print data
         predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = data
     
