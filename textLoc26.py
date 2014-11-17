@@ -399,7 +399,7 @@ class tweetLoc:
         """
 
 
-    def predictByVoteNaive(self, text, threshold=float(1e40)):
+    def predictByVote1(self, text, threshold=float(1e40)):
         """ 
         Förutsäger en koordinat för en bunte text
         Implementatation av röstningsförfarandet
@@ -451,15 +451,17 @@ class tweetLoc:
                                        "AND n_coordinates > 100")                   
                 subscores, subcoordinates = [], []
                 for row in result:
-                    subscores.append(row['scoring'])
-                    subcoordinates.append([row['lat'], row['lon']])
-                    
-                    theGrid = addToGrid(theGrid,
-                                        add=row['scoring'],
-                                        lat=row['lat'],
-                                        lon=row['lon'],
-                                        lat_bins=lat_bins,
-                                        lon_bins=lon_bins)
+                    if row['scoring'] > threshold:
+                        subscores.append(row['scoring'])
+                        subcoordinates.append([row['lat'], 
+                                               row['lon']])
+                        
+                        theGrid = addToGrid(theGrid,
+                                            add=row['scoring'],
+                                            lat=row['lat'],
+                                            lon=row['lon'],
+                                            lat_bins=lat_bins,
+                                            lon_bins=lon_bins)
                     
                     freqInBatch = row['n_coordinates']
                     if not freqInBatch:
@@ -470,7 +472,7 @@ class tweetLoc:
         topLatInd, topLonInd = np.where(theGrid==theGrid.max())
         score = theGrid[np.where(theGrid==theGrid.max())][0]
         coordinate = [lat_bins[topLatInd[0]], lon_bins[topLonInd[0]]]
-        
+            
         return coordinate, score, {}, 0, {}
 
 

@@ -65,8 +65,8 @@ def tag(threshold=None):
 
 @app.route('/geotag/api/v1.0/tagbyvote1', methods=['POST'])
 @app.route('/geotag/api/v1.0/tagbyvote1/threshold/<threshold>', methods=['POST'])
-def tagbyvote(threshold=None): 
-    touple = model.predictByVoteNaive(request.json['text'], threshold=threshold)   
+def tagbyvote1(threshold=None): 
+    touple = model.predictByVote1(request.json['text'], threshold=threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]
     lat = coordinate[1]
