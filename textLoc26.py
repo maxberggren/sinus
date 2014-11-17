@@ -466,15 +466,6 @@ class tweetLoc:
                         freqInBatch = 0
                 
                 wordFreq += freqInBatch
-        
-            # Räkna ord som är out of vocabulary
-            if score == 0.0:
-                OOVcount += 1 
-        
-        if len(words) == 0:
-            outOfVocabulary = 0                                
-        else:
-            outOfVocabulary = (float(OOVcount) / float(len(words)))
                                         
         #print theGrid
         #topLatInd, topLonInd = np.where(theGrid==theGrid.max())
@@ -483,7 +474,7 @@ class tweetLoc:
         score = theGrid[np.where(theGrid==theGrid.max())]
         coordinate = [lat_bins[topLatInd[0]], lon_bins[topLonInd[0]]]
         
-        return coordinate, score, {}, outOfVocabulary, {}
+        return coordinate, score, {}, 0, {}
 
 
 if __name__ == "__main__":
