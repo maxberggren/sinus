@@ -94,8 +94,11 @@ if __name__ == "__main__":
             
         # Test 1: släpp igenom ord med platsighet > 1e40
         data = predictViaAPI(text, extra="")
-        print data
         predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = data
+        
+        # Test 2: röstningsförfarandet
+        #data2 = predictViaAPI(text, extra="/voting")
+        #predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT1 = data2
     
         if predictedCoordinateT1 and scoreT1 > 0.0:
             chooseToAnswerT1 += 1
