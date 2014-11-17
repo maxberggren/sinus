@@ -398,6 +398,116 @@ class tweetLoc:
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
         """
 
+
+    def predictByVote(self, text, threshold=float(1e40)):
+        """ 
+        Förutsäger en koordinat för en bunte text
+        Implementatation av röstningsförfarandet
+        Input: text, tröskelvärde för platsighet
+        Output: koordinat (lon, lat) och "platsighet" (hur säker modellen är),
+                de top 20 mest platsiga orden samt procent out of vocabulary
+        """  
+           
+        if not threshold:
+            threshold = 1e40
+        
+        self.db.query("set names 'utf8'")
+        words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar        
+        coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
+ 
+        # Hämta alla unika datum (batchar) där GMMer satts in i databasen
+        batches, wordFreqs = [], []
+        
+        if not self.cache.get("batches"):
+            for row in self.db.query("SELECT DISTINCT date FROM GMMs"):
+                batches.append(row['date'])
+            self.cache.set("batches", batches, timeout=60*60) # cache for 1 hours    
+        else:
+            batches = self.cache.get("batches")
+        
+        xyRatio = 1.8
+        xBins = 20
+        lon_bins = np.linspace(8, 26, xBins)
+        lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
+        theGrid = np.zeros((len(lat_bins),len(lon_bins)))
+
+        def addToGrid(theGrid, add, lat, lon, lat_bins, lon_bins):
+            """ Add something to the right bin in the grid """
+            lat_idx = np.abs(lat_bins-lat).argmin()
+            lon_idx = np.abs(lon_bins-lon).argmin()
+            
+            theGrid[lat_idx,lon_idx] += add
+
+            return theGrid
+        
+        for word in words:
+            batchscores, batchcoordinates = [], []
+            wordFreq, freqInBatch = 0, 0
+            
+            for date in batches:
+                result = self.db.query("SELECT * FROM GMMs " 
+                                       "WHERE word = '" + word + "' "
+                                       "AND date = '" + date + "' "
+                                       "AND n_coordinates > 100")                   
+                subscores, subcoordinates = [], []
+                for row in result:
+                    subscores.append(row['scoring'])
+                    subcoordinates.append([row['lat'], row['lon']])
+                    
+                    theGrid = addToGrid(theGrid,
+                                        add=row['scoring'],
+                                        lat=row['lat'],
+                                        lon=row['lon'],
+                                        lat_bins=lat_bins,
+                                        lon_bins=lon_bins)
+                    
+                    freqInBatch = row['n_coordinates']
+                    if not freqInBatch:
+                        freqInBatch = 0
+                
+                # ORD koordinat1 koordinat2 koordinat3
+                coordinate, score = self.weightedMean(subcoordinates, subscores)
+                batchscores.append(score)
+                batchcoordinates.append(coordinate)
+                wordFreq += freqInBatch
+            
+            # Vikta samman batcharna. TODO: fallande vikt efter datum
+            coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
+                
+            if score > threshold:
+                coordinates.append(coordinate)
+                scores.append(score)
+                acceptedWords.append(word)
+                wordFreqs.append(wordFreq)
+        
+            # Räkna ord som är out of vocabulary
+            if score == 0.0:
+                OOVcount += 1 
+                
+                 
+        # Vikta samman alla ord efter deras "platsighet"
+        coordinate, score = self.weightedMean(coordinates, scores)
+  
+        wordsAndScores = zip(acceptedWords, scores, wordFreqs)
+        # Sortera
+        sortedByScore = sorted(wordsAndScores, key=itemgetter(1), reverse=True)
+        
+        # Skapa dict med platsighet för top 50
+        mostUsefullWords = OrderedDict((word, score) for word, score, wordFreq in 
+                                        sortedByScore[0:50]) 
+        # Skapa dict med koordinatfrekvens för top 50                                
+        mentions = OrderedDict((word, int(wordFreq)) for word, score, wordFreq in 
+                                sortedByScore[0:50]) 
+        
+        if len(words) == 0:
+            outOfVocabulary = 0                                
+        else:
+            outOfVocabulary = (float(OOVcount) / float(len(words)))
+                                        
+        print theGrid
+        return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
+
+
 if __name__ == "__main__":
 
     model = tweetLoc()

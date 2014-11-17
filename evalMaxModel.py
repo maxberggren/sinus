@@ -41,7 +41,7 @@ if __name__ == "__main__":
                       "longitude is not NULL AND "
                       "latitude is not NULL "
                       "ORDER by id DESC")
-    felT1en = []
+    felenT1 = []
     i = 0
     acceptableAnswerT1 = 0
     chooseToAnswerT1 = 0
@@ -97,8 +97,8 @@ if __name__ == "__main__":
         predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = data
         
         # Test 2: röstningsförfarandet
-        #data2 = predictViaAPI(text, extra="/voting")
-        #predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT1 = data2
+        data2 = predictViaAPI(text, extra="/vote")
+        predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT2 = data2
     
         if predictedCoordinateT1 and scoreT1 > 0.0:
             chooseToAnswerT1 += 1
@@ -108,7 +108,7 @@ if __name__ == "__main__":
             if felT1 < 100: # Acceptabelt fel
                 acceptableAnswerT1 += 1
             
-            felT1en.append(felT1)
+            felenT1.append(felT1)
 
             mostUsefulWordsT1 = OrderedDict(sorted(mostUsefulWordsT1.items(), 
                                                  key=lambda x: x[1]))
@@ -121,8 +121,8 @@ if __name__ == "__main__":
             pattern = ("{test:<4} {felT1:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
                        "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
             T1 = pattern.format(felT1=felT1,
-                                median=np.median(felT1en), 
-                                medelv=np.mean(felT1en), 
+                                median=np.median(felenT1), 
+                                medelv=np.mean(felenT1), 
                                 AST=float(acceptableAnswerT1)/float(i), 
                                 ASV=float(acceptableAnswerT1)/float(chooseToAnswerT1), 
                                 SP=float(chooseToAnswerT1)/float(i), 
