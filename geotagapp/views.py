@@ -39,6 +39,21 @@ def convert(data):
     else:
         return data
 
+@app.route('/geotag/api/v1.0/tag/vote', methods=['POST'])
+@app.route('/geotag/api/v1.0/tag/vote/threshold/<threshold>', methods=['POST'])
+def tag(threshold=None): 
+    touple = model.predictByVoteNaive(request.json['text'], threshold=threshold)   
+    coordinate, placeness, mostUsefulWords, OOV, mentions = touple
+    lon = coordinate[0]
+    lat = coordinate[1]
+    return jsonify( { 'latitude': lat, 
+                      'longitude': lon, 
+                      'placeness': placeness, 
+                      'mostUsefulWords': mostUsefulWords,
+                      'outOfVocabulary': OOV, 
+                      'mentions': mentions } )
+
+
 @app.route('/geotag/api/v1.0/tag', methods=['POST'])
 @app.route('/geotag/api/v1.0/tag/placenessThreshold/<threshold>', methods=['POST'])
 def tag(threshold=None): 
@@ -63,19 +78,7 @@ def tag(threshold=None):
                       'mentions': mentions } )
 
 
-@app.route('/geotag/api/v1.0/tag/vote', methods=['POST'])
-@app.route('/geotag/api/v1.0/tag/vote/threshold/<threshold>', methods=['POST'])
-def tag(threshold=None): 
-    touple = model.predictByVoteNaive(request.json['text'], threshold=threshold)   
-    coordinate, placeness, mostUsefulWords, OOV, mentions = touple
-    lon = coordinate[0]
-    lat = coordinate[1]
-    return jsonify( { 'latitude': lat, 
-                      'longitude': lon, 
-                      'placeness': placeness, 
-                      'mostUsefulWords': mostUsefulWords,
-                      'outOfVocabulary': OOV, 
-                      'mentions': mentions } )
+
 
 
 

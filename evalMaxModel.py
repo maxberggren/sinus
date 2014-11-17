@@ -110,7 +110,6 @@ if __name__ == "__main__":
                 acceptableAnswerT1 += 1
             
             felenT1.append(fel)
-            print mostUsefulWordsT1
             mostUsefulWordsT1 = OrderedDict(sorted(mostUsefulWordsT1.items(), 
                                                  key=lambda x: x[1]))
             bestWordsT1 = []
