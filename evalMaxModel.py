@@ -49,9 +49,9 @@ if __name__ == "__main__":
     for row in result:
         i += 1
         
-        headpattern = "{test:<4} {felT1:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}"
+        headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}"
         
-        testhead = headpattern.format(felT1="felT1",
+        testhead = headpattern.format(fel="fel",
                                       median="mdn", 
                                       medelv="mdv", 
                                       AST="AST", 
@@ -104,13 +104,13 @@ if __name__ == "__main__":
         if predictedCoordinateT1 and scoreT1 > 0.0:
             chooseToAnswerT1 += 1
            
-            felT1 = haversine([row['latitude'], row['longitude']], predictedCoordinateT1)
+            fel = haversine([row['latitude'], row['longitude']], predictedCoordinateT1)
             
-            if felT1 < 100: # Acceptabelt fel
+            if fel < 100: # Acceptabelt fel
                 acceptableAnswerT1 += 1
             
-            felenT1.append(felT1)
-
+            felenT1.append(fel)
+            print mostUsefulWordsT1
             mostUsefulWordsT1 = OrderedDict(sorted(mostUsefulWordsT1.items(), 
                                                  key=lambda x: x[1]))
             bestWordsT1 = []
@@ -119,9 +119,9 @@ if __name__ == "__main__":
                 
             bestWordsT1 = ", ".join(bestWordsT1[::-1][0:6])
             
-            pattern = ("{test:<4} {felT1:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
+            pattern = ("{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
                        "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
-            T1 = pattern.format(felT1=felT1,
+            T1 = pattern.format(fel=fel,
                                 median=np.median(felenT1), 
                                 medelv=np.mean(felenT1), 
                                 AST=float(acceptableAnswerT1)/float(i), 
@@ -139,16 +139,16 @@ if __name__ == "__main__":
         if predictedCoordinateT2 and scoreT2 > 0.0:
             chooseToAnswerT2 += 1
            
-            felT2 = haversine([row['latitude'], row['longitude']], predictedCoordinateT2)
+            fel = haversine([row['latitude'], row['longitude']], predictedCoordinateT2)
             
-            if felT2 < 100: # Acceptabelt fel
+            if fel < 100: # Acceptabelt fel
                 acceptableAnswerT2 += 1
             
-            felenT2.append(felT2)
+            felenT2.append(fel)
 
-            pattern = ("{test:<4} {felT2:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
+            pattern = ("{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
                        "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
-            T2 = pattern.format(felT2=felT2,
+            T2 = pattern.format(fel=fel,
                                 median=np.median(felenT2), 
                                 medelv=np.mean(felenT2), 
                                 AST=float(acceptableAnswerT2)/float(i), 
