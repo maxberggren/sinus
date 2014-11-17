@@ -41,10 +41,10 @@ if __name__ == "__main__":
                       "longitude is not NULL AND "
                       "latitude is not NULL "
                       "ORDER by id DESC")
-    felenT1 = []
+    felenT1, felenT2 = [], []
     i = 0
-    acceptableAnswerT1 = 0
-    chooseToAnswerT1 = 0
+    acceptableAnswerT1, acceptableAnswerT2 = 0, 0
+    chooseToAnswerT1, chooseToAnswerT2 = 0, 0
     
     for row in result:
         i += 1
@@ -100,6 +100,7 @@ if __name__ == "__main__":
         data2 = predictViaAPI(text, extra="/vote")
         predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT2 = data2
     
+        # Test 1
         if predictedCoordinateT1 and scoreT1 > 0.0:
             chooseToAnswerT1 += 1
            
@@ -132,8 +133,34 @@ if __name__ == "__main__":
         else:
             T1 = "###"
             bestWordsT1 = "###"
-        
-        T2 = "###"   
+
+
+        # Test 2
+        if predictedCoordinateT2 and scoreT2 > 0.0:
+            chooseToAnswerT2 += 1
+           
+            felT2 = haversine([row['latitude'], row['longitude']], predictedCoordinateT2)
+            
+            if felT2 < 100: # Acceptabelt fel
+                acceptableAnswerT2 += 1
+            
+            felenT2.append(felT2)
+
+            pattern = ("{test:<4} {felT2:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
+                       "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
+            T2 = pattern.format(felT2=felT2,
+                                median=np.median(felenT2), 
+                                medelv=np.mean(felenT2), 
+                                AST=float(acceptableAnswerT2)/float(i), 
+                                ASV=float(acceptableAnswerT2)/float(chooseToAnswerT2), 
+                                SP=float(chooseToAnswerT2)/float(i), 
+                                test="T2")
+
+            
+        else:
+            T2 = "###"
+
+
         pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
         row = pattern.format(tecken=len(text),
                              blogid=blogid, 
