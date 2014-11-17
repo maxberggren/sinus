@@ -505,6 +505,9 @@ class tweetLoc:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
                                         
         print theGrid
+        topLatInd, topLonInd = np.where(theGrid==theGrid.max())
+        print lon_bins[topLonInd[0]], lat_bins[topLatInd[0]]
+
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
 
 
