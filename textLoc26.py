@@ -399,7 +399,7 @@ class tweetLoc:
         """
 
 
-    def predictByVote(self, text, threshold=float(1e40)):
+    def predictByVoteNaive(self, text, threshold=float(1e40)):
         """ 
         Förutsäger en koordinat för en bunte text
         Implementatation av röstningsförfarandet
@@ -465,50 +465,25 @@ class tweetLoc:
                     if not freqInBatch:
                         freqInBatch = 0
                 
-                # ORD koordinat1 koordinat2 koordinat3
-                coordinate, score = self.weightedMean(subcoordinates, subscores)
-                batchscores.append(score)
-                batchcoordinates.append(coordinate)
                 wordFreq += freqInBatch
-            
-            # Vikta samman batcharna. TODO: fallande vikt efter datum
-            coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
-                
-            if score > threshold:
-                coordinates.append(coordinate)
-                scores.append(score)
-                acceptedWords.append(word)
-                wordFreqs.append(wordFreq)
         
             # Räkna ord som är out of vocabulary
             if score == 0.0:
                 OOVcount += 1 
-                
-                 
-        # Vikta samman alla ord efter deras "platsighet"
-        coordinate, score = self.weightedMean(coordinates, scores)
-  
-        wordsAndScores = zip(acceptedWords, scores, wordFreqs)
-        # Sortera
-        sortedByScore = sorted(wordsAndScores, key=itemgetter(1), reverse=True)
-        
-        # Skapa dict med platsighet för top 50
-        mostUsefullWords = OrderedDict((word, score) for word, score, wordFreq in 
-                                        sortedByScore[0:50]) 
-        # Skapa dict med koordinatfrekvens för top 50                                
-        mentions = OrderedDict((word, int(wordFreq)) for word, score, wordFreq in 
-                                sortedByScore[0:50]) 
         
         if len(words) == 0:
             outOfVocabulary = 0                                
         else:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
                                         
-        print theGrid
-        topLatInd, topLonInd = np.where(theGrid==theGrid.max())
-        print lon_bins[topLonInd[0]], lat_bins[topLatInd[0]]
-
-        return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
+        #print theGrid
+        #topLatInd, topLonInd = np.where(theGrid==theGrid.max())
+        #print lon_bins[topLonInd[0]], lat_bins[topLatInd[0]]
+        
+        score = theGrid[np.where(theGrid==theGrid.max())]
+        coordinate = [lat_bins[topLatInd[0]], lon_bins[topLonInd[0]]]
+        
+        return coordinate, score, {}, outOfVocabulary, {}
 
 
 if __name__ == "__main__":
