@@ -300,7 +300,7 @@ class tweetLoc:
             if score == 0.0:
                 OOVcount += 1 
                 
-        
+        print coordinates
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
   
@@ -319,8 +319,7 @@ class tweetLoc:
             outOfVocabulary = 0                                
         else:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
-                  
-        print coordinate                      
+                                        
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
         
      
