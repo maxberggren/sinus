@@ -494,6 +494,7 @@ class tweetLoc:
         """  
         
         text = text.lower()
+        print type(text)
         for pattern in self.patterns:
             found = re.findall(pattern, text)
             if found:
