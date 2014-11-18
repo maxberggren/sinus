@@ -61,6 +61,7 @@ class tweetLoc:
         patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
         self.patterns = []
         for pattern in patterns:
+            print pattern.replace(u"**PLATS**", u"(.{2,30})")
             p = re.compile(pattern.replace(u"**PLATS**", u"(.{2,30})"))
             self.patterns.append(p)
     
@@ -494,7 +495,7 @@ class tweetLoc:
         
         patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
         text = text.lower()
-        print self.patterns
+        
         for pattern in self.patterns:
             found = re.findall(pattern, text)
             if found:
