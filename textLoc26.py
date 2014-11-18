@@ -276,7 +276,6 @@ class tweetLoc:
                                        "AND n_coordinates > 100")                   
                 subscores, subcoordinates = [], []
                 for row in result:
-                    print row
                     subscores.append(row['scoring'])
                     subcoordinates.append([row['lat'], row['lon']])
                     freqInBatch = row['n_coordinates']
@@ -289,7 +288,8 @@ class tweetLoc:
                 wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
-            coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
+            coordinate, score = self.weightedMean(batchcoordinates, batchscores)  
+            print coordinate  
                 
             if score > threshold:
                 coordinates.append(coordinate)
