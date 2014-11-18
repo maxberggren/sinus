@@ -501,7 +501,7 @@ class tweetLoc:
             if found:
                 c.update(found)
 
-        print c.most_common(20)
+        print c.most_common(30)
         
         #return coordinate, score, {}, 0, {}
         
