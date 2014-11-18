@@ -62,12 +62,12 @@ class tweetLoc:
         self.patterns = []
         for pattern in patterns:
             pattern = pattern.replace("**PLATS**", "(.{2,30})")
-            print "faun fil"
-            print pattern
-            print type(pattern)
-            p = re.compile(pattern)
-            print type(p)
-            self.patterns.append(p)
+            #print "faun fil"
+            #print pattern
+            #print type(pattern)
+            #p = re.compile(pattern)
+            #print type(p)
+            self.patterns.append(pattern)
     
     def cleanData(self, inputText):
         """
@@ -495,20 +495,12 @@ class tweetLoc:
         Implementatation av gramatikförfarandet
         Input: text
         Output: koordinat (lon, lat)
-        """  
+        """
         
         text = text.lower()
         for pattern in self.patterns:
-            print re.findall(pattern, text)
+            print pattern == 'böö (.{2,30})'.decode('utf-8')
         
-        print "pattern handkodat"
-        pat = 'böö (.{2,30})'.decode('utf-8')
-        print type(pat)
-        print pat
-        p = re.compile(pat)
-        print p 
-        print type(p)
-        print re.findall(p, text)
         
         #return coordinate, score, {}, 0, {}
         
