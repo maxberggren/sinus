@@ -495,10 +495,7 @@ class tweetLoc:
         
         text = text.lower().encode('utf-8')
         for pattern in self.patterns:
-            found = re.findall(pattern, text)
-            if found:
-                print found
-            print pattern        
+            print re.findall(pattern, text)            
         p = re.compile('böö (.{2,30})')
         print p
         print re.findall(p, text)
