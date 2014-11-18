@@ -283,14 +283,13 @@ class tweetLoc:
                         freqInBatch = 0
                 
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
-                print coordinate
                 batchscores.append(score)
                 batchcoordinates.append(coordinate)
                 wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
-                
+            print coordinate
             if score > threshold:
                 coordinates.append(coordinate)
                 scores.append(score)
