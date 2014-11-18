@@ -62,9 +62,7 @@ class tweetLoc:
         self.patterns = []
         for pattern in patterns:
             pattern = pattern.replace("**PLATS**", "(.{2,30})")
-            print pattern
             p = re.compile(pattern)
-            print type(p)
             self.patterns.append(p)
     
     def cleanData(self, inputText):
@@ -500,8 +498,6 @@ class tweetLoc:
             found = re.findall(pattern, text)
             if found:
                 print found
-        
-
         
         #return coordinate, score, {}, 0, {}
         
