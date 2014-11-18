@@ -502,7 +502,7 @@ class tweetLoc:
             if found:
                 print found
         
-        p = re.compile('bor i (.{2,30}) som')
+        p = re.compile('böö (.{2,30})'.decode('utf-8'))
         print re.findall(p, text)
         
         #return coordinate, score, {}, 0, {}
