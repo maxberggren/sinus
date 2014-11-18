@@ -505,6 +505,7 @@ class tweetLoc:
         
         print "pattern handkodat"
         pat = 'böö (.{2,30})'.decode('utf-8')
+        print type(pat)
         print pat
         p = re.compile(pat)
         print p 
