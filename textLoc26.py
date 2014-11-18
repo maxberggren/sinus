@@ -503,7 +503,7 @@ class tweetLoc:
             if found:
                 print found
         
-        pat = 'böö (.{2,30})'
+        pat = 'böö (.{2,30})'.decode('utf-8')
         print pat
         p = re.compile(pat)
         print p 
