@@ -62,12 +62,8 @@ class tweetLoc:
         self.patterns = []
         for pattern in patterns:
             pattern = pattern.strip().replace("**PLATS**", "(.{2,30})")
-            #print "faun fil"
-            #print pattern
-            #print type(pattern)
-            #p = re.compile(pattern)
-            #print type(p)
-            self.patterns.append(pattern)
+            p = re.compile(pattern)
+            self.patterns.append(p)
     
     def cleanData(self, inputText):
         """
@@ -499,9 +495,7 @@ class tweetLoc:
         
         text = text.lower()
         for pattern in self.patterns:
-            print pattern == 'böö (.{2,30})'.decode('utf-8')
-            print repr(pattern)
-            print repr('böö (.{2,30})'.decode('utf-8'))
+            print re.findall(pattern, text)
         
         
         #return coordinate, score, {}, 0, {}
