@@ -494,7 +494,7 @@ class tweetLoc:
         
         patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
         text = text.lower()
-        
+        print self.patterns
         for pattern in self.patterns:
             found = re.findall(pattern, text)
             if found:
