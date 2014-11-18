@@ -493,11 +493,13 @@ class tweetLoc:
         Output: koordinat (lon, lat)
         """
         
+        locationWords = []
         text = text.lower()
         for pattern in self.patterns:
             found = re.findall(pattern, text)
             if found:
-                print re.findall(pattern, text)
+                locationWords.extend(found)
+        print locationWords
         
         
         #return coordinate, score, {}, 0, {}
