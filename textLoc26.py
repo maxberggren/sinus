@@ -319,7 +319,7 @@ class tweetLoc:
             outOfVocabulary = 0                                
         else:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
-        print coordinate                                
+                                        
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
         
      
@@ -503,7 +503,7 @@ class tweetLoc:
 
         text = " ".join([t[0] for t in c.most_common(30)])
         
-        return self.predict(text, threshold=float(1e10))
+        print self.predict(text, threshold=float(1e10))
         
 
 if __name__ == "__main__":
