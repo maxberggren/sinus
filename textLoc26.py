@@ -300,7 +300,7 @@ class tweetLoc:
             if score == 0.0:
                 OOVcount += 1 
                 
-                 
+        
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
   
@@ -502,7 +502,7 @@ class tweetLoc:
                 c.update(found)
 
         text = " ".join([t[0] for t in c.most_common(30)])
-        print type(text)
+        
         return self.predict(text)
         
 
