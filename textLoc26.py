@@ -290,7 +290,6 @@ class tweetLoc:
             # Vikta samman batcharna. TODO: fallande vikt efter datum
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
             
-            print score, threshold
             if score > threshold:
                 coordinates.append(coordinate)
                 scores.append(score)
@@ -300,7 +299,6 @@ class tweetLoc:
             # Räkna ord som är out of vocabulary
             if score == 0.0:
                 OOVcount += 1 
-                
         
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
@@ -487,7 +485,7 @@ class tweetLoc:
 
 
 
-    def predictByGrammar(self, text):
+    def predictByGrammar(self, text, threshold=float(1e40)):
         """ 
         Förutsäger en koordinat för en bunte text
         Implementatation av gramatikförfarandet
