@@ -276,7 +276,6 @@ class tweetLoc:
                                        "AND n_coordinates > 100")                   
                 subscores, subcoordinates = [], []
                 for row in result:
-                    print row
                     subscores.append(row['scoring'])
                     subcoordinates.append([row['lat'], row['lon']])
                     freqInBatch = row['n_coordinates']
@@ -301,7 +300,7 @@ class tweetLoc:
             if score == 0.0:
                 OOVcount += 1 
                 
-        
+        print coordinates
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
   
