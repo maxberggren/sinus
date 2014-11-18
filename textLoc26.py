@@ -266,6 +266,7 @@ class tweetLoc:
             batches = self.cache.get("batches")
         
         for word in words:
+            print word
             batchscores, batchcoordinates = [], []
             wordFreq, freqInBatch = 0, 0
             
@@ -501,7 +502,7 @@ class tweetLoc:
             if found:
                 c.update(found)
 
-        text = " ".join([t[0].encode('utf-8') for t in c.most_common(30)])
+        text = " ".join([t[0] for t in c.most_common(30)])
         
         return self.predict(text)
         
