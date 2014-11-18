@@ -500,6 +500,8 @@ class tweetLoc:
         text = text.lower()
         for pattern in self.patterns:
             print pattern == 'böö (.{2,30})'.decode('utf-8')
+            print pattern
+            print 'böö (.{2,30})'.decode('utf-8')
         
         
         #return coordinate, score, {}, 0, {}
