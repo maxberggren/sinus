@@ -289,17 +289,16 @@ class tweetLoc:
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
-            print score, threshold
             if score > threshold:
                 coordinates.append(coordinate)
                 scores.append(score)
                 acceptedWords.append(word)
                 wordFreqs.append(wordFreq)
-        
+            
             # Räkna ord som är out of vocabulary
             if score == 0.0:
                 OOVcount += 1 
-        
+        print scores
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
   
@@ -501,7 +500,7 @@ class tweetLoc:
                 c.update(found)
 
         text = " ".join([t[0] for t in c.most_common(30)])
-        print self.predict(text, threshold=threshold)
+        
         return self.predict(text, threshold=threshold)
         
 
