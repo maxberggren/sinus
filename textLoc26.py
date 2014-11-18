@@ -19,6 +19,7 @@ from operator import itemgetter
 import config as c
 from sqlite_cache import SqliteCache
 import re
+from collections import Counter
 
 def haversine(coord1, coord2):
     """
@@ -493,14 +494,14 @@ class tweetLoc:
         Output: koordinat (lon, lat)
         """
         
-        locationWords = []
+        c = Counter()
         text = text.lower()
         for pattern in self.patterns:
             found = re.findall(pattern, text)
             if found:
-                locationWords.extend(found)
-        print locationWords
-        
+                c.update(found)
+
+        print c.most_common(10)
         
         #return coordinate, score, {}, 0, {}
         
