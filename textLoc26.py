@@ -61,7 +61,7 @@ class tweetLoc:
         patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
         self.patterns = []
         for pattern in patterns:
-            pattern = pattern.strip().replace("**PLATS**", "(.{2,30})")
+            pattern = pattern.strip().replace("**PLATS**", "(\S{2,30})")
             p = re.compile(pattern)
             self.patterns.append(p)
     
