@@ -266,7 +266,6 @@ class tweetLoc:
             batches = self.cache.get("batches")
         
         for word in words:
-            print word
             batchscores, batchcoordinates = [], []
             wordFreq, freqInBatch = 0, 0
             
@@ -277,6 +276,7 @@ class tweetLoc:
                                        "AND n_coordinates > 100")                   
                 subscores, subcoordinates = [], []
                 for row in result:
+                    print row
                     subscores.append(row['scoring'])
                     subcoordinates.append([row['lat'], row['lon']])
                     freqInBatch = row['n_coordinates']
