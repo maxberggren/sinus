@@ -291,6 +291,8 @@ class tweetLoc:
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
             print score, threshold
             if score > threshold:
+                print "###"
+                print score, threshold
                 coordinates.append(coordinate)
                 scores.append(score)
                 acceptedWords.append(word)
