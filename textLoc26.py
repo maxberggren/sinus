@@ -493,7 +493,7 @@ class tweetLoc:
         Output: koordinat (lon, lat)
         """  
         
-        text = text.lower()
+        text = text.lower().encode('utf-8')
         print type(text)
         for pattern in self.patterns:
             found = re.findall(pattern, text)
