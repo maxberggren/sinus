@@ -500,6 +500,7 @@ class tweetLoc:
             found = re.findall(pattern, text)
             if found:
                 c.update(found)
+                print found
 
         print c.most_common(30)
         
