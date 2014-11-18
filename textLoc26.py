@@ -500,11 +500,10 @@ class tweetLoc:
             found = re.findall(pattern, text)
             if found:
                 c.update(found)
-                print found
 
-        print c.most_common(30)
+        text = " ".join([t[0] for t in c.most_common(30)])
         
-        #return coordinate, score, {}, 0, {}
+        return self.predict(text)
         
 
 if __name__ == "__main__":
