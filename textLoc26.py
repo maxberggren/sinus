@@ -252,7 +252,6 @@ class tweetLoc:
         
         self.db.query("set names 'utf8'")
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
-        print words
         #words = [word.encode('utf-8') for word in words]                         
         coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
  
@@ -502,7 +501,7 @@ class tweetLoc:
             if found:
                 c.update(found)
 
-        text = " ".join([t[0] for t in c.most_common(30)])
+        text = " ".join([t[0].encode('utf-8') for t in c.most_common(30)])
         
         return self.predict(text)
         
