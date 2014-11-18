@@ -61,8 +61,8 @@ class tweetLoc:
         patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
         self.patterns = []
         for pattern in patterns:
-            print pattern.replace("**PLATS**", "(.{2,30})").encode('utf-8')
-            p = re.compile(pattern.replace("**PLATS**", "(.{2,30})").encode('utf-8'))
+            print pattern.replace("**PLATS**", "(.{2,30})")
+            p = re.compile(pattern.replace("**PLATS**", "(.{2,30})"))
             self.patterns.append(p)
     
     def cleanData(self, inputText):
@@ -495,9 +495,9 @@ class tweetLoc:
         
         patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
         text = text.lower()
-        
+        print type(text)
         for pattern in self.patterns:
-            found = re.findall(pattern, text.encode('utf-8'))
+            found = re.findall(pattern, text)
             if found:
                 print found
         
