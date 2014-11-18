@@ -62,6 +62,7 @@ class tweetLoc:
         self.patterns = []
         for pattern in patterns:
             p = re.compile(pattern.replace("**PLATS**", "(.{2,30})"))
+            print pattern.replace("**PLATS**", "(.{2,30})")
             self.patterns.append(p)
     
     def cleanData(self, inputText):
