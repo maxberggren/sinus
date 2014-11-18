@@ -283,6 +283,7 @@ class tweetLoc:
                         freqInBatch = 0
                 
                 coordinate, score = self.weightedMean(subcoordinates, subscores)
+                print coordinate
                 batchscores.append(score)
                 batchcoordinates.append(coordinate)
                 wordFreq += freqInBatch
@@ -300,7 +301,7 @@ class tweetLoc:
             if score == 0.0:
                 OOVcount += 1 
                 
-        print coordinates
+        
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
   
