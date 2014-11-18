@@ -254,7 +254,7 @@ class tweetLoc:
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
         #words = [word.encode('utf-8') for word in words]                         
         coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
-        
+ 
         # Hämta alla unika datum (batchar) där GMMer satts in i databasen
         batches, wordFreqs = [], []
         
@@ -276,6 +276,7 @@ class tweetLoc:
                                        "AND n_coordinates > 100")                   
                 subscores, subcoordinates = [], []
                 for row in result:
+                    print row
                     subscores.append(row['scoring'])
                     subcoordinates.append([row['lat'], row['lon']])
                     freqInBatch = row['n_coordinates']
@@ -300,7 +301,7 @@ class tweetLoc:
             if score == 0.0:
                 OOVcount += 1 
                 
-        print coordinates
+        
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
   
