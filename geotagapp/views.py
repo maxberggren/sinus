@@ -80,8 +80,8 @@ def tagbyvote1(threshold=None):
 @app.route('/geotag/api/v1.0/tagbygrammar', methods=['POST'])
 def tagbygrammar(): 
     touple = model.predictByGrammar(request.json['text'])   
-    lon = coordinate[0]
-    lat = coordinate[1]
+    lon = 0
+    lat = 0
     return jsonify( { 'latitude': lat, 
                       'longitude': lon, 
                       'placeness': 1e40, 
