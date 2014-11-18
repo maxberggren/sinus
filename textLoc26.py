@@ -503,7 +503,7 @@ class tweetLoc:
 
         text = " ".join([t[0] for t in c.most_common(30)])
         
-        return self.predict(text, threshold=threshold)
+        print self.predict(text, threshold=threshold)
         
 
 if __name__ == "__main__":
