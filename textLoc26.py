@@ -501,6 +501,7 @@ class tweetLoc:
             if found:
                 print found
         
+        print "pattern handkodat"
         pat = 'böö (.{2,30})'.decode('utf-8')
         print pat
         p = re.compile(pat)
