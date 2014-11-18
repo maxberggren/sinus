@@ -504,6 +504,7 @@ class tweetLoc:
                 print found
         
         pat = 'böö (.{2,30})'
+        print pat
         p = re.compile(pat)
         print p 
         print type(p)
