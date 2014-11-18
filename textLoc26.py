@@ -502,8 +502,8 @@ class tweetLoc:
                 c.update(found)
 
         text = " ".join([t[0] for t in c.most_common(30)])
-        print text
-        return self.predict(text.decode('utf-8'))
+        print type(text)
+        return self.predict(text)
         
 
 if __name__ == "__main__":
