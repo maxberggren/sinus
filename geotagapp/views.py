@@ -78,16 +78,18 @@ def tagbyvote1(threshold=None):
                       'mentions': mentions } )
 
 @app.route('/geotag/api/v1.0/tagbygrammar', methods=['POST'])
-def tagbygrammar(): 
-    touple = model.predictByGrammar(request.json['text'])   
-    lon = 0
-    lat = 0
+@app.route('/geotag/api/v1.0/tagbygrammar/threshold/<threshold>', methods=['POST'])
+def tagbygrammar(threshold=None): 
+    touple = model.predictByGrammar(request.json['text'], threshold=threshold)   
+    coordinate, placeness, mostUsefulWords, OOV, mentions = touple
+    lon = coordinate[0]
+    lat = coordinate[1]
     return jsonify( { 'latitude': lat, 
                       'longitude': lon, 
-                      'placeness': 1e40, 
-                      'mostUsefulWords': {},
-                      'outOfVocabulary': 0, 
-                      'mentions': 0 } )
+                      'placeness': placeness, 
+                      'mostUsefulWords': mostUsefulWords,
+                      'outOfVocabulary': OOV, 
+                      'mentions': mentions } )
 
 
 

@@ -486,7 +486,7 @@ class tweetLoc:
 
 
 
-    def predictByGrammar(self, text):
+    def predictByGrammar(self, text, threshold):
         """ 
         Förutsäger en koordinat för en bunte text
         Implementatation av gramatikförfarandet
@@ -503,7 +503,7 @@ class tweetLoc:
 
         text = " ".join([t[0] for t in c.most_common(30)])
         
-        print self.predict(text, threshold=float(1e10))
+        return self.predict(text, threshold=threshold)
         
 
 if __name__ == "__main__":
