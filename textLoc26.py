@@ -276,7 +276,6 @@ class tweetLoc:
                                        "AND n_coordinates > 100")                   
                 subscores, subcoordinates = [], []
                 for row in result:
-                    print row
                     subscores.append(row['scoring'])
                     subcoordinates.append([row['lat'], row['lon']])
                     freqInBatch = row['n_coordinates']
@@ -320,7 +319,8 @@ class tweetLoc:
             outOfVocabulary = 0                                
         else:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
-                                        
+                  
+        print coordinate                      
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
         
      
