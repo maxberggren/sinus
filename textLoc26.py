@@ -502,8 +502,8 @@ class tweetLoc:
             if found:
                 print found
         
-        #p = re.compile(ur'bor i (.{2,30}) som')
-        #print re.findall(p, test_str)
+        p = re.compile(ur'bor i (.{2,30}) som')
+        print re.findall(p, test_str)
         
         #return coordinate, score, {}, 0, {}
         
