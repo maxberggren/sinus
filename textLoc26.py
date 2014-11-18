@@ -254,7 +254,7 @@ class tweetLoc:
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
         #words = [word.encode('utf-8') for word in words]                         
         coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
-        print words
+        
         # Hämta alla unika datum (batchar) där GMMer satts in i databasen
         batches, wordFreqs = [], []
         
@@ -276,6 +276,7 @@ class tweetLoc:
                                        "AND n_coordinates > 100")                   
                 subscores, subcoordinates = [], []
                 for row in result:
+                    print row
                     subscores.append(row['scoring'])
                     subcoordinates.append([row['lat'], row['lon']])
                     freqInBatch = row['n_coordinates']
