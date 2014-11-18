@@ -290,7 +290,7 @@ class tweetLoc:
             # Vikta samman batcharna. TODO: fallande vikt efter datum
             coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
             print score, threshold
-            if score > threshold:
+            if float(score) > float(threshold):
                 print "###"
                 print score, threshold
                 coordinates.append(coordinate)
