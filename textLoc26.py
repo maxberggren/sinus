@@ -503,7 +503,8 @@ class tweetLoc:
             if found:
                 print found
         
-        p = re.compile('böö (.{2,30})'.decode('utf-8'))
+        pat = 'böö (.{2,30})'
+        p = re.compile(pat)
         print p 
         print type(p)
         print re.findall(p, text)
