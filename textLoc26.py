@@ -58,12 +58,13 @@ class tweetLoc:
         
         self.words = []
         
-        patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
+        #patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
         self.patterns = []
-        for pattern in patterns:
-            print pattern.replace("**PLATS**", "(.{2,30})")
-            p = re.compile(pattern.replace("**PLATS**", "(.{2,30})"))
-            self.patterns.append(p)
+        self.patterns.append(re.compile(ur'bor i .{2,30} som')
+        #for pattern in patterns:
+        #    print pattern.replace("**PLATS**", "(.{2,30})")
+        #    p = re.compile(pattern.replace("**PLATS**", "(.{2,30})"))
+        #    self.patterns.append(p)
     
     def cleanData(self, inputText):
         """
