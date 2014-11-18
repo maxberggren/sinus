@@ -83,7 +83,7 @@ def tagbyvote1(threshold=None):
 def tagbygrammar(threshold=None): 
     touple = model.predictByGrammar(request.json['text'], threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
-    lon = coordinate[0]
+    lon = coordinate[0] 
     lat = coordinate[1]
     return jsonify( { 'latitude': lat, 
                       'longitude': lon, 
