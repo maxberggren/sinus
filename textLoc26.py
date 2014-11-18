@@ -62,7 +62,9 @@ class tweetLoc:
         self.patterns = []
         for pattern in patterns:
             pattern = pattern.replace("**PLATS**", "(.{2,30})")
+            print "faun fil"
             print pattern
+            print type(pattern)
             p = re.compile(pattern)
             print type(p)
             self.patterns.append(p)
