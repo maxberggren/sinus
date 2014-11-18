@@ -499,9 +499,7 @@ class tweetLoc:
         
         text = text.lower()
         for pattern in self.patterns:
-            found = re.findall(pattern, text)
-            if found:
-                print found
+            print re.findall(pattern, text)
         
         print "pattern handkodat"
         pat = 'böö (.{2,30})'.decode('utf-8')
