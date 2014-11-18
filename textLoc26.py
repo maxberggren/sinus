@@ -61,8 +61,10 @@ class tweetLoc:
         patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
         self.patterns = []
         for pattern in patterns:
-            pattern = pattern.encode('utf-8').replace("**PLATS**", "(.{2,30})")
+            pattern = pattern.replace("**PLATS**", "(.{2,30})")
+            print pattern
             p = re.compile(pattern)
+            print type(p)
             self.patterns.append(p)
     
     def cleanData(self, inputText):
@@ -493,11 +495,17 @@ class tweetLoc:
         Output: koordinat (lon, lat)
         """  
         
-        text = text.lower().encode('utf-8')
+        text = text.lower()
         for pattern in self.patterns:
-            print re.findall(pattern, text)            
-        p = re.compile('böö (.{2,30})')
-        print p
+            print pattern
+            print text
+            found = re.findall(pattern, text)
+            if found:
+                print found
+        
+        p = re.compile('böö (.{2,30})'.decode('utf-8'))
+        print p 
+        print type(p)
         print re.findall(p, text)
         
         #return coordinate, score, {}, 0, {}
