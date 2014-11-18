@@ -59,18 +59,22 @@ if __name__ == "__main__":
     transtab = string.maketrans("ABCDEFGHIJKLMNOPQRSTUVXYZÅÄÖÉ",
                                 "abcdefghijklmnopqrstuvxyzåäöé")
     punkter = string.punctuation
-    db = dataset.connect("sqlite:///nattstad.db")
+    #db = dataset.connect("sqlite:///nattstad.db")
+    db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
     
     start = time.time()
     
     ngramsB = Counter() # Ngrams before
     ngramsA = Counter() # Ngrams after
     
-    result = db.query("SELECT * FROM blogs WHERE LENGTH(presentation) > 1 "
-                      "AND manuellStad is NULL order by id asc")
+    #result = db.query("SELECT * FROM blogs WHERE LENGTH(presentation) > 1 "
+    #                  "AND manuellStad is NULL order by id asc")
+    result = db.query("SELECT * FROM posts ORDER by id asc LIMIT 100")
     
     for row in result:
-        words = row['presentation'].encode('utf-8').translate(transtab, punkter).split()
+        #words = row['presentation'].encode('utf-8').translate(transtab, punkter).split()
+        words = row['text'].encode('utf-8').translate(transtab, punkter).split()
+
         for i, word in enumerate(words):
             if word in o:
                 before, after = window(words, i, 6)
