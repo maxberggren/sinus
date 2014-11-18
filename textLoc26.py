@@ -62,7 +62,6 @@ class tweetLoc:
         self.patterns = []
         for pattern in patterns:
             p = re.compile(pattern.replace(u"**PLATS**", u"(.{2,30})"))
-            print pattern.replace(u"**PLATS**", u"(.{2,30})")
             self.patterns.append(p)
     
     def cleanData(self, inputText):
@@ -497,7 +496,9 @@ class tweetLoc:
         text = text.lower()
         
         for pattern in self.patterns:
-            print re.findall(pattern, text)
+            found = re.findall(pattern, text)
+            if found:
+                print found
         
         #p = re.compile(ur'bor i (.{2,30}) som')
         #print re.findall(p, test_str)
