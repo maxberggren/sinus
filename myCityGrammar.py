@@ -20,35 +20,48 @@ def window(words, around, windowSize):
         gives ['i', 'love'], ['omg']
         i.e. one list before the item and one after. 
     """
+    ngramsBefore = []
+    ngramsAfter = []
+    ngramsAround = []
     
+    # Before
     for offset in range(windowSize):
         try:
             before = words[around-windowSize+offset:around]
             break
         except KeyError:
             pass   
-            
-    ngramsbefore = []
     
     for offset in range(len(before)):
-        ngramsbefore.append(" ".join(before[offset:]))
+        ngramsBefore.append(" ".join(before[offset:]))
     
+    # After
     for offset in range(windowSize):
         try:
             after = words[around+1:1+around+windowSize-offset]
             break
         except KeyError:
             pass 
-            
-    ngramsafter = []
     
     for offset in range(len(after)):
-        ngramsafter.append(" ".join(after[:-offset]))
+        ngramsAfter.append(" ".join(after[:-offset]))
     
-    return ngramsbefore, ngramsafter
+    
+    # Around
+    nafter = len(after)
+    nbefore = len(before)
+    around = before + ['**PLATS**'] + after
+    
+    for offset in range(1,windowSize+1):
+        ngramsAround.append(" ".join(around[nbefore-offset:nbefore+1+offset]))    
+    
+    return ngramsBefore, ngramsAfter, ngramsAround
         
         
 if __name__ == "__main__":     
+
+    databaseuri = c.LOCATIONDB+ "?charset=utf8"
+    #databaseuri = "sqlite:///nattstad.db"
 
     # Add all Swedish villages/citys to a set
     o = Set()
@@ -59,34 +72,43 @@ if __name__ == "__main__":
     transtab = string.maketrans("ABCDEFGHIJKLMNOPQRSTUVXYZÅÄÖÉ",
                                 "abcdefghijklmnopqrstuvxyzåäöé")
     punkter = string.punctuation
-    #db = dataset.connect("sqlite:///nattstad.db")
-    db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
+    db = dataset.connect(databaseuri)
     
     start = time.time()
     
-    ngramsB = Counter() # Ngrams before
-    ngramsA = Counter() # Ngrams after
+    ngramsBefore = Counter() # Ngrams before
+    ngramsAfter = Counter() # Ngrams after
+    ngramsAround = Counter() # Ngrams around
     
-    #result = db.query("SELECT * FROM blogs WHERE LENGTH(presentation) > 1 "
-    #                  "AND manuellStad is NULL order by id asc")
-    result = db.query("SELECT * FROM posts ORDER by id asc LIMIT 100")
+    if "nattstad" in databaseuri:
+        result = db.query("SELECT * FROM blogs WHERE LENGTH(presentation) > 1 "
+                          "AND manuellStad is NULL order by id asc")
+    else:
+        result = db.query("SELECT text FROM posts ORDER by id asc LIMIT 1000000")
     
     for row in result:
-        #words = row['presentation'].encode('utf-8').translate(transtab, punkter).split()
-        words = row['text'].encode('utf-8').translate(transtab, punkter).split()
+        if "nattstad" in databaseuri:
+            words = row['presentation'].encode('utf-8').translate(transtab, punkter).split()
+        else:
+            words = row['text'].encode('utf-8').translate(transtab, punkter).split()
 
         for i, word in enumerate(words):
             if word in o:
-                before, after = window(words, i, 6)
-                ngramsB.update(before)
-                ngramsA.update(after)
+                before, after, around = window(words, i, 6)
+                ngramsBefore.update(before)
+                ngramsAfter.update(after)
+                ngramsAround.update(around)
         
     top = 200    
     
     print "### Top 200 ngrams före ort ###"    
-    for utterance, frq in ngramsB.most_common(top):
-        print utterance
+    for utterance, frq in ngramsBefore.most_common(top):
+        print utterance + " **PLATS**"
     
     print "\n### Top 200 ngrams efter ort ###"
-    for utterance, frq in ngramsA.most_common(top):
+    for utterance, frq in ngramsAfter.most_common(top):
+        print "**PLATS** " + utterance
+    
+    print "\n### Top 200 ngrams runt ort ###"
+    for utterance, frq in ngramsAround.most_common(top):
         print utterance

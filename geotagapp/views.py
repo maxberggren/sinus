@@ -77,6 +77,18 @@ def tagbyvote1(threshold=None):
                       'outOfVocabulary': OOV, 
                       'mentions': mentions } )
 
+@app.route('/geotag/api/v1.0/tagbygrammar', methods=['POST'])
+def tagbygrammar(): 
+    touple = model.predictByGrammar(request.json['text'])   
+    lon = coordinate[0]
+    lat = coordinate[1]
+    return jsonify( { 'latitude': lat, 
+                      'longitude': lon, 
+                      'placeness': 1e40, 
+                      'mostUsefulWords': {},
+                      'outOfVocabulary': 0, 
+                      'mentions': 0 } )
+
 
 
 @app.route('/geotag/api/v1.0/trainingData/<ammountData>/pickRandom', methods=['GET'])

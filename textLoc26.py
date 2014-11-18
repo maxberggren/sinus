@@ -18,6 +18,7 @@ import time
 from operator import itemgetter
 import config as c
 from sqlite_cache import SqliteCache
+import re
 
 def haversine(coord1, coord2):
     """
@@ -56,6 +57,12 @@ class tweetLoc:
         self.cache = SqliteCache("cache")
         
         self.words = []
+        
+        patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
+        self.patterns = []
+        for pattern in patterns:
+            p = re.compile(pattern.replace("**PLATS**", "{2,30})"))
+            self.patterns.append(p)
     
     def cleanData(self, inputText):
         """
@@ -475,6 +482,27 @@ class tweetLoc:
             
         return coordinate, score, {}, 0, {}
 
+
+
+    def predictByGrammar(self, text):
+        """ 
+        Förutsäger en koordinat för en bunte text
+        Implementatation av gramatikförfarandet
+        Input: text
+        Output: koordinat (lon, lat)
+        """  
+        
+        patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
+        text = text.lower()
+        
+        for pattern in self.patterns:
+            print re.findall(pattern, text)
+        
+        #p = re.compile(ur'bor i (.{2,30}) som')
+        #print re.findall(p, test_str)
+        
+        #return coordinate, score, {}, 0, {}
+        
 
 if __name__ == "__main__":
 
