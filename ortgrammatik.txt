@@ -133,7 +133,6 @@ ab spolegatan 6 222 20 **PLATS**
 222 20 **PLATS**
 upp i **PLATS**
 lite **PLATS**
-21 **PLATS**
 flytta till **PLATS**
 jag var i **PLATS**
 vara i **PLATS**
@@ -158,9 +157,6 @@ både **PLATS**
 o **PLATS**
 här **PLATS**
 oss till **PLATS**
-2 **PLATS**
-3 **PLATS**
-04 **PLATS**
 bodde i **PLATS**
 på ett **PLATS**
 te **PLATS**
@@ -170,7 +166,6 @@ fick **PLATS**
 heter **PLATS**
 sen **PLATS**
 åker vi till **PLATS**
-574 21 **PLATS**
 box 45 574 21 **PLATS**
 hus i **PLATS**
 runt i **PLATS**
@@ -196,9 +191,6 @@ nya **PLATS**
 hans **PLATS**
 dag i **PLATS**
 malmö och **PLATS**
-
-### Top 200 ngrams efter ort ###
-**PLATS** 
 **PLATS** och
 **PLATS** i
 **PLATS** för
@@ -242,7 +234,6 @@ malmö och **PLATS**
 **PLATS** angeles
 **PLATS** ska
 **PLATS** efter
-**PLATS**  
 **PLATS** från
 **PLATS** sen
 **PLATS** att
@@ -254,7 +245,6 @@ malmö och **PLATS**
 **PLATS** om
 **PLATS** det är
 **PLATS** hos
-**PLATS** –
 **PLATS** det var
 **PLATS** och det
 **PLATS** hade
@@ -398,9 +388,6 @@ malmö och **PLATS**
 **PLATS** firmateckning firman tecknas av
 **PLATS** firmateckning firman tecknas av styrelsen
 **PLATS** ihop
-
-### Top 200 ngrams runt ort ###
-
 i **PLATS** och
 till **PLATS** och
 till **PLATS** för
@@ -502,7 +489,6 @@ i **PLATS** hade
 i **PLATS** fick
 02 **PLATS** firmateckning
 02 **PLATS** styrelsesuppleanter
-i **PLATS** –
 på **PLATS** i
 i **PLATS** o
 handelsbolag kommun **PLATS** information om
