@@ -494,13 +494,13 @@ class tweetLoc:
         """  
         
         text = text.lower().encode('utf-8')
-        print type(text)
         for pattern in self.patterns:
             found = re.findall(pattern, text)
             if found:
                 print found
-        
+            print pattern        
         p = re.compile('böö (.{2,30})')
+        print p
         print re.findall(p, text)
         
         #return coordinate, score, {}, 0, {}
