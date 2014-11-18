@@ -288,8 +288,7 @@ class tweetLoc:
                 wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum
-            coordinate, score = self.weightedMean(batchcoordinates, batchscores)  
-            print coordinate  
+            coordinate, score = self.weightedMean(batchcoordinates, batchscores)    
                 
             if score > threshold:
                 coordinates.append(coordinate)
@@ -504,7 +503,7 @@ class tweetLoc:
 
         text = " ".join([t[0] for t in c.most_common(30)])
         
-        return self.predict(text)
+        return self.predict(text, threshold=float(1e10))
         
 
 if __name__ == "__main__":
