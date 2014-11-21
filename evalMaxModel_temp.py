@@ -92,6 +92,7 @@ if __name__ == "__main__":
         
         # Test 3: grammatik matat in i platsighetsmodulen
         data3 = predictViaAPI(text, path="tagbygrammar")
+        print data3
         predictedCoordinateT3, scoreT3, mostUsefulWordsT3, mentionsT3 = data3        
     
         # Test 3
