@@ -41,10 +41,10 @@ if __name__ == "__main__":
                       "longitude is not NULL AND "
                       "latitude is not NULL "
                       "ORDER by id DESC")
-    felenT1, felenT2 = [], []
+    felenT1, felenT2, felenT3 = [], [], []
     i = 0
-    acceptableAnswerT1, acceptableAnswerT2 = 0, 0
-    chooseToAnswerT1, chooseToAnswerT2 = 0, 0
+    acceptableAnswerT1, acceptableAnswerT2, acceptableAnswerT3 = 0, 0, 0
+    chooseToAnswerT1, chooseToAnswerT2, chooseToAnswerT3 = 0, 0, 0
     
     for row in result:
         i += 1
@@ -60,7 +60,7 @@ if __name__ == "__main__":
                                       test="T#")
         
         if (i-1) % 10 == 0: 
-            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} |  {T2:<35} | {text:<70}"
+            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {T3:<35} | {text:<70}"
             head = pattern.format(id="-"*4,
                                   blogid="-"*7, 
                                   tecken="-"*8, 
