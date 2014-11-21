@@ -90,13 +90,13 @@ def maxFix(text):
         #        except UnicodeDecodeError:
         #            return u""
 
-def predictViaAPI(text):
+def predictViaAPI(text, path="tag"):
     payload = json.dumps({'text': text})
     headers = {'content-type': 'application/json'}
-    r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/tag", 
+    r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/"+path, 
                        data=payload, headers=headers)
     
-    try:    
+    try:
         lat = r.json()['latitude']
         lon = r.json()['longitude']
         placeness = r.json()['placeness']
@@ -104,7 +104,6 @@ def predictViaAPI(text):
         mentions = r.json()['mentions']
         return [lon, lat], placeness, mostUsefulWords, mentions
     except:
-        print "predictViaAPI failed"
         return None, None, None, None
 
 
@@ -144,7 +143,7 @@ if __name__ == "__main__":
             #print text.encode('utf-8')
             while True:
                 try:
-                    data = predictViaAPI(text)
+                    data = predictViaAPI(text, path="tagbygrammar/threshold/1e15")
                     predictedCoordinate, score, mostUsefulWords, mentions = data
                     break
                 except requests.exceptions.ConnectionError:
