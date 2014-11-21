@@ -81,6 +81,7 @@ def tagbyvote1(threshold=None):
 @app.route('/geotag/api/v1.0/tagbygrammar', methods=['POST'])
 @app.route('/geotag/api/v1.0/tagbygrammar/threshold/<threshold>', methods=['POST'])
 def tagbygrammar(threshold=None): 
+    print request.json['text'][0:100]
     touple = model.predictByGrammar(request.json['text'], threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0] 
