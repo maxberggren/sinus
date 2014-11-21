@@ -127,6 +127,7 @@ if __name__ == "__main__":
             
         else:
             T3 = "###"
+            bestWordsT3 = ""
             
 
         pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T3:<35} | {text:<70}" 
