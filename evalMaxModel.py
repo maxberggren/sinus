@@ -99,6 +99,10 @@ if __name__ == "__main__":
         # Test 2: röstningsförfarandet
         data2 = predictViaAPI(text, path="tagbyvote1")
         predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT2 = data2
+        
+        # Test 3: grammatik matat in i platsighetsmodulen
+        data3 = predictViaAPI(text, path="tagbygrammar")
+        predictedCoordinateT3, scoreT3, mostUsefulWordsT3, mentionsT3 = data3        
     
         # Test 1
         if predictedCoordinateT1 and scoreT1 > 0.0:
@@ -160,11 +164,38 @@ if __name__ == "__main__":
             T2 = "###"
 
 
-        pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
+        # Test 3
+        if predictedCoordinateT3 and scoreT3 > 0.0:
+            chooseToAnswerT3 += 1
+           
+            fel = haversine([row['latitude'], row['longitude']], predictedCoordinateT3)
+            
+            if fel < 100: # Acceptabelt fel
+                acceptableAnswerT3 += 1
+            
+            felenT3.append(fel)
+
+            pattern = ("{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
+                       "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
+            T3 = pattern.format(fel=fel,
+                                median=np.median(felenT3), 
+                                medelv=np.mean(felenT3), 
+                                AST=float(acceptableAnswerT3)/float(i), 
+                                ASV=float(acceptableAnswerT3)/float(chooseToAnswerT3), 
+                                SP=float(chooseToAnswerT3)/float(i), 
+                                test="T3")
+
+            
+        else:
+            T3 = "###"
+            
+
+        pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {T3:<35} | {text:<70}"
         row = pattern.format(tecken=len(text),
                              blogid=blogid, 
                              T1=T1, 
                              T2=T2, 
+                             T3=T3,
                              id=i,
                              text=bestWordsT1)
         print row
