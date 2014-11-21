@@ -147,7 +147,7 @@ if __name__ == "__main__":
                     predictedCoordinate, score, mostUsefulWords, mentions = data
                     break
                 except requests.exceptions.ConnectionError:
-                    print "Kunde inte koppla mot api:et. Väntar 5 sek."
+                    print "Kunde inte koppla mot api:et. Väntar 5 sek." 
                     time.sleep(5)
                     pass
             
