@@ -60,12 +60,13 @@ if __name__ == "__main__":
                                       test="T#")
         
         if (i-1) % 10 == 0: 
-            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}"
+            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} |  {T2:<35} | {text:<70}"
             head = pattern.format(id="-"*4,
                                   blogid="-"*7, 
                                   tecken="-"*8, 
                                   T1="-"*35, 
                                   T2="-"*35,
+                                  T3="-"*35,
                                   text="-"*70)
             print head
         
@@ -74,6 +75,7 @@ if __name__ == "__main__":
                                   tecken="Tecken", 
                                   T1=testhead, 
                                   T2=testhead,
+                                  T3=testhead,
                                   text="Bästa orden")
             print head
         
@@ -81,7 +83,8 @@ if __name__ == "__main__":
                                   blogid="-"*7, 
                                   tecken="-"*8, 
                                   T1="-"*35, 
-                                  T2="-"*35,
+                                  T2="-"*35, 
+                                  T3="-"*35,
                                   text="-"*70)
             print head
         
