@@ -190,7 +190,7 @@ if __name__ == "__main__":
             T3 = "###"
             
 
-        pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {T3:<35} | {text:<70}"
+        pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {T3:<35} | {text:<70}" 
         row = pattern.format(tecken=len(text),
                              blogid=blogid, 
                              T1=T1, 
