@@ -499,9 +499,9 @@ class tweetLoc:
             found = re.findall(pattern, text)
             if found:
                 c.update(found)
+                print "P: {} F: {}".format(pattern, found)
 
         text = " ".join([t[0] for t in c.most_common(50)])
-        print text.encode('utf-8')
         
         return self.predict(text, threshold=threshold)
         
