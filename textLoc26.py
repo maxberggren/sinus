@@ -501,7 +501,7 @@ class tweetLoc:
                 c.update(found)
                 print "P: {} F: {}".format(pattern, found)
 
-        text = " ".join([t[0] for t in c.most_common(50)])
+        text = " ".join([t[0] for t in c.most_common(100)])
         
         return self.predict(text, threshold=threshold)
         
