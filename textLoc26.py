@@ -443,9 +443,9 @@ class tweetLoc:
             for word in found:
                 patternScores.append(self.lookup(word))
                 
-            print np.mean(patternScores)
             patternMeans.append(np.mean(patternScores))
         
+        print patternMeans
         return patternMeans    
 
 
