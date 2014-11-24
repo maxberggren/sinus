@@ -91,7 +91,7 @@ def predictViaAPI(text, path="tag"):
                        data=payload, headers=headers)
     
     try:
-        return r.json()['meangrammars']
+        return r.json()['meangrammars'] 
     except:
         return 0
 
