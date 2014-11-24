@@ -152,7 +152,7 @@ if __name__ == "__main__":
         result = db.query("SELECT * FROM blogs WHERE LENGTH(presentation) > 1 "
                           "AND manuellStad is NULL order by id asc")
     else:
-        result = db.query("SELECT text FROM posts ORDER by id asc LIMIT 10000")
+        result = db.query("SELECT text FROM posts ORDER by id asc LIMIT 1000")
     
     for row in result:
         if "nattstad" in databaseuri:
@@ -232,7 +232,7 @@ if __name__ == "__main__":
             sorted = np.sort(np.vstack((regexpes, regexpscores)), axis=-1)
             sortedregexpes = sorted[0,:]
             print sortedregexpes
-            sortedscores = sorted[1,:]
+            sortedscores = sorted[1,:].astype(int)
             print sortedscores
             
             print sortedregexpes[sortedscores > 0.0]
