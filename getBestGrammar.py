@@ -98,6 +98,8 @@ if __name__ == "__main__":
     db = dataset.connect(c.LOCATIONDB)
     result = db.query("set names 'utf8'")
     
+    regexpscores = np.array([])
+    
     
     result = db.query("select * from blogs "
                       "WHERE rank <> 9999")
@@ -126,8 +128,8 @@ if __name__ == "__main__":
                     time.sleep(5)
                     pass
             
-            print meangrammars
-            
+            regexpscores =+ np.log10(np.array(meangrammars))
+            print regexpscores
             
         except KeyboardInterrupt:
             print "Avslutar"
