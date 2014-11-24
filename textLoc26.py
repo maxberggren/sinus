@@ -418,7 +418,7 @@ class tweetLoc:
         score = 0
         
         result = self.db.query("SELECT * FROM GMMs " 
-                               "WHERE word = '" + word + "' "
+                               "WHERE word = '" + word.encode('utf-8') + "' "
                                "ORDER BY scoring DESC")                   
         for row in result:
             score = row['scoring']
