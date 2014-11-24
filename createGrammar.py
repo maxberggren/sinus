@@ -193,7 +193,7 @@ if __name__ == "__main__":
     for regexp in regexpes:
         print regexp
     # Now let's check the regexpes
-    regexpscores = None
+    createdArray = False
     model = tweetLoc(c.LOCATIONDB, regexpes=regexpes) 
     
     result = db.query("select * from blogs "
@@ -223,8 +223,9 @@ if __name__ == "__main__":
                     time.sleep(5)
                     pass
             
-            if not regexpscores:
+            if not createdArray:
                 regexpscores = np.zeros_like(np.array(meangrammars))
+                createdArray = True
             
             regexpscores = regexpscores + np.log10(np.array(meangrammars)+1)
             print regexpscores.astype(int)
