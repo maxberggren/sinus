@@ -229,7 +229,7 @@ if __name__ == "__main__":
             #print regexpscores.astype(int)
             #print regexpes[regexpscores > 0]
             
-            print np.vstack(regexpes, regexpscores)
+            print np.vstack((regexpes, regexpscores))
             
         except KeyboardInterrupt:
             print "Avslutar"
