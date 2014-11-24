@@ -94,7 +94,7 @@ def tagbygrammar(threshold=None):
 
 @app.route('/geotag/api/v1.0/findbestgrammar', methods=['POST'])
 def bestgrammar(): 
-    meangrammars = model.findBestGrammar(request.json['text'])   
+    meangrammars = model.findBestGrammar(request.json['text'])    
     
     return jsonify( { 'meangrammars': meangrammars } )
 

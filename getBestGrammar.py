@@ -90,7 +90,7 @@ if __name__ == "__main__":
             
             print "Belägger " + row['url'] + "..."
             
-            while True:
+            while True: 
                 try:
                     meangrammars = predictViaAPI(text, path="findbestgrammar")
 
