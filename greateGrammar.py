@@ -188,7 +188,8 @@ if __name__ == "__main__":
 
 
     # Now let's check the regexpes
-       
+    print len(regexpes)  
+    print regexpes
     regexpscores = None
     model = tweetLoc(c.LOCATIONDB, regexpes=regexpes) 
     
