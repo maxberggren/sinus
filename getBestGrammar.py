@@ -63,23 +63,10 @@ def maxFix(text):
                 assumedUTF8 = text.decode('utf-8') # unicode
             except UnicodeDecodeError:
                 assumedUTF8 = u""
-             
-            #print assumedLatin1
-            #print assumedUTF8   
-            #print type(assumedLatin1)
-            #print type(assumedUTF8)
             
             if count_normal(assumedLatin1) > count_normal(assumedUTF8):
-                #print "It's probably latin-1"
-                #print count_normal(assumedLatin1)
-                #print "vs"
-                #print count_normal(assumedUTF8)
                 return assumedLatin1
             else:
-                #print "It's probably utf-8"
-                #print count_normal(assumedLatin1)
-                #print "vs"
-                #print count_normal(assumedUTF8)
                 return assumedUTF8
         else:
             return u""
@@ -98,8 +85,8 @@ if __name__ == "__main__":
     db = dataset.connect(c.LOCATIONDB)
     result = db.query("set names 'utf8'")
     
-    regexpscores = np.zeros((588,))
     
+    regexpscores = None
     
     result = db.query("select * from blogs "
                       "WHERE rank <> 9999")
@@ -127,6 +114,9 @@ if __name__ == "__main__":
                     print "Kunde inte koppla mot api:et. Väntar 5 sek." 
                     time.sleep(5)
                     pass
+            
+            if not regexpscores:
+                regexpscores = np.zeros_like(np.array(meangrammars))
             
             regexpscores = regexpscores + np.log10(np.array(meangrammars)+1)
             print regexpscores.astype(int)

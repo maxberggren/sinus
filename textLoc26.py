@@ -52,19 +52,25 @@ def timing(f):
     return wrap
 
 class tweetLoc:
-    def __init__(self, db=c.LOCATIONDB, dbtweets=c.LOCATIONDB):
+    def __init__(self, db=c.LOCATIONDB, dbtweets=c.LOCATIONDB, regexpes=None):
         self.db = dataset.connect(db)
         utf8 = self.db.query("set names 'utf8'")
         self.cache = SqliteCache("cache")
-        
         self.words = []
-        
-        patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
         self.patterns = []
-        for pattern in patterns:
-            pattern = pattern.strip()
-            p = re.compile(pattern)
-            self.patterns.append(p)
+        
+        if regexpes:
+            for regexp in regexpes:
+                pattern = regexp.strip()
+                p = re.compile(pattern)
+                self.patterns.append(p)
+        else:
+            patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
+            
+            for pattern in patterns:
+                pattern = pattern.strip()
+                p = re.compile(pattern)
+                self.patterns.append(p)
     
     def cleanData(self, inputText):
         """

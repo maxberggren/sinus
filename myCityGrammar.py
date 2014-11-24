@@ -14,6 +14,61 @@ import config as c
 from sets import Set
 import codecs
 
+RE_NORMAL = re.compile(ur"[a-zA-ZåäöÅÄÖé]")
+RE_HIGH = re.compile(ur"[^\u0000-\u00ff]")
+
+LATINIZE_TABLE = dict([
+    (unicode(cr.encode('utf-8'), 'latin1'), cr)
+    for cr in u"åäöÅÄÖéüÜ"])
+
+RE_LATINIZE = re.compile(ur"|".join(LATINIZE_TABLE.keys()))
+
+def count_normal(s):
+    return len(RE_NORMAL.findall(s))
+
+def latinize(s):
+    try:
+        latinized = unicode(s.encode('latin1'), 'utf-8')
+        if count_normal(latinized) > count_normal(s):
+            return latinized
+    except (UnicodeDecodeError, UnicodeEncodeError):
+        pass
+    return None
+
+def robertFix(post):
+    latinized = latinize(post)
+    if latinized != None:
+        post = latinized
+    else:
+        post = RE_LATINIZE.sub(
+            lambda m: LATINIZE_TABLE[m.group()], post)
+    return post
+
+def maxFix(text):
+    if text is None:
+        return u""
+    else:
+        if isinstance(text, unicode):
+            return text
+        elif isinstance(text, str):
+        
+            try:
+                assumedLatin1 = text.decode('latin-1') # unicode
+            except UnicodeDecodeError:
+                assumedLatin1 = u""
+                
+            try:    
+                assumedUTF8 = text.decode('utf-8') # unicode
+            except UnicodeDecodeError:
+                assumedUTF8 = u""
+            
+            if count_normal(assumedLatin1) > count_normal(assumedUTF8):
+                return assumedLatin1
+            else:
+                return assumedUTF8
+        else:
+            return u""
+            
 def window(words, around, windowSize):
     """ Give a window of items around an item in a list 
         E.g window(['i', 'love', 'cats', 'omg'], 2, 2)
@@ -23,6 +78,7 @@ def window(words, around, windowSize):
     ngramsBefore = []
     ngramsAfter = []
     ngramsAround = []
+    wildcard = "(\S{2,30})"
     
     # Before
     for offset in range(windowSize):
@@ -50,17 +106,28 @@ def window(words, around, windowSize):
     # Around
     nafter = len(after)
     nbefore = len(before)
-    around = before + ['**PLATS**'] + after
+    around = before + [wildcard] + after
     
     for offset in range(1,windowSize+1):
         ngramsAround.append(" ".join(around[nbefore-offset:nbefore+1+offset]))    
     
-    return ngramsBefore, ngramsAfter, ngramsAround
-        
+    return ngramsBefore, ngramsAfter, ngramsAround 
+            
+def predictViaAPI(text, path="tag"):
+    payload = json.dumps({'text': text})
+    headers = {'content-type': 'application/json'}
+    r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/"+path, 
+                       data=payload, headers=headers)
+    
+    return r.json()['meangrammars'] 
+
         
 if __name__ == "__main__":     
 
     databaseuri = c.LOCATIONDB+ "?charset=utf8"
+    db = dataset.connect(databaseuri)
+    result = db.query("set names 'utf8'")
+    
     #databaseuri = "sqlite:///nattstad.db"
 
     # Add all Swedish villages/citys to a set
@@ -84,7 +151,7 @@ if __name__ == "__main__":
         result = db.query("SELECT * FROM blogs WHERE LENGTH(presentation) > 1 "
                           "AND manuellStad is NULL order by id asc")
     else:
-        result = db.query("SELECT text FROM posts ORDER by id asc LIMIT 1000000")
+        result = db.query("SELECT text FROM posts ORDER by id asc LIMIT 100")
     
     for row in result:
         if "nattstad" in databaseuri:
@@ -101,14 +168,65 @@ if __name__ == "__main__":
         
     top = 200    
     
+    regexpes = []
+    
     print "### Top 200 ngrams före ort ###"    
     for utterance, frq in ngramsBefore.most_common(top):
         print utterance + " **PLATS**"
+        regexpes.append(utterance + " " + wildcard)
     
     print "\n### Top 200 ngrams efter ort ###"
     for utterance, frq in ngramsAfter.most_common(top):
         print "**PLATS** " + utterance
+        regexpes.append(wildcard + " " + utterance)
     
     print "\n### Top 200 ngrams runt ort ###"
     for utterance, frq in ngramsAround.most_common(top):
         print utterance
+        regexpes.append(utterance)
+
+
+    # Now let's check the regexpes
+       
+    regexpscores = None
+    model = tweetLoc(c.LOCATIONDB, regexpes=regexpes) 
+    
+    result = db.query("select * from blogs "
+                      "WHERE rank <> 9999")
+    
+    for row in result:
+        try:
+            blogId = row['id']
+            posts = db.query("SELECT * FROM posts WHERE "
+                             "blog_id = " + str(blogId) + " limit 200;")
+            
+            text = u""
+            for post in posts:
+                text = text + u"\n\n" + maxFix(post['text'])
+            
+            print "Testar " + row['url'] + "..."
+            
+            meangrammars = None 
+            
+            while True: 
+                try:
+                    #meangrammars = predictViaAPI(text, path="findbestgrammar")
+                    meangrammars = model.findBestGrammar(text)
+
+                    break
+                except requests.exceptions.ConnectionError:
+                    print "Kunde inte koppla mot api:et. Väntar 5 sek." 
+                    time.sleep(5)
+                    pass
+            
+            if not regexpscores:
+                regexpscores = np.zeros_like(np.array(meangrammars))
+            
+            regexpscores = regexpscores + np.log10(np.array(meangrammars)+1)
+            print regexpscores.astype(int)
+            
+        except KeyboardInterrupt:
+            print "Avslutar"
+            break  
+ 
+    
