@@ -230,8 +230,10 @@ if __name__ == "__main__":
             #print regexpes[regexpscores > 0]
             
             sorted = np.sort(np.vstack((regexpes, regexpscores)), axis=-1)
-            print sorted[0,:]
-            print sorted[0,sorted[1,:] > 0]
+            sortedregexpes = sorted[0,:]
+            sortedscores = sorted[1,:]
+            
+            print sortedregexpes[sortedscores > 0.0]
             
         except KeyboardInterrupt:
             print "Avslutar"
