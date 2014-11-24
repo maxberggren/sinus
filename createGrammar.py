@@ -35,7 +35,7 @@ def latinize(s):
     except (UnicodeDecodeError, UnicodeEncodeError):
         pass
     return None
-
+ 
 def robertFix(post):
     latinized = latinize(post)
     if latinized != None:
