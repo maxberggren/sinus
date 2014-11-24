@@ -424,6 +424,7 @@ class tweetLoc:
             score = row['scoring']
             break
                     
+        print score
         return score
 
 
