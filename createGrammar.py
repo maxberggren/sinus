@@ -187,9 +187,9 @@ if __name__ == "__main__":
         regexpes.append(utterance)
 
 
+    for regexp in regexpes:
+        print regexp
     # Now let's check the regexpes
-    print len(regexpes)  
-    print regexpes
     regexpscores = None
     model = tweetLoc(c.LOCATIONDB, regexpes=regexpes) 
     
@@ -212,7 +212,6 @@ if __name__ == "__main__":
             
             while True: 
                 try:
-                    #meangrammars = predictViaAPI(text, path="findbestgrammar")
                     meangrammars = model.findBestGrammar(text)
 
                     break

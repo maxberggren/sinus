@@ -92,11 +92,6 @@ def tagbygrammar(threshold=None):
                       'outOfVocabulary': OOV, 
                       'mentions': mentions } )
 
-@app.route('/geotag/api/v1.0/findbestgrammar', methods=['POST'])
-def bestgrammar(): 
-    meangrammars = model.findBestGrammar(request.json['text'])   
-    
-    return jsonify( { 'meangrammars': meangrammars } )
 
 @app.route('/geotag/api/v1.0/trainingData/<ammountData>/pickRandom', methods=['GET'])
 def pickRandomData(ammountData=None): 
