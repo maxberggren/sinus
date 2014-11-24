@@ -128,7 +128,7 @@ if __name__ == "__main__":
                     time.sleep(5)
                     pass
             
-            regexpscores =+ np.log10(np.array(meangrammars)+1)
+            regexpscores = regexpscores + np.log10(np.array(meangrammars)+1)
             print regexpscores.astype(int)
             
         except KeyboardInterrupt:
