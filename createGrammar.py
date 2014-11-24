@@ -231,7 +231,9 @@ if __name__ == "__main__":
             
             sorted = np.sort(np.vstack((regexpes, regexpscores)), axis=-1)
             sortedregexpes = sorted[0,:]
+            print sortedregexpes
             sortedscores = sorted[1,:]
+            print sortedscores
             
             print sortedregexpes[sortedscores > 0.0]
             
