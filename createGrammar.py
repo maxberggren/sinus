@@ -228,14 +228,21 @@ if __name__ == "__main__":
             regexpscores = regexpscores + np.log10(np.array(meangrammars)+1)
             #print regexpscores.astype(int)
             #print regexpes[regexpscores > 0]
+            dtype = [('regexp', 'S30'), ('score', float)]
             
-            sorted = np.sort(np.vstack((regexpes, regexpscores)), axis=-1)
-            sortedregexpes = sorted[0,:]
-            print sortedregexpes
-            sortedscores = sorted[1,:].astype(float)
-            print sortedscores
+            values = zip(regexpes, regexpscores)
             
-            print sortedregexpes[sortedscores > 0]
+            a = np.array(values, dtype=dtype)
+            print np.sort(a, order='score')
+            
+            
+            #sorted = np.sort(np.vstack((regexpes, regexpscores)), axis=-1)
+            #sortedregexpes = sorted[0,:]
+            #print sortedregexpes
+            #sortedscores = sorted[1,:].astype(float)
+            #print sortedscores
+            
+            #print sortedregexpes[sortedscores > 0]
             
         except KeyboardInterrupt:
             print "Avslutar"
