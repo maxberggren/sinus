@@ -13,6 +13,7 @@ import warnings
 import config as c
 from sets import Set
 import codecs
+from textLoc26 import *
 
 RE_NORMAL = re.compile(ur"[a-zA-ZåäöÅÄÖé]")
 RE_HIGH = re.compile(ur"[^\u0000-\u00ff]")
