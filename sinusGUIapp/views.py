@@ -446,7 +446,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     for word in words:
         coordinates, dates = [], []
         fewResults = False
-        print word 
+        print word.encode('utf-8') 
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
                                "blogs.source, "
@@ -456,7 +456,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "FROM posts INNER JOIN blogs ON "
                                "blogs.id=posts.blog_id "
                                "WHERE MATCH(posts.text) "
-                               "AGAINST ('" + word + "' "
+                               "AGAINST ('" + word.encode('utf-8') + "' "
                                "IN BOOLEAN MODE) "
                                "AND blogs.latitude is not NULL "
                                "AND blogs.longitude is not NULL "
