@@ -59,7 +59,7 @@ class tweetLoc:
         
         self.words = []
         
-        patterns = codecs.open("ortgrammatik_trimmad.txt", encoding="utf-8")
+        patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
         self.patterns = []
         for pattern in patterns:
             pattern = pattern.strip()
@@ -407,6 +407,46 @@ class tweetLoc:
         """
 
 
+    def lookup(self, word):
+        """ 
+        Kollar ett ords platsighet
+        Input: ord
+        Output: platsighet
+        """  
+           
+        self.db.query("set names 'utf8'")
+        
+        result = self.db.query("SELECT * FROM GMMs " 
+                               "WHERE word = '" + word + "' "
+                               "ORDER BY scoring DESC")                   
+        for row in result:
+            score = row['scoring']
+            break
+                    
+        return score
+
+
+    def findBestGrammar(self, text):
+        """ 
+        Berättar vilka regexpar som är bäst
+        Input: text
+        Output: list of mean grammars for the regexpes
+        """
+        
+        c = Counter()
+        text = text.lower()
+        patternMeans = []
+        for pattern in self.patterns:
+            found = re.findall(pattern, text)
+            patternScores = []
+            for word in found:
+                patternScores.append(self.lookup(word))
+                
+            patternMeans.append(np.mean(patternScores))
+        
+        return patternMeans   
+
+
     def predictByVote1(self, text, threshold=float(1e40)):
         """ 
         Förutsäger en koordinat för en bunte text
@@ -503,7 +543,9 @@ class tweetLoc:
         text = " ".join([t[0] for t in c.most_common(200)])
         
         return self.predict(text, threshold=threshold)
-        
+ 
+ 
+
 
 if __name__ == "__main__":
 
