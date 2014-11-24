@@ -234,7 +234,7 @@ if __name__ == "__main__":
             
             a = np.array(values, dtype=dtype)
             sorted = np.sort(a, order='score')
-            print sorted[1,:]
+            print sorted
             
             #sorted = np.sort(np.vstack((regexpes, regexpscores)), axis=-1)
             #sortedregexpes = sorted[0,:]
