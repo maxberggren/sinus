@@ -117,6 +117,8 @@ if __name__ == "__main__":
             
             print "Testar " + row['url'] + "..."
             
+            meangrammars = None 
+            
             while True: 
                 try:
                     meangrammars = predictViaAPI(text, path="findbestgrammar")
