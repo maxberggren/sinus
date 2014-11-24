@@ -76,7 +76,7 @@ if __name__ == "__main__":
     
     
     result = db.query("select * from blogs "
-                      "rank <> 9999")
+                      "WHERE rank <> 9999")
     
     for row in result:
         try:
