@@ -152,7 +152,7 @@ if __name__ == "__main__":
         result = db.query("SELECT * FROM blogs WHERE LENGTH(presentation) > 1 "
                           "AND manuellStad is NULL order by id asc")
     else:
-        result = db.query("SELECT text FROM posts ORDER by id asc LIMIT 10000")
+        result = db.query("SELECT text FROM posts ORDER by id asc LIMIT 1000000")
     
     for row in result:
         if "nattstad" in databaseuri:
@@ -226,23 +226,12 @@ if __name__ == "__main__":
                 createdArray = True
             
             regexpscores = regexpscores + np.log10(np.array(meangrammars)+1)
-            #print regexpscores.astype(int)
-            #print regexpes[regexpscores > 0]
-            dtype = [('regexp', 'S30'), ('score', float)]
-            
+
+            dtype = [('regexp', 'S30'), ('score', float)]            
             values = zip(regexpes[regexpscores > 0], regexpscores[regexpscores > 0])
-            
             a = np.array(values, dtype=dtype)
             sorted = np.sort(a, order='score')
             print sorted
-            
-            #sorted = np.sort(np.vstack((regexpes, regexpscores)), axis=-1)
-            #sortedregexpes = sorted[0,:]
-            #print sortedregexpes
-            #sortedscores = sorted[1,:].astype(float)
-            #print sortedscores
-            
-            #print sortedregexpes[sortedscores > 0]
             
         except KeyboardInterrupt:
             print "Avslutar"
