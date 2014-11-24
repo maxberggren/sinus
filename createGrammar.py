@@ -230,7 +230,7 @@ if __name__ == "__main__":
             #print regexpes[regexpscores > 0]
             
             sorted = np.sort(np.vstack((regexpes, regexpscores)), axis=-1)
-            for regexp in sorted[sorted > 0]:
+            for regexp in sorted[sorted > 0.0]:
                 print regexp
             
         except KeyboardInterrupt:
