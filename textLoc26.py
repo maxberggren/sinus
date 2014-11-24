@@ -424,7 +424,6 @@ class tweetLoc:
             score = row['scoring']
             break
                     
-        print score
         return score
 
 
@@ -444,6 +443,7 @@ class tweetLoc:
             for word in found:
                 patternScores.append(self.lookup(word))
                 
+            print patternScores
             patternMeans.append(np.mean(patternScores))
         
         return patternMeans    
