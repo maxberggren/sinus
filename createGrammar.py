@@ -229,7 +229,7 @@ if __name__ == "__main__":
             #print regexpscores.astype(int)
             #print regexpes[regexpscores > 0]
             
-            sorted = np.sort(np.vstack((regexpes, regexpscores)), axis=1)
+            sorted = np.sort(np.vstack((regexpes, regexpscores)), axis=-1)
             print sorted[0,sorted[1,:] > 0]
             
         except KeyboardInterrupt:
