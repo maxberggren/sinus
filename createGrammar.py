@@ -152,7 +152,7 @@ if __name__ == "__main__":
         result = db.query("SELECT * FROM blogs WHERE LENGTH(presentation) > 1 "
                           "AND manuellStad is NULL order by id asc")
     else:
-        result = db.query("SELECT text FROM posts ORDER by id asc LIMIT 100")
+        result = db.query("SELECT text FROM posts ORDER by id asc LIMIT 10000")
     
     for row in result:
         if "nattstad" in databaseuri:
