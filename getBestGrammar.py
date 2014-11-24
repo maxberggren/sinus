@@ -90,10 +90,7 @@ def predictViaAPI(text, path="tag"):
     r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/"+path, 
                        data=payload, headers=headers)
     
-    try:
-        return r.json()['meangrammars'] 
-    except:
-        return 0
+    return r.json()['meangrammars'] 
 
 
 if __name__ == "__main__":
