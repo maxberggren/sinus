@@ -417,12 +417,15 @@ class tweetLoc:
         self.db.query("set names 'utf8'")
         score = 0
         
-        result = self.db.query("SELECT * FROM GMMs " 
-                               "WHERE word = '" + word.encode('utf-8') + "' "
-                               "ORDER BY scoring DESC")                   
-        for row in result:
-            score = row['scoring']
-            break
+        try:
+            result = self.db.query("SELECT * FROM GMMs " 
+                                   "WHERE word = '" + word.encode('utf-8') + "' "
+                                   "ORDER BY scoring DESC")                   
+            for row in result:
+                score = row['scoring']
+                break
+        except:
+            pass
                     
         return score
 
