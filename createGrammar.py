@@ -189,7 +189,7 @@ if __name__ == "__main__":
         if len(utterance) > 0: 
             regexpes.append(utterance)
 
-
+    regexpes = np.array(regexpes)
     for regexp in regexpes:
         print regexp
     # Now let's check the regexpes
