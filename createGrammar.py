@@ -189,12 +189,12 @@ if __name__ == "__main__":
         if len(utterance) > 0: 
             regexpes.append(utterance)
 
-    regexpes = np.array(regexpes)
 
     # Now let's check the regexpes
     createdArray = False
     model = tweetLoc(c.LOCATIONDB, regexpes=regexpes) 
     
+    regexpes = np.array(regexpes)
     result = db.query("select * from blogs "
                       "WHERE rank <> 9999")
     
