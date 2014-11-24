@@ -444,7 +444,7 @@ class tweetLoc:
                 
             patternMeans.append(np.mean(patternScores))
         
-        return patternMeans   
+        return patternMeans    
 
 
     def predictByVote1(self, text, threshold=float(1e40)):
