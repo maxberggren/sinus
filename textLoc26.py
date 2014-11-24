@@ -438,6 +438,7 @@ class tweetLoc:
         patternMeans = []
         for pattern in self.patterns:
             found = re.findall(pattern, text)
+            print found
             patternScores = []
             for word in found:
                 patternScores.append(self.lookup(word))
