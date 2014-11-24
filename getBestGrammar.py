@@ -98,7 +98,7 @@ if __name__ == "__main__":
     db = dataset.connect(c.LOCATIONDB)
     result = db.query("set names 'utf8'")
     
-    regexpscores = np.array([])
+    regexpscores = np.zeros((284,))
     
     
     result = db.query("select * from blogs "
