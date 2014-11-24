@@ -129,12 +129,7 @@ if __name__ == "__main__":
                     time.sleep(5)
                     pass
             
-            if meangrammars:
-                print meangrammars                
-            
-            
-            else:
-                print "Errlol"
+            print meangrammars     
             
             
         except KeyboardInterrupt:
