@@ -415,6 +415,7 @@ class tweetLoc:
         """  
            
         self.db.query("set names 'utf8'")
+        score = 0
         
         result = self.db.query("SELECT * FROM GMMs " 
                                "WHERE word = '" + word + "' "
