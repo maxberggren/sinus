@@ -230,7 +230,7 @@ if __name__ == "__main__":
             #print regexpes[regexpscores > 0]
             dtype = [('regexp', 'S30'), ('score', float)]
             
-            values = zip(regexpes, regexpscores)
+            values = zip(regexpes[regexpscores > 0], regexpscores[regexpscores > 0])
             
             a = np.array(values, dtype=dtype)
             sorted = np.sort(a, order='score')
