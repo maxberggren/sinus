@@ -78,7 +78,6 @@ def window(words, around, windowSize):
     ngramsBefore = []
     ngramsAfter = []
     ngramsAround = []
-    wildcard = "(\S{2,30})"
     
     # Before
     for offset in range(windowSize):
@@ -124,6 +123,7 @@ def predictViaAPI(text, path="tag"):
         
 if __name__ == "__main__":     
 
+    wildcard = "(\S{2,30})"
     databaseuri = c.LOCATIONDB+ "?charset=utf8"
     db = dataset.connect(databaseuri)
     result = db.query("set names 'utf8'")
