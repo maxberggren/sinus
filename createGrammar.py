@@ -235,7 +235,7 @@ if __name__ == "__main__":
             sortedscores = sorted[1,:].astype(int)
             print sortedscores
             
-            print sortedregexpes[sortedscores > 0.0]
+            print sortedregexpes[sortedscores > 0]
             
         except KeyboardInterrupt:
             print "Avslutar"
