@@ -14,6 +14,38 @@ from collections import OrderedDict
 import config as c
 import time
 
+
+RE_NORMAL = re.compile(ur"[a-zA-ZåäöÅÄÖé]")
+RE_HIGH = re.compile(ur"[^\u0000-\u00ff]")
+
+LATINIZE_TABLE = dict([
+    (unicode(cr.encode('utf-8'), 'latin1'), cr)
+    for cr in u"åäöÅÄÖéüÜ"])
+
+RE_LATINIZE = re.compile(ur"|".join(LATINIZE_TABLE.keys()))
+
+def count_normal(s):
+    return len(RE_NORMAL.findall(s))
+
+def latinize(s):
+    try:
+        latinized = unicode(s.encode('latin1'), 'utf-8')
+        if count_normal(latinized) > count_normal(s):
+            return latinized
+    except (UnicodeDecodeError, UnicodeEncodeError):
+        pass
+    return None
+
+def robertFix(post):
+    latinized = latinize(post)
+    if latinized != None:
+        post = latinized
+    else:
+        post = RE_LATINIZE.sub(
+            lambda m: LATINIZE_TABLE[m.group()], post)
+    return post
+
+
 def maxFix(text):
     if text is None:
         return u""
