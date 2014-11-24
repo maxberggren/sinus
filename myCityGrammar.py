@@ -172,12 +172,12 @@ if __name__ == "__main__":
     
     print "### Top 200 ngrams före ort ###"    
     for utterance, frq in ngramsBefore.most_common(top):
-        print utterance + " **PLATS**"
+        print utterance + " " + wildcard
         regexpes.append(utterance + " " + wildcard)
     
     print "\n### Top 200 ngrams efter ort ###"
     for utterance, frq in ngramsAfter.most_common(top):
-        print "**PLATS** " + utterance
+        print wildcard + " " + utterance
         regexpes.append(wildcard + " " + utterance)
     
     print "\n### Top 200 ngrams runt ort ###"
