@@ -190,8 +190,7 @@ if __name__ == "__main__":
             regexpes.append(utterance)
 
     regexpes = np.array(regexpes)
-    for regexp in regexpes:
-        print regexp
+
     # Now let's check the regexpes
     createdArray = False
     model = tweetLoc(c.LOCATIONDB, regexpes=regexpes) 
@@ -228,6 +227,7 @@ if __name__ == "__main__":
             
             regexpscores = regexpscores + np.log10(np.array(meangrammars)+1)
             print regexpscores.astype(int)
+            print regexpes[regexpscores > 0]
             
         except KeyboardInterrupt:
             print "Avslutar"
