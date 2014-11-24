@@ -233,7 +233,8 @@ if __name__ == "__main__":
             values = zip(regexpes, regexpscores)
             
             a = np.array(values, dtype=dtype)
-            print np.sort(a, order='score')
+            sorted = np.sort(a, order='score')
+            print sorted[:,1]
             
             
             #sorted = np.sort(np.vstack((regexpes, regexpscores)), axis=-1)
