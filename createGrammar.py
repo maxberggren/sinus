@@ -216,7 +216,6 @@ if __name__ == "__main__":
             while True: 
                 try:
                     meangrammars = model.findBestGrammar(text)
-
                     break
                 except requests.exceptions.ConnectionError:
                     print "Kunde inte koppla mot api:et. Väntar 5 sek." 
