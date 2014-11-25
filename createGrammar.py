@@ -83,7 +83,7 @@ def window(words, around, windowSize, wildcard):
     # Before
     for offset in range(windowSize):
         try:
-            before = words[around-windowSize+offset:around] + [wildcard]
+            before = words[around-windowSize+offset:around]
             break
         except KeyError:
             pass   
@@ -94,7 +94,7 @@ def window(words, around, windowSize, wildcard):
     # After
     for offset in range(windowSize):
         try:
-            after = [wildcard] + words[around+1:1+around+windowSize-offset]
+            after = words[around+1:1+around+windowSize-offset]
             break
         except KeyError:
             pass 
@@ -169,11 +169,11 @@ if __name__ == "__main__":
             
         for utterance, frq in ngramsBefore.most_common(top):
             if len(utterance) > 0: 
-                regexpes.update(utterance)
+                regexpes.update(utterance + " " + wildcard)
         
         for utterance, frq in ngramsAfter.most_common(top):
             if len(utterance) > 0: 
-                regexpes.update(utterance)
+                regexpes.update(wildcard + " " + utterance)
 
         for utterance, frq in ngramsAround.most_common(top):
             if len(utterance) > 0: 
