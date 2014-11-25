@@ -161,10 +161,10 @@ if __name__ == "__main__":
             for i, word in enumerate(words):
                 if word in o:
                     before, after, around = window(words, i, 6, wildcard)
-                    print before
                     ngramsBefore.update(before)
                     ngramsAfter.update(after)
                     ngramsAround.update(around)
+                    print after
         
         top = 200 
             
