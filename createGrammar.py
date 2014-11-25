@@ -143,7 +143,7 @@ if __name__ == "__main__":
     db = dataset.connect(databaseuri)
     
     start = time.time()
-    regexpes = Set()
+    regexpes = Counter()
     
     batch = 1000
     for offset in range(0, 500000, batch):
@@ -169,19 +169,18 @@ if __name__ == "__main__":
             
         for utterance, frq in ngramsBefore.most_common(top):
             if len(utterance) > 0: 
-                regexpes.add(utterance)
+                regexpes.update(utterance)
         
         for utterance, frq in ngramsAfter.most_common(top):
             if len(utterance) > 0: 
-                regexpes.add(utterance)
+                regexpes.update(utterance)
 
         for utterance, frq in ngramsAround.most_common(top):
             if len(utterance) > 0: 
-                regexpes.add(utterance)
+                regexpes.update(utterance)
             
-            
-    regexpes = list(regexpes)
-    print regexpes
+
+    print regexpes.most_common(top)
 
     # Now let's check the regexpes
     createdArray = False
