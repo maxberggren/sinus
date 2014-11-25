@@ -70,7 +70,7 @@ def maxFix(text):
         else:
             return u""
             
-def window(words, around, windowSize):
+def window(words, around, windowSize, wildcard):
     """ Give a window of items around an item in a list 
         E.g window(['i', 'love', 'cats', 'omg'], 2, 2)
         gives ['i', 'love'], ['omg']
@@ -83,7 +83,7 @@ def window(words, around, windowSize):
     # Before
     for offset in range(windowSize):
         try:
-            before = words[around-windowSize+offset:around]
+            before = words[around-windowSize+offset:around] + [" ", wildcard]
             break
         except KeyError:
             pass   
@@ -94,7 +94,7 @@ def window(words, around, windowSize):
     # After
     for offset in range(windowSize):
         try:
-            after = words[around+1:1+around+windowSize-offset]
+            after =  + [wildcard, " "] + words[around+1:1+around+windowSize-offset]
             break
         except KeyError:
             pass 
@@ -160,9 +160,9 @@ if __name__ == "__main__":
         
             for i, word in enumerate(words):
                 if word in o:
-                    before, after, around = window(words, i, 6)
-                    ngramsBefore.update(before + [" ", wildcard])
-                    ngramsAfter.update([wildcard, " "] + after)
+                    before, after, around = window(words, i, 6, wildcard)
+                    ngramsBefore.update(before)
+                    ngramsAfter.update(after)
                     ngramsAround.update(around)
         
         top = 200  
