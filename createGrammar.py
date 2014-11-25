@@ -153,7 +153,7 @@ if __name__ == "__main__":
                           "AND manuellStad is NULL order by id asc")
     else:
         result = db.query("SELECT text FROM posts ORDER by id asc LIMIT 1000000")
-    
+     
     for row in result:
         if "nattstad" in databaseuri:
             words = row['presentation'].encode('utf-8').translate(transtab, punkter).split()
