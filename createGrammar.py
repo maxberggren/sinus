@@ -165,7 +165,7 @@ if __name__ == "__main__":
                     ngramsAfter.update(after)
                     ngramsAround.update(around)
         
-        top = 200  
+        top = 5 
             
         for utterance, frq in ngramsBefore.most_common(top):
             if len(utterance) > 0: 
