@@ -143,52 +143,39 @@ if __name__ == "__main__":
     db = dataset.connect(databaseuri)
     
     start = time.time()
+    regexpes = Set()
     
-    ngramsBefore = Counter() # Ngrams before
-    ngramsAfter = Counter() # Ngrams after
-    ngramsAround = Counter() # Ngrams around
+    batch = 1000
+    for offset in range(0, 500000, batch):
     
-    if "nattstad" in databaseuri:
-        result = db.query("SELECT * FROM blogs WHERE LENGTH(presentation) > 1 "
-                          "AND manuellStad is NULL order by id asc")
-    else:
-        result = db.query("SELECT text FROM posts ORDER by id asc LIMIT 500000")
-     
-    for row in result:
-        if "nattstad" in databaseuri:
-            words = row['presentation'].encode('utf-8').translate(transtab, punkter).split()
-        else:
-            words = row['text'].encode('utf-8').translate(transtab, punkter).split()
-
-        for i, word in enumerate(words):
-            if word in o:
-                before, after, around = window(words, i, 6)
-                ngramsBefore.update(before)
-                ngramsAfter.update(after)
-                ngramsAround.update(around)
+        ngramsBefore = Counter() # Ngrams before
+        ngramsAfter = Counter() # Ngrams after
+        ngramsAround = Counter() # Ngrams around
         
-    top = 200    
+        result = db.query("SELECT text FROM posts ORDER by id asc "
+                          "LIMIT 10000 OFFSET " + str(offset))
+         
+        for row in result:
+            words = row['text'].encode('utf-8').translate(transtab, punkter).split()
+        
+            for i, word in enumerate(words):
+                if word in o:
+                    before, after, around = window(words, i, 6)
+                    ngramsBefore.update(before + " " + wildcard)
+                    ngramsAfter.update(wildcard + " " + after)
+                    ngramsAround.update(around)
+        
+        top = 200  
+        before = [list(t) for t in zip(*ngramsBefore.most_common(top))][0]
+        after = [list(t) for t in zip(*ngramsAfter.most_common(top))][0]
+        around = [list(t) for t in zip(*ngramsAround.most_common(top))][0]
     
-    regexpes = []
-    
-    print "### Top 200 ngrams före ort ###"    
-    for utterance, frq in ngramsBefore.most_common(top):
-        print utterance + " " + wildcard
-        if len(utterance) > 0: 
-            regexpes.append(utterance + " " + wildcard)
-    
-    print "\n### Top 200 ngrams efter ort ###"
-    for utterance, frq in ngramsAfter.most_common(top):
-        print wildcard + " " + utterance
-        if len(utterance) > 0: 
-            regexpes.append(wildcard + " " + utterance)
-    
-    print "\n### Top 200 ngrams runt ort ###"
-    for utterance, frq in ngramsAround.most_common(top):
-        print utterance
-        if len(utterance) > 0: 
-            regexpes.append(utterance)
+        regexpes.add(before)
+        regexpes.add(after)
+        regexpes.add(around)
 
+    regexpes = list(regexpes)
+    print regexpes
 
     # Now let's check the regexpes
     createdArray = False
