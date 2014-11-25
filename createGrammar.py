@@ -146,7 +146,7 @@ if __name__ == "__main__":
     regexpes = Counter()
     
     batch = 1000
-    for offset in range(0, 10000, batch):
+    for offset in range(0, 100000, batch):
     
         ngramsBefore = Counter() # Ngrams before
         ngramsAfter = Counter() # Ngrams after
