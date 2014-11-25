@@ -180,7 +180,7 @@ if __name__ == "__main__":
         for utterance, frq in ngramsAround.most_common(top):
             if len(utterance.strip()) > len(wildcard): 
                 regexpes.update(utterance.strip())
-                print
+                print utterance
 
     print regexpes.most_common(top)
 
