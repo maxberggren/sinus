@@ -307,7 +307,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             theCM._lut[:-3,-1] = alphas
             
             # SCATTERPLOT if to few coordinates or manual override
-            if minCoordinates < 50 or scatter == 1:
+            if (minCoordinates < 50 and not scatter) or scatter == 1:
                 x1, y1 = m(lons, lats) 
                 m.scatter(x1[0:1000], 
                           y1[0:1000], 

@@ -171,7 +171,7 @@ if __name__ == "__main__":
                     ngramsAround.update(around)
         
         top = 500 
-            
+        
         for utterance, frq in ngramsBefore.most_common(top):
             if len(utterance.strip()) > len(wildcard): 
                 regexpes.update([utterance])
@@ -188,7 +188,7 @@ if __name__ == "__main__":
         del ngramsAfter
         del ngramsAround
 
-    regexpes, _ = zip(*regexpes.most_common(top))
+    regexpes, _ = zip(*regexpes.most_common(200))
     print regexpes
 
     # Now let's check the regexpes
