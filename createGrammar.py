@@ -164,7 +164,7 @@ if __name__ == "__main__":
                     ngramsBefore.update(before)
                     ngramsAfter.update(after)
                     ngramsAround.update(around)
-                    print after
+                    print around
         
         top = 200 
             
