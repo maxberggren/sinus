@@ -163,7 +163,7 @@ if __name__ == "__main__":
                     before, after, around = window(words, i, 6, wildcard)
                     print before
                     ngramsBefore.update(before)
-                    ngramsAfter.update([after)
+                    ngramsAfter.update(after)
                     ngramsAround.update(around)
         
         top = 200 
