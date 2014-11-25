@@ -161,8 +161,9 @@ if __name__ == "__main__":
             for i, word in enumerate(words):
                 if word in o:
                     before, after, around = window(words, i, 6, wildcard)
-                    ngramsBefore.update(before + [wildcard])
-                    ngramsAfter.update([wildcard] + after)
+                    print before
+                    ngramsBefore.update(before)
+                    ngramsAfter.update([after)
                     ngramsAround.update(around)
         
         top = 200 
@@ -179,7 +180,7 @@ if __name__ == "__main__":
             if len(utterance) > 0: 
                 regexpes.update(utterance)
                 
-        print ngramsBefore.most_common(top)
+        #print ngramsBefore.most_common(top)
         #print ngramsAfter.most_common(top)
         #print ngramsAround.most_common(top)
         
