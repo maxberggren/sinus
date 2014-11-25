@@ -83,7 +83,7 @@ def window(words, around, windowSize, wildcard):
     # Before
     for offset in range(windowSize):
         try:
-            before = words[around-windowSize+offset:around]
+            before = words[around-windowSize+offset:around] + [wildcard]
             break
         except KeyError:
             pass   
@@ -94,7 +94,7 @@ def window(words, around, windowSize, wildcard):
     # After
     for offset in range(windowSize):
         try:
-            after = words[around+1:1+around+windowSize-offset]
+            after = [wildcard] + words[around+1:1+around+windowSize-offset]
             break
         except KeyError:
             pass 
