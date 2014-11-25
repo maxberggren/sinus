@@ -145,7 +145,7 @@ if __name__ == "__main__":
     start = time.time()
     regexpes = Counter()
     
-    batch = 1000
+    batch = 10000
     for offset in range(0, 100000, batch):
     
         ngramsBefore = Counter() # Ngrams before
