@@ -166,14 +166,23 @@ if __name__ == "__main__":
                     ngramsAround.update(around)
         
         top = 200  
-        before = [list(t) for t in zip(*ngramsBefore.most_common(top))][0]
-        after = [list(t) for t in zip(*ngramsAfter.most_common(top))][0]
-        around = [list(t) for t in zip(*ngramsAround.most_common(top))][0]
-    
-        regexpes.add(before)
-        regexpes.add(after)
-        regexpes.add(around)
+        before, _ = ngramsBefore.most_common(top)
+        after, _ = ngramsAfter.most_common(top)
+        around, _ = ngramsAround.most_common(top)
+            
+        for utterance, frq in ngramsBefore.most_common(top):
+            if len(utterance) > 0: 
+                regexpes.add(utterance)
+        
+        for utterance, frq in ngramsAfter.most_common(top):
+            if len(utterance) > 0: 
+                regexpes.add(utterance)
 
+        for utterance, frq in ngramsAround.most_common(top):
+            if len(utterance) > 0: 
+                regexpes.add(utterance)
+            
+            
     regexpes = list(regexpes)
     print regexpes
 
