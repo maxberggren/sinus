@@ -151,14 +151,14 @@ if __name__ == "__main__":
     
     for offset in range(0, documents, batch):
         
-        print "%.0f%%" % (100.0 * float(offset)/float(documents))
+        print "%.0f% %" % (100.0 * offset/documents)
  
         ngramsBefore = Counter() # Ngrams before
         ngramsAfter = Counter() # Ngrams after
         ngramsAround = Counter() # Ngrams around
         
         result = db.query("SELECT text FROM posts ORDER by id asc "
-                          "LIMIT " + str(offset) + " OFFSET " + str(offset))
+                          "LIMIT " + str(batch) + " OFFSET " + str(offset))
          
         for row in result:
             words = row['text'].encode('utf-8').translate(transtab, punkter).split()
