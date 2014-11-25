@@ -166,9 +166,6 @@ if __name__ == "__main__":
                     ngramsAround.update(around)
         
         top = 200  
-        before, _ = zip(*ngramsBefore.most_common(top))
-        #after, _ = ngramsAfter.most_common(top)
-        #around, _ = ngramsAround.most_common(top)
             
         for utterance, frq in ngramsBefore.most_common(top):
             if len(utterance) > 0: 
