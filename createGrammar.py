@@ -166,21 +166,14 @@ if __name__ == "__main__":
                     ngramsAround.update(around)
         
         top = 30 
-            
-        for utterance, frq in ngramsBefore.most_common(top):
-            if len(utterance.strip()) > len(wildcard): 
-                regexpes.update([utterance])
-                print utterance
-        
-        for utterance, frq in ngramsAfter.most_common(top):
-            if len(utterance.strip()) > len(wildcard): 
-                regexpes.update([utterance])
-                print utterance
-
-        for utterance, frq in ngramsAround.most_common(top):
-            if len(utterance.strip()) > len(wildcard): 
-                regexpes.update([utterance])
-                print utterance
+                
+        before, _ = zip(*ngramsBefore.most_common(top))
+        print before
+        regexpes.update(before)
+        after, _ = zip(*ngramsAfter.most_common(top))
+        regexpes.update(after)
+        around, _ = zip(*ngramsAround.most_common(top))
+        regexpes.update(around)
 
     print regexpes.most_common(200)
 
