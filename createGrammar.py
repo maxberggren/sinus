@@ -106,7 +106,7 @@ def window(words, around, windowSize, wildcard):
     # Around
     nafter = len(after)
     nbefore = len(before)
-    around = before + [wildcard] + after
+    around = before[:-1] + [wildcard] + after[1:]
     
     for offset in range(1,windowSize+1):
         ngramsAround.append(" ".join(around[nbefore-offset:nbefore+1+offset]))    
