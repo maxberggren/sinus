@@ -180,12 +180,10 @@ if __name__ == "__main__":
                 regexpes.update(utterance)
                 
         print ngramsBefore.most_common(top)
-        print ngramsAfter.most_common(top)
-        print ngramsAround.most_common(top)
+        #print ngramsAfter.most_common(top)
+        #print ngramsAround.most_common(top)
         
-            
-
-    print regexpes.most_common(top)
+    #print regexpes.most_common(top)
 
     # Now let's check the regexpes
     createdArray = False
