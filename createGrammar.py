@@ -145,8 +145,8 @@ if __name__ == "__main__":
     start = time.time()
     regexpes = Counter()
     
-    batch = 10000
-    for offset in range(0, 100000, batch):
+    batch = 1000
+    for offset in range(0, 10000, batch):
     
         ngramsBefore = Counter() # Ngrams before
         ngramsAfter = Counter() # Ngrams after
@@ -165,7 +165,7 @@ if __name__ == "__main__":
                     ngramsAfter.update(after)
                     ngramsAround.update(around)
         
-        top = 30 
+        top = 200 
             
         for utterance, frq in ngramsBefore.most_common(top):
             if len(utterance.strip()) > len(wildcard): 
@@ -182,7 +182,7 @@ if __name__ == "__main__":
                 regexpes.update([utterance])
                 print utterance
 
-    print regexpes.most_common(200)
+    print zip(*regexpes.most_common(top))
 
     # Now let's check the regexpes
     createdArray = False
