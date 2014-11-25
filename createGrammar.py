@@ -165,7 +165,7 @@ if __name__ == "__main__":
                     ngramsAfter.update(after)
                     ngramsAround.update(around)
         
-        top = 200 
+        top = 30 
             
         for utterance, frq in ngramsBefore.most_common(top):
             if len(utterance.strip()) > len(wildcard): 
@@ -182,7 +182,7 @@ if __name__ == "__main__":
                 regexpes.update(utterance.strip())
                 print utterance
 
-    print regexpes.most_common(top)
+    print regexpes.most_common(200)
 
     # Now let's check the regexpes
     createdArray = False
