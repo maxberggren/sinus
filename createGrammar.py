@@ -182,7 +182,7 @@ if __name__ == "__main__":
                 regexpes.update([utterance])
                 print utterance
 
-    print zip(*regexpes.most_common(top))
+    temp, _ = zip(*regexpes.most_common(top))
 
     # Now let's check the regexpes
     createdArray = False
