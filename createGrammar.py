@@ -145,8 +145,8 @@ if __name__ == "__main__":
     start = time.time()
     regexpes = Counter()
     
-    batch = 10000
-    documents = 100000
+    documents = 1000000
+    batch = documents / 10
     print "Räknar ord..."
     
     for offset in range(0, documents, batch):
