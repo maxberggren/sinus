@@ -145,7 +145,7 @@ if __name__ == "__main__":
     start = time.time()
     regexpes = Counter()
     
-    batch = 1000
+    batch = 100
     for offset in range(0, 500000, batch):
     
         ngramsBefore = Counter() # Ngrams before
@@ -153,7 +153,7 @@ if __name__ == "__main__":
         ngramsAround = Counter() # Ngrams around
         
         result = db.query("SELECT text FROM posts ORDER by id asc "
-                          "LIMIT 10000 OFFSET " + str(offset))
+                          "LIMIT 1000 OFFSET " + str(offset))
          
         for row in result:
             words = row['text'].encode('utf-8').translate(transtab, punkter).split()
