@@ -168,18 +168,18 @@ if __name__ == "__main__":
         top = 200 
             
         for utterance, frq in ngramsBefore.most_common(top):
-            if len(utterance) > 0: 
-                regexpes.update(utterance)
+            if len(utterance.strip()) > 0: 
+                regexpes.update(utterance.strip())
                 print utterance
         
         for utterance, frq in ngramsAfter.most_common(top):
-            if len(utterance) > 0: 
-                regexpes.update(utterance)
+            if len(utterance.strip()) > 0: 
+                regexpes.update(utterance.strip())
                 print utterance
 
         for utterance, frq in ngramsAround.most_common(top):
-            if len(utterance) > 0: 
-                regexpes.update(utterance)
+            if len(utterance.strip()) > 0: 
+                regexpes.update(utterance.strip())
                 print
 
     print regexpes.most_common(top)
