@@ -232,7 +232,10 @@ if __name__ == "__main__":
             values = zip(regexpes[regexpscores > 0], regexpscores[regexpscores > 0])
             a = np.array(values, dtype=dtype)
             sorted = np.sort(a, order='score')
-            print sorted
+            sorted, _ = zip(*sorted)
+            
+            for utterance in sorted:
+                print utterance
             
         except KeyboardInterrupt:
             print "Avslutar"
