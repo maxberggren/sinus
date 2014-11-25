@@ -88,8 +88,8 @@ def window(words, around, windowSize, wildcard):
         except KeyError:
             pass   
     
-    for offset in range(len(before)):
-        ngramsBefore.append(" ".join(before[offset:-1]))
+    for offset in range(len(before)-1):
+        ngramsBefore.append(" ".join(before[offset:]))
     
     # After
     for offset in range(windowSize):
@@ -99,8 +99,8 @@ def window(words, around, windowSize, wildcard):
         except KeyError:
             pass 
     
-    for offset in range(len(after)):
-        ngramsAfter.append(" ".join(after[1:-offset]))
+    for offset in range(len(after)-1):
+        ngramsAfter.append(" ".join(after[:-offset]))
     
     
     # Around
