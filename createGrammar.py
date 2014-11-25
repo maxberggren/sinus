@@ -94,7 +94,7 @@ def window(words, around, windowSize, wildcard):
     # After
     for offset in range(windowSize):
         try:
-            after =  + [wildcard, " "] + words[around+1:1+around+windowSize-offset]
+            after = [wildcard, " "] + words[around+1:1+around+windowSize-offset]
             break
         except KeyError:
             pass 
