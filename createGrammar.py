@@ -162,7 +162,7 @@ if __name__ == "__main__":
                 if word in o:
                     before, after, around = window(words, i, 6)
                     ngramsBefore.update(before + [" ", wildcard])
-                    ngramsAfter.update(wildcard, " "] + after)
+                    ngramsAfter.update([wildcard, " "] + after)
                     ngramsAround.update(around)
         
         top = 200  
