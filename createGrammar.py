@@ -167,12 +167,12 @@ if __name__ == "__main__":
         
         top = 30 
                 
-        before, _ = zip(*ngramsBefore.most_common(top))
+        before, _ = ngramsBefore.most_common(top)
         print before
         regexpes.update(before)
-        after, _ = zip(*ngramsAfter.most_common(top))
+        after, _ = ngramsAfter.most_common(top)
         regexpes.update(after)
-        around, _ = zip(*ngramsAround.most_common(top))
+        around, _ = ngramsAround.most_common(top)
         regexpes.update(around)
 
     print regexpes.most_common(200)
