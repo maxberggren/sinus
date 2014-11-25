@@ -177,11 +177,10 @@ if __name__ == "__main__":
 
         for utterance, frq in ngramsAround.most_common(top):
             if len(utterance) > 0: 
+                print utterance
                 regexpes.update(utterance)
                 
-        print ngramsBefore.most_common(top)
-        print ngramsAfter.most_common(top)
-        print ngramsAround.most_common(top)
+                
         
             
 
