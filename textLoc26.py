@@ -69,6 +69,7 @@ class tweetLoc:
             
             for pattern in patterns:
                 pattern = pattern.strip()
+                print pattern
                 p = re.compile(pattern)
                 self.patterns.append(p)
     
