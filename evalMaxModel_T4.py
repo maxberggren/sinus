@@ -100,7 +100,7 @@ if __name__ == "__main__":
             chooseToAnswerT4 += 1
  
             mostUsefulWordsT4 = OrderedDict(sorted(mostUsefulWordsT4.items(), 
-                                                 key=lambda x: x[1]))
+                                                   key=lambda x: x[1]))
             bestWordsT4 = []
             for word, scoreT4 in mostUsefulWordsT4.iteritems():
                 bestWordsT4.append(word.encode('utf-8'))
