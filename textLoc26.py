@@ -69,7 +69,6 @@ class tweetLoc:
             
             for pattern in patterns:
                 pattern = pattern.strip()
-                print pattern
                 p = re.compile(pattern)
                 self.patterns.append(p)
     
@@ -548,8 +547,8 @@ class tweetLoc:
         text = text.lower()
         for pattern in self.patterns:
             found = re.findall(pattern, text)
-            print found
             if found:
+                print found
                 c.update(found)
 
         text = " ".join([t[0] for t in c.most_common(200)])
