@@ -90,7 +90,7 @@ if __name__ == "__main__":
         for post in posts:
             text = text + u"\n\n" + post['text']
             
-        time.sleep(10)
+        #time.sleep(10)
         # Test 3: grammatik matat in i platsighetsmodulen
         data3 = predictViaAPI(text, path="tagbygrammar/threshold/1e25")
         predictedCoordinateT4, scoreT4, mostUsefulWordsT4, mentionsT4 = data3        
