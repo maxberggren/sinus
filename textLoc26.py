@@ -447,7 +447,7 @@ class tweetLoc:
         text = text.lower()
         patternMeans = []
         for pattern in self.patterns:
-            threshold = 1e10
+            threshold = 1e20
             found = re.findall(pattern, text)
             patternScores = []
             for word in found:
