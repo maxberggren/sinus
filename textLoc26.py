@@ -452,8 +452,10 @@ class tweetLoc:
             patternScores = []
             for word in found:
                 patternScores.append(self.lookup(word))
-                
-            patternMeans.append(float(len(patternScores[patternScores > threshold]))/float(len(patternScores)))
+             
+            print len(patternScores[patternScores > threshold])  
+            #patternMeans.append()
+            
         
         return np.nan_to_num(patternMeans).tolist()
 
