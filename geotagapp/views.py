@@ -41,6 +41,7 @@ def convert(data):
 
 @app.route('/geotag/api/v1.0/tag', methods=['POST'])
 @app.route('/geotag/api/v1.0/tag/placenessThreshold/<threshold>', methods=['POST'])
+@app.route('/geotag/api/v1.0/tag/threshold/<threshold>', methods=['POST'])
 def tag(threshold=None): 
     if not request.json or not 'text' in request.json:
         abort(400)
