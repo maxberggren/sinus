@@ -152,7 +152,7 @@ if __name__ == "__main__":
     ngramsAfter = Counter() # Ngrams after
     ngramsAround = Counter() # Ngrams around
     
-    result = db.query("SELECT text FROM posts ORDER by id asc "
+    result = db.query("SELECT text FROM posts ORDER by id DESC "
                       "LIMIT " + str(documents))
      
     for i, row in enumerate(result):
