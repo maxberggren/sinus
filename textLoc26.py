@@ -65,7 +65,7 @@ class tweetLoc:
                 p = re.compile(pattern)
                 self.patterns.append(p)
         else:
-            patterns = codecs.open("ortgrammatik_trimmad.txt", encoding="utf-8")
+            patterns = codecs.open("ortgrammatik_analytisk_temp.txt", encoding="utf-8")
             
             for pattern in patterns:
                 pattern = pattern.strip()
@@ -550,9 +550,9 @@ class tweetLoc:
             if found:
                 c.update(found)
 
-        text = " ".join([t[0] for t in c.most_common(400)])
+        text = " ".join([t[0] for t in c.most_common(300)])
         
-        print c.most_common(400)
+        print c.most_common(300)
         
         return self.predict(text, threshold=threshold)
  
