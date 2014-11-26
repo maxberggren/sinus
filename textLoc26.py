@@ -548,10 +548,11 @@ class tweetLoc:
         for pattern in self.patterns:
             found = re.findall(pattern, text)
             if found:
-                print found
                 c.update(found)
 
         text = " ".join([t[0] for t in c.most_common(200)])
+        
+        print c.most_common(200)
         
         return self.predict(text, threshold=threshold)
  
