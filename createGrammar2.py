@@ -180,7 +180,7 @@ if __name__ == "__main__":
         if len(utterance.strip()) > len(wildcard): 
             regexpes.update([utterance])
 
-    regexpes, _ = zip(*regexpes.most_common(200))
+    regexpes, _ = zip(*regexpes.most_common(600))
     print regexpes
 
     # Now let's check the regexpes
