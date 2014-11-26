@@ -182,6 +182,7 @@ if __name__ == "__main__":
             regexpes.update([utterance])
 
     regexpes, _ = zip(*regexpes.most_common(600))
+    regexpes = [" " + r + " " for r in regexpes]
     print regexpes
 
     # Now let's check the regexpes
