@@ -226,7 +226,8 @@ if __name__ == "__main__":
                 regexpscores = np.zeros_like(np.array(meangrammars))
                 createdArray = True
             
-            regexpscores = regexpscores + np.log10(np.array(meangrammars)+1)
+            #regexpscores = regexpscores + np.log10(np.array(meangrammars)+1)
+            regexpscores = regexpscores + np.array(meangrammars)
 
             dtype = [('regexp', 'S30'), ('score', float)]            
             values = zip(regexpes[regexpscores > 0], regexpscores[regexpscores > 0])
