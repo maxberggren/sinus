@@ -447,12 +447,13 @@ class tweetLoc:
         text = text.lower()
         patternMeans = []
         for pattern in self.patterns:
+            threshold = 1e20
             found = re.findall(pattern, text)
             patternScores = []
             for word in found:
                 patternScores.append(self.lookup(word))
                 
-            patternMeans.append(np.mean(patternScores))
+            patternMeans.append(float(len(patternScores[patternScores > threshold]))/float(len(patternScores)))
         
         return np.nan_to_num(patternMeans).tolist()
 
