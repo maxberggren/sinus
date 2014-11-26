@@ -1,104 +1,89 @@
+(\S{2,30}) vad
 du (\S{2,30})
-(\S{2,30}) skulle
-(\S{2,30}) kanske
-nu ska jag (\S{2,30})
+(\S{2,30}) det var
 (\S{2,30}) det
-(\S{2,30}) vill
-(\S{2,30}) fick
-(\S{2,30}) hon
-(\S{2,30}) den
 (\S{2,30}) eftersom
 (\S{2,30}) osv
-hela (\S{2,30})
-(\S{2,30}) ett
-(\S{2,30}) vi har
-(\S{2,30}) men det
+(\S{2,30}) kanske
+(\S{2,30}) hon
+(\S{2,30}) vill
 (\S{2,30}) sedan
-ska jag (\S{2,30})
-(\S{2,30}) nu
-(\S{2,30}) jag
 (\S{2,30}) men jag
-(\S{2,30}) hem
-(\S{2,30}) de
+(\S{2,30}) gick
+(\S{2,30}) jag
+hela (\S{2,30})
+(\S{2,30}) den
+(\S{2,30}) skulle
+nu ska jag (\S{2,30})
 (\S{2,30}) inte
-mellan (\S{2,30})
-(\S{2,30}) en
+(\S{2,30}) fick
+(\S{2,30}) men det
 (\S{2,30}) ja
-(\S{2,30}) snart
-(\S{2,30}) han
-(\S{2,30}) ska
+(\S{2,30}) nu
 (\S{2,30}) lite
-vi (\S{2,30})
-det (\S{2,30})
-(\S{2,30}) vi
 (\S{2,30}) klockan
-jag (\S{2,30})
-men (\S{2,30})
-(\S{2,30}) tillsammans med
+(\S{2,30}) ska
 (\S{2,30}) bara
+(\S{2,30}) ett
 (\S{2,30}) har inte
-(\S{2,30}) i en
-(\S{2,30}) just
-(\S{2,30}) d
+det (\S{2,30})
 sen (\S{2,30})
-(\S{2,30}) min
+(\S{2,30}) om jag
 runt (\S{2,30})
-(\S{2,30}) ner
+vi (\S{2,30})
+men (\S{2,30})
+(\S{2,30}) snart
+jag (\S{2,30})
+(\S{2,30}) centrum
 (\S{2,30}) och sedan
-(\S{2,30}) ska jag
+mellan (\S{2,30})
+mig i (\S{2,30})
 och i (\S{2,30})
-(\S{2,30}) va
-(\S{2,30}) att
-vid (\S{2,30})
-(\S{2,30}) kommer
-(\S{2,30}) eller
-(\S{2,30}) ha
+(\S{2,30}) min
+(\S{2,30}) just
+(\S{2,30}) hem
 (\S{2,30}) en stund
-(\S{2,30}) var
-(\S{2,30}) kom
-(\S{2,30}) blev
+(\S{2,30}) ska jag
+(\S{2,30}) att
+(\S{2,30}) d
 (\S{2,30}) och var
-(\S{2,30}) hade
-inte (\S{2,30})
 (\S{2,30}) tror
-(\S{2,30}) ut
+ska jag (\S{2,30})
 (\S{2,30}) dom
 (\S{2,30}) och hade
 av till (\S{2,30})
 vidare till (\S{2,30})
+(\S{2,30}) hade
+(\S{2,30}) blev
+(\S{2,30}) vi
+(\S{2,30}) ner
 (\S{2,30}) men
-(\S{2,30}) blir
-att (\S{2,30})
-(\S{2,30}) med en
-(\S{2,30}) under
-in i (\S{2,30})
-en (\S{2,30})
-(\S{2,30}) som vi
+(\S{2,30}) i en
+inte (\S{2,30})
 (\S{2,30}) och sen
+(\S{2,30}) blir
+(\S{2,30}) va
 (\S{2,30}) idag och
 (\S{2,30}) med familjen
 det av till (\S{2,30})
-(\S{2,30}) vid
-eller (\S{2,30})
-(\S{2,30}) hela
+(\S{2,30}) en
+(\S{2,30}) med en
+(\S{2,30}) under
+(\S{2,30}) eller
 (\S{2,30}) och va
+vid (\S{2,30})
+(\S{2,30}) ut
 (\S{2,30}) vilket
-min (\S{2,30})
 hem till (\S{2,30})
 mig till (\S{2,30})
-ska (\S{2,30})
-(\S{2,30}) utan
-(\S{2,30}) har
-(\S{2,30}) 2
+(\S{2,30}) vid
+eller (\S{2,30})
+(\S{2,30}) var
 (\S{2,30}) mamma
 i en (\S{2,30})
-blir det (\S{2,30})
-av (\S{2,30})
-(\S{2,30}) upp
+att (\S{2,30})
 (\S{2,30}) och har
-(\S{2,30}) har jag
-(\S{2,30}) innan
-(\S{2,30}) in
+(\S{2,30}) ett tag
 (\S{2,30}) idag med
 (\S{2,30}) men nu
 (\S{2,30}) och gick
@@ -106,68 +91,91 @@ av (\S{2,30})
 hemma i (\S{2,30})
 i hela (\S{2,30})
 oss till (\S{2,30})
+ska jag till (\S{2,30})
+ska till (\S{2,30})
 vi till (\S{2,30})
-(\S{2,30}) tillsammans
-(\S{2,30}) och i
-(\S{2,30}) om
-ett (\S{2,30})
-(\S{2,30}) av
-och (\S{2,30})
-med (\S{2,30})
+(\S{2,30}) har
+(\S{2,30}) in
+ska (\S{2,30})
+blir det (\S{2,30})
+(\S{2,30}) innan
+(\S{2,30}) hela
+(\S{2,30}) har jag
+(\S{2,30}) upp
+(\S{2,30}) utan
+(\S{2,30}) han
 (\S{2,30}) och vi
-o (\S{2,30})
 dag i (\S{2,30})
-(\S{2,30}) till
-(\S{2,30}) sen
-(\S{2,30}) i
-m (\S{2,30})
+av (\S{2,30})
+och min (\S{2,30})
+(\S{2,30}) ha
 (\S{2,30}) har varit
+(\S{2,30}) kom
+(\S{2,30}) sen
 bara (\S{2,30})
-(\S{2,30}) kan
-i (\S{2,30})
-(\S{2,30}) som
-(\S{2,30}) hos
+en (\S{2,30})
 (\S{2,30}) imorgon
-(\S{2,30}) kl
 (\S{2,30}) just nu
-upp till (\S{2,30})
-(\S{2,30}) o
-om (\S{2,30})
-jag och (\S{2,30})
+och (\S{2,30})
+(\S{2,30}) och i
+m (\S{2,30})
+(\S{2,30}) hos
+(\S{2,30}) kan
+med (\S{2,30})
+ett (\S{2,30})
+(\S{2,30}) kl
+(\S{2,30}) i fredags
 drar jag till (\S{2,30})
 drar till (\S{2,30})
 kvar i (\S{2,30})
 mer i (\S{2,30})
+sen till (\S{2,30})
+uppe i (\S{2,30})
 vi mot (\S{2,30})
 vi var i (\S{2,30})
-(\S{2,30}) och se
-(\S{2,30}) och de
-(\S{2,30}) runt
+(\S{2,30}) av
+(\S{2,30}) 2
+om (\S{2,30})
+(\S{2,30}) till
 hos (\S{2,30})
 (\S{2,30}) igen och
-(\S{2,30}) och det
-(\S{2,30}) idag
-(\S{2,30}) och
+(\S{2,30}) som
+(\S{2,30}) om
+(\S{2,30}) och se
 efter (\S{2,30})
-(\S{2,30}) med
-som (\S{2,30})
+(\S{2,30}) som vi
+(\S{2,30}) kommer
+(\S{2,30}) o
+o (\S{2,30})
+(\S{2,30}) idag
+(\S{2,30}) i
+(\S{2,30}) tillsammans med
+jag och (\S{2,30})
 fram till (\S{2,30})
+som (\S{2,30})
 inne i (\S{2,30})
+(\S{2,30}) och
 jag i (\S{2,30})
 ut i (\S{2,30})
 varit i (\S{2,30})
+(\S{2,30}) tillsammans
+(\S{2,30}) runt
+(\S{2,30}) och det
 mot (\S{2,30})
+i (\S{2,30})
+(\S{2,30}) och de
+upp till (\S{2,30})
+min (\S{2,30})
 (\S{2,30}) senare
-till (\S{2,30})
+(\S{2,30}) med
 to (\S{2,30})
-jag till (\S{2,30})
-(\S{2,30}) och jag
+till (\S{2,30})
 (\S{2,30}) borg
 (\S{2,30}) i somras
 (\S{2,30}) med min
 (\S{2,30}) med mina
+direkt till (\S{2,30})
 i min (\S{2,30})
-kom till (\S{2,30})
 kommer till (\S{2,30})
 mamma till (\S{2,30})
 med till (\S{2,30})
@@ -175,15 +183,22 @@ ner till (\S{2,30})
 runt i (\S{2,30})
 skulle till (\S{2,30})
 tillbaka till (\S{2,30})
+vi ska till (\S{2,30})
 (\S{2,30}) efter
-(\S{2,30}) och en
+(\S{2,30}) och jag
+(\S{2,30}) de
+(\S{2,30}) vi har
+jag till (\S{2,30})
 (\S{2,30}) som jag
-(\S{2,30}) igen
+in i (\S{2,30})
 (\S{2,30}) och spela
-bor i (\S{2,30})
+kom till (\S{2,30})
 (\S{2,30}) park
 var i (\S{2,30})
+(\S{2,30}) och en
+(\S{2,30}) igen
 (\S{2,30}) och nu
 (\S{2,30}) och ska
 (\S{2,30}) och fira
+bor i (\S{2,30})
 ute i (\S{2,30})
