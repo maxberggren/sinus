@@ -9,7 +9,6 @@ import time
 
 def __init__(videoid):
   
-    # GOOGLE STUFF NOT NECESSARY
     yt_service = gdata.youtube.service.YouTubeService()
     yt_service.ssl = True
     yt_service.developer_key = 'AIzaSyBwWvdRZ-M5X51aizixHYk00_tu71f70WY'
@@ -18,7 +17,7 @@ def __init__(videoid):
     # Transcipt hack
     url = 'http://www.serpsite.com/transcript.php?videoid=http://www.youtube.com/watch?v=' + videoid
   
-    while True:
+    for i in range(20):
         try:
             html = urllib2.urlopen(url)
             soup = BeautifulSoup(html.read())
@@ -35,8 +34,12 @@ def __init__(videoid):
             
             break # if successfull do not try again
     
+        except IndexError:
+            print "Can't find transcription."
+            break
         except Exception:
             time.sleep(3)
+
 
 
 if __name__ == "__main__":
@@ -45,5 +48,6 @@ if __name__ == "__main__":
 
     if "?v=" in videoid: # handle full youtube link
         videoid = videoid.split("?v=")[1]
+        videoid = videoid.split("&")[0]
         
     __init__(videoid)
