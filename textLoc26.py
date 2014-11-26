@@ -550,9 +550,9 @@ class tweetLoc:
             if found:
                 c.update(found)
 
-        text = " ".join([t[0] for t in c.most_common(300)])
+        text = " ".join([t[0] for t in c.most_common(400)])
         
-        print c.most_common(300)
+        print c.most_common(400)
         
         return self.predict(text, threshold=threshold)
  
