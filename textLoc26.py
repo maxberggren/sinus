@@ -590,6 +590,7 @@ class tweetLoc:
         c = Counter()
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
         for word in words:
+            print word
             c.update(word)
 
         print c
