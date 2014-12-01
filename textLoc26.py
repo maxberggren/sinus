@@ -587,7 +587,7 @@ class tweetLoc:
         topBound = int(lenWords/300.0)
         print "low ", lowerBound, "top ", topBound
         
-        c = Set()
+        c = Counter()
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
         for word in words:
             c.update(word)
