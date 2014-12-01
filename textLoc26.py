@@ -588,6 +588,9 @@ class tweetLoc:
         topBound = int(lenWords/300.0)
         print "low ", lowerBound, "top ", topBound
         
+        transtab = string.maketrans("ABCDEFGHIJKLMNOPQRSTUVXYZÅÄÖÉ",
+                                    "abcdefghijklmnopqrstuvxyzåäöé")
+        punkter = string.punctuation
         words = text.encode('utf-8').translate(transtab, punkter).split()
         c = Counter()
         for word in words:
