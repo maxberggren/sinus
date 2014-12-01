@@ -95,7 +95,7 @@ def tagbygrammar(threshold=None):
 
 @app.route('/geotag/api/v1.0/tagbyunique', methods=['POST'])
 @app.route('/geotag/api/v1.0/tagbyunique/threshold/<threshold>', methods=['POST'])
-def tagbygrammar(threshold=None): 
+def tagbyunique(threshold=None): 
     touple = model.predictByUnique(request.json['text'], threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]  
