@@ -130,8 +130,6 @@ if __name__ == "__main__":
     db = dataset.connect(databaseuri)
     result = db.query("set names 'utf8'")
     
-    #databaseuri = "sqlite:///nattstad.db"
-
     # Add all Swedish villages/citys to a set
     o = Set()
     f = codecs.open("orter.txt", encoding="utf-8")
@@ -183,7 +181,7 @@ if __name__ == "__main__":
 
     regexpes, _ = zip(*regexpes.most_common(600))
     regexpes = [" " + r + " " for r in regexpes]
-    print regexpes
+    print regexpes 
 
     # Now let's check the regexpes
     createdArray = False
