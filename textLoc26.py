@@ -573,12 +573,10 @@ class tweetLoc:
         """
         lenText = len(text)
         lenWords = int(lenText / 8.3)
-        meanWords = 37222 # Bloggtexter i DB median antal ord
-        lowerPercent = 0.00008
-        lowerBound = int(lenWords*lowerPercent) # Frekvens median 3
-        
-        print int(lenWords*lowerPercent)
-        
+        lowerPercent = 0.00008 # Ger frekvens median 3
+        lowerBound = int(lenWords*lowerPercent) 
+        topBound = int(lenWords/300.0)
+        print topBound
         c = Counter()
         text = text.lower()
         for pattern in self.patterns:
