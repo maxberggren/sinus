@@ -594,8 +594,9 @@ class tweetLoc:
         words = text.encode('utf-8').translate(transtab, punkter).split()
         c = Counter()
         for word in words:
-            c.update(word)
-            print word
+            if len(word) > 2:
+                c.update(word)
+                print word
 
         print "most common", c.most_common()
         wordsInSpan = [t[0] for t in c.most_common() if t[1] > lowerBound and t[1] < topBound]
