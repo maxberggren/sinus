@@ -571,12 +571,13 @@ class tweetLoc:
         Output: koordinat (lon, lat)
         """
         
-        c = Counter()
+        c = Set()
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
         for word in words:
-            c.update(word)
+            c.add(word)
 
-        text = " ".join([t[0] for t in c.most_common(300)])
+        c = list(c)
+        text = " ".join(c)
         
         print c.most_common(300)
         
