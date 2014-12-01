@@ -576,7 +576,7 @@ class tweetLoc:
         lowerPercent = 0.00008 # Ger frekvens median 3
         lowerBound = int(lenWords*lowerPercent) 
         topBound = int(lenWords/300.0)
-        print topBound
+
         c = Counter()
         text = text.lower()
         for pattern in self.patterns:
@@ -585,7 +585,7 @@ class tweetLoc:
                 c.update(found)
 
         print c
-        text = " ".join([t[0] for t in c.most_common() if t[1] > lowerBound])
+        text = " ".join([t[0] for t in c.most_common() if t[1] > lowerBound and t[1] < topBound])
                 
         return self.predict(text, threshold=threshold)
 
