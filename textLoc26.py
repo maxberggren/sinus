@@ -557,9 +557,11 @@ class tweetLoc:
         lowerPercent = 0.00008 # Ger frekvens median 3
         lowerBound = int(lenWords*lowerPercent) 
         topBound = int(lenWords/300.0)
-        print "low ", lowerBound, "top ", topBound
+        
         if topBound == 0:
             topBound = 999999999999999999999999
+            
+        print "low ", lowerBound, "top ", topBound
 
         c = Counter()
         text = text.lower()
@@ -587,6 +589,10 @@ class tweetLoc:
         lowerPercent = 0.00008 # Ger frekvens median 3
         lowerBound = int(lenWords*lowerPercent) 
         topBound = int(lenWords/300.0)
+        
+        if topBound == 0:
+            topBound = 999999999999999999999999
+            
         print "low ", lowerBound, "top ", topBound
         
         words = self.cleanData(text).split()
