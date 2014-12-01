@@ -327,7 +327,8 @@ class tweetLoc:
             outOfVocabulary = 0                                
         else:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
-                                        
+                
+        print "latlon", coordinate                        
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
         
      
