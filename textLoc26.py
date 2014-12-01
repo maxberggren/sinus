@@ -573,7 +573,10 @@ class tweetLoc:
         """
         lenText = len(text)
         lenWords = int(lenText / 8.3)
-        print lenWords
+        meanWords = 37222
+        lowerBound = 0.000080597
+        
+        print lenWords*lowerBound
         
         c = Counter()
         text = text.lower()
