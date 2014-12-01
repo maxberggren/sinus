@@ -603,7 +603,7 @@ class tweetLoc:
         print "lenord i spann", len(wordsInSpan)
         text = " ".join(wordsInSpan)
                 
-        return self.predict(text, threshold=threshold)
+        return self.predict(text.decode('utf-8'), threshold=threshold)
 
 
 if __name__ == "__main__":
