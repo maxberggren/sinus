@@ -551,6 +551,13 @@ class tweetLoc:
         Output: koordinat (lon, lat)
         """
         
+        lenText = len(text)
+        lenWords = int(lenText / 8.3)
+        lowerPercent = 0.00008 # Ger frekvens median 3
+        lowerBound = int(lenWords*lowerPercent) 
+        topBound = int(lenWords/300.0)
+        print "low ", lowerBound, "top ", topBound
+
         c = Counter()
         text = text.lower()
         for pattern in self.patterns:
@@ -558,10 +565,11 @@ class tweetLoc:
             if found:
                 c.update(found)
 
-        text = " ".join([t[0] for t in c.most_common(300)])
-        
-        print c.most_common(300)
-        
+        print c
+        wordsInSpan = [t[0] for t in c.most_common() if t[1] > lowerBound and t[1] < topBound]
+        print "lenord i spann", len(wordsInSpan)
+        text = " ".join(wordsInSpan)
+                
         return self.predict(text, threshold=threshold)
  
 
@@ -578,13 +586,11 @@ class tweetLoc:
         lowerBound = int(lenWords*lowerPercent) 
         topBound = int(lenWords/300.0)
         print "low ", lowerBound, "top ", topBound
-
-        c = Counter()
-        text = text.lower()
-        for pattern in self.patterns:
-            found = re.findall(pattern, text)
-            if found:
-                c.update(found)
+        
+        c = Set()
+        words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
+        for word in words:
+            c.update(word)
 
         print c
         wordsInSpan = [t[0] for t in c.most_common() if t[1] > lowerBound and t[1] < topBound]
