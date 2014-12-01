@@ -555,7 +555,7 @@ class tweetLoc:
         
         lenText = len(text)
         lenWords = int(lenText / 8.3)
-        lowerPercent = 0.00008 # Ger frekvens median 3
+        lowerPercent = 0.00010 # Ger frekvens median 3
         lowerBound = int(lenWords*lowerPercent) 
         topBound = int(lenWords/300.0)
         
