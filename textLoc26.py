@@ -20,7 +20,7 @@ import config as c
 from sqlite_cache import SqliteCache
 import re
 from collections import Counter
-from set import Set
+from sets import Set
 
 def haversine(coord1, coord2):
     """
