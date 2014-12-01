@@ -571,6 +571,9 @@ class tweetLoc:
         Input: text
         Output: koordinat (lon, lat)
         """
+        lenText = len(text)
+        lenWords = lenText / 8.3
+        print lenWords
         
         c = Counter()
         text = text.lower()
