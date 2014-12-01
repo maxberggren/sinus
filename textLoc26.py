@@ -592,18 +592,16 @@ class tweetLoc:
                                     "abcdefghijklmnopqrstuvxyzåäöé")
         punkter = string.punctuation
         words = text.encode('utf-8').translate(transtab, punkter).split()
+        print words
         c = Counter()
-        for word in words:
-            if len(word) > 2:
-                c.update(word)
-                #print word
+        c.update(words)
 
         print "most common", c.most_common()
         wordsInSpan = [t[0] for t in c.most_common() if t[1] > lowerBound and t[1] < topBound]
         print "lenord i spann", len(wordsInSpan)
         text = " ".join(wordsInSpan)
                 
-        return self.predict(text.decode('utf-8'), threshold=threshold)
+        return self.predict(text, threshold=threshold)
 
 
 if __name__ == "__main__":
