@@ -165,7 +165,7 @@ if __name__ == "__main__":
                 ngramsAfter.update(after)
                 ngramsAround.update(around)
     
-    top = 200 
+    top = 400 
     
     for utterance, frq in ngramsBefore.most_common(top):
         if len(utterance.strip()) > len(wildcard): 
@@ -179,7 +179,7 @@ if __name__ == "__main__":
         if len(utterance.strip()) > len(wildcard): 
             regexpes.update([utterance])
 
-    regexpes, _ = zip(*regexpes.most_common(600))
+    regexpes, _ = zip(*regexpes.most_common(1200))
     regexpes = [" " + r + " " for r in regexpes]
     print regexpes 
 
