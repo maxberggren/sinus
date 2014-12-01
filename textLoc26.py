@@ -65,7 +65,7 @@ class tweetLoc:
                 p = re.compile(pattern)
                 self.patterns.append(p)
         else:
-            patterns = codecs.open("ortgrammatik.txt", encoding="utf-8")
+            patterns = codecs.open("ortgrammatik_trimmad.txt", encoding="utf-8")
             
             for pattern in patterns:
                 pattern = " " + pattern.strip() + " "
