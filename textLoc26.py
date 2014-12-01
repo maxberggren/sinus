@@ -572,15 +572,16 @@ class tweetLoc:
         Output: koordinat (lon, lat)
         """
         
-        c = Set()
-        words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
-        for word in words:
-            c.add(word)
+        c = Counter()
+        text = text.lower()
+        for pattern in self.patterns:
+            found = re.findall(pattern, text)
+            if found:
+                c.update(found)
 
-        c = list(c)
-        text = " ".join(c)
-        
-        return self.predict(text, threshold=threshold) 
+        text = " ".join([t[0] for t in c.most_common() if t[1] > 3])
+                
+        return self.predict(text, threshold=threshold)
 
 
 if __name__ == "__main__":
