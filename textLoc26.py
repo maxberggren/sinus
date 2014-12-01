@@ -558,7 +558,7 @@ class tweetLoc:
         lowerBound = int(lenWords*lowerPercent) 
         topBound = int(lenWords/300.0)
         print "low ", lowerBound, "top ", topBound
-        if topBound = 0:
+        if topBound == 0:
             topBound = 999999999999999999999999
 
         c = Counter()
