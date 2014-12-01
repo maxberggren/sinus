@@ -144,7 +144,7 @@ if __name__ == "__main__":
     start = time.time()
     regexpes = Counter()
     
-    documents = 1000000
+    documents = 2000000
     print "Räknar ord..."
 
     ngramsBefore = Counter() # Ngrams before
