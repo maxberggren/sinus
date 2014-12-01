@@ -562,7 +562,25 @@ class tweetLoc:
         
         return self.predict(text, threshold=threshold)
  
- 
+
+    def predictByUnique(self, text, threshold=float(1e40)):
+        """ 
+        Förutsäger en koordinat för en bunte text
+        Tar endast och använder det vanliga på unika ord
+        Input: text
+        Output: koordinat (lon, lat)
+        """
+        
+        c = Counter()
+        words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
+        for word in words:
+            c.update(word)
+
+        text = " ".join([t[0] for t in c.most_common(300)])
+        
+        print c.most_common(300)
+        
+        return self.predict(text, threshold=threshold) 
 
 
 if __name__ == "__main__":
