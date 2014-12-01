@@ -144,7 +144,7 @@ if __name__ == "__main__":
     start = time.time()
     regexpes = Counter()
     
-    documents = 2000000
+    documents = 1000000
     print "Räknar ord..."
 
     ngramsBefore = Counter() # Ngrams before
@@ -179,7 +179,7 @@ if __name__ == "__main__":
         if len(utterance.strip()) > len(wildcard): 
             regexpes.update([utterance])
 
-    regexpes, _ = zip(*regexpes.most_common(1200))
+    regexpes, _ = zip(*regexpes.most_common(900))
     regexpes = [" " + r + " " for r in regexpes]
     print regexpes 
 
