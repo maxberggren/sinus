@@ -20,6 +20,7 @@ import config as c
 from sqlite_cache import SqliteCache
 import re
 from collections import Counter
+from set import Set
 
 def haversine(coord1, coord2):
     """
@@ -578,8 +579,6 @@ class tweetLoc:
 
         c = list(c)
         text = " ".join(c)
-        
-        print c.most_common(300)
         
         return self.predict(text, threshold=threshold) 
 
