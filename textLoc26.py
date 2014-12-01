@@ -587,9 +587,8 @@ class tweetLoc:
         topBound = int(lenWords/300.0)
         print "low ", lowerBound, "top ", topBound
         
+        words = text.encode('utf-8').translate(transtab, punkter).split()
         c = Counter()
-        words = self.cleanData(text).split()
-        print words
         for word in words:
             c.update(word)
 
