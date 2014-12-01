@@ -588,7 +588,7 @@ class tweetLoc:
 
         print c
         wordsInSpan = [t[0] for t in c.most_common() if t[1] > lowerBound and t[1] < topBound]
-        print "lenord i spann", wordsInSpan
+        print "lenord i spann", len(wordsInSpan)
         text = " ".join(wordsInSpan)
                 
         return self.predict(text, threshold=threshold)
