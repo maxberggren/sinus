@@ -588,6 +588,7 @@ class tweetLoc:
         print "low ", lowerBound, "top ", topBound
         
         c = Counter()
+        print text
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
         for word in words:
             c.update(word)
