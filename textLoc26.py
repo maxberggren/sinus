@@ -590,10 +590,9 @@ class tweetLoc:
         c = Counter()
         words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar 
         for word in words:
-            print word
             c.update(word)
 
-        print c
+        print c.most_common()
         wordsInSpan = [t[0] for t in c.most_common() if t[1] > lowerBound and t[1] < topBound]
         print "lenord i spann", len(wordsInSpan)
         text = " ".join(wordsInSpan)
