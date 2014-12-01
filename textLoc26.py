@@ -574,9 +574,10 @@ class tweetLoc:
         lenText = len(text)
         lenWords = int(lenText / 8.3)
         meanWords = 37222
-        lowerBound = 0.000080597
+        lowerPercent = 0.000080597
+        lowerBound = int(lenWords*lowerPercent)
         
-        print lenWords*lowerBound
+        print int(lenWords*lowerPercent)
         
         c = Counter()
         text = text.lower()
@@ -585,7 +586,7 @@ class tweetLoc:
             if found:
                 c.update(found)
 
-        text = " ".join([t[0] for t in c.most_common() if t[1] > 3])
+        text = " ".join([t[0] for t in c.most_common() if t[1] > lowerBound])
                 
         return self.predict(text, threshold=threshold)
 
