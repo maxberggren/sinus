@@ -272,6 +272,7 @@ class tweetLoc:
         else:
             batches = self.cache.get("batches")
         
+        print len(words)
         for word in words:
             batchscores, batchcoordinates = [], []
             wordFreq, freqInBatch = 0, 0
@@ -576,6 +577,7 @@ class tweetLoc:
         lowerPercent = 0.00008 # Ger frekvens median 3
         lowerBound = int(lenWords*lowerPercent) 
         topBound = int(lenWords/300.0)
+        print "low ", lowerBound, "top ", topBound
 
         c = Counter()
         text = text.lower()
