@@ -460,7 +460,7 @@ class tweetLoc:
             patternScores = np.array(patternScores)
             overThres = float(len(patternScores[patternScores > threshold]))/float(len(patternScores))
             
-            if len(patternScores) > 0 and overThres > 0.7:
+            if len(patternScores) > 0 and overThres > 0.85:
                 patternMeans.append(overThres)
             else:
                 patternMeans.append(0)
