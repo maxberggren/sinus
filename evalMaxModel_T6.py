@@ -48,94 +48,95 @@ if __name__ == "__main__":
     chooseToAnswerT1, chooseToAnswerT6, chooseToAnswerT6 = 0, 0, 0
     
     for row in result:
-        i += 1
-        
-        headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}"
-        
-        testhead = headpattern.format(fel="fel",
-                                      median="mdn", 
-                                      medelv="mdv", 
-                                      AST="AST", 
-                                      ASV="ASV", 
-                                      SP="SP", 
-                                      test="T#")
-        
-        if (i-1) % 10 == 0: 
-            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T6:<35} | {text:<70}"
-            head = pattern.format(id="-"*4,
-                                  blogid="-"*7, 
-                                  tecken="-"*8, 
-                                  T6="-"*35,
-                                  text="-"*70)
-            print head
-        
-            head = pattern.format(id="#", 
-                                  blogid="Blogid", 
-                                  tecken="Tecken", 
-                                  T6=testhead,
-                                  text="Bästa orden")
-            print head
-        
-            head = pattern.format(id="-"*4, 
-                                  blogid="-"*7, 
-                                  tecken="-"*8, 
-                                  T6="-"*35,
-                                  text="-"*70)
-            print head
-        
-        blogid = row['id']
-        
-        posts = db['posts'].find(blog_id=blogid)
-        text = ""   
-        for post in posts:
-            text = text + u"\n\n" + post['text']
+        if len(text) > 10000:
+            i += 1
             
-        
-        # Test 3: grammatik matat in i platsighetsmodulen
-        data3 = predictViaAPI(text, path="tagbytown")
-        predictedCoordinateT6, scoreT6, mostUsefulWordsT6, mentionsT6 = data3        
-
-        # Test 3
-        if predictedCoordinateT6 and scoreT6 > 0.0:
-            chooseToAnswerT6 += 1
- 
-            mostUsefulWordsT6 = OrderedDict(sorted(mostUsefulWordsT6.items(), 
-                                                 key=lambda x: x[1]))
-            bestWordsT6 = []
-            for word, scoreT6 in mostUsefulWordsT6.iteritems():
-                bestWordsT6.append(word.encode('utf-8'))
+            headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}"
+            
+            testhead = headpattern.format(fel="fel",
+                                          median="mdn", 
+                                          medelv="mdv", 
+                                          AST="AST", 
+                                          ASV="ASV", 
+                                          SP="SP", 
+                                          test="T#")
+            
+            if (i-1) % 10 == 0: 
+                pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T6:<35} | {text:<70}"
+                head = pattern.format(id="-"*4,
+                                      blogid="-"*7, 
+                                      tecken="-"*8, 
+                                      T6="-"*35,
+                                      text="-"*70)
+                print head
+            
+                head = pattern.format(id="#", 
+                                      blogid="Blogid", 
+                                      tecken="Tecken", 
+                                      T6=testhead,
+                                      text="Bästa orden")
+                print head
+            
+                head = pattern.format(id="-"*4, 
+                                      blogid="-"*7, 
+                                      tecken="-"*8, 
+                                      T6="-"*35,
+                                      text="-"*70)
+                print head
+            
+            blogid = row['id']
+            
+            posts = db['posts'].find(blog_id=blogid)
+            text = ""   
+            for post in posts:
+                text = text + u"\n\n" + post['text']
                 
-            bestWordsT6 = ", ".join(bestWordsT6[::-1][0:6])
-           
-            fel = haversine([row['latitude'], row['longitude']], predictedCoordinateT6)
             
-            if fel < 100: # Acceptabelt fel
-                acceptableAnswerT6 += 1
-            
-            felenT6.append(fel)
-
-            pattern = ("{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
-                       "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
-            T6 = pattern.format(fel=fel,
-                                median=np.median(felenT6), 
-                                medelv=np.mean(felenT6), 
-                                AST=float(acceptableAnswerT6)/float(i), 
-                                ASV=float(acceptableAnswerT6)/float(chooseToAnswerT6), 
-                                SP=float(chooseToAnswerT6)/float(i), 
-                                test="T6")
-
-            
-        else:
-            T6 = "###"
-            bestWordsT6 = ""
-            
-
-        pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T6:<35} | {text:<70}" 
-        row = pattern.format(tecken=len(text),
-                             blogid=blogid, 
-                             T6=T6,
-                             id=i,
-                             text=bestWordsT6)
-        print row
-
+            # Test 3: grammatik matat in i platsighetsmodulen
+            data3 = predictViaAPI(text, path="tagbytown")
+            predictedCoordinateT6, scoreT6, mostUsefulWordsT6, mentionsT6 = data3        
+    
+            # Test 3
+            if predictedCoordinateT6 and scoreT6 > 0.0:
+                chooseToAnswerT6 += 1
+     
+                mostUsefulWordsT6 = OrderedDict(sorted(mostUsefulWordsT6.items(), 
+                                                     key=lambda x: x[1]))
+                bestWordsT6 = []
+                for word, scoreT6 in mostUsefulWordsT6.iteritems():
+                    bestWordsT6.append(word.encode('utf-8'))
+                    
+                bestWordsT6 = ", ".join(bestWordsT6[::-1][0:6])
+               
+                fel = haversine([row['latitude'], row['longitude']], predictedCoordinateT6)
+                
+                if fel < 100: # Acceptabelt fel
+                    acceptableAnswerT6 += 1
+                
+                felenT6.append(fel)
+    
+                pattern = ("{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
+                           "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
+                T6 = pattern.format(fel=fel,
+                                    median=np.median(felenT6), 
+                                    medelv=np.mean(felenT6), 
+                                    AST=float(acceptableAnswerT6)/float(i), 
+                                    ASV=float(acceptableAnswerT6)/float(chooseToAnswerT6), 
+                                    SP=float(chooseToAnswerT6)/float(i), 
+                                    test="T6")
+    
+                
+            else:
+                T6 = "###"
+                bestWordsT6 = ""
+                
+    
+            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T6:<35} | {text:<70}" 
+            row = pattern.format(tecken=len(text),
+                                 blogid=blogid, 
+                                 T6=T6,
+                                 id=i,
+                                 text=bestWordsT6)
+            print row
+    
             
