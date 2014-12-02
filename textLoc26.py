@@ -502,7 +502,6 @@ class tweetLoc:
         lon_bins = np.linspace(8, 26, xBins)
         lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
         theGrid = np.zeros((len(lat_bins),len(lon_bins)))
-        coordinate = []
 
         def addToGrid(theGrid, add, lat, lon, lat_bins, lon_bins):
             """ Add something to the right bin in the grid """
@@ -546,7 +545,10 @@ class tweetLoc:
                                         
         topLatInd, topLonInd = np.where(theGrid==theGrid.max())
         score = theGrid[np.where(theGrid==theGrid.max())][0]
-        coordinate = [lat_bins[topLatInd[0]], lon_bins[topLonInd[0]]]
+        if score > 0.0:
+            coordinate = [lat_bins[topLatInd[0]], lon_bins[topLonInd[0]]]
+        else:
+            coordinate = []
             
         return coordinate, score, {}, 0, {}
 
