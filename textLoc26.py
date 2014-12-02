@@ -458,10 +458,13 @@ class tweetLoc:
                 patternScores.append(self.lookup(word))
             
             patternScores = np.array(patternScores)
-            overThres = float(len(patternScores[patternScores > threshold]))/float(len(patternScores))
             
-            if len(patternScores) > 0 and overThres > 0.85:
-                patternMeans.append(overThres)
+            if len(patternScores) > 0:
+                overThres = float(len(patternScores[patternScores > threshold]))/float(len(patternScores))
+                if overThres > 0.85:
+                    patternMeans.append(overThres)
+                else:
+                    patternMeans.append(0)
             else:
                 patternMeans.append(0)
         
