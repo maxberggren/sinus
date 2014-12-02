@@ -523,12 +523,12 @@ class tweetLoc:
                                        "AND n_coordinates > 100")                   
                 subscores, subcoordinates = [], []
                 for row in result:
+                    print word, row['scoring'], [row['lat'], row['lon']]
                     if row['scoring'] > threshold:
                         subscores.append(row['scoring'])
                         subcoordinates.append([row['lat'], 
                                                row['lon']])
                                                
-                        print word, row['scoring'], [row['lat'], row['lon']]
                         
                         theGrid = addToGrid(theGrid,
                                             add=row['scoring'],
