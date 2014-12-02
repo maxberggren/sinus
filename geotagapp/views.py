@@ -132,7 +132,8 @@ def getData(ammountData=None, random=0):
                                  "longitude is not NULL "
                                  "latitude is not NULL "
                                  " " + randomQ + " "
-                                 "limit " + str(ammountData)):
+                                 "limit " + str(ammountData) + " "
+                                 "order by b.id DESC"):
         
         blogtext = ""                  
         for postrow in mysqldb.query("SELECT * from posts "
