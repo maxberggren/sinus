@@ -656,7 +656,8 @@ class tweetLoc:
         
         for word in words:
             if word in self.towns:      
-                coordinate = latlon(word)
+                print type(word)
+                coordinate = latlon(word.encode('utf-8'))
                                                              
                 theGrid = addToGrid(theGrid,
                                     add=1,
