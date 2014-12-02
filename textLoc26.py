@@ -527,6 +527,8 @@ class tweetLoc:
                         subscores.append(row['scoring'])
                         subcoordinates.append([row['lat'], 
                                                row['lon']])
+                                               
+                        print word, row['scoring'], [row['lat'], row['lon']]
                         
                         theGrid = addToGrid(theGrid,
                                             add=row['scoring'],
