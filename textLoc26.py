@@ -525,8 +525,6 @@ class tweetLoc:
                 for row in result:
                     
                     if float(row['scoring']) > float(threshold):
-                        print type(threshold)
-                        print word, type(row['scoring']), [row['lat'], row['lon']]
                         subscores.append(row['scoring'])
                         subcoordinates.append([row['lat'], 
                                                row['lon']])
