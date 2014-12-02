@@ -548,7 +548,7 @@ class tweetLoc:
         if score > 0.0:
             coordinate = [lat_bins[topLatInd[0]], lon_bins[topLonInd[0]]]
         else:
-            coordinate = []
+            coordinate = [0.0, 0.0]
             
         return coordinate, score, {}, 0, {}
 
