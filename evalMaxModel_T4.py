@@ -92,7 +92,7 @@ if __name__ == "__main__":
             
         #time.sleep(10)
         # Test 3: grammatik matat in i platsighetsmodulen
-        data3 = predictViaAPI(text, path="tagbygrammar/threshold/1e25")
+        data3 = predictViaAPI(text, path="tagbygrammar/threshold/1e20")
         predictedCoordinateT4, scoreT4, mostUsefulWordsT4, mentionsT4 = data3        
     
         # Test 3
