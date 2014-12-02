@@ -523,8 +523,9 @@ class tweetLoc:
                                        "AND n_coordinates > 100")                   
                 subscores, subcoordinates = [], []
                 for row in result:
+                    print threshold
+                    print word, row['scoring'], [row['lat'], row['lon']]
                     if row['scoring'] > threshold:
-                        print word, row['scoring'], [row['lat'], row['lon']]
                         subscores.append(row['scoring'])
                         subcoordinates.append([row['lat'], 
                                                row['lon']])
@@ -545,7 +546,9 @@ class tweetLoc:
                                         
         topLatInd, topLonInd = np.where(theGrid==theGrid.max())
         score = theGrid[np.where(theGrid==theGrid.max())][0]
+        
         if score > 0.0:
+            # Get bin coordinate of bin with highest score
             coordinate = [lat_bins[topLatInd[0]], lon_bins[topLonInd[0]]]
         else:
             coordinate = [0.0, 0.0]
