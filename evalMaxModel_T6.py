@@ -48,49 +48,53 @@ if __name__ == "__main__":
     chooseToAnswerT1, chooseToAnswerT6, chooseToAnswerT6 = 0, 0, 0
     
     for row in result:
+    
+        
+        
+        headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}"
+        
+        testhead = headpattern.format(fel="fel",
+                                      median="mdn", 
+                                      medelv="mdv", 
+                                      AST="AST", 
+                                      ASV="ASV", 
+                                      SP="SP", 
+                                      test="T#")
+        
+        if (i-1) % 10 == 0: 
+            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T6:<35} | {text:<70}"
+            head = pattern.format(id="-"*4,
+                                  blogid="-"*7, 
+                                  tecken="-"*8, 
+                                  T6="-"*35,
+                                  text="-"*70)
+            print head
+        
+            head = pattern.format(id="#", 
+                                  blogid="Blogid", 
+                                  tecken="Tecken", 
+                                  T6=testhead,
+                                  text="Bästa orden")
+            print head
+        
+            head = pattern.format(id="-"*4, 
+                                  blogid="-"*7, 
+                                  tecken="-"*8, 
+                                  T6="-"*35,
+                                  text="-"*70)
+            print head
+        
+        blogid = row['id']
+        
+        posts = db['posts'].find(blog_id=blogid)
+        text = ""   
+        for post in posts:
+            text = text + u"\n\n" + post['text']
+        
+        
         if len(text) > 10000:
-            i += 1
-            
-            headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}"
-            
-            testhead = headpattern.format(fel="fel",
-                                          median="mdn", 
-                                          medelv="mdv", 
-                                          AST="AST", 
-                                          ASV="ASV", 
-                                          SP="SP", 
-                                          test="T#")
-            
-            if (i-1) % 10 == 0: 
-                pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T6:<35} | {text:<70}"
-                head = pattern.format(id="-"*4,
-                                      blogid="-"*7, 
-                                      tecken="-"*8, 
-                                      T6="-"*35,
-                                      text="-"*70)
-                print head
-            
-                head = pattern.format(id="#", 
-                                      blogid="Blogid", 
-                                      tecken="Tecken", 
-                                      T6=testhead,
-                                      text="Bästa orden")
-                print head
-            
-                head = pattern.format(id="-"*4, 
-                                      blogid="-"*7, 
-                                      tecken="-"*8, 
-                                      T6="-"*35,
-                                      text="-"*70)
-                print head
-            
-            blogid = row['id']
-            
-            posts = db['posts'].find(blog_id=blogid)
-            text = ""   
-            for post in posts:
-                text = text + u"\n\n" + post['text']
                 
+            i += 1
             
             # Test 3: grammatik matat in i platsighetsmodulen
             data3 = predictViaAPI(text, path="tagbytown")
