@@ -100,7 +100,7 @@ if __name__ == "__main__":
         predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = data
         
         # Test 2: röstningsförfarandet
-        data2 = predictViaAPI(text, path="tagbyvote1")
+        data2 = predictViaAPI(text, path="tagbyvote1/threshold/1e1")
         predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT2 = data2
         
         # Test 3: grammatik matat in i platsighetsmodulen
