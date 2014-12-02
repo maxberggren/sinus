@@ -487,7 +487,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         if len(coordinates) < minCoordinates:
             minCoordinates = len(coordinates)
                 
-    if minCoordinates > -1:
+    if minCoordinates > 4:
 
         if not xBins: # xBins not set? "guestimate" that 2 hits per bin is good
             xBins = math.sqrt(float(minCoordinates)/
