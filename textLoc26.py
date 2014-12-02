@@ -60,6 +60,12 @@ class tweetLoc:
         self.cache = SqliteCache("cache")
         self.words = []
         self.patterns = []
+
+        # Add all Swedish villages/citys to a set
+        self.towns = Set()
+        f = codecs.open("orter.txt", encoding="utf-8")
+        for line in f:
+            self.towns.add(line.lower().strip())
         
         if regexpes:
             for regexp in regexpes:
@@ -68,7 +74,6 @@ class tweetLoc:
                 self.patterns.append(p)
         else:
             patterns = codecs.open("ortgrammatik_analytisk6.txt", encoding="utf-8")
-            
             for pattern in patterns:
                 pattern = " " + pattern.strip() + " "
                 p = re.compile(pattern)
@@ -209,11 +214,11 @@ class tweetLoc:
         Output: koordinat och dess säkerhet
         """
         
+        # If only one coordinates is inputed, return that.
         if len(coordinates) == 1:
             return coordinates[0], scores[0]
         
         if len(coordinates) > 0:
-                        
             numberOfCoordinates, nominator, denominator = 0, 0, 0
             
             for score, coordinate in zip(scores, coordinates):
@@ -618,6 +623,61 @@ class tweetLoc:
         return self.predict(text, threshold=threshold)
 
 
+    def predictByTown(self, text, threshold=float(1e40)):
+        """ 
+        Förutsäger en koordinat för en bunte text
+        Använder endast städer för att positionera
+        Output: koordinat (lon, lat)
+        """
+        if not threshold:
+            threshold = 1e40
+        
+        words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar        
+        coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
+ 
+        # if in set
+        # latlon(word)
+        
+        xyRatio = 1.8
+        xBins = 20
+        lon_bins = np.linspace(8, 26, xBins)
+        lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
+        theGrid = np.zeros((len(lat_bins),len(lon_bins)))
+
+        def addToGrid(theGrid, add, lat, lon, lat_bins, lon_bins):
+            """ Add something to the right bin in the grid """
+            lat_idx = np.abs(lat_bins-lat).argmin()
+            lon_idx = np.abs(lon_bins-lon).argmin()
+            
+            theGrid[lat_idx,lon_idx] += add
+
+            return theGrid
+        
+        for word in words:
+            if word in self.towns:      
+                coordinate = latlon(word)
+                                                             
+                theGrid = addToGrid(theGrid,
+                                    add=1,
+                                    lat=coordinate[0],
+                                    lon=coordinate[1],
+                                    lat_bins=lat_bins,
+                                    lon_bins=lon_bins)
+                                        
+        topLatInd, topLonInd = np.where(theGrid==theGrid.max())
+        score = theGrid[np.where(theGrid==theGrid.max())][0]
+        
+        if score > 0.0:
+            # Get bin coordinate of bin with highest score
+            coordinate = [lat_bins[topLatInd[0]], lon_bins[topLonInd[0]]]
+        else:
+            coordinate = [0.0, 0.0]
+            
+        return coordinate, score, {}, 0, {}
+
+
+        
+        
 if __name__ == "__main__":
 
     model = tweetLoc()

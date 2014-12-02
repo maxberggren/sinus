@@ -108,6 +108,20 @@ def tagbyunique(threshold=None):
                       'outOfVocabulary': OOV, 
                       'mentions': mentions } )
 
+@app.route('/geotag/api/v1.0/tagbytown', methods=['POST'])
+@app.route('/geotag/api/v1.0/tagbytown/threshold/<threshold>', methods=['POST'])
+def tagbyvote1(threshold=None): 
+    touple = model.predictByTown(request.json['text'], threshold=threshold)   
+    coordinate, placeness, mostUsefulWords, OOV, mentions = touple
+    lon = coordinate[0]
+    lat = coordinate[1]
+    return jsonify( { 'latitude': lat, 
+                      'longitude': lon, 
+                      'placeness': placeness, 
+                      'mostUsefulWords': mostUsefulWords,
+                      'outOfVocabulary': OOV, 
+                      'mentions': mentions } )
+
 
 @app.route('/geotag/api/v1.0/trainingData/<ammountData>/pickRandom', methods=['GET'])
 def pickRandomData(ammountData=None): 
