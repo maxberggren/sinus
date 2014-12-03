@@ -27,9 +27,16 @@ Testa mot grammatiken som laddas fr textfil.
 def predictViaAPI(text, path="tag"):
     payload = json.dumps({'text': text})
     headers = {'content-type': 'application/json'}
-    r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/"+path, 
-                       data=payload, headers=headers)
     
+    while True:
+        try:     
+            r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/"+path, 
+                               data=payload, headers=headers)
+            break
+        except requests.exceptions.ConnectionError:
+            time.sleep(5)
+            pass 
+         
     try:
         lat = r.json()['latitude']
         lon = r.json()['longitude']

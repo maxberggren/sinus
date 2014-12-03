@@ -16,6 +16,13 @@ import config as c
 import tabulate
 import time
 
+"""
+Test 6
+======
+
+Baseline
+"""
+
 def predictViaAPI(text, path="tag"):
     payload = json.dumps({'text': text})
     headers = {'content-type': 'application/json'}
