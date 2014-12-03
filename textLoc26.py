@@ -666,7 +666,7 @@ class tweetLoc:
                                         lon=coordinate[1],
                                         lat_bins=lat_bins,
                                         lon_bins=lon_bins)
-                except NoResultError:
+                except geocode.NoResultError:
                     pass
                                         
         topLatInd, topLonInd = np.where(theGrid==theGrid.max())
