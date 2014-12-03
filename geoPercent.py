@@ -32,7 +32,8 @@ class MyStreamer(TwythonStreamer):
         
         if 'text' in data:
             if data['geo']:  
-                print data   
+                print data  
+                print "%.2f% %" % (100.0 * self.geotweets/self.tweets) 
                 try: 
                     lon = data['coordinates']['coordinates'][0]
                     lat = data['coordinates']['coordinates'][1] 
