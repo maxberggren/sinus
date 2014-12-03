@@ -49,6 +49,7 @@ if __name__ == "__main__":
     chooseToAnswerT1, chooseToAnswerT6, chooseToAnswerT6 = 0, 0, 0
     
     for row in result:
+        print j
         j += 1
         blogid = row['id']
         
