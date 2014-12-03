@@ -15,6 +15,15 @@ import config as c
 import tabulate
 import time
 
+"""
+Test 4
+======
+
+Testa mot grammatiken som laddas fr textfil.
+"""
+
+
+
 def predictViaAPI(text, path="tag"):
     payload = json.dumps({'text': text})
     headers = {'content-type': 'application/json'}

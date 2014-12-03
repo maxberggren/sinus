@@ -254,7 +254,7 @@ class tweetLoc:
         else:
             return [0.0, 0.0], 0.0
 
-    def predict(self, text, threshold=float(1e40)):
+    def predict(self, text, threshold=float(1e40), mergeSubGMMs=True):
         """ 
         Förutsäger en koordinat för en bunte text
         Input: text
@@ -298,9 +298,14 @@ class tweetLoc:
                     if not freqInBatch:
                         freqInBatch = 0
                 
-                coordinate, score = self.weightedMean(subcoordinates, subscores)
-                batchscores.append(score)
-                batchcoordinates.append(coordinate)
+                if mergeSubGMMs:
+                    coordinate, score = self.weightedMean(subcoordinates, subscores)
+                    batchscores.append(score)
+                    batchcoordinates.append(coordinate)
+                else:
+                    batchscores.extend(subscores)
+                    batchcoordinates.extend(subcoordinates)
+                
                 wordFreq += freqInBatch
             
             # Vikta samman batcharna. TODO: fallande vikt efter datum

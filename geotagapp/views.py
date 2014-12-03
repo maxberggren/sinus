@@ -64,6 +64,30 @@ def tag(threshold=None):
                       'mentions': mentions } )
 
 
+@app.route('/geotag/api/v1.0/tagnogmmmerging', methods=['POST'])
+@app.route('/geotag/api/v1.0/tagnogmmmerging/threshold/<threshold>', methods=['POST'])
+def tagnomerge(threshold=None): 
+    if not request.json or not 'text' in request.json:
+        abort(400)
+
+    if isinstance(threshold, (unicode)):
+        try:
+            threshold = float(threshold)
+        except:
+            return jsonify( { 'error': "Threshold should be of the form 1e40." } )
+        
+    touple = model.predict(request.json['text'], threshold=threshold, mergeSubGMMs=False)   
+    coordinate, placeness, mostUsefulWords, OOV, mentions = touple
+    lon = coordinate[0]
+    lat = coordinate[1]
+    return jsonify( { 'latitude': lat, 
+                      'longitude': lon, 
+                      'placeness': placeness, 
+                      'mostUsefulWords': mostUsefulWords,
+                      'outOfVocabulary': OOV, 
+                      'mentions': mentions } )
+                      
+
 @app.route('/geotag/api/v1.0/tagbyvote1', methods=['POST'])
 @app.route('/geotag/api/v1.0/tagbyvote1/threshold/<threshold>', methods=['POST'])
 def tagbyvote1(threshold=None): 
