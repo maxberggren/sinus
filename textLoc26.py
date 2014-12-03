@@ -22,6 +22,7 @@ import re
 from collections import Counter
 from sets import Set
 import string
+import geocode 
 from geocode import latlon
 
 def haversine(coord1, coord2):
