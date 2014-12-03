@@ -659,14 +659,21 @@ class tweetLoc:
             if word in self.towns:      
                 #print word.encode('utf-8'), 
                 try:
-                    coordinate = latlon(word.encode('utf-8'))
-                                                                 
-                    theGrid = addToGrid(theGrid,
-                                        add=1,
-                                        lat=coordinate[0],
-                                        lon=coordinate[1],
-                                        lat_bins=lat_bins,
-                                        lon_bins=lon_bins)
+                    while True:
+                        try:
+                            coordinate = latlon(word.encode('utf-8'))
+                                                                         
+                            theGrid = addToGrid(theGrid,
+                                                add=1,
+                                                lat=coordinate[0],
+                                                lon=coordinate[1],
+                                                lat_bins=lat_bins,
+                                                lon_bins=lon_bins)
+                            break
+                        except geocode.QueryLimitError:
+                            print "Limit nådd. Väntar 24 h."
+                            time.sleep(60*60*24+10)
+                            pass 
                 except geocode.NoResultError:
                     pass
                                         
