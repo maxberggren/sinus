@@ -8,6 +8,7 @@ import datetime
 import sys
 import config as c
 import traceback
+import json
 
 OAUTH_TOKEN = c.OAUTH_TOKEN
 OAUTH_SECRET = c.OAUTH_SECRET
@@ -17,29 +18,34 @@ CONSUMER_SECRET = c.CONSUMER_SECRET
 from twython import TwythonStreamer
 import json
 
-tweetsdb = dataset.connect(c.LOCATIONDB)
-tweetsdb.begin()
-twittertable = tweetsdb['tweets']
+
 
 class MyStreamer(TwythonStreamer):
-
-    def __init__(self):
-        self.tweets = 0
-        self.geotweets = 0
         
     def on_success(self, data):
-        self.tweets =+ 1
+        try:
+            self.tweets += 1
+        except:
+            self.tweets = 0
         
-        if 'text' in data:
+        if 'text' in data and data['lang'] == "sv":
+#       if 'text' in data:
+
             if data['geo']:  
-                print data  
-                print "%.2f% %" % (100.0 * self.geotweets/self.tweets) 
                 try: 
-                    lon = data['coordinates']['coordinates'][0]
+                    lon = data['coordinates']['coordinates'][0] 
                     lat = data['coordinates']['coordinates'][1] 
-                    self.tweets =+ 1
+                    try:
+                        self.geotweets += 1
+                    except:
+                        self.geotweets = 0
+                        
                 except Exception:
                     pass
+
+                print json.dumps(data['coordinates'], sort_keys=True, indent=4, separators=(',', ': '))  
+                print data['text']
+                print "########## %.2f% %" % (100.0 * self.geotweets/self.tweets)             
                     
     def on_error(self, status_code, data):
         print status_code, data
@@ -48,12 +54,12 @@ stream = MyStreamer(CONSUMER_KEY, CONSUMER_SECRET, OAUTH_TOKEN, OAUTH_SECRET)
 
 while True:
     try: 
+        print "Nu jävlar"
+        stream.statuses.filter(track='när, och, om, på, här, att, för')
         #stream.statuses.filter(track='twitter')
-        print "Hämtar tweets"
-        stream.statuses.filter(language="sv")
+
     except KeyboardInterrupt:
-        print "\nExiting..."
+        print "\nAvslutar..."
         break
     except:
-        #print sys.exc_info()[0]
         traceback.print_exc(file=sys.stdout)
