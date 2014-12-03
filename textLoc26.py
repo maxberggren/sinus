@@ -657,14 +657,17 @@ class tweetLoc:
         for word in words:
             if word in self.towns:      
                 #print word.encode('utf-8'), 
-                coordinate = latlon(word.encode('utf-8'))
-                                                             
-                theGrid = addToGrid(theGrid,
-                                    add=1,
-                                    lat=coordinate[0],
-                                    lon=coordinate[1],
-                                    lat_bins=lat_bins,
-                                    lon_bins=lon_bins)
+                try:
+                    coordinate = latlon(word.encode('utf-8'))
+                                                                 
+                    theGrid = addToGrid(theGrid,
+                                        add=1,
+                                        lat=coordinate[0],
+                                        lon=coordinate[1],
+                                        lat_bins=lat_bins,
+                                        lon_bins=lon_bins)
+                except NoResultError:
+                    pass
                                         
         topLatInd, topLonInd = np.where(theGrid==theGrid.max())
         score = theGrid[np.where(theGrid==theGrid.max())][0]
