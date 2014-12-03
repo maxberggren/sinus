@@ -14,6 +14,7 @@ import json
 from collections import OrderedDict
 import config as c
 import tabulate
+import time
 
 def predictViaAPI(text, path="tag"):
     payload = json.dumps({'text': text})
@@ -96,8 +97,14 @@ if __name__ == "__main__":
         
 
             
-            # Test 3: grammatik matat in i platsighetsmodulen
-            data3 = predictViaAPI(text, path="tagbytown")
+            while True:
+                try:
+                    data3 = predictViaAPI(text, path="tagbytown")
+                    break
+                except requests.exceptions.ConnectionError:
+                    time.sleep(5)
+                    pass
+                    
             predictedCoordinateT6, scoreT6, mostUsefulWordsT6, mentionsT6 = data3        
     
             # Test 3
