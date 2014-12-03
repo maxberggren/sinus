@@ -19,9 +19,16 @@ import time
 def predictViaAPI(text, path="tag"):
     payload = json.dumps({'text': text})
     headers = {'content-type': 'application/json'}
-    r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/"+path, 
-                       data=payload, headers=headers)
     
+    while True:
+        try:     
+            r = requests.post("http://ext-web.gavagai.se:5001/geotag/api/v1.0/"+path, 
+                               data=payload, headers=headers)
+            break
+        except requests.exceptions.ConnectionError:
+            time.sleep(5)
+            pass 
+         
     try:
         lat = r.json()['latitude']
         lon = r.json()['longitude']
@@ -97,14 +104,8 @@ if __name__ == "__main__":
         
 
             
-            while True:
-                try:
-                    data3 = predictViaAPI(text, path="tagbytown")
-                    break
-                except requests.exceptions.ConnectionError:
-                    time.sleep(5)
-                    pass
-                    
+            data3 = predictViaAPI(text, path="tagbytown")
+                            
             predictedCoordinateT6, scoreT6, mostUsefulWordsT6, mentionsT6 = data3        
     
             # Test 3
