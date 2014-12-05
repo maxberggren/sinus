@@ -26,8 +26,8 @@ class MyStreamer(TwythonStreamer):
     def on_success(self, data):
         if 'text' in data:
             if data['geo']:    
-                print json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))
-                #saveTweet(data)            
+                
+                saveTweet(data)            
                 #with open(filename, "a") as myfile:
                 #    #print data
                 #    myfile.write(parseJSON(data))
@@ -121,7 +121,8 @@ def saveTweet(data):
                                          lat=lat, 
                                          metadata=country + " " + location,
                                          username=username,
-                                         used=0))
+                                         used=0,
+                                         date=datetime.datetime.now()))
                 tweetsdb.commit()
                 tweetsdb.begin()
             else:
@@ -136,7 +137,7 @@ while True:
     try: 
         #stream.statuses.filter(track='twitter')
         print "Hämtar tweets"
-        stream.statuses.filter(track="hosta, snuva, hostig, SD")
+        stream.statuses.filter(track="hosta, hostig, snuvig, snuva, feber, febrig")
     except KeyboardInterrupt:
         print "\nExiting..."
         break
