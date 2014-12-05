@@ -145,7 +145,7 @@ if __name__ == "__main__":
                                  blogid=blogid, 
                                  T2=T2, 
                                  id=i,
-                                 text=bestWordsT1)
+                                 text="")
             print row
     
             
