@@ -216,7 +216,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         
         ts = [{'date':date,'value':value} for date, value in zip(dates, coordinatesByWord[0])]
         
-        for k, v in groupby(lst, key=lambda x:x['date'][:7]):
+        for k, v in groupby(ts, key=lambda x:x['date'][:7]):
             print k, list(v)
 
         
