@@ -425,7 +425,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
 
 
 def getData(words, xBins=None, scatter=None, zoom=None,
-            xyRatio=1.8, blurFactor=0.6, rankthreshold=3, binThreshold=5):
+            xyRatio=1.8, blurFactor=0.6, rankthreshold=3, binThreshold=5, datespan=None):
 
     """Retrive data from the document database
 
@@ -449,6 +449,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         do it by this amount
     rankthreshold : int
         which rank to be the highest included
+    datespan : str
+        span of what dates to be used in the query. eg. 2011-01-01:2011-12-31
     binThreshold : int
         number of hits required in a bin for it to count
 
@@ -475,7 +477,12 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     for word in words:
         coordinates, dates = [], []
         fewResults = False
-        dataSpan = "AND posts.date BETWEEN CAST('2013-01-01' AS DATE) AND CAST('2013-12-31' AS DATE) "
+        if datespan:
+            print datespan
+            spanQuery = "AND posts.date BETWEEN CAST('2013-01-01' AS DATE) AND CAST('2013-12-31' AS DATE) "
+        else:
+            spanQuery = ""
+            
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
                                "blogs.source, "
@@ -490,7 +497,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "AND blogs.latitude is not NULL "
                                "AND blogs.longitude is not NULL "
                                "AND blogs.rank <= " + str(rankthreshold) + " "
-                               " " + dataSpan + " "
+                               " " + spanQuery + " "
                                "ORDER BY posts.date " )
                                #ORDER BY RAND() limit 1000? 
         
@@ -704,6 +711,7 @@ def site(urlSearch=None):
                                or "scatter:" in o
                                or "zoom:" in o
                                or "rankthreshold:" in o
+                               or "datespan:" in o
                                or "binthreshold:" in o]
                                
     queryWords = [w.strip() for w in queryWords 
@@ -713,6 +721,7 @@ def site(urlSearch=None):
                                and "scatter:" not in w
                                and "zoom:" not in w
                                and "rankthreshold:" not in w
+                               and "datespan:" not in w
                                and "binthreshold:" not in w]
     
     try:
@@ -737,6 +746,12 @@ def site(urlSearch=None):
     except:
         rankthreshold = 3
     try:
+        datespan = int([o.split(":")[1].strip()
+               for o in operators if "datespan:" in o][0])
+    except:
+        datespan = None
+
+    try:
         binThreshold = int([o.split(":")[1].strip()
                for o in operators if "binthreshold:" in o][0])
     except:
@@ -749,7 +764,8 @@ def site(urlSearch=None):
                          scatter=scatter,
                          zoom=zoom,
                          rankthreshold=rankthreshold,
-                         binThreshold=binThreshold)
+                         binThreshold=binThreshold,
+                         datespan=datespan)
                          
         filename, hits, KWICs, fewResults, gifFileName = touple
                               
