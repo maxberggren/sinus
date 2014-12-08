@@ -478,7 +478,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         coordinates, dates = [], []
         fewResults = False
         if datespan:
-            print datespan
+            print "datespan", datespan
             try:
                 dateFrom = datespan.split(":")[0]
                 dateTo = datespan.split(":")[1]  
