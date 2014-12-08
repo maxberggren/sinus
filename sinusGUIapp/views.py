@@ -214,13 +214,14 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     if dates: # same as a gif should be created
         
         ts = [{'date':str(date),'value':value} for date, value in zip(dates, coordinatesByWord[0])]
-        dates = []
+        #dates = []
         
         for k, v in groupby(ts, key=lambda x:x['date'][:7]):
-            print k, list(v)
-            chunkdates = [c['value'] for c in list(v)]
-            dates.append(chunkdates)
-            print chunkdates
+            #print k, list(v)
+            for c in list(v):
+                print c
+            #dates.append(chunkdates)
+            #print chunkdates
             
         dates = np.array_split(dates, chunks)
 
