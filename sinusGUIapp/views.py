@@ -446,6 +446,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     for word in words:
         coordinates, dates = [], []
         fewResults = False
+        dataSpan = "AND posts.date BETWEEN CAST('2013-01-01' AS DATE) AND CAST('2013-12-31' AS DATE) "
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
                                "blogs.source, "
@@ -460,8 +461,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "AND blogs.latitude is not NULL "
                                "AND blogs.longitude is not NULL "
                                "AND blogs.rank <= " + str(rankthreshold) + " "
-                               "AND posts.date BETWEEN CAST('2011-01-01' AS DATE) "
-                               "AND CAST('2011-12-31' AS DATE) "
+                               " " + dataSpan + " "
                                "ORDER BY posts.date " )
                                #ORDER BY RAND() limit 1000? 
         
