@@ -274,7 +274,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
                     #fig.suptitle('{:%Y-%m-%d} - {:%Y-%m-%d}'.format(mindateInChunk, 
                     #                                                maxdateInChunk),
                     #             fontsize=9)
-                    plt.set_xlabel(months[chunk],fontsize=9)              
+                    fig.suptitle(months[chunk],fontsize=9)              
                 except: # Some dates might be wierd in the DB
                     pass
             
