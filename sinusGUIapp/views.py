@@ -477,6 +477,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     for word in words:
         coordinates, dates = [], []
         fewResults = False
+        print datespan
         if datespan:
             print "datespan", datespan
             try:
