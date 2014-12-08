@@ -28,7 +28,6 @@ import os
 import config as c
 from sqlite_cache import SqliteCache
 import sqlalchemy
-import pandas as pd
 from itertools import groupby
 
 
