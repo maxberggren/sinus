@@ -29,6 +29,8 @@ import config as c
 from sqlite_cache import SqliteCache
 import sqlalchemy
 import pandas as pd
+from itertools import groupby
+
 
     
 def dateHistogram(dates, filename):
@@ -212,9 +214,12 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     
     if dates: # same as a gif should be created
         dates = np.array_split(dates, chunks)
-        ts = pd.Series(coordinatesByWord[0], index=dates)
-        tss = [group[1] for group in df.groupby(df.index.month)]
-        print tss
+        
+        ts = [{'date':date,'value':value} for date, value in zip(dates, coordinatesByWord[0])]
+        
+        for k, v in groupby(lst, key=lambda x:x['date'][:7]):
+            print k, list(v)
+
         
     for chunk in range(chunks):
             
