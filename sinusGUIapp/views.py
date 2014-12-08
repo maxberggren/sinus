@@ -404,7 +404,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             gifFilename += filename +"_"+str(chunk)+".png"
                           
             gifFilenames.append(gifFilename) # Save for giffing
-            plt.savefig(gifFilename, dpi=100)
+            plt.savefig(gifFilename, dpi=150)
             
         else: # Just saving one image
             emptyFolder('sinusGUIapp/static/maps/')
