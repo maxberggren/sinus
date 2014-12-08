@@ -214,16 +214,20 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     if dates: # same as a gif should be created
         
         ts = [{'date':str(date),'value':value} for date, value in zip(dates, coordinatesByWord[0])]
-        #dates = []
         
+        months = []
+        monthCoordinates = []
         for k, v in groupby(ts, key=lambda x:x['date'][:7]):
-            #print k, list(v)
-            #dates.append(chunkdates)
+            months.append(k)
+            monthCoordinates.append([c['value'] for c in list(v)])
             
-            print k, [c['value'] for c in list(v)]
-            #print chunkdates
-            
-        dates = np.array_split(dates, chunks)
+        #dates = np.array_split(dates, chunks)
+        dates = monthCoordinates
+        
+        if chunks == 1:
+            dates = [dates]
+        else:
+            chunks = len(dates)
 
         
     for chunk in range(chunks):
@@ -232,9 +236,13 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         totDensity = np.ones((len(lat_bins)-1, 
                               len(lon_bins)-1))*0.00000000000000001
         
+        # For every word
         for kordinater in coordinatesByWord:
             # Coordinates to be put into chunks
-            kordinater = np.array_split(kordinater, chunks)
+            if chunks == 1:
+                kordinater = [kordinater]
+            else:
+                kordinater = dates
             
             totCoordinates += len(kordinater[chunk])
             
