@@ -211,8 +211,8 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     gifFilenames = []
     nBins = len(lon_bins)*len(lat_bins)
     
-    if dates: # same as a gif should be created
-        
+    if dates:
+        # Chunking only supported when just one word in sent in
         ts = [{'date':str(date),'value':value} for date, value in zip(dates, coordinatesByWord[0])]
         
         months = []
@@ -260,12 +260,17 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         
         for i, kordinater in enumerate(coordinatesByWord):
             word = words[i]
-            kordinater = np.array_split(kordinater, chunks)
-            
+            #kordinater = np.array_split(kordinater, chunks)
+
+            if chunks == 1:
+                kordinater = [kordinater]
+            else:
+                kordinater = dates
+                            
             if dates:
-                maxdateInChunk = max(dates[chunk])
-                mindateInChunk = min(dates[chunk])
                 try:
+                    maxdateInChunk = max(dates[chunk])
+                    mindateInChunk = min(dates[chunk])
                     fig.suptitle('{:%Y-%m-%d} - {:%Y-%m-%d}'.format(mindateInChunk, 
                                                                     maxdateInChunk),
                                  fontsize=9)             
