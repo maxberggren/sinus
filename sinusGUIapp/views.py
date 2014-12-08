@@ -219,7 +219,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         for k, v in groupby(ts, key=lambda x:x['date'][:7]):
             #print k, list(v)
             for c in list(v):
-                print c
+                print c['value']
             #dates.append(chunkdates)
             #print chunkdates
             
