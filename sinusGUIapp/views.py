@@ -213,7 +213,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     
     if dates: # same as a gif should be created
         
-        ts = [{'date':date,'value':value} for date, value in zip(dates, coordinatesByWord[0])]
+        ts = [{'date':str(date),'value':value} for date, value in zip(dates, coordinatesByWord[0])]
         
         for k, v in groupby(ts, key=lambda x:x['date'][:7]):
             print k, v
