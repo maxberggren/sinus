@@ -751,11 +751,11 @@ def site(urlSearch=None):
                for o in operators if "rankthreshold:" in o][0])
     except:
         rankthreshold = 3
-    #try:
-    datespan = int([o.split(":")[1].strip()
-           for o in operators if "datespan:" in o][0])
-    #except:
-    #    datespan = None
+    try:
+        datespan = [o.split(":")[1].strip()
+                   for o in operators if "datespan:" in o][0]
+    except:
+        datespan = None
 
     try:
         binThreshold = int([o.split(":")[1].strip()
