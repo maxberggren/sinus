@@ -461,8 +461,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "AND blogs.longitude is not NULL "
                                "AND blogs.rank <= " + str(rankthreshold) + " "
                                "ORDER BY posts.date "
-                               "AND posts.date < '2011-12-31 23:59:59' "
-                               "AND posts.date > '2011-01-01 00:00:00' ") 
+                               "AND posts.date BETWEEN CAST('2011-01-01' AS DATE) "
+                               "AND CAST('2011-12-31' AS DATE) ") 
                                #ORDER BY RAND() limit 1000? 
         
         # Get all lon and lats, and dates
