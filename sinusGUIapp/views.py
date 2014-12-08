@@ -479,7 +479,13 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         fewResults = False
         if datespan:
             print datespan
-            spanQuery = "AND posts.date BETWEEN CAST('2013-01-01' AS DATE) AND CAST('2013-12-31' AS DATE) "
+            try:
+                dateFrom = datespan.split(":")[0]
+                dateTo = datespan.split(":")[1]  
+                spanQuery = "AND posts.date BETWEEN CAST('"+dateFrom+"' AS DATE) "
+                spanQuery += "AND CAST('"+dateTo+"' AS DATE) "   
+            except:
+                spanQuery = ""
         else:
             spanQuery = ""
             
