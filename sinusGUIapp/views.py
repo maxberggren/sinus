@@ -28,8 +28,9 @@ import os
 import config as c
 from sqlite_cache import SqliteCache
 import sqlalchemy
+import pandas as pd
 
-
+    
 def dateHistogram(dates, filename):
     """Create histogram of given dates
 
@@ -209,8 +210,11 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     gifFilenames = []
     nBins = len(lon_bins)*len(lat_bins)
     
-    if dates:
+    if dates: # same as a gif should be created
         dates = np.array_split(dates, chunks)
+        ts = pd.Series(coordinatesByWord[0], index=dates)
+        tss = [group[1] for group in df.groupby(df.index.month)]
+        print tss
         
     for chunk in range(chunks):
             
