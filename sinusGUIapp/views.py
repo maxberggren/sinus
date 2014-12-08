@@ -217,7 +217,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         print ts
         
         for k, v in groupby(ts, key=lambda x:x['date'][:7]):
-            print k, list(v)
+            print k, v['value']
             
         dates = np.array_split(dates, chunks)
 
