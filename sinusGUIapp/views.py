@@ -220,7 +220,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             print k, list(v)
             chunkdates = [c['value'] for c in list(v)]
             dates.append(chunkdates)
-        print dates
+            print chunkdates
             
         dates = np.array_split(dates, chunks)
 
