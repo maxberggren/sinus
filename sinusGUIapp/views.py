@@ -217,7 +217,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         
         months = []
         monthCoordinates = []
-        for k, v in groupby(ts, key=lambda x:x['date'][:7]):
+        for k, v in groupby(ts, key=lambda x:x['date'][:8]):
             months.append(k)
             monthCoordinates.append([c['value'] for c in list(v)])
             
@@ -283,9 +283,9 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             lats = np.array(lats)
         
             ax = fig.add_subplot(1, len(coordinatesByWord), int(i+1))
-            #ax.set_title("{word} - hits {hits}".format(word=word, hits=len(kordinater[chunk])), 
-            #             y=1.01, 
-            #             fontsize=9)
+            ax.set_title("{word} - hits {hits}".format(word=word, hits=len(kordinater[chunk])), 
+                         y=1.01, 
+                         fontsize=9)
             if zoom:
                 llcrnrlon = np.amin(lons)
                 llcrnrlat = np.amin(lats)
@@ -572,23 +572,6 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     else: # if a term has to few hits
         return None, hits, KWIC, fewResults, None
     
-"""
-@app.route('/localize/api/v1.0/localize', methods = ['POST'])
-def api(): 
-    if not request.json or not 'text' in request.json:
-        abort(400)
-     
-    touple = model.predict(request.json['text'])    
-    coordinate, placeness, mostUsefulWords, OOV, mentions = touple
-    lon = coordinate[0]
-    lat = coordinate[1]
-    return jsonify( { 'latitude': lat, 
-                      'longitude': lon, 
-                      'placeness': placeness, 
-                      'mostUsefulWords': mostUsefulWords,
-                      'outOfVocabulary': OOV, 
-                      'mentions': mentions } )
-"""
 
 @app.route('/sinus', methods = ['GET', 'POST'])
 @app.route('/sinus/', methods = ['GET', 'POST'])
