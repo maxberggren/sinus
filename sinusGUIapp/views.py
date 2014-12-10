@@ -197,7 +197,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     fewResults = False
     gifFileName = None
     
-    colorCycle = ['Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples',
+    colorCycle = ['Jet', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples',
                   'Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples',
                   'Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples',
                   'Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples']
@@ -283,7 +283,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             lats = np.array(lats)
         
             ax = fig.add_subplot(1, len(coordinatesByWord), int(i+1))
-            #ax.set_title("{word} - hits {hits:>5}".format(word=word, hits=len(kordinater[chunk])), 
+            #ax.set_title("{word} - hits {hits}".format(word=word, hits=len(kordinater[chunk])), 
             #             y=1.01, 
             #             fontsize=9)
             if zoom:
@@ -413,7 +413,8 @@ def genImages(coordinatesByWord, xBins, words, zoom,
 
     # If timeseries created - GIFfify it!
     if chunks > 1: 
-        gifFilenames = gifFilenames + gifFilenames[::-1]
+        #gifFilenames = gifFilenames + gifFilenames[::-1]
+        gifFilenames = gifFilenames
         images = [Image.open(fn) for fn in gifFilenames]
         gif2file = "sinusGUIapp/static/maps/" + filename +".gif"
         writeGif(gif2file, images, duration=0.5)
