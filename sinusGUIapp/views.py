@@ -197,7 +197,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     fewResults = False
     gifFileName = None
     
-    colorCycle = ['YlOrRd', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples',
+    colorCycle = ['Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples',
                   'Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples',
                   'Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples',
                   'Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples']
