@@ -299,10 +299,12 @@ class tweetLoc:
                         freqInBatch = 0
                 
                 if mergeSubGMMs:
+                    # Run weighted mean in the three GMMs
                     coordinate, score = self.weightedMean(subcoordinates, subscores)
                     batchscores.append(score)
                     batchcoordinates.append(coordinate)
                 else:
+                    # Treat the GMMs as if they where seperate words
                     batchscores.extend(subscores)
                     batchcoordinates.extend(subcoordinates)
                 
@@ -340,101 +342,11 @@ class tweetLoc:
         else:
             outOfVocabulary = (float(OOVcount) / float(len(words)))
                 
-        print "latlon", coordinate                        
         return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
         
-     
-        """
-        # Vektoriserat som ej verkar funka bra
-        
-        if not threshold:
-            threshold = 1e40
-        
-        words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar                          
-        acceptedWords, OOVcount, wordFreqs = [], 0, []
-        coordinates = np.array([])
-        scores = np.array([])
- 
-        # Hämta alla unika datum (batchar) där GMMer satts in i databasen
-        batches, wordFreqs = [], []
-        
-        if not self.cache.get("batches"):
-            for row in self.db.query("SELECT DISTINCT date FROM GMMs"):
-                batches.append(row['date'])
-            self.cache.set("batches", batches, timeout=60*60) # cache for 1 hours    
-        else:
-            batches = self.cache.get("batches")
-        
-        for word in words:
-            batchscores, batchcoordinates = np.array([]), np.array([])
-            wordFreq, freqInBatch = 0, 0
-            
-            for date in batches:
-                result = self.db.query("SELECT * FROM GMMs " 
-                                       "WHERE word = '" + word + "' "
-                                       "AND date = '" + date + "'")
-                                       
-                subscores, subcoordinates = [], []
-                for row in result:
-                    subscores.append(row['scoring'])
-                    subcoordinates.append([row['lat'], row['lon']])
-                    
-                    freqInBatch = row['n_coordinates']
-                    if not freqInBatch:
-                        freqInBatch = 0
-                
-                subscores = np.asarray(subscores)
-                subcoordinates = np.asarray(subcoordinates)
-                
-                coordinate, score = self.weightedMean(subcoordinates, subscores)
-                batchscores = np.append(batchscores, score)
-                batchcoordinates = np.append(batchcoordinates, coordinate)
-                wordFreq += freqInBatch
-            
-            batchcoordinates = np.array([batchcoordinates])
-            # Vikta samman batcharna. TODO: fallande vikt efter datum
-            coordinate, score = self.weightedMean(batchcoordinates, batchscores)
-                
-            if score > threshold:
-                coordinates = np.append(coordinates, coordinate)
-                scores = np.append(scores, score)
-                acceptedWords.append(word)
-                wordFreqs.append(wordFreq)
-        
-            # Räkna ord som är out of vocabulary
-            if score == 0.0:
-                OOVcount += 1 
-                                 
-        # Vikta samman alla ord efter deras "platsighet"
-        coordinates = np.array([coordinates])
-        coordinate, score = self.weightedMean(coordinates, scores)
-  
-        wordsAndScores = zip(acceptedWords, scores, wordFreqs)
-        # Sortera
-        sortedByScore = sorted(wordsAndScores, key=itemgetter(1), reverse=True)
-        
-        # Skapa dict med platsighet för top 50
-        mostUsefullWords = OrderedDict((word, score) for word, score, wordFreq in 
-                                        sortedByScore[0:50]) 
-        # Skapa dict med koordinatfrekvens för top 50                                
-        mentions = OrderedDict((word, int(wordFreq)) for word, score, wordFreq in 
-                                sortedByScore[0:50]) 
-        
-        if len(words) == 0:
-            outOfVocabulary = 0                                
-        else:
-            outOfVocabulary = (float(OOVcount) / float(len(words)))
-                                        
-        return coordinate, score, mostUsefullWords, outOfVocabulary, mentions
-        """
-
 
     def lookup(self, word):
-        """ 
-        Kollar ett ords platsighet
-        Input: ord
-        Output: platsighet
-        """  
+        """ Lookup placeness score in DB """  
            
         self.db.query("set names 'utf8'")
         score = 0
@@ -474,12 +386,6 @@ class tweetLoc:
             if len(patternScores) > 0:
                 overThres = float(len(patternScores[patternScores > threshold]))/float(len(patternScores))
                 patternMeans.append(overThres)
-                """
-                if overThres > 0.7:
-                    patternMeans.append(overThres)
-                else:
-                    patternMeans.append(0)
-                """
             else:
                 patternMeans.append(0)
         
@@ -499,19 +405,20 @@ class tweetLoc:
             threshold = 1e40
         
         self.db.query("set names 'utf8'")
-        words = self.cleanData(text).split() # tar bort en massa snusk och tokeniserar        
+        words = self.cleanData(text).split() # Sanitize and tokenize 
         coordinates, scores, acceptedWords, OOVcount, wordFreqs = [], [], [], 0, []
  
-        # Hämta alla unika datum (batchar) där GMMer satts in i databasen
+        ### Get uniqe dates for batches
         batches, wordFreqs = [], []
         
         if not self.cache.get("batches"):
             for row in self.db.query("SELECT DISTINCT date FROM GMMs"):
                 batches.append(row['date'])
-            self.cache.set("batches", batches, timeout=60*60) # cache for 1 hours    
-        else:
+            self.cache.set("batches", batches, timeout=60*60) # Cache for 1 hours    
+        else: # If already in cache, use that
             batches = self.cache.get("batches")
         
+        ### Set up grid
         xyRatio = 1.8
         xBins = 20
         lon_bins = np.linspace(8, 26, xBins)
@@ -519,10 +426,10 @@ class tweetLoc:
         theGrid = np.zeros((len(lat_bins),len(lon_bins)))
 
         def addToGrid(theGrid, add, lat, lon, lat_bins, lon_bins):
-            """ Add something to the right bin in the grid """
+            """ Add something to the correct bin in the grid """
+            
             lat_idx = np.abs(lat_bins-lat).argmin()
             lon_idx = np.abs(lon_bins-lon).argmin()
-            
             theGrid[lat_idx,lon_idx] += add
 
             return theGrid
