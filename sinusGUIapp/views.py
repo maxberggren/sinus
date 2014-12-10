@@ -217,7 +217,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         
         months = []
         monthCoordinates = []
-        for k, v in groupby(ts, key=lambda x:x['date'][:8]):
+        for k, v in groupby(ts, key=lambda x:x['date'][:9]):
             months.append(k)
             monthCoordinates.append([c['value'] for c in list(v)])
             
@@ -283,9 +283,9 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             lats = np.array(lats)
         
             ax = fig.add_subplot(1, len(coordinatesByWord), int(i+1))
-            ax.set_title("{word} - hits {hits}".format(word=word, hits=len(kordinater[chunk])), 
-                         y=1.01, 
-                         fontsize=9)
+            #ax.set_title("{word} - hits {hits}".format(word=word, hits=len(kordinater[chunk])), 
+            #             y=1.01, 
+            #             fontsize=9)
             if zoom:
                 llcrnrlon = np.amin(lons)
                 llcrnrlat = np.amin(lats)
