@@ -18,7 +18,7 @@ import tabulate
 Test 9
 ======
 
-röstningsförfarandet på alla ord
+kör röstningsförfarandet själv med alla ord i en text
 """
 
 def predictViaAPI(text, path="tag"):
@@ -55,10 +55,10 @@ if __name__ == "__main__":
                       "longitude is not NULL AND "
                       "latitude is not NULL "
                       "ORDER by id DESC")
-    felenT1, felenT2, felenT3 = [], [], []
+    felenT1, felenT9, felenT3 = [], [], []
     i = 0
-    acceptableAnswerT1, acceptableAnswerT2, acceptableAnswerT3 = 0, 0, 0
-    chooseToAnswerT1, chooseToAnswerT2, chooseToAnswerT3 = 0, 0, 0
+    acceptableAnswerT1, acceptableAnswerT9, acceptableAnswerT3 = 0, 0, 0
+    chooseToAnswerT1, chooseToAnswerT9, chooseToAnswerT3 = 0, 0, 0
     
     for row in result:
         blogid = row['id']
@@ -83,64 +83,67 @@ if __name__ == "__main__":
                                           test="T#")
             
             if (i-1) % 10 == 0: 
-                pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T3:<35} | {text:<70}"
+                pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T9:<35} | {text:<70}"
                 head = pattern.format(id="-"*4,
                                       blogid="-"*7, 
                                       tecken="-"*8, 
-                                      T3="-"*35,
+                                      T9="-"*35,
                                       text="-"*70)
                 print head
             
                 head = pattern.format(id="#", 
                                       blogid="Blogid", 
                                       tecken="Tecken", 
-                                      T3=testhead,
+                                      T9=testhead,
                                       text="Bästa orden")
                 print head
             
                 head = pattern.format(id="-"*4, 
                                       blogid="-"*7, 
                                       tecken="-"*8, 
-                                      T3="-"*35,
+                                      T9="-"*35, 
                                       text="-"*70)
                 print head
 
 
-            
-            # Test 3: röstningsförfarandet
-            data3 = predictViaAPI(text, path="tagbyvote1/threshold/1e20")
-            predictedCoordinateT3, scoreT3, mostUsefulWordsT3, mentionsT3 = data3        
-            
-            # Test 3
-            if predictedCoordinateT3 and scoreT3 > 0.0:
-                chooseToAnswerT3 += 1
+                            
+            # Test 2: släpp igenom ord med platsighet
+            # men slå ej ihop GMMer först...
+            data2 = predictViaAPI(text, path="tagbyvote1/threshold/1e20")
+            predictedCoordinateT9, scoreT9, mostUsefulWordsT9, mentionsT9 = data2
+    
+        
+            # Test 2
+            if predictedCoordinateT9 and scoreT9 > 0.0:
+                chooseToAnswerT9 += 1
                
-                fel = haversine([row['latitude'], row['longitude']], predictedCoordinateT3)
+                fel = haversine([row['latitude'], row['longitude']], predictedCoordinateT9)
                 
                 if fel < 100: # Acceptabelt fel
-                    acceptableAnswerT3 += 1
+                    acceptableAnswerT9 += 1
                 
-                felenT3.append(fel)
+                felenT9.append(fel)
     
                 pattern = ("{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
                            "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
-                T3 = pattern.format(fel=fel,
-                                    median=np.median(felenT3), 
-                                    medelv=np.mean(felenT3), 
-                                    AST=float(acceptableAnswerT3)/float(i), 
-                                    ASV=float(acceptableAnswerT3)/float(chooseToAnswerT3), 
-                                    SP=float(chooseToAnswerT3)/float(i), 
-                                    test="T3")
+                T9 = pattern.format(fel=fel,
+                                    median=np.median(felenT9), 
+                                    medelv=np.mean(felenT9), 
+                                    AST=float(acceptableAnswerT9)/float(i), 
+                                    ASV=float(acceptableAnswerT9)/float(chooseToAnswerT9), 
+                                    SP=float(chooseToAnswerT9)/float(i), 
+                                    test="T9")
     
                 
             else:
-                T3 = "###"
+                T9 = "###"
+    
                 
     
-            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T3:<35} | {text:<70}" 
+            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T9:<35} | {text:<70}" 
             row = pattern.format(tecken=len(text),
                                  blogid=blogid, 
-                                 T3=T3,
+                                 T9=T9, 
                                  id=i,
                                  text="")
             print row
