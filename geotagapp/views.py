@@ -151,7 +151,7 @@ def tagbyunique(threshold=None):
 
 @app.route('/geotag/api/v1.0/tagbytown', methods=['POST'])
 @app.route('/geotag/api/v1.0/tagbytown/threshold/<threshold>', methods=['POST'])
-def tagbyvote1(threshold=None): 
+def tagbytown(threshold=None): 
     touple = model.predictByTown(request.json['text'], threshold=threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]
