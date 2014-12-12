@@ -508,8 +508,8 @@ class tweetLoc:
         print "lenord i spann", len(wordsInSpan)
         text = " ".join(wordsInSpan)
                 
-        return self.predict(text, threshold=threshold)
- 
+        #return self.predict(text, threshold=threshold)
+        return text 
 
     def predictByUnique(self, text, threshold=float(1e40)):
         """ 
