@@ -31,6 +31,7 @@ from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.colors import LogNorm
 from matplotlib.ticker import LogFormatter
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+import matplotlib.pyplot as plt
 
 
 def haversine(coord1, coord2):
