@@ -116,7 +116,7 @@ if __name__ == "__main__":
             
             # Test 2: tagbyvote2
             data2 = predictViaAPI(text, path="tagbyvote2/threshold/1e20")
-            predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT2 = data2
+            predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT2 = data2   
                 
         
             # Test 1
@@ -124,6 +124,7 @@ if __name__ == "__main__":
                 chooseToAnswerT1 += 1
                
                 fel = haversine([row['latitude'], row['longitude']], predictedCoordinateT1)
+                correctCoordinateT1 = [row['latitude'], row['longitude']]
                 
                 if fel < 100: # Acceptabelt fel
                     acceptableAnswerT1 += 1
@@ -158,6 +159,8 @@ if __name__ == "__main__":
                 chooseToAnswerT2 += 1
                
                 fel = haversine([row['latitude'], row['longitude']], predictedCoordinateT2)
+                correctCoordinateT2 = [row['latitude'], row['longitude']]
+
                 
                 if fel < 100: # Acceptabelt fel
                     acceptableAnswerT2 += 1
@@ -187,7 +190,7 @@ if __name__ == "__main__":
                                  T1=T1, 
                                  T2=T2, 
                                  id=i,
-                                 text=bestWordsT1)
+                                 text="AW: P-{P1} C-{C1}, GR: P-{P2} C-{C2}".format(P1=predictedCoordinateT1, P2=predictedCoordinateT2, C1=correctCoordinateT1, C2=correctCoordinateT2))
             print row
     
             
