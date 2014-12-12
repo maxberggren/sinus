@@ -25,6 +25,14 @@ import string
 import geocode 
 from geocode import latlon
 
+from mpl_toolkits.basemap import Basemap, cm, maskoceans
+import matplotlib.cm as cm
+from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.colors import LogNorm
+from matplotlib.ticker import LogFormatter
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+
+
 def haversine(coord1, coord2):
     """
     Calculate the great circle distance between two points 
@@ -473,6 +481,64 @@ class tweetLoc:
             coordinate = [lat_bins[topLatInd[0]], lon_bins[topLonInd[0]]]
         else:
             coordinate = [0.0, 0.0]
+            
+        ################
+        llcrnrlon = 8
+        llcrnrlat = 54.5
+        urcrnrlon = 26
+        urcrnrlat = 69.5
+        
+        m = Basemap(projection='merc',
+                    resolution = 'i', 
+                    area_thresh=500,
+                    llcrnrlon=llcrnrlon, 
+                    llcrnrlat=llcrnrlat,
+                    urcrnrlon=urcrnrlon, 
+                    urcrnrlat=urcrnrlat,)   
+        
+        m.drawcoastlines(linewidth=0.5)
+        m.drawcountries()
+        m.drawstates()
+        m.drawmapboundary()
+        m.fillcontinents(color='white',
+                         lake_color='black',
+                         zorder=0)
+        m.drawmapboundary(fill_color='black')
+
+        lon_bins_2d, lat_bins_2d = np.meshgrid(lon_bins, 
+                                               lat_bins)
+        xs, ys = m(lon_bins_2d, lat_bins_2d)
+                
+        # Colormap transparency
+        theCM = cm.get_cmap("Blues")
+        theCM._init()
+        alphas = np.abs(np.linspace(0, 1.0, theCM.N))
+        theCM._lut[:-3,-1] = alphas
+        
+        p = plt.pcolor(xs, ys, theGrid, 
+                               cmap=theCM, 
+                               norm=LogNorm(), 
+                               vmin=1, 
+                               antialiased=True)                    
+        # Add colorbar
+        divider = make_axes_locatable(plt.gca())
+        cax = divider.append_axes("bottom", 
+                                  "2%", 
+                                  pad="2.5%")
+        colorbar = plt.colorbar(p, 
+                                cax=cax, 
+                                orientation='horizontal')
+        
+        colorbar.ax.tick_params(labelsize=6) 
+            
+        fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
+    
+        filename = "thegrid"
+        plt.savefig("sinusGUIapp/static/maps/" + filename +".png", dpi=100)
+        plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", dpi=100)   
+    
+    
+        ################
             
         return coordinate, score, {}, 0, {}
 
