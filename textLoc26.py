@@ -483,7 +483,8 @@ class tweetLoc:
         else:
             coordinate = [0.0, 0.0]
             
-        ################
+        ### Generate a figure of the grid
+        
         fig = plt.figure(figsize=(3.25,6))
         llcrnrlon = 8
         llcrnrlat = 54.5
@@ -538,9 +539,6 @@ class tweetLoc:
         filename = "thegrid"
         plt.savefig("sinusGUIapp/static/maps/" + filename +".png", dpi=100)
         plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", dpi=100)   
-    
-    
-        ################
             
         return coordinate, score, {}, 0, {}
 
