@@ -535,7 +535,7 @@ class tweetLoc:
         
         colorbar.ax.tick_params(labelsize=6) 
             
-        fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
+        fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0)  
     
         filename = "thegrid_" + binascii.b2a_hex(os.urandom(15))[:10]
         plt.savefig("sinusGUIapp/static/maps/" + filename +".png", dpi=100)
