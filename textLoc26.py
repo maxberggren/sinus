@@ -32,7 +32,7 @@ from matplotlib.colors import LogNorm
 from matplotlib.ticker import LogFormatter
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import matplotlib.pyplot as plt
-import binascii
+import random
 
 
 def haversine(coord1, coord2):
@@ -537,7 +537,8 @@ class tweetLoc:
             
         fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0)  
     
-        filename = "thegrid_" + binascii.b2a_hex(os.urandom(15))[:10]
+        filename = "thegrid_" + random.randrange(0, 99999)
+        print filename
         plt.savefig("sinusGUIapp/static/maps/" + filename +".png", dpi=100)
         plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", dpi=100)   
             
