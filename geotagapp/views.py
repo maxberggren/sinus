@@ -106,7 +106,6 @@ def tagbyvote1(threshold=None):
 @app.route('/geotag/api/v1.0/tagbyvote2', methods=['POST'])
 @app.route('/geotag/api/v1.0/tagbyvote2/threshold/<threshold>', methods=['POST'])
 def tagbyvote2(threshold=None): 
-self.predictByVote1(self.predictByGrammar(text, threshold), threshold)
 
     touple = model.predictByVote1(model.predictByGrammar(request.json['text'], threshold=threshold), 
                                   threshold=threshold)   
