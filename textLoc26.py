@@ -484,7 +484,7 @@ class tweetLoc:
             coordinate = [0.0, 0.0]
             
         ################
-        fig = plt.figure(figsize=(3.25),6))
+        fig = plt.figure(figsize=(3.25,6))
         llcrnrlon = 8
         llcrnrlat = 54.5
         urcrnrlon = 26
