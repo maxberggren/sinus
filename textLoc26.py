@@ -403,7 +403,6 @@ class tweetLoc:
 
 
     def predictByVote1(self, text, threshold=float(1e40)):
-        print "predictbyvote1 körs"
         """ 
         Förutsäger en koordinat för en bunte text
         Implementatation av röstningsförfarandet
@@ -534,6 +533,13 @@ class tweetLoc:
                                 cax=cax, 
                                 orientation='horizontal')
         
+        
+        colorbar.set_ticks([0, 1e10, 1e20, 1e30, 1e40, 1e50])            
+        #colorbar.set_ticklabels(["0",
+        #                         "25 %",
+        #                         "50 %", 
+        #                         "75 %",
+        #                         "100 %"])
         colorbar.ax.tick_params(labelsize=6) 
             
         fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0)  
