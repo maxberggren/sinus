@@ -33,6 +33,8 @@ from matplotlib.ticker import LogFormatter
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import matplotlib.pyplot as plt
 import random
+from matplotlib import rcParams
+rcParams['font.family'] = 'serif'
 
 
 def haversine(coord1, coord2):
@@ -543,7 +545,7 @@ class tweetLoc:
                        ('Predicted coordinate', 'Metadata coordinate'),
                        scatterpoints=1,
                        loc='upper right',
-                       prop={'size':8})
+                       prop={'size':7})
 
         # Add colorbar
         divider = make_axes_locatable(plt.gca())
