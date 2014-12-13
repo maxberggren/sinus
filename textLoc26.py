@@ -531,12 +531,19 @@ class tweetLoc:
 
         # Predicted latlon
         xp, yp = m(coordinate[1], coordinate[0])
-        plt.scatter(xp, yp, s=65, c='r', lw=1, edgecolor='w') 
+        pred = plt.scatter(xp, yp, s=65, c='r', lw=1, edgecolor='w') 
 
         # Correct latlon
         if correctCoord:
             xp, yp = m(correctCoord[1], correctCoord[0])
-            plt.scatter(xp, yp, s=65, c='g', lw=1, edgecolor='w') 
+            corr = plt.scatter(xp, yp, s=65, c='g', lw=1, edgecolor='w') 
+
+            plt.legend((pred, corr),
+               ('Predicted coordinate', 'Metadata coordinate'),
+               scatterpoints=1,
+               loc='upper right',
+               ncol=1,
+               fontsize=10)
 
         # Add colorbar
         divider = make_axes_locatable(plt.gca())
