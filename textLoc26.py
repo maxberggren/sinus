@@ -536,7 +536,7 @@ class tweetLoc:
         # Correct latlon
         if correctCoord:
             xp, yp = m(correctCoord[1], correctCoord[0])
-            plt.scatter(xp, yp, s=45 c='g', lw=0) 
+            plt.scatter(xp, yp, s=45, c='g', lw=0) 
 
         # Add colorbar
         divider = make_axes_locatable(plt.gca())
