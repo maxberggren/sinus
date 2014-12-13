@@ -526,7 +526,7 @@ class tweetLoc:
                                antialiased=True)                    
 
         # Predicted latlon
-        m.scatter(coordinate[0], coordinate[1], latlon=True, s=10)
+        m.scatter(coordinate[0], coordinate[1], latlon=True)
 
         # Add colorbar
         divider = make_axes_locatable(plt.gca())
