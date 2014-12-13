@@ -528,7 +528,7 @@ class tweetLoc:
         # Predicted latlon
         #m.scatter(coordinate[0], coordinate[1], latlon=True)
         xp, yp = m(coordinate[1], coordinate[0])
-        plt.scatter(xp, yp, s=10)
+        plt.scatter(xp, yp, s=10) 
 
         # Add colorbar
         divider = make_axes_locatable(plt.gca())
