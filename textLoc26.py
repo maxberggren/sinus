@@ -411,6 +411,9 @@ class tweetLoc:
                 de top 20 mest platsiga orden samt procent out of vocabulary
         """  
            
+        print "predictbyvote1 körs"
+        print correctCoord
+        
         if not threshold:
             threshold = 1e40
         
@@ -546,16 +549,19 @@ class tweetLoc:
 
 
         # Predicted latlon
-        #xp, yp = m(coordinate[1], coordinate[0])
-        #plt.scatter(xp, yp, s=40, c='r') 
+        print "1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        print coordinate[1], coordinate[0]
+
+        xp, yp = m(coordinate[1], coordinate[0])
+        plt.scatter(xp, yp, s=40, c='r') 
 
         # Correct latlon
-        #if correctCoord:
-        #    xp, yp = m(correctCoord[1], correctCoord[0])
-        #    plt.scatter(xp, yp, s=40, lw=0, c='g') 
-        #m.scatter(coordinate[0], coordinate[1], latlon=True)
-        xp, yp = m(coordinate[1], coordinate[0])
-        plt.scatter(xp, yp, s=30) 
+        if correctCoord:
+            xp, yp = m(correctCoord[1], correctCoord[0])
+            plt.scatter(xp, yp, s=40, lw=0, c='g') 
+
+        print "!!!!!!!!!"
+        print correctCoord
 
             
         fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0)  
