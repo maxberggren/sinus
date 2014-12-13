@@ -21,8 +21,8 @@ Test 10
 röstningsförfarandet för alla ord, mot gramatik kört i röstningsförf
 """
 
-def predictViaAPI(text, path="tag"):
-    payload = json.dumps({'text': text})
+def predictViaAPI(text, path="tag", correctCoord=None):
+    payload = json.dumps({'text': text, 'coord': correctCoord})
     headers = {'content-type': 'application/json'}
     
     while True:
@@ -111,11 +111,11 @@ if __name__ == "__main__":
 
                 
             # Test 1: tagbyvote1
-            data = predictViaAPI(text, path="tagbyvote1/threshold/1e20")
+            data = predictViaAPI(text, path="tagbyvote1/threshold/1e20", correctCoord=[row['latitude'], row['longitude']])
             predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = data
             
             # Test 2: tagbyvote2
-            data2 = predictViaAPI(text, path="tagbyvote2/threshold/1e20")
+            data2 = predictViaAPI(text, path="tagbyvote2/threshold/1e20", correctCoord=[row['latitude'], row['longitude']])
             predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT2 = data2   
                 
         

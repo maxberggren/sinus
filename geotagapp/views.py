@@ -91,7 +91,9 @@ def tagnomerge(threshold=None):
 @app.route('/geotag/api/v1.0/tagbyvote1', methods=['POST'])
 @app.route('/geotag/api/v1.0/tagbyvote1/threshold/<threshold>', methods=['POST'])
 def tagbyvote1(threshold=None): 
-    touple = model.predictByVote1(request.json['text'], threshold=threshold)   
+    touple = model.predictByVote1(request.json['text'], 
+                                  threshold=threshold, 
+                                  correctCoord=request.json['coord'])   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]
     lat = coordinate[1]
@@ -107,8 +109,10 @@ def tagbyvote1(threshold=None):
 @app.route('/geotag/api/v1.0/tagbyvote2/threshold/<threshold>', methods=['POST'])
 def tagbyvote2(threshold=None): 
 
-    touple = model.predictByVote1(model.predictByGrammar(request.json['text'], threshold=threshold), 
-                                  threshold=threshold)   
+    touple = model.predictByVote1(model.predictByGrammar(request.json['text'], 
+                                  threshold=threshold), 
+                                  threshold=threshold, 
+                                  correctCoord=request.json['coord'])   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0]
     lat = coordinate[1]
