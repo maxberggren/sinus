@@ -490,11 +490,12 @@ class tweetLoc:
             
         ### Generate a figure of the grid
         
-        fig = plt.figure(figsize=(3.25,6))
+        fig = plt.figure(figsize=(3.25,4))
         llcrnrlon = 8
         llcrnrlat = 54.5
         urcrnrlon = 26
-        urcrnrlat = 69.5
+        #urcrnrlat = 69.5
+        urcrnrlat = 63.5
         
         m = Basemap(projection='merc',
                     resolution = 'i', 
@@ -542,7 +543,7 @@ class tweetLoc:
                        ('Predicted coordinate', 'Metadata coordinate'),
                        scatterpoints=1,
                        loc='upper right',
-                       prop={'size':6})
+                       prop={'size':8})
 
         # Add colorbar
         divider = make_axes_locatable(plt.gca())
