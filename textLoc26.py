@@ -402,7 +402,7 @@ class tweetLoc:
         return np.nan_to_num(patternMeans).tolist()
 
 
-    def predictByVote1(self, text, threshold=float(1e40), correctCoord=None):
+    def predictByVote1(self, text, threshold=float(1e40)):
         """ 
         Förutsäger en koordinat för en bunte text
         Implementatation av röstningsförfarandet
@@ -545,13 +545,9 @@ class tweetLoc:
 
 
         # Predicted latlon
+        #m.scatter(coordinate[0], coordinate[1], latlon=True)
         xp, yp = m(coordinate[1], coordinate[0])
-        plt.scatter(xp, yp, s=40, c='r') 
-
-        # Correct latlon
-        #if correctCoord:
-        #    xp, yp = m(correctCoord[1], correctCoord[0])
-        #    plt.scatter(xp, yp, s=40, lw=0, c='g') 
+        plt.scatter(xp, yp, s=30) 
 
             
         fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0)  
