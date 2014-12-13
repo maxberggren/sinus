@@ -529,6 +529,22 @@ class tweetLoc:
                                vmin=1, 
                                antialiased=True)                    
 
+        # Predicted latlon
+        print "visar att jag har en pred latlon"
+        print coordinate[1], coordinate[0]
+
+        xp, yp = m(coordinate[1], coordinate[0])
+        plt.scatter(xp, yp, s=20) 
+
+        # Correct latlon
+        if correctCoord:
+            xp, yp = m(correctCoord[1], correctCoord[0])
+            plt.scatter(xp, yp, s=20) 
+
+        print "visar att jag har en riktig latlon"
+        print correctCoord[1], correctCoord[0]
+        
+
         # Add colorbar
         divider = make_axes_locatable(plt.gca())
         cax = divider.append_axes("bottom", 
@@ -547,21 +563,6 @@ class tweetLoc:
         #                         "100 %"])
         colorbar.ax.tick_params(labelsize=6) 
 
-
-        # Predicted latlon
-        print "1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-        print coordinate[1], coordinate[0]
-
-        xp, yp = m(coordinate[1], coordinate[0])
-        plt.scatter(xp, yp, s=20) 
-
-        # Correct latlon
-        if correctCoord:
-            xp, yp = m(correctCoord[1], correctCoord[0])
-            plt.scatter(xp, yp, s=20) 
-
-        print "!!!!!!!!!"
-        print correctCoord[1], correctCoord[0]
 
             
         fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0)  
