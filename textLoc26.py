@@ -542,7 +542,7 @@ class tweetLoc:
             corr = plt.scatter(xp, yp, s=75, c='g', lw=1, edgecolor='w') 
 
             plt.legend((pred, corr),
-                       ('Predicted coordinate', 'Metadata coordinate'),
+                       ('Predicted', 'Metadata'),
                        scatterpoints=1,
                        loc='upper right',
                        prop={'size':7})
