@@ -540,10 +540,7 @@ class tweetLoc:
 
             plt.legend((pred, corr),
                        ('Predicted coordinate', 'Metadata coordinate'),
-                       scatterpoints=1,
-                       loc='upper right',
-                       ncol=1,
-                       fontsize=10)
+                       loc='upper right')
 
         # Add colorbar
         divider = make_axes_locatable(plt.gca())
