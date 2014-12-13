@@ -413,7 +413,7 @@ class tweetLoc:
            
         print "predictbyvote1 körs"
         print correctCoord
-        
+
         if not threshold:
             threshold = 1e40
         
@@ -553,15 +553,15 @@ class tweetLoc:
         print coordinate[1], coordinate[0]
 
         xp, yp = m(coordinate[1], coordinate[0])
-        plt.scatter(xp, yp, s=40, c='r') 
+        plt.scatter(xp, yp, s=20) 
 
         # Correct latlon
         if correctCoord:
             xp, yp = m(correctCoord[1], correctCoord[0])
-            plt.scatter(xp, yp, s=40, lw=0, c='g') 
+            plt.scatter(xp, yp, s=20) 
 
         print "!!!!!!!!!"
-        print correctCoord
+        print correctCoord[1], correctCoord[0]
 
             
         fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0)  
