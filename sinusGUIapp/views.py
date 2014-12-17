@@ -280,7 +280,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             lats = np.array(lats)
         
             ax = fig.add_subplot(1, len(coordinatesByWord), int(i+1))
-            ax.set_title("{word} - hits: {hits}".format(word=word.decode('utf-8'), hits=len(kordinater[chunk])), 
+            ax.set_title("{word} - hits: {hits}".format(word=word.encode('utf-8'), hits=len(kordinater[chunk])), 
                          y=1.01, 
                          fontsize=9)
             if zoom:
