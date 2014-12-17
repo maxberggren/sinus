@@ -240,7 +240,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         for kordinater in coordinatesByWord:
             # Coordinates to be put into chunks
             if chunks == 1:
-                kordinater = [kordinater]
+                kordinater = [kordinater]  
             else:
                 kordinater = dates
             
