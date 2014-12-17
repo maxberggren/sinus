@@ -590,6 +590,9 @@ def site(urlSearch=None):
         the index view rendered with render_template("index.html")
 
     """  
+    
+    ### Statistics
+    cacheTimeout = 24*60*60 # 1 day
     stats = {}
     
     # Get sourcecount for sources that have lon lat
@@ -610,7 +613,7 @@ def site(urlSearch=None):
         for row in result:
             stats[key].append(row)
         
-        cache.set(key, stats[key], timeout=60*60) # cache for 1 hours    
+        cache.set(key, stats[key], timeout=cacheTimeout) # cache for 1 hours    
     else:
         stats[key] = cache.get(key)
     
@@ -630,7 +633,7 @@ def site(urlSearch=None):
         for row in result:
             stats[key].append(row)
         
-        cache.set(key, stats[key], timeout=60*60) # cache for 1 hours    
+        cache.set(key, stats[key], timeout=cacheTimeout) # cache for 1 hours    
     else:
         stats[key] = cache.get(key)
 
@@ -651,7 +654,7 @@ def site(urlSearch=None):
         for row in result:
             stats[key].append(row)
         
-        cache.set(key, stats[key], timeout=60*60) # cache for 1 hours    
+        cache.set(key, stats[key], timeout=cacheTimeout) # cache for 1 hours    
     else:
         stats[key] = cache.get(key)
 
