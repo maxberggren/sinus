@@ -56,7 +56,7 @@ if __name__ == "__main__":
     chooseToAnswerT1, chooseToAnswerT2, chooseToAnswerT3 = 0, 0, 0
     
     for row in result:
-        text = row['tweet']
+        text = row['tweet'] + " " + row['metadata']
         blogid = 0
         
         if len(text) > 0:
