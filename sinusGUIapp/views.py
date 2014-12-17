@@ -242,7 +242,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             if chunks == 1:
                 kordinater = [kordinater]  
             else:
-                kordinater = dates
+                kordinater = dates 
             
             totCoordinates += len(kordinater[chunk])
             
