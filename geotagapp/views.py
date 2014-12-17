@@ -127,9 +127,9 @@ def tagbyvote2(threshold=None):
 @app.route('/geotag/api/v1.0/tagbygrammar', methods=['POST'])
 @app.route('/geotag/api/v1.0/tagbygrammar/threshold/<threshold>', methods=['POST'])
 def tagbygrammar(threshold=None): 
-    touple = model.predict(predictByGrammar(request.json['text'], threshold), threshold)   
+    touple = model.predict(model.predictByGrammar(request.json['text'], threshold), threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
-    lon = coordinate[0] 
+    lon = coordinate[0]
     lat = coordinate[1]
     return jsonify( { 'latitude': lat, 
                       'longitude': lon, 
@@ -141,7 +141,7 @@ def tagbygrammar(threshold=None):
 @app.route('/geotag/api/v1.0/tagbygrammarnoclip', methods=['POST'])
 @app.route('/geotag/api/v1.0/tagbygrammarnoclip/threshold/<threshold>', methods=['POST'])
 def tagbygrammarnoclip(threshold=None): 
-    touple = model.predict(predictByGrammar(request.json['text'], threshold, clipping=False), threshold)   
+    touple = model.predict(model.predictByGrammar(request.json['text'], threshold, clipping=False), threshold)   
     coordinate, placeness, mostUsefulWords, OOV, mentions = touple
     lon = coordinate[0] 
     lat = coordinate[1]
