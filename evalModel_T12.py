@@ -57,6 +57,7 @@ if __name__ == "__main__":
     
     for row in result:
         text = row['tweet'] + " " + row['metadata']
+        text = text.encode('utf-8')
         blogid = 0
         
         if len(text) > 0:
@@ -180,7 +181,7 @@ if __name__ == "__main__":
                                  T1=T1, 
                                  T2=T2, 
                                  id=i,
-                                 text=text.encode('utf-8').replace("\n","") + " ORD: " + str(bestWordsT1))
+                                 text=text.replace("\n","") + " ORD: " + str(bestWordsT1))
             print row
     
             
