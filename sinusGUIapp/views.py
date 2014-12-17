@@ -30,10 +30,9 @@ from sqlite_cache import SqliteCache
 import sqlalchemy
 from itertools import groupby
 
-
     
 def dateHistogram(dates, filename):
-    """Create histogram of given dates
+    """ Create histogram of given dates
 
     Parameters
     ----------
@@ -56,7 +55,7 @@ def dateHistogram(dates, filename):
 
 
 def emptyFolder(folder):
-    """Empty folder so we won't run out of hdd space
+    """ Empty folder so we won't run out of hdd space
 
     Parameters
     ----------
@@ -74,7 +73,7 @@ def emptyFolder(folder):
 
 
 def getSynonyms(query):
-    """Connect to Gavagai API to get synonyms
+    """ Connect to Gavagai API to get synonyms
 
     Parameters
     ----------
@@ -103,7 +102,7 @@ def getSynonyms(query):
     
     
 def kwic(text, word, source):
-    """Make KeyWord In Context
+    """ Make KeyWord In Context from a text and a keyword
 
     Parameters
     ----------
@@ -139,8 +138,8 @@ def genImages(coordinatesByWord, xBins, words, zoom,
               xyRatio, blurFactor, minCoordinates, 
               scatter, hits, chunks=1, dates=None, binThreshold=5):
 
-    """Generate the images i.e. the main image, the 
-       time series gif and the histogram.
+    """ Generate the images i.e. the main image, the 
+        time series gif and the histogram.
 
     Parameters
     ----------
@@ -189,8 +188,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         filename of the gif
     """
 
-    # Making of time series gif only possible when
-    # looking at only one word.
+    # Time series is only generated when just one word is searched for
     if chunks > 1 and len(coordinatesByWord) != 1:
         return False, None, None
         
@@ -212,12 +210,12 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     nBins = len(lon_bins)*len(lat_bins)
     
     if dates:
-        # Chunking only supported when just one word in sent in
+        # Chunking only supported when just one word is sent in
         ts = [{'date':str(date),'value':value} for date, value in zip(dates, coordinatesByWord[0])]
         
         months = []
         monthCoordinates = []
-        for k, v in groupby(ts, key=lambda x:x['date'][:9]):
+        for k, v in groupby(ts, key=lambda x:x['date'][:7]):
             months.append(k)
             monthCoordinates.append([c['value'] for c in list(v)])
             
@@ -229,7 +227,6 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         else:
             chunks = len(dates)
 
-        
     for chunk in range(chunks):
             
         totCoordinates = 0
@@ -348,9 +345,8 @@ def genImages(coordinatesByWord, xBins, words, zoom,
                 if len(coordinatesByWord) == 1:
                     # One term means logplot
                     if chunks != 1: 
-                        # For animation, 
-                        # we need to fix z-axis
-                        # if this is part of a chunking
+                        # For animation, we need to fix 
+                        # z-axis if this is part of a chunking
                         p = plt.pcolor(xs, ys, density, 
                                        cmap=theCM, 
                                        norm=LogNorm(), 
@@ -379,7 +375,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
                                         cax=cax, 
                                         orientation='horizontal')
                 
-                # And fix ticks
+                # And fixed ticks
                 if len(coordinatesByWord) != 1:
                     colorbar.set_ticks([0, 0.25, 0.5, 0.75, 1])            
                     colorbar.set_ticklabels(["0 %",
@@ -392,7 +388,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             
         fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     
-        # Generate filename
+        # Generate randomized filename
         filename = "_".join(words) + "_"
         filename += binascii.b2a_hex(os.urandom(15))[:10]
         filename = secure_filename(filename)
@@ -429,7 +425,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, rankthreshold=3, binThreshold=5, datespan=None):
 
-    """Retrive data from the document database
+    """ Retrive data from the document database
 
     Parameters
     ----------
@@ -536,7 +532,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 
     if minCoordinates > 4:
 
-        if not xBins: # xBins not set? "guestimate" that 2 hits per bin is good
+        if not xBins: # xBins not set: "guestimate" that 2 hits per bin is good
             xBins = math.sqrt(float(minCoordinates)/
                                          (float(xyRatio)*float(2)))
             xBins = int(xBins)            
@@ -580,7 +576,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
 @app.route('/sinus/', methods = ['GET', 'POST'])
 @app.route('/sinus/search/<urlSearch>', methods = ['GET'])
 def site(urlSearch=None):
-    """Run if index/search view if choosen
+    """ Run if index/search view if choosen
 
     Parameters
     ----------
@@ -594,7 +590,6 @@ def site(urlSearch=None):
         the index view rendered with render_template("index.html")
 
     """  
-    # Initialize for stats
     stats = {}
     
     # Get sourcecount for sources that have lon lat
@@ -661,8 +656,7 @@ def site(urlSearch=None):
         stats[key] = cache.get(key)
 
 
-      
-    # Classify text
+    ### Classify text
     try:
         textInput = request.form['textInput']
     except:
@@ -685,7 +679,7 @@ def site(urlSearch=None):
     else:
         localizeText = None
         
-    # Search in document database
+    ### Search in document database
     if request.method == 'POST' and len(textInput) == 0:
         query = request.form['queryInput']
         queryWords = query.split(",")
@@ -811,6 +805,8 @@ def explore(word=None):
     else:
         synonyms = None
 
+
+    ### Calculate alot of different delta entropys
 
     # Get delta entropy 10 % (difference between first and last 10%)
     result = mysqldb.query("select * from ngrams "
