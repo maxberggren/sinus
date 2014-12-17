@@ -238,7 +238,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         
         # For every word
         for kordinater in coordinatesByWord:
-            # Coordinates to be put into chunks
+            # Coordinates to be put into chunks 
             if chunks == 1:
                 kordinater = [kordinater]  
             else:
