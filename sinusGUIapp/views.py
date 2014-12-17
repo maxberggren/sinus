@@ -283,7 +283,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             lats = np.array(lats)
         
             ax = fig.add_subplot(1, len(coordinatesByWord), int(i+1))
-            ax.set_title("{word} - hits {hits}".format(word=word, hits=len(kordinater[chunk])), 
+            ax.set_title("{word} - hits: {hits}".format(word=word, hits=len(kordinater[chunk])), 
                          y=1.01, 
                          fontsize=9)
             if zoom:
@@ -408,8 +408,13 @@ def genImages(coordinatesByWord, xBins, words, zoom,
             
         else: # Just saving one image
             emptyFolder('sinusGUIapp/static/maps/')
-            plt.savefig("sinusGUIapp/static/maps/" + filename +".png", dpi=100)
-            plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", dpi=100)        
+            plt.savefig("sinusGUIapp/static/maps/" + filename +".png", 
+                        dpi=100,
+                        transparent=True)
+            plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", 
+                        dpi=100, 
+                        bbox_inches='tight',
+                        transparent=True)
 
     # If timeseries created - GIFfify it!
     if chunks > 1: 
