@@ -180,7 +180,7 @@ if __name__ == "__main__":
                                  T1=T1, 
                                  T2=T2, 
                                  id=i,
-                                 text=text)
+                                 text=text.encode('utf-8'))
             print row
     
             
