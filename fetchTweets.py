@@ -121,7 +121,8 @@ def saveTweet(data):
                                          lat=lat, 
                                          metadata=country + " " + location,
                                          username=username,
-                                         used=0))
+                                         used=0,
+                                         date=datetime.datetime.now()))
                 tweetsdb.commit()
                 tweetsdb.begin()
             else:
