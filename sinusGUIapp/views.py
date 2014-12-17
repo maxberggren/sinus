@@ -409,12 +409,10 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         else: # Just saving one image
             emptyFolder('sinusGUIapp/static/maps/')
             plt.savefig("sinusGUIapp/static/maps/" + filename +".png", 
-                        dpi=100,
-                        transparent=True)
+                        dpi=100)
             plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", 
                         dpi=100, 
-                        bbox_inches='tight',
-                        transparent=True)
+                        bbox_inches='tight')
 
     # If timeseries created - GIFfify it!
     if chunks > 1: 
