@@ -15,10 +15,11 @@ import config as c
 import tabulate
 
 """
-Test 11
+Test 12
 ======
 
-testa gramatiken med och utan clipping
+testa hur nyinkomna tweets kan förutspås
+vanilla gmm vs grammar
 """
 
 def predictViaAPI(text, path="tag", correctCoord=None):
@@ -48,28 +49,17 @@ def predictViaAPI(text, path="tag", correctCoord=None):
 if __name__ == "__main__":
     db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
     db.query("set names 'utf8'")
-    result = db.query("SELECT b.* FROM blogs b "
-                      "WHERE (SELECT count(*) FROM posts p WHERE " 
-                      "       p.blog_id=b.id) > 0 "
-                      "AND rank = 2 AND "
-                      "longitude is not NULL AND "
-                      "latitude is not NULL "
-                      "ORDER by id DESC")
+    result = db.query("SELECT * from tweets WHERE date is not NULL order by id")
     felenT1, felenT2, felenT3 = [], [], []
     i = 0
     acceptableAnswerT1, acceptableAnswerT2, acceptableAnswerT3 = 0, 0, 0
     chooseToAnswerT1, chooseToAnswerT2, chooseToAnswerT3 = 0, 0, 0
     
     for row in result:
-        blogid = row['id']
+        text = row['tweet']
+        blogid = 0
         
-        posts = db['posts'].find(blog_id=blogid)
-        text = ""   
-        for post in posts:
-            text = text + u"\n\n" + post['text']
-        
-        
-        if len(text) > 10000:
+        if len(text) > 0:
             i += 1
             
             headpattern = "{test:<4} {fel:<4} {median:<4} {medelv:<4} {AST:<4} {ASV:<4} {SP:<3}"
@@ -110,12 +100,12 @@ if __name__ == "__main__":
 
 
                 
-            # Test 1: grammar
-            data = predictViaAPI(text, path="tagbygrammar/threshold/1e20", correctCoord=[row['latitude'], row['longitude']])
+            # Test 1: vanilla gmm
+            data = predictViaAPI(text, path="tag/threshold/1e20", correctCoord=[row['lat'], row['lon']])
             predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = data
             
-            # Test 2: grammar utan clipp
-            data2 = predictViaAPI(text, path="tagbygrammarnoclip/threshold/1e20", correctCoord=[row['latitude'], row['longitude']])
+            # Test 2: grammar2gmm
+            data2 = predictViaAPI(text, path="tagbygrammar/threshold/1e20", correctCoord=[row['lat'], row['lon']])
             predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT2 = data2
                 
         
@@ -123,8 +113,8 @@ if __name__ == "__main__":
             if predictedCoordinateT1 and scoreT1 > 0.0:
                 chooseToAnswerT1 += 1
                
-                fel = haversine([row['latitude'], row['longitude']], predictedCoordinateT1)
-                correctCoordinateT1 = [row['latitude'], row['longitude']]
+                fel = haversine([row['lat'], row['lon']], predictedCoordinateT1)
+                correctCoordinateT1 = [row['lat'], row['lon']]
                 
                 if fel < 100: # Acceptabelt fel
                     acceptableAnswerT1 += 1
@@ -158,8 +148,8 @@ if __name__ == "__main__":
             if predictedCoordinateT2 and scoreT2 > 0.0:
                 chooseToAnswerT2 += 1
                
-                fel = haversine([row['latitude'], row['longitude']], predictedCoordinateT2)
-                correctCoordinateT2 = [row['latitude'], row['longitude']]
+                fel = haversine([row['lat'], row['lon']], predictedCoordinateT2)
+                correctCoordinateT2 = [row['lat'], row['lon']]
 
                 
                 if fel < 100: # Acceptabelt fel
