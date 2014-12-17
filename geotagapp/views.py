@@ -137,6 +137,20 @@ def tagbygrammar(threshold=None):
                       'mostUsefulWords': mostUsefulWords,
                       'outOfVocabulary': OOV, 
                       'mentions': mentions } )
+
+@app.route('/geotag/api/v1.0/tagbygrammarnoclip', methods=['POST'])
+@app.route('/geotag/api/v1.0/tagbygrammarnoclip/threshold/<threshold>', methods=['POST'])
+def tagbygrammarnoclip(threshold=None): 
+    touple = model.predict(predictByGrammar(request.json['text'], threshold, clipping=False), threshold)   
+    coordinate, placeness, mostUsefulWords, OOV, mentions = touple
+    lon = coordinate[0] 
+    lat = coordinate[1]
+    return jsonify( { 'latitude': lat, 
+                      'longitude': lon, 
+                      'placeness': placeness, 
+                      'mostUsefulWords': mostUsefulWords,
+                      'outOfVocabulary': OOV, 
+                      'mentions': mentions } )
                       
 
 @app.route('/geotag/api/v1.0/tagbyunique', methods=['POST'])

@@ -578,19 +578,24 @@ class tweetLoc:
 
 
 
-    def predictByGrammar(self, text, threshold=float(1e40)):
+    def predictByGrammar(self, text, threshold=float(1e40), clipping=True):
         """ 
         Förutsäger en koordinat för en bunte text
         Implementatation av gramatikförfarandet
         Input: text
         Output: koordinat (lon, lat)
         """
-        
+    
         lenText = len(text)
         lenWords = int(lenText / 8.3)
-        lowerPercent = 0.00008 # Ger frekvens median 3
-        lowerBound = int(lenWords*lowerPercent) 
-        topBound = int(lenWords/300.0)
+        lowerPercent = 0.00008 # Ger frekvens median 3        
+        
+        if clipping:
+            lowerBound = int(lenWords*lowerPercent) 
+            topBound = int(lenWords/300.0)
+        else:
+            lowerBound = 0
+            topBound = 999999999999999999999999
         
         if topBound == 0:
             topBound = 999999999999999999999999
