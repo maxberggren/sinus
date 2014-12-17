@@ -87,7 +87,7 @@ if __name__ == "__main__":
                                       tecken="Tecken", 
                                       T1=testhead, 
                                       T2=testhead,
-                                      text="Bästa orden")
+                                      text="Text")
                 print head
             
                 head = pattern.format(id="-"*4, 
@@ -180,7 +180,7 @@ if __name__ == "__main__":
                                  T1=T1, 
                                  T2=T2, 
                                  id=i,
-                                 text="AW: P-{P1} C-{C1}, GR: P-{P2} C-{C2}".format(P1=predictedCoordinateT1, P2=predictedCoordinateT2, C1=correctCoordinateT1, C2=correctCoordinateT2))
+                                 text=text)
             print row
     
             
