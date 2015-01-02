@@ -19,6 +19,8 @@ Test 8
 ======
 
 stoppa in det gramatiken producerar i röstningsförfarandet
+
+python evalMaxModel_T8.py 2>&1 | tee -a T_Grammar_Vote_1e20.log
 """
 
 def predictViaAPI(text, path="tag"):
