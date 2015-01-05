@@ -111,7 +111,7 @@ if __name__ == "__main__":
                             
             # Test 2: släpp igenom ord med platsighet
             # men slå ej ihop GMMer först...
-            data2 = predictViaAPI(text, path="tagbyvote2/threshold/1e20")
+            data2 = predictViaAPI(text, path="tagbyvote2/threshold/1e20", coord=None)
             predictedCoordinateT8, scoreT8, mostUsefulWordsT8, mentionsT8 = data2
     
         
