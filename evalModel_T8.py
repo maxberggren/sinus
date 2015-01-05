@@ -23,8 +23,8 @@ stoppa in det gramatiken producerar i röstningsförfarandet
 python evalMaxModel_T8.py 2>&1 | tee -a T_Grammar_Vote_1e20.log
 """
 
-def predictViaAPI(text, path="tag"):
-    payload = json.dumps({'text': text})
+def predictViaAPI(text, path="tag", coord=None):
+    payload = json.dumps({'text': text, 'coord': coord})
     headers = {'content-type': 'application/json'}
     
     while True:
@@ -111,7 +111,7 @@ if __name__ == "__main__":
                             
             # Test 2: släpp igenom ord med platsighet
             # men slå ej ihop GMMer först...
-            data2 = predictViaAPI(text, path="tagbyvote2/threshold/1e20", coord=None)
+            data2 = predictViaAPI(text, path="tagbyvote2/threshold/1e20")
             predictedCoordinateT8, scoreT8, mostUsefulWordsT8, mentionsT8 = data2
     
         
