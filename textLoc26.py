@@ -583,7 +583,7 @@ class tweetLoc:
         Förutsäger en koordinat för en bunte text
         Implementatation av gramatikförfarandet
         Input: text
-        Output: koordinat (lon, lat)
+        Output: kortad text med bara ord som grammatiken tagit 
         """
     
         lenText = len(text)
