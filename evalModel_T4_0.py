@@ -20,7 +20,7 @@ Test 4
 ======
 
 Testa mot grammatiken som laddas fr textfil.
-python evalMaxModel_T4.py 2>&1 | tee -a T_Grammar_Centroid_1e40.log
+python evalMaxModel_T4_0.py 2>&1 | tee -a T_Grammar_Centroid_0.log
 """
 
 
@@ -111,7 +111,7 @@ if __name__ == "__main__":
                 
             #time.sleep(10)
             # Test 3: grammatik matat in i platsighetsmodulen
-            data3 = predictViaAPI(text, path="tagbygrammar/threshold/1e40")
+            data3 = predictViaAPI(text, path="tagbygrammar/threshold/0")
             predictedCoordinateT4, scoreT4, mostUsefulWordsT4, mentionsT4 = data3        
         
             # Test 3
