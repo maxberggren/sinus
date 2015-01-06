@@ -56,7 +56,8 @@ if __name__ == "__main__":
     chooseToAnswerT1, chooseToAnswerT2, chooseToAnswerT3 = 0, 0, 0
     
     for row in result:
-        text = row['tweet'] + " " + row['metadata']
+        #text = row['tweet'] + " " + row['metadata']
+        text = row['tweet']
         text = text.encode('utf-8')
         blogid = 0
         
