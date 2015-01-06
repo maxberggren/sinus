@@ -102,11 +102,11 @@ if __name__ == "__main__":
 
                 
             # Test 1: vanilla gmm
-            data = predictViaAPI(text, path="tag/threshold/1e20", correctCoord=[row['lat'], row['lon']])
+            data = predictViaAPI(text, path="tag/threshold/1e15", correctCoord=[row['lat'], row['lon']])
             predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = data
             
             # Test 2: grammar2gmm
-            data2 = predictViaAPI(text, path="tagbygrammar/threshold/1e20", correctCoord=[row['lat'], row['lon']])
+            data2 = predictViaAPI(text, path="tagbygrammar/threshold/1e15", correctCoord=[row['lat'], row['lon']])
             predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT2 = data2
                 
         
