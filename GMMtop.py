@@ -45,7 +45,7 @@ def predictViaAPI(text, path="tag", correctCoord=None):
         return None, None, None, None
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     # Add all Swedish villages/citys to a set
     o = Set()
     f = codecs.open("orter.txt", encoding="utf-8")
