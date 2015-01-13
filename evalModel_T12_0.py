@@ -102,7 +102,7 @@ if __name__ == "__main__":
 
                 
             # Test 1: vanilla gmm
-            data = predictViaAPI(text, path="tag/threshold/0.11e0", correctCoord=[row['lat'], row['lon']])
+            data = predictViaAPI(text, path="tag/threshold/1e0", correctCoord=[row['lat'], row['lon']])
             predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = data
            
             # Test 1
