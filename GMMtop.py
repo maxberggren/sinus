@@ -55,7 +55,7 @@ if __name__ == "__main__":
     # Hello mr DB
     db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
     db.query("set names 'utf8'")
-    result = db.query("SELECT * from GMMs order by score desc LIMIT 10")
+    result = db.query("SELECT * from GMMs order by scoring desc LIMIT 10")
     
     for row in result:
         text = row['word']
