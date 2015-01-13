@@ -61,7 +61,30 @@ if __name__ == "__main__":
     i = 1
     for row in result:
         gmmWord = row['word'].encode('utf-8')
-        print repr(gmmWord)
+        #print repr(gmmWord)
         if "@" not in gmmWord and "#" not in gmmWord and gmmWord not in o:
+            print "#{i:<7} {word}".format(i=i, word=gmmWord)
+            i += 1
+            
+    "##########################################"
+    result = db.query("SELECT * from GMMs WHERE n_coordinates > 100 order by scoring desc LIMIT 10000")
+    
+    i = 1
+    for row in result:
+        gmmWord = row['word'].encode('utf-8')
+        #print repr(gmmWord)
+        if "#" in gmmWord:
+            print "#{i:<7} {word}".format(i=i, word=gmmWord)
+            i += 1
+            
+            
+    "##########################################"
+    result = db.query("SELECT * from GMMs WHERE n_coordinates > 100 order by scoring desc LIMIT 10000")
+    
+    i = 1
+    for row in result:
+        gmmWord = row['word'].encode('utf-8')
+        #print repr(gmmWord)
+        if gmmWord in o:
             print "#{i:<7} {word}".format(i=i, word=gmmWord)
             i += 1
