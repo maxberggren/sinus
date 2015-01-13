@@ -61,4 +61,4 @@ if __name__ == "__main__":
     for row in result:
         gmmWord = row['word'].encode('utf-8')
         if "@" not in gmmWord and "#" not in gmmWord and gmmWord not in o:
-            print "#{i} {word}".format(i, gmmWord)
+            print "#{i:>7} {word}".format(i=i, word=gmmWord)
