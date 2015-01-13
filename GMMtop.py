@@ -58,4 +58,6 @@ if __name__ == "__main__":
     result = db.query("SELECT * from GMMs WHERE n_coordinates > 100 order by scoring desc LIMIT 10000")
     
     for row in result:
-        print row['word'].encode('utf-8'), row['scoring'], row['n_coordinates']
+        gmmWord = row['word'].encode('utf-8')
+        if "@" not in gmmWord:
+            print gmmWord, row['scoring'], row['n_coordinates']
