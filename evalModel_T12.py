@@ -50,6 +50,8 @@ if __name__ == "__main__":
     db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
     db.query("set names 'utf8'")
     result = db.query("SELECT * from tweets WHERE date is not NULL order by id limit 55000")
+    #result = db.query("SELECT username, COUNT(*) as count, GROUP_CONCAT(tweet SEPARATOR ' ') FROM tweets WHERE date is not NULL GROUP BY username HAVING count > 50")
+
     felenT1, felenT2, felenT3 = [], [], []
     i = 0
     acceptableAnswerT1, acceptableAnswerT2, acceptableAnswerT3 = 0, 0, 0
