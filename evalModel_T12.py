@@ -49,7 +49,7 @@ def predictViaAPI(text, path="tag", correctCoord=None):
 if __name__ == "__main__":
     db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
     db.query("set names 'utf8'")
-    result = db.query("SELECT * from tweets WHERE date is not NULL order by id limit 55000")
+    result = db.query("SELECT * from tweets WHERE date is not NULL order by id limit 300000")
     #result = db.query("SELECT username, COUNT(*) as count, GROUP_CONCAT(tweet SEPARATOR ' ') FROM tweets WHERE date is not NULL GROUP BY username HAVING count > 50")
 
     felenT1, felenT2, felenT3 = [], [], []
@@ -107,12 +107,7 @@ if __name__ == "__main__":
             # Test 1: vanilla gmm
             data = predictViaAPI(text, path="tag/threshold/1e40", correctCoord=[row['lat'], row['lon']])
             predictedCoordinateT1, scoreT1, mostUsefulWordsT1, mentionsT1 = data
-            
-            # Test 2: grammar2gmm
-            data2 = predictViaAPI(text, path="tagbygrammar/threshold/1e40", correctCoord=[row['lat'], row['lon']])
-            predictedCoordinateT2, scoreT2, mostUsefulWordsT2, mentionsT2 = data2
-                
-        
+           
             # Test 1
             if predictedCoordinateT1 and scoreT1 > 0.0:
                 chooseToAnswerT1 += 1
@@ -146,39 +141,9 @@ if __name__ == "__main__":
             else:
                 T1 = "###"
                 bestWordsT1 = "###"
+                    
     
-    
-            # Test 2
-            if predictedCoordinateT2 and scoreT2 > 0.0:
-                chooseToAnswerT2 += 1
-               
-                fel = haversine([row['lat'], row['lon']], predictedCoordinateT2)
-                correctCoordinateT2 = [row['lat'], row['lon']]
-
-                
-                if fel < 100: # Acceptabelt fel
-                    acceptableAnswerT2 += 1
-                
-                felenT2.append(fel)
-    
-                pattern = ("{test:<4} {fel:<4,.00f} {median:<4,.00f} {medelv:<4,.00f} "
-                           "{AST:<4,.02f} {ASV:<4,.02f} {SP:<3,.02f}")
-                T2 = pattern.format(fel=fel,
-                                    median=np.median(felenT2), 
-                                    medelv=np.mean(felenT2), 
-                                    AST=float(acceptableAnswerT2)/float(i), 
-                                    ASV=float(acceptableAnswerT2)/float(chooseToAnswerT2), 
-                                    SP=float(chooseToAnswerT2)/float(i), 
-                                    test="T2")
-    
-                
-            else:
-                T2 = "###"
-    
-
-                
-    
-            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {T2:<35} | {text:<70}" 
+            pattern = "{id:>4} | {blogid:>7} | {tecken:>8} | {T1:<35} | {text:<70}" 
             row = pattern.format(tecken=len(text),
                                  blogid=blogid, 
                                  T1=T1, 
