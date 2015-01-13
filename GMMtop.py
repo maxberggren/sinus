@@ -53,7 +53,7 @@ if __name__ == "__main__":
         o.add(line.lower().strip())
         
     # Hello mr DB
-    db = dataset.connect(c.LOCATIONDB+ "?charset=latin1")
+    db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
     #db = dataset.connect(c.LOCATIONDB)
     db.query("set names 'utf8'")
     result = db.query("SELECT * from GMMs WHERE n_coordinates > 100 order by scoring desc LIMIT 10000")
@@ -61,6 +61,7 @@ if __name__ == "__main__":
     i = 1
     for row in result:
         gmmWord = row['word'].encode('utf-8')
+        print gmmWord
         if "@" not in gmmWord and "#" not in gmmWord and gmmWord not in o:
             print "#{i:<7} {word}".format(i=i, word=gmmWord)
             i += 1
