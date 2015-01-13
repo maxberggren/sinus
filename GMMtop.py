@@ -58,4 +58,4 @@ if __name__ == "__main__":
     result = db.query("SELECT * from GMMs order by scoring desc LIMIT 10")
     
     for row in result:
-        print row['word'].encode('utf-8')
+        print row['word'].decode('latin-1').encode('utf-8')
