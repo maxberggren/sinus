@@ -57,7 +57,8 @@ if __name__ == "__main__":
     db.query("set names 'utf8'")
     result = db.query("SELECT * from GMMs WHERE n_coordinates > 100 order by scoring desc LIMIT 10000")
     
+    i = 1
     for row in result:
         gmmWord = row['word'].encode('utf-8')
         if "@" not in gmmWord and "#" not in gmmWord and gmmWord not in o:
-            print gmmWord, row['scoring'], row['n_coordinates']
+            print "#{i} {word}".format(i, gmmWord)
