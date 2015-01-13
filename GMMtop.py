@@ -60,7 +60,7 @@ if __name__ == "__main__":
     
     i = 1
     for row in result:
-        gmmWord = row['word']
+        gmmWord = row['word'].decode('latin1')
         print repr(gmmWord)
         if "@" not in gmmWord and "#" not in gmmWord and gmmWord not in o:
             print u"#{i:<7} {word}".format(i=i, word=gmmWord)
