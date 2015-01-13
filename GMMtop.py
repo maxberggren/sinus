@@ -53,8 +53,8 @@ if __name__ == "__main__":
         o.add(line.lower().strip())
         
     # Hello mr DB
-    db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
-    #db = dataset.connect(c.LOCATIONDB)
+    #db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
+    db = dataset.connect(c.LOCATIONDB)
     db.query("set names 'utf8'")
     result = db.query("SELECT * from GMMs WHERE n_coordinates > 100 order by scoring desc LIMIT 10000")
     
