@@ -505,6 +505,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                " " + spanQuery + " "
                                "ORDER BY posts.date " )
                                #ORDER BY RAND() limit 1000? 
+        print word.encode('utf-8')
         
         # Get all lon and lats, and dates
         # and keywords in contexts (kwic)
