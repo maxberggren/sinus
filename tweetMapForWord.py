@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*- 
 import matplotlib  
 matplotlib.use('Agg')
-from __future__ import division
 import collections
 from collections import OrderedDict
 import itertools
