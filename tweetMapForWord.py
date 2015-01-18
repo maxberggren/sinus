@@ -67,10 +67,11 @@ m.drawmapboundary(fill_color='black')
 xp, yp = m(59, 18)
 pred = plt.scatter(xp, yp, s=75, c='r', lw=1, edgecolor='w') 
 
-plt.legend((pred),
-           ('Predicted'),
+plt.legend((pred, pred),
+           ('Predicted', 'Metadata'),
            scatterpoints=1,
-           loc='upper right')
+           loc='upper right',
+           prop={'size':7})
 
     
 fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0)  
