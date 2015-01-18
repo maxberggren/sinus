@@ -70,8 +70,7 @@ pred = plt.scatter(xp, yp, s=75, c='r', lw=1, edgecolor='w')
 plt.legend((pred),
            ('Predicted'),
            scatterpoints=1,
-           loc='upper right',
-           prop={'size':7})
+           loc='upper right')
 
     
 fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0)  
