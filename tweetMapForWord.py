@@ -75,7 +75,7 @@ m.drawmapboundary(fill_color='black')
 
 # Predicted latlon
 xp, yp = m(lons, lats)
-tweets = plt.scatter(xp, yp, s=2, c='r', lw=0, edgecolor='w', label='Tweets') 
+tweets = plt.scatter(xp, yp, s=1, c='r', lw=0, edgecolor='w', label='Tweets') 
 
 plt.legend(scatterpoints=1,
            loc='upper right',
