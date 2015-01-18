@@ -164,7 +164,7 @@ class tweetLoc:
         # Metadata är användarens självspecifierade ort ex. "svettiga svedala" 
         # Hämta bara de som är flaggade som used. Dvs ett snapshot.
         
-        q = "SELECT * FROM tweets WHERE MATCH(tweet, metadata) AGAINST('{}') and used = 1".format(word)
+        q = "SELECT * FROM tweets WHERE MATCH(tweet) AGAINST('{}')".format(word)
         result = self.db.query(q)
 
         for row in result:
@@ -185,7 +185,7 @@ class tweetLoc:
         print "Compiling GMMs..."
         
         # Flagga snapshotet som ska användas
-        result = self.db.query("UPDATE tweets set used = 1")
+        #result = self.db.query("UPDATE tweets set used = 1")
             
         wordsWithModelAccepted = []
         # Skapar en GMM för alla ord
@@ -218,7 +218,7 @@ class tweetLoc:
                 """
 
         # Kasta gamla använda tweets
-        result = self.db.query("DELETE from tweets WHERE used = 1")
+        #result = self.db.query("DELETE from tweets WHERE used = 1")
         
         return wordsWithModelAccepted
 
