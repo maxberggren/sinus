@@ -193,7 +193,7 @@ class tweetLoc:
             try:                  
                 coordinateData = self.getCoordinatesFor(word)
                 if len(coordinateData) > 3:
-                    print str(i) + "/" + str(len(words)) + " " + word
+                    
     
                     myGMM = mixture.GMM(n_components=1, covariance_type='tied')
                     myGMM.fit(np.asarray(coordinateData)) # sklearn wants nparray
@@ -210,6 +210,8 @@ class tweetLoc:
                                                     date=datetime.date.today(),
                                                     n_coordinates=len(coordinateData),
                                                     gaussians=1))
+                        print str(i) + "/" + str(len(words)) + " " + word
+                        
                     del myGMM 
                     wordsWithModelAccepted.append(word)     
             except:
@@ -302,7 +304,7 @@ class tweetLoc:
                 result = self.db.query("SELECT * FROM GMMs " 
                                        "WHERE word = '" + word + "' "
                                        "AND date = '" + date + "' "
-                                       "AND n_coordinates > 100")                   
+                                       "AND n_coordinates > 100 AND gaussians=1")                   
                 subscores, subcoordinates = [], []
                 for row in result:
                     subscores.append(row['scoring'])

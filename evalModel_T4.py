@@ -58,7 +58,7 @@ if __name__ == "__main__":
                       "AND rank = 2 AND "
                       "longitude is not NULL AND "
                       "latitude is not NULL "
-                      "ORDER by id DESC")
+                      "ORDER by id DESC LIMIT 10000")
     felenT1, felenT2, felenT4 = [], [], []
     i = 0
     acceptableAnswerT1, acceptableAnswerT2, acceptableAnswerT4 = 0, 0, 0
