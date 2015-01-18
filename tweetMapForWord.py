@@ -41,9 +41,9 @@ rcParams['font.family'] = 'serif'
 fig = plt.figure(figsize=(3.25,4))
 llcrnrlon = 8
 llcrnrlat = 54.5
-#urcrnrlon = 26
+urcrnrlon = 26
 urcrnrlat = 69.5
-urcrnrlat = 63.5
+#urcrnrlat = 63.5
 
 m = Basemap(projection='merc',
             resolution = 'i', 
