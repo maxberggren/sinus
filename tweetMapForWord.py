@@ -41,8 +41,8 @@ rcParams['font.family'] = 'serif'
 fig = plt.figure(figsize=(3.25,4))
 llcrnrlon = 8
 llcrnrlat = 54.5
-urcrnrlon = 26
-#urcrnrlat = 69.5
+#urcrnrlon = 26
+urcrnrlat = 69.5
 urcrnrlat = 63.5
 
 m = Basemap(projection='merc',
@@ -64,7 +64,7 @@ m.drawmapboundary(fill_color='black')
                
 
 # Predicted latlon
-xp, yp = m(18, 59)
+xp, yp = m([[18, 59]])
 pred = plt.scatter(xp, yp, s=75, c='r', lw=1, edgecolor='w') 
 
 plt.legend((pred, pred),
