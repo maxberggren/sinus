@@ -192,7 +192,7 @@ class tweetLoc:
         for i, word in enumerate(words):
             #try:                  
             coordinateData = self.getCoordinatesFor(word)
-            if len(coordinateData) > 3:
+            if len(coordinateData) > 50:
                 
 
                 myGMM = mixture.GMM(n_components=1)
