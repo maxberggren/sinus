@@ -190,34 +190,34 @@ class tweetLoc:
         wordsWithModelAccepted = []
         # Skapar en GMM för alla ord
         for i, word in enumerate(words):
-            try:                  
-                coordinateData = self.getCoordinatesFor(word)
-                if len(coordinateData) > 3:
+            #try:                  
+            coordinateData = self.getCoordinatesFor(word)
+            if len(coordinateData) > 3:
+                
+
+                myGMM = mixture.GMM(n_components=1, covariance_type='tied')
+                myGMM.fit(np.asarray(coordinateData)) # sklearn wants nparray
+                
+                for coordinate in myGMM.means_: # en GMM tar fram 3 toppar
+                    # Empiriskt satt score
+                    scoring = np.exp(-100 / myGMM.score([coordinate]))[0]   
                     
-    
-                    myGMM = mixture.GMM(n_components=1, covariance_type='tied')
-                    myGMM.fit(np.asarray(coordinateData)) # sklearn wants nparray
-                    
-                    for coordinate in myGMM.means_: # en GMM tar fram 3 toppar
-                        # Empiriskt satt score
-                        scoring = np.exp(-100 / myGMM.score([coordinate]))[0]   
-                        
-                        # In met i databasen         
-                        self.db['GMMs'].insert(dict(word=word, 
-                                                    lon=coordinate[0], 
-                                                    lat=coordinate[1], 
-                                                    scoring=scoring,
-                                                    date=datetime.date.today(),
-                                                    n_coordinates=len(coordinateData),
-                                                    gaussians=1))
-                        print str(i) + "/" + str(len(words)) + " " + word
-                        
-                    del myGMM 
-                    wordsWithModelAccepted.append(word)     
-            except:
-                """
-                Ordet kunde inte skapas en GMM på
-                """
+                    # In met i databasen         
+                    self.db['GMMs'].insert(dict(word=word, 
+                                                lon=coordinate[0], 
+                                                lat=coordinate[1], 
+                                                scoring=scoring,
+                                                date=datetime.date.today(),
+                                                n_coordinates=len(coordinateData),
+                                                gaussians=1))
+                    print str(i) + "/" + str(len(words)) + " " + word
+
+                del myGMM 
+                wordsWithModelAccepted.append(word)     
+            #except:
+            #    """
+            #    Ordet kunde inte skapas en GMM på
+            #    """
 
         # Kasta gamla använda tweets
         #result = self.db.query("DELETE from tweets WHERE used = 1")
