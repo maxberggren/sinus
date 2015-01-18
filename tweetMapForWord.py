@@ -40,7 +40,7 @@ import config as c
 
 db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
 db.query("set names 'utf8'")
-result = db.query(u"SELECT * from tweets WHERE tweet match(tweet) against('gött')")
+result = db.query(u"select * from tweets where MATCH (tweet) AGAINST ('litta')")
 
 lons, lats = [], []
 
