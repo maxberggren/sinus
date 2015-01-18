@@ -35,8 +35,18 @@ import matplotlib.pyplot as plt
 import random
 from matplotlib import rcParams
 rcParams['font.family'] = 'serif'
+import config as c
 
 
+db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
+db.query("set names 'utf8'")
+result = db.query("SELECT * from tweets WHERE tweet match(tweet) against('gött')")
+
+lons, lats = [], []
+
+for row in result:
+    lons.append(row['lon'])
+    lats.append(row['lat'])
 
 fig = plt.figure(figsize=(3.25,4))
 llcrnrlon = 8
@@ -64,10 +74,10 @@ m.drawmapboundary(fill_color='black')
                
 
 # Predicted latlon
-xp, yp = m([18, 18], [59, 59])
-pred = plt.scatter(xp, yp, s=75, c='r', lw=1, edgecolor='w') 
+xp, yp = m(lons, lats)
+tweets = plt.scatter(xp, yp, s=5, c='r', lw=1, edgecolor='w') 
 
-plt.legend((pred, pred),
+plt.legend((tweets, pred),
            ('Predicted', 'Metadata'),
            scatterpoints=1,
            loc='upper right',
