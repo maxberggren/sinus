@@ -64,7 +64,7 @@ m.drawmapboundary(fill_color='black')
                
 
 # Predicted latlon
-xp, yp = m(59, 18)
+xp, yp = m(18, 59)
 pred = plt.scatter(xp, yp, s=75, c='r', lw=1, edgecolor='w') 
 
 plt.legend((pred, pred),
