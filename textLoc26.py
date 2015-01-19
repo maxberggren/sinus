@@ -194,7 +194,7 @@ class tweetLoc:
                 coordinateData = self.getCoordinatesFor(word)
                 if len(coordinateData) > 30:
                     #myGMM = mixture.GMM(n_components=3, covariance_type='tied')
-                    myGMM = mixture.GMM(n_components=3, cvtype='tied')
+                    myGMM = mixture.GMM(n_components=4, cvtype='tied')
                     myGMM.fit(np.asarray(coordinateData)) # sklearn wants nparray
                     for coordinate in myGMM.means: # en GMM tar fram 3 toppar
                         # Empiriskt satt score
@@ -207,7 +207,7 @@ class tweetLoc:
                                                     scoring=scoring,
                                                     date=datetime.date.today(),
                                                     n_coordinates=len(coordinateData),
-                                                    gaussians=3))
+                                                    gaussians=4))
                         print str(i) + "/" + str(len(words)) + " " + word
 
                     del myGMM 

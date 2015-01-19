@@ -4,11 +4,41 @@ mysql --host=locationdb.gavagai.se --user=sinus --password=5NU4KbP8 sinus2
 mysqldump -u sinus -h locationdb.gavagai.se -p sinus2 GMMs > GMMs2.sql
 
 
-ALTER TABLE GMMs ADD gaussians INT(3);
-
-update GMMs set gaussians = 0;
+ALTER TABLE GMMs ADD gaussians INT(3); ,,,,update GMMs set gaussians = 0;
 
 
 
 evalmodel_T4: limit 10000, theshold 20
-textloc26: usedflaggor, komponenter, gaussians=1 (två ställen), tog bort en try, covariance type bortaget, coordinateDatalen 30 istället för 3
+textloc26: usedflaggor, komponenter, gaussians=1 (två ställen), tog bort en try, covariance type bortaget, coordinateDatalen 30 istället för 3,,,,,,,,,,,,,,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
