@@ -21,7 +21,7 @@ Test 4
 
 Testa mot grammatiken som laddas fr textfil.
 python evalModel_T4.py 2>&1 | tee -a T_Grammar_Centroid_1e40.log
-python evalModel_T4.py 2>&1 | tee -a T_2Gaussians.log
+python evalModel_T4.py 2>&1 | tee -a T_1Gaussians.log
 """
 
 
