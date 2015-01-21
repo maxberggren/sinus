@@ -13,8 +13,6 @@ textloc26: usedflaggor, komponenter, gaussians=1 (två ställen), tog bort en tr
 
 
 
-trean ska göras om
-
 
 
 

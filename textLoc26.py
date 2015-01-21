@@ -300,7 +300,7 @@ class tweetLoc:
                 result = self.db.query("SELECT * FROM GMMs " 
                                        "WHERE word = '" + word + "' "
                                        "AND date = '" + date + "' "
-                                       "AND n_coordinates > 100 AND gaussians=4")                    
+                                       "AND n_coordinates > 100 AND gaussians=5")                    
                 subscores, subcoordinates = [], []
                 for row in result:
                     subscores.append(row['scoring'])
