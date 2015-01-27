@@ -16,7 +16,6 @@ import math
 import sqlalchemy
 import traceback
 import config as c
-import sys
 
 def entropy(lats, lons, bins=10, xyRatio=1.8):
     # control how many bins
@@ -49,20 +48,13 @@ if __name__ == "__main__":
 
     mysqldb = dataset.connect(c.LOCATIONDB)
     mysqldb.query("set names 'utf8'")
-    
-    try:
-        token = sys.argv[1]
-        print type(token)
-        tokenQ = "token = '{token}' ".format(token=token)
-        frq = ""
-    except:
-        tokenQ = "AND entropy is NULL "
-        frq = "frequency > 50 AND frequency < 30000"
-        
-    q = """SELECT * from ngrams WHERE {frq} {tokenQ} 
-           ORDER BY RAND() """.format(tokenQ=tokenQ, frq=frq)
 
-    for row in mysqldb.query(q):
+    for row in mysqldb.query("SELECT * from ngrams "
+                             "WHERE frequency > 50 "
+                             "AND frequency < 30000 "
+                             "AND entropy is NULL "
+                             "AND token = 'lita' "
+                             "ORDER BY RAND() "):
         start = time.time()
         searchWord = row['token']
         
@@ -71,16 +63,13 @@ if __name__ == "__main__":
         
         try:
             lats, lons = [], []
-            print type(searchWord)
-            result = mysqldb.query("SELECT blogs.longitude "
-                                   "FROM posts INNER JOIN blogs ON "
-                                   "blogs.id=posts.blog_id "
+            result = mysqldb.query("SELECT blogs.longitude, "
+                                   "blogs.latitude "
+                                   "FROM posts INNER JOIN blogs "
+                                   "ON blogs.id = posts.blog_id "
                                    "WHERE MATCH(posts.text) "
-                                   "AGAINST ('" + searchWord + "' "
-                                   "IN BOOLEAN MODE) "
+                                   "AGAINST ('" + searchWord + "') "
                                    "AND blogs.latitude is not NULL "
-                                   "AND blogs.longitude is not NULL "
-                                   "AND blogs.rank <= 3 "
                                    "ORDER BY posts.date ")
 
             for row in result:
@@ -112,7 +101,6 @@ if __name__ == "__main__":
                 mysqldb['ngrams'].update(data, ['token'])
             else:
                 print "Ordet misslyckades pga för få koordinater."
-                print "Hittade endast: " + str(len(lats))
 
         except KeyboardInterrupt:
             print "Skippar ordet"
