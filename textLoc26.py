@@ -264,7 +264,7 @@ class tweetLoc:
         else:
             return [0.0, 0.0], 0.0
 
-    def predict(self, text, threshold=float(1e40), mergeSubGMMs=True, mvpThreshold=None):
+    def predict(self, text, threshold=0.0, mergeSubGMMs=True, mvpThreshold=None):
         """ 
         Förutsäger en koordinat för en bunte text
         Input: text
