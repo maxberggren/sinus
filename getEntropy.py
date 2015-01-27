@@ -53,13 +53,13 @@ if __name__ == "__main__":
     try:
         token = sys.argv[1]
         print type(token)
-        tokenQ = "token = '{token}' ".format(token=token)
+        tokenQ = "AND token = '{token}' ".format(token=token)
         frq = ""
     except:
         tokenQ = "entropy is NULL "
         frq = "frequency > 50 AND frequency < 30000"
         
-    q = """SELECT * from ngrams WHERE {frq} AND {tokenQ} 
+    q = """SELECT * from ngrams WHERE {frq} {tokenQ} 
            ORDER BY RAND() """.format(tokenQ=tokenQ, frq=frq)
 
     for row in mysqldb.query(q):
