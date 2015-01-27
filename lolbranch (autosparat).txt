@@ -1,7 +1,7 @@
 mysql --host=locationdb.gavagai.se --user=sinus --password=5NU4KbP8 sinus2
 
 
-mysqldump -u sinus -h locationdb.gavagai.se -p sinus2 GMMs > GMMs2.sql
+mysqldump -u sinus -h locationdb.gavagai.se -p sinus2 GMMs > GMMs3_inkl_test.sql
 
 
 ALTER TABLE GMMs ADD gaussians INT(3); ,,,,update GMMs set gaussians = 0;
