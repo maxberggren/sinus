@@ -342,7 +342,7 @@ class tweetLoc:
         
         # Skapa dict med platsighet för top 50
         if mvpThreshold:
-            limit = int(mvpThreshold) 
+            limit = int(mvpThreshold-1) 
         else:
             limit = 50
         
