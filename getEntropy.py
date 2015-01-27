@@ -71,11 +71,12 @@ if __name__ == "__main__":
         
         try:
             lats, lons = [], []
+            print type(searchWord)
             result = mysqldb.query("SELECT blogs.longitude "
                                    "FROM posts INNER JOIN blogs ON "
                                    "blogs.id=posts.blog_id "
                                    "WHERE MATCH(posts.text) "
-                                   "AGAINST ('" + searchWord.encode('utf-8') + "' "
+                                   "AGAINST ('" + searchWord + "' "
                                    "IN BOOLEAN MODE) "
                                    "AND blogs.latitude is not NULL "
                                    "AND blogs.longitude is not NULL "
