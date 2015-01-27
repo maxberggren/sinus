@@ -300,14 +300,15 @@ class tweetLoc:
                 else:
                     limit = ""
                     
-                print limit
-                result = self.db.query("SELECT * FROM GMMs " 
-                                       "WHERE word = '{word}' "
-                                       "AND date = '{date}' "
-                                       "AND n_coordinates > 100 "
-                                       "ORDER BY scoring DESC "
-                                       "LIMIT 1".format(word=word, 
-                                                        date=date))                    
+                
+                result = self.db.query(u"SELECT * FROM GMMs " 
+                                       u"WHERE word = '{word}' "
+                                       u"AND date = '{date}' "
+                                       u"AND n_coordinates > 100 "
+                                       u"ORDER BY scoring DESC "
+                                       u"{limit}".format(word=word, 
+                                                         date=date, 
+                                                         limit=limit))                    
                 subscores, subcoordinates = [], []
                 for row in result:
                     subscores.append(row['scoring'])
