@@ -353,6 +353,7 @@ class tweetLoc:
             scores = zip(*sortedByScore[0:int(mvpThreshold)])[1]
             coordinates = zip(*sortedByScore[0:int(mvpThreshold)])[2]
             print coordinates
+            print zip(*sortedByScore[0:int(mvpThreshold)])
             coordinate, score = self.weightedMean(coordinates, scores)
         
         if len(words) == 0:
