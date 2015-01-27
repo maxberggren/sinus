@@ -53,7 +53,7 @@ if __name__ == "__main__":
     try:
         token = sys.argv[1]
         print type(token)
-        tokenQ = "AND token = '{token}' ".format(token=token)
+        tokenQ = "token = '{token}' ".format(token=token)
     except:
         tokenQ = "entropy is NULL "
         
