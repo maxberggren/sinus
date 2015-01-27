@@ -50,8 +50,6 @@ if __name__ == "__main__":
     mysqldb.query("set names 'utf8'")
 
     for row in mysqldb.query("SELECT * from ngrams "
-                             "WHERE frequency > 50 "
-                             "AND frequency < 30000 "
                              "AND entropy is NULL "
                              "AND token = 'litta' "
                              "ORDER BY RAND() "):
