@@ -52,15 +52,16 @@ if __name__ == "__main__":
     
     try:
         token = sys.argv[1]
-        print token
+        print type(token)
         tokenQ = "token = '{token}' ".format(token=token)
+        frq = ""
     except:
         tokenQ = "entropy is NULL "
+        frq = "frequency > 50 AND frequency < 30000"
         
-    q = """SELECT * from ngrams WHERE frequency > 50 AND 
-           frequency < 30000 AND {tokenQ} 
-           ORDER BY RAND() """.format(tokenQ=tokenQ)
-    print q  
+    q = """SELECT * from ngrams WHERE {frq} AND {tokenQ} 
+           ORDER BY RAND() """.format(tokenQ=tokenQ, frq=frq)
+
     for row in mysqldb.query(q):
         start = time.time()
         searchWord = row['token']
