@@ -299,7 +299,7 @@ class tweetLoc:
                 result = self.db.query(u"SELECT * FROM GMMs " 
                                        u"WHERE word = '{word}' "
                                        u"AND date = '{date}' "
-                                       u"AND n_coordinates > 100 ".format(word=word, 
+                                       u"AND n_coordinates > 100 ".format(word=word,
                                                                           date=date))                    
                 subscores, subcoordinates = [], []
                 for row in result:
@@ -340,12 +340,13 @@ class tweetLoc:
         # Sortera
         sortedByScore = sorted(wordsAndScores, key=itemgetter(1), reverse=True)
         
-        # Skapa dict med platsighet för top 50
+        # Om MVPtestet körs
         if mvpThreshold:
             limit = int(mvpThreshold) 
         else:
             limit = 50
-        
+            
+        # Skapa dict med ord:platsigheter
         mostUsefullWords = OrderedDict((word, score) for word, score, _, _ in 
                                         sortedByScore[0:limit]) 
         # Skapa dict med koordinatfrekvens för top 50                                

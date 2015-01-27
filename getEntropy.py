@@ -23,7 +23,10 @@ def entropy(lats, lons, bins=10, xyRatio=1.8):
     lon_bins = np.linspace(8, 26, binNrScaleFactor)
     # xyRatio to control the squarness of bins 
     lat_bins = np.linspace(54.5, 69.5, binNrScaleFactor*xyRatio) 
-
+    print lats
+    print lons
+    print lat_bins
+    print lon_bins
     frqMatrix, _, _ = np.histogram2d(lats, 
                                      lons, 
                                      [lat_bins, lon_bins])
