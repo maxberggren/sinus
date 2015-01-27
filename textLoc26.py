@@ -346,7 +346,7 @@ class tweetLoc:
         else:
             limit = 50
         
-        print zip(*sortedByScore)
+        print zip(*sortedByScore[0:1])
         print limit
         
         mostUsefullWords = OrderedDict((word, score) for word, score, _, _ in 
