@@ -1,11 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*- 
 
-from textLoc26 import *
 #import sys
 import dataset
 import re
-from geocode import latlon
 import numpy as np
 import urllib2
 import requests
@@ -13,6 +11,7 @@ import json
 from collections import OrderedDict
 import config as c
 import time
+import nltk
 
 if __name__ == "__main__":
     db = dataset.connect(c.LOCATIONDB+ "?charset=utf8")
