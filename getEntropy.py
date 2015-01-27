@@ -72,15 +72,15 @@ if __name__ == "__main__":
         try:
             lats, lons = [], []
             result = mysqldb.query("SELECT blogs.longitude "
-                               "FROM posts INNER JOIN blogs ON "
-                               "blogs.id=posts.blog_id "
-                               "WHERE MATCH(posts.text) "
-                               "AGAINST ('" + searchWord + "' "
-                               "IN BOOLEAN MODE) "
-                               "AND blogs.latitude is not NULL "
-                               "AND blogs.longitude is not NULL "
-                               "AND blogs.rank <= 3 "
-                               "ORDER BY posts.date ")
+                                   "FROM posts INNER JOIN blogs ON "
+                                   "blogs.id=posts.blog_id "
+                                   "WHERE MATCH(posts.text) "
+                                   "AGAINST ('" + searchWord + "' "
+                                   "IN BOOLEAN MODE) "
+                                   "AND blogs.latitude is not NULL "
+                                   "AND blogs.longitude is not NULL "
+                                   "AND blogs.rank <= 3 "
+                                   "ORDER BY posts.date ")
 
             for row in result:
                 if row['latitude'] and row['longitude']:
@@ -111,6 +111,7 @@ if __name__ == "__main__":
                 mysqldb['ngrams'].update(data, ['token'])
             else:
                 print "Ordet misslyckades pga för få koordinater."
+                print "Hittade endast: " + str(len(lats))
 
         except KeyboardInterrupt:
             print "Skippar ordet"
