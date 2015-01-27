@@ -295,20 +295,12 @@ class tweetLoc:
             wordFreq, freqInBatch = 0, 0
             
             for date in batches:
-                if mvpThreshold:
-                    limit = "LIMIT {}".format(int(mvpThreshold))
-                else:
-                    limit = ""
-                    
                 
                 result = self.db.query(u"SELECT * FROM GMMs " 
                                        u"WHERE word = '{word}' "
                                        u"AND date = '{date}' "
-                                       u"AND n_coordinates > 100 "
-                                       u"ORDER BY scoring DESC "
-                                       u"{limit}".format(word=word, 
-                                                         date=date, 
-                                                         limit=limit))                    
+                                       u"AND n_coordinates > 100 ".format(word=word, 
+                                                                          date=date))                    
                 subscores, subcoordinates = [], []
                 for row in result:
                     subscores.append(row['scoring'])
@@ -355,6 +347,9 @@ class tweetLoc:
         # Skapa dict med koordinatfrekvens för top 50                                
         mentions = OrderedDict((word, int(wordFreq)) for word, score, wordFreq in 
                                 sortedByScore[0:50]) 
+                                
+        if mvpThreshold:
+            coordinate, score = self.weightedMean(zip(*sortedByScore[0:int(mvpThreshold)]))
         
         if len(words) == 0:
             outOfVocabulary = 0                                
