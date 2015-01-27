@@ -306,9 +306,8 @@ class tweetLoc:
                                        "AND date = '{date}' "
                                        "AND n_coordinates > 100 "
                                        "ORDER BY scoring DESC "
-                                       "{limit}".format(word=word, 
-                                                        date=date, 
-                                                        limit=limit))                    
+                                       "LIMIT 1".format(word=word, 
+                                                        date=date))                    
                 subscores, subcoordinates = [], []
                 for row in result:
                     subscores.append(row['scoring'])
