@@ -336,23 +336,24 @@ class tweetLoc:
         
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
-        print coordinates
         wordsAndScores = zip(acceptedWords, scores, wordFreqs, coordinates)
         # Sortera
         sortedByScore = sorted(wordsAndScores, key=itemgetter(1), reverse=True)
         
         # Skapa dict med platsighet för top 50
+        limit = mvpThreshold if mvpThreshold else limit = 50
+        
         mostUsefullWords = OrderedDict((word, score) for word, score, _, _ in 
-                                        sortedByScore[0:50]) 
+                                        sortedByScore[0:limit]) 
         # Skapa dict med koordinatfrekvens för top 50                                
         mentions = OrderedDict((word, int(wordFreq)) for word, score, _, _ in 
-                                sortedByScore[0:50]) 
+                                sortedByScore[0:limit]) 
                                 
         if mvpThreshold:
             topWords = zip(*sortedByScore[0:int(mvpThreshold)])[0]
             scores = zip(*sortedByScore[0:int(mvpThreshold)])[1]
             coordinates = zip(*sortedByScore[0:int(mvpThreshold)])[3]
-            print coordinates
+
             coordinate, score = self.weightedMean(coordinates, scores)
         
         if len(words) == 0:
