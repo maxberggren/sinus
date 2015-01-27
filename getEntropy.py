@@ -51,7 +51,7 @@ if __name__ == "__main__":
     mysqldb.query("set names 'utf8'")
     
     try:
-        token = sys.argv[0]
+        token = sys.argv[1]
         tokenQ = "AND token = '{token}' ".format(token=token)
     except:
         tokenQ = ""
