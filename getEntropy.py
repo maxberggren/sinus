@@ -55,7 +55,7 @@ if __name__ == "__main__":
         tokenQ = "AND token = '{token}' ".format(token=token)
     except:
         tokenQ = ""
-
+    print tokenQ
     for row in mysqldb.query("SELECT * from ngrams "
                              "WHERE frequency > 50 "
                              "AND frequency < 30000 "
