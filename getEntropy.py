@@ -75,8 +75,9 @@ if __name__ == "__main__":
                                    "ORDER BY posts.date ")
 
             for row in result:
-                lats.append(row['latitude'])
-                lons.append(row['longitude'])
+                if row['latitude'] and row['longitude']:
+                    lats.append(row['latitude'])
+                    lons.append(row['longitude'])
 
             if len(lats) > 15:
                 deltaEnt10 = deltaEntropy(lats, lons, chunk=0.1)            
