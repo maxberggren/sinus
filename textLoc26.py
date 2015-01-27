@@ -295,14 +295,19 @@ class tweetLoc:
             wordFreq, freqInBatch = 0, 0
             
             for date in batches:
+                if mvpThreshold:
+                    limit = "LIMIT {}".format(mvpThreshold)
+                else:
+                    limit = ""
+                    
                 result = self.db.query("SELECT * FROM GMMs " 
                                        "WHERE word = '{word}' "
                                        "AND date = '{date}' "
                                        "AND n_coordinates > 100 "
                                        "ORDER BY scoring DESC "
-                                       "LIMIT {limit}".format(word=word, 
-                                                              date=date, 
-                                                              limit=mvpThreshold))                    
+                                       "{limit}".format(word=word, 
+                                                        date=date, 
+                                                        limit=limit))                    
                 subscores, subcoordinates = [], []
                 for row in result:
                     subscores.append(row['scoring'])
