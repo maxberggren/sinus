@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
     for row in mysqldb.query("SELECT * from ngrams "
                              "WHERE entropy is NULL "
-                             "AND token = 'litta' "
+                             "AND token = 'skåne' "
                              "ORDER BY RAND() "):
         start = time.time()
         searchWord = row['token']
