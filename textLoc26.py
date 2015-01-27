@@ -264,7 +264,7 @@ class tweetLoc:
         else:
             return [0.0, 0.0], 0.0
 
-    def predict(self, text, threshold=float(1e40), mergeSubGMMs=True):
+    def predict(self, text, threshold=float(1e40), mergeSubGMMs=True, mvpThreshold=None):
         """ 
         Förutsäger en koordinat för en bunte text
         Input: text
@@ -290,17 +290,19 @@ class tweetLoc:
         else:
             batches = self.cache.get("batches")
         
-        print len(words)
         for word in words:
             batchscores, batchcoordinates = [], []
             wordFreq, freqInBatch = 0, 0
             
             for date in batches:
                 result = self.db.query("SELECT * FROM GMMs " 
-                                       "WHERE word = '" + word + "' "
-                                       "AND date = '" + date + "' "
-                                       "AND n_coordinates > 100")   
-                                       #"AND n_coordinates > 100 AND gaussians=7")                    
+                                       "WHERE word = '{word}' "
+                                       "AND date = '{date}' "
+                                       "AND n_coordinates > 100 "
+                                       "ORDER BY scoring DESC "
+                                       "LIMIT {limit}".format(word=word, 
+                                                              date=date, 
+                                                              limit=mvpThreshold))                    
                 subscores, subcoordinates = [], []
                 for row in result:
                     subscores.append(row['scoring'])
@@ -310,7 +312,7 @@ class tweetLoc:
                         freqInBatch = 0
                 
                 if mergeSubGMMs:
-                    # Run weighted mean in the three GMMs
+                    # Run weighted mean in the GMMs
                     coordinate, score = self.weightedMean(subcoordinates, subscores)
                     batchscores.append(score)
                     batchcoordinates.append(coordinate)
