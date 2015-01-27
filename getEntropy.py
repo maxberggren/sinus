@@ -53,10 +53,10 @@ if __name__ == "__main__":
     try:
         token = sys.argv[1]
         print type(token)
-        tokenQ = "AND token = '{token}' ".format(token=token)
+        tokenQ = "token = '{token}' ".format(token=token)
         frq = ""
     except:
-        tokenQ = "entropy is NULL "
+        tokenQ = "AND entropy is NULL "
         frq = "frequency > 50 AND frequency < 30000"
         
     q = """SELECT * from ngrams WHERE {frq} {tokenQ} 
