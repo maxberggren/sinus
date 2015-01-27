@@ -16,6 +16,7 @@ import math
 import sqlalchemy
 import traceback
 import config as c
+import sys
 
 def entropy(lats, lons, bins=10, xyRatio=1.8):
     # control how many bins
@@ -48,12 +49,18 @@ if __name__ == "__main__":
 
     mysqldb = dataset.connect(c.LOCATIONDB)
     mysqldb.query("set names 'utf8'")
+    
+    try:
+        token = sys.argv[0]
+        tokenQ = "AND token = '{token}' ".format(token=token)
+    except:
+        tokenQ = ""
 
     for row in mysqldb.query("SELECT * from ngrams "
                              "WHERE frequency > 50 "
                              "AND frequency < 30000 "
                              "AND entropy is NULL "
-                             "AND token = 'litta' "
+                             "" + tokenQ + ""
                              "ORDER BY RAND() "):
         start = time.time()
         searchWord = row['token']
