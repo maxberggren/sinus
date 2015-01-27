@@ -71,14 +71,16 @@ if __name__ == "__main__":
         
         try:
             lats, lons = [], []
-            result = mysqldb.query("SELECT blogs.longitude, "
-                                   "blogs.latitude "
-                                   "FROM posts INNER JOIN blogs "
-                                   "ON blogs.id = posts.blog_id "
-                                   "WHERE MATCH(posts.text) "
-                                   "AGAINST ('" + searchWord + "') "
-                                   "AND blogs.latitude is not NULL "
-                                   "ORDER BY posts.date ")
+            result = mysqldb.query("SELECT blogs.longitude "
+                               "FROM posts INNER JOIN blogs ON "
+                               "blogs.id=posts.blog_id "
+                               "WHERE MATCH(posts.text) "
+                               "AGAINST ('" + searchWord + "' "
+                               "IN BOOLEAN MODE) "
+                               "AND blogs.latitude is not NULL "
+                               "AND blogs.longitude is not NULL "
+                               "AND blogs.rank <= 3 "
+                               "ORDER BY posts.date ")
 
             for row in result:
                 if row['latitude'] and row['longitude']:
