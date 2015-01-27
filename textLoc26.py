@@ -300,6 +300,7 @@ class tweetLoc:
                 else:
                     limit = ""
                     
+                print limit
                 result = self.db.query("SELECT * FROM GMMs " 
                                        "WHERE word = '{word}' "
                                        "AND date = '{date}' "
