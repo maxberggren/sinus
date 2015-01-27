@@ -296,7 +296,7 @@ class tweetLoc:
             
             for date in batches:
                 if mvpThreshold:
-                    limit = "LIMIT {}".format(mvpThreshold)
+                    limit = "LIMIT {}".format(int(mvpThreshold))
                 else:
                     limit = ""
                     
