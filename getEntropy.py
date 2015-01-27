@@ -53,7 +53,7 @@ if __name__ == "__main__":
                              "WHERE frequency > 50 "
                              "AND frequency < 30000 "
                              "AND entropy is NULL "
-                             "AND token = 'lita' "
+                             "AND token = 'litta' "
                              "ORDER BY RAND() "):
         start = time.time()
         searchWord = row['token']
