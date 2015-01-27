@@ -336,7 +336,7 @@ class tweetLoc:
         
         # Vikta samman alla ord efter deras "platsighet"
         coordinate, score = self.weightedMean(coordinates, scores)
-  
+        print coordinates
         wordsAndScores = zip(acceptedWords, scores, wordFreqs, coordinates)
         # Sortera
         sortedByScore = sorted(wordsAndScores, key=itemgetter(1), reverse=True)
@@ -352,7 +352,7 @@ class tweetLoc:
             topWords = zip(*sortedByScore[0:int(mvpThreshold)])[0]
             scores = zip(*sortedByScore[0:int(mvpThreshold)])[1]
             coordinates = zip(*sortedByScore[0:int(mvpThreshold)])[2]
-            
+            print coordinates
             coordinate, score = self.weightedMean(coordinates, scores)
         
         if len(words) == 0:
