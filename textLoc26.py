@@ -341,7 +341,10 @@ class tweetLoc:
         sortedByScore = sorted(wordsAndScores, key=itemgetter(1), reverse=True)
         
         # Skapa dict med platsighet för top 50
-        limit = mvpThreshold if mvpThreshold else limit = 50
+        if mvpThreshold:
+            limit = mvpThreshold 
+        else:
+            limit = 50
         
         mostUsefullWords = OrderedDict((word, score) for word, score, _, _ in 
                                         sortedByScore[0:limit]) 
