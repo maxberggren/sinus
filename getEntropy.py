@@ -56,9 +56,8 @@ if __name__ == "__main__":
     except:
         tokenQ = ""
         
-    q = u"""SELECT * from ngrams WHERE frequency > 50 AND 
-           frequency < 30000 AND entropy is NULL {tokenQ} 
-           ORDER BY RAND() """.format(tokenQ=tokenQ)
+    q = u"""SELECT * from ngrams WHERE entropy is NULL {tokenQ} 
+            ORDER BY RAND() """.format(tokenQ=tokenQ)
     print q  
     for row in mysqldb.query(q):
         start = time.time()
