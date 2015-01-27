@@ -55,10 +55,10 @@ if __name__ == "__main__":
         print type(token)
         tokenQ = "AND token = '{token}' ".format(token=token)
     except:
-        tokenQ = ""
+        tokenQ = "entropy is NULL "
         
     q = """SELECT * from ngrams WHERE frequency > 50 AND 
-           frequency < 30000 AND entropy is NULL {tokenQ} 
+           frequency < 30000 AND {tokenQ} 
            ORDER BY RAND() """.format(tokenQ=tokenQ)
     print q  
     for row in mysqldb.query(q):
