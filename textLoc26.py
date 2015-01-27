@@ -349,7 +349,8 @@ class tweetLoc:
                                 sortedByScore[0:50]) 
                                 
         if mvpThreshold:
-            coordinate, score = self.weightedMean(zip(*sortedByScore[0:int(mvpThreshold)]))
+            print zip(*sortedByScore[0:int(mvpThreshold)])
+            #coordinate, score = self.weightedMean()
         
         if len(words) == 0:
             outOfVocabulary = 0                                
