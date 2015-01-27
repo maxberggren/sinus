@@ -346,6 +346,9 @@ class tweetLoc:
         else:
             limit = 50
         
+        print zip(*sortedByScore)
+        print limit
+        
         mostUsefullWords = OrderedDict((word, score) for word, score, _, _ in 
                                         sortedByScore[0:limit]) 
         # Skapa dict med koordinatfrekvens för top 50                                
