@@ -353,9 +353,8 @@ class tweetLoc:
                                 sortedByScore[0:limit]) 
                                 
         if mvpThreshold:
-            topWords = zip(*sortedByScore[0:int(mvpThreshold)])[0]
-            scores = zip(*sortedByScore[0:int(mvpThreshold)])[1]
-            coordinates = zip(*sortedByScore[0:int(mvpThreshold)])[3]
+            scores = zip(*sortedByScore[0:limit])[1]
+            coordinates = zip(*sortedByScore[0:limit])[3]
 
             coordinate, score = self.weightedMean(coordinates, scores)
         
