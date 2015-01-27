@@ -75,7 +75,7 @@ if __name__ == "__main__":
                                    "FROM posts INNER JOIN blogs ON "
                                    "blogs.id=posts.blog_id "
                                    "WHERE MATCH(posts.text) "
-                                   "AGAINST ('" + searchWord + "' "
+                                   "AGAINST ('" + searchWord.encode('utf-8') + "' "
                                    "IN BOOLEAN MODE) "
                                    "AND blogs.latitude is not NULL "
                                    "AND blogs.longitude is not NULL "
