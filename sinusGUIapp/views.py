@@ -208,7 +208,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
     gifFilenames = []
     nBins = len(lon_bins)*len(lat_bins)
-    print coordinatesByWord
+    #print coordinatesByWord
     if dates:
         # Chunking only supported when just one word is sent in
         ts = [{'date':str(date),'value':value} for date, value in zip(dates, coordinatesByWord[0])]
