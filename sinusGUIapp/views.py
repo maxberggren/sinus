@@ -221,6 +221,13 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         llcrnrlat = lds['latitude'].min(axis=0)
         urcrnrlon = lds['longitude'].max(axis=0)
         urcrnrlat = lds['latitude'].max(axis=0)
+        
+        print llcrnrlon, llcrnrlat, urcrnrlon, urcrnrlat
+        
+        print lds['longitude'].quantile(0.9)
+        print lds['longitude'].quantile(0.1)
+        print lds['latitude'].quantile(0.9)
+        print lds['latitude'].quantile(0.1)
     else:
         llcrnrlon = 8
         llcrnrlat = 54.5
