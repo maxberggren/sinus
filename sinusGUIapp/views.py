@@ -142,7 +142,7 @@ def kwic(text, word, source):
         return "[" + source + "] " + left[-26:] + sep + right[:46]
 
 
-def genShapefileImg(coordinatesByWord, words, zoom, binThreshold):
+def genShapefileImg(data, words, zoom, binThreshold):
     """ Generate an image with shapefiles as bins 
 
     Parameters
