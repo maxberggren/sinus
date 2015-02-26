@@ -334,9 +334,14 @@ def genShapefileImg(data, words, zoom, binThreshold):
         cmap = plt.get_cmap(colorCycle(i))
         cmap = opacify(cmap)
         
-        for df_map in [df_map_county, df_map_muni]:
-        #for df_map in [df_map_muni]:
-    
+        if emptyBinFallback == 'county':
+            # Optional fallback for empty bins
+            shapesToPutOnMap = [df_map_county, df_map_muni]
+        else: 
+            shapesToPutOnMap = [df_map_muni]
+        
+        for df_map in shapesToPutOnMap:
+        
             if len(words) == 1: # When only one word, use Jenkins natural breaks
                 breaks = Natural_Breaks(df_map['sum'], initial=300, k=3)
                 df_map['jenks_bins_'+word] = breaks.yb
@@ -672,7 +677,8 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
 
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, rankthreshold=3, 
-            binThreshold=5, datespan=None, binType="shape"):
+            binThreshold=5, datespan=None, binType="shape",
+            emptyBinFallback=None):
 
     """ Retrive data from the document database
 
@@ -959,7 +965,8 @@ def site(urlSearch=None):
                                or "rankthreshold:" in o
                                or "datespan:" in o
                                or "binthreshold:" in o
-                               or "bintype:" in o]
+                               or "bintype:" in o
+                               or "emptybinfallback:" in o]
                                
     queryWords = [w.strip() for w in queryWords 
                             if "age:" not in w 
@@ -970,7 +977,8 @@ def site(urlSearch=None):
                                and "rankthreshold:" not in w
                                and "datespan:" not in w
                                and "binthreshold:" not in w
-                               and "bintype:" not in w]
+                               and "bintype:" not in w
+                               and "emptybinfallback:" not in w]
     
     try:
         xbins = int([o.split(":")[1].strip()
@@ -1010,6 +1018,12 @@ def site(urlSearch=None):
                for o in operators if "bintype:" in o][0])
     except:
         binType = "shape"
+        
+    try:
+        emptyBinFallback = int([o.split(":")[1].strip()
+               for o in operators if "emptybinfallback:" in o][0])
+    except:
+        emptyBinFallback = None
             
             
     if len(queryWords) > 0:
@@ -1020,7 +1034,8 @@ def site(urlSearch=None):
                          rankthreshold=rankthreshold,
                          binThreshold=binThreshold,
                          datespan=datespan,
-                         binType=binType)
+                         binType=binType,
+                         emptyBinFallback=emptyBinFallback)
                          
         filename, hits, KWICs, fewResults, gifFileName = touple
                               
