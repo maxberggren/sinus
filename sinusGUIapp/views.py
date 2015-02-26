@@ -381,10 +381,21 @@ def genShapefileImg(data, words, zoom, binThreshold):
             
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     plt.plot()
-    plt.savefig('koroplet.pdf', dpi=100, bbox_inches='tight')
+
+    # Generate randomized filename
+    filename = "_".join(words) + "_"
+    filename += binascii.b2a_hex(os.urandom(15))[:10]
+    filename = secure_filename(filename)
+    
+    emptyFolder('sinusGUIapp/static/maps/')
+    plt.savefig("sinusGUIapp/static/maps/" + filename +".png", 
+                dpi=100)
+    plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", 
+                dpi=100, 
+                bbox_inches='tight')
 
     #return fewResults, filenameSF, gifFileName 
-    return False, 'koroplet.pdf', None 
+    return False, filename, None 
 
 
 def genGridImg(coordinatesByWord, xBins, words, zoom,
@@ -787,7 +798,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
 
         # Get main image with shapefiles
         fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
-                                                              binThreshold=binThreshold)
+        
+        """                                                    binThreshold=binThreshold)
         # Get main image
         fewResults, filename, gifFileName = genGridImg(coordinatesByWord, 
                                                       xBins,
@@ -816,7 +828,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         
         if gifFileName: # no gif = no histogram                                     
             dateHistogram(dates, gifFileName)
-
+        """
         return filename, hits, KWIC, fewResults, gifFileName
         
     else: # if a term has to few hits
