@@ -1020,14 +1020,14 @@ def site(urlSearch=None):
         binThreshold = 5
         
     try:
-        binType = int([o.split(":")[1].strip()
-               for o in operators if "bintype:" in o][0])
+        binType = [o.split(":")[1].strip()
+               for o in operators if "bintype:" in o][0]
     except:
         binType = "shape"
         
     try:
-        emptyBinFallback = int([o.split(":")[1].strip()
-               for o in operators if "emptybinfallback:" in o][0])
+        emptyBinFallback = [o.split(":")[1].strip()
+               for o in operators if "emptybinfallback:" in o][0]
     except:
         emptyBinFallback = None
             
