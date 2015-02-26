@@ -1,0 +1,42 @@
+========================================================================
+ Finland 1:1,000,000 Administrative Regions
+------------------------------------------------------------------------
+ https://koordinates.com/layer/4257-finland-11000000-administrative-regions/
+========================================================================
+From: National Land Survey of Finland
+
+Description:
+  General map 1:1,000,000 is a dataset depicting the terrain and covering the
+  whole of Finland. The most important target groups are water systems, traffic
+  route networks and administrative borders. The administrative borders, the
+  nomenclature and the traffic route network are updated every year and the other
+  elements every 5 years.
+  
+  Contains data from the National Land Survey of Finland Topographic Database
+  05/2012
+  
+  **License**
+  
+   - [National Land Survey open data licence - version 1.0 - 1 May
+  2012](http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501)
+
+Region: Finland
+
+Category: Boundaries & Administration
+
+Projection: WGS 84
+
+------------------------------------------------------------------------
+ Processing steps applied by Koordinates
+------------------------------------------------------------------------
+
+- imported to Koordinates in Shapefile format on 28 May 2012
+- reprojected from ETRS89 / TM35FIN(N,E) to WGS 84
+- converted by Koordinates to Shapefile on 19 Feb 2015
+
+====================
+No license specified
+====================
+
+No license was specified for this layer. This could mean default rights under copyright law for your legal jurisdiction may apply. Please check with Koordinates if you're unsure of your right to access and use this layer.
+
