@@ -381,7 +381,7 @@ def genShapefileImg(data, words, zoom, binThreshold):
             
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     plt.plot()
-    plt.savefig('koroplet.pdf', dpi=100, bbox_inches='tight')
+    plt.savefig('sinusGUIapp/static/maps/koroplet.pdf', dpi=100, bbox_inches='tight')
 
     #return fewResults, filenameSF, gifFileName 
     return False, 'koroplet.pdf', None 
