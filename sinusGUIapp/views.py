@@ -381,7 +381,7 @@ def genShapefileImg(data, words, zoom, binThreshold):
             
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     plt.plot()
-    plt.savefig('sinusGUIapp/static/maps/koroplet.pdf', dpi=100, bbox_inches='tight')
+    plt.savefig('koroplet.pdf', dpi=100, bbox_inches='tight')
 
     #return fewResults, filenameSF, gifFileName 
     return False, 'koroplet.pdf', None 
@@ -786,7 +786,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             xBins = int(xBins)            
 
         # Get main image with shapefiles
-        fewResults, filenameSF, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
+        fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
                                                               binThreshold=binThreshold)
         # Get main image
         fewResults, filename, gifFileName = genGridImg(coordinatesByWord, 
@@ -817,7 +817,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         if gifFileName: # no gif = no histogram                                     
             dateHistogram(dates, gifFileName)
 
-        return filenameSF, hits, KWIC, fewResults, gifFileName
+        return filename, hits, KWIC, fewResults, gifFileName
         
     else: # if a term has to few hits
         return None, hits, KWIC, fewResults, None
