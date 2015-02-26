@@ -9,6 +9,7 @@ from matplotlib.ticker import LogFormatter
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from sinusGUIapp import app
 from flask import Flask, jsonify, make_response, request, render_template, redirect
@@ -29,6 +30,13 @@ import config as c
 from sqlite_cache import SqliteCache
 import sqlalchemy
 from itertools import groupby
+from shapely.geometry import Point, Polygon, MultiPoint, MultiPolygon
+from shapely.prepared import prep
+from matplotlib.collections import PatchCollection
+from descartes import PolygonPatch
+import json
+import datetime
+from pysal.esda.mapclassify import Natural_Breaks
 
     
 def dateHistogram(dates, filename):
@@ -134,7 +142,37 @@ def kwic(text, word, source):
         return "[" + source + "] " + left[-26:] + sep + right[:46]
 
 
-def genImages(coordinatesByWord, xBins, words, zoom,
+def genShapefileImg(coordinatesByWord, words, zoom, binThreshold):
+    """ Generate an image with shapefiles as bins 
+
+    Parameters
+    ----------
+    coordinatesByWord : tuple
+        tuple with lists of the coordinates
+    words : list
+        list of words corresponding to the lists in 
+        the tuple coordinatesByWord.
+    zoom : int
+        1 if the user wants the map to be zoomed in 
+        around the avalible data. if 0 it defaults
+        to around sweden.
+    binThreshold : int
+        threshold required for a bin to count and be plotted
+
+    Returns
+    -------
+    fewResults : bool
+        true if the template needs to generate an error
+    filename : str
+        name of the file generated
+    gifFileName : always None for compability   
+    """
+
+    #return fewResults, filenameSF, gifFileName 
+    return False, "sdasddsaasd.jpg", None 
+
+
+def genGridImg(coordinatesByWord, xBins, words, zoom,
               xyRatio, blurFactor, minCoordinates, 
               scatter, hits, chunks=1, dates=None, binThreshold=5):
 
@@ -208,7 +246,7 @@ def genImages(coordinatesByWord, xBins, words, zoom,
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
     gifFilenames = []
     nBins = len(lon_bins)*len(lat_bins)
-    #print coordinatesByWord
+
     if dates:
         # Chunking only supported when just one word is sent in
         ts = [{'date':str(date),'value':value} for date, value in zip(dates, coordinatesByWord[0])]
@@ -257,7 +295,6 @@ def genImages(coordinatesByWord, xBins, words, zoom,
         
         for i, kordinater in enumerate(coordinatesByWord):
             word = words[i]
-            #kordinater = np.array_split(kordinater, chunks)
 
             if chunks == 1:
                 kordinater = [kordinater]
@@ -266,11 +303,6 @@ def genImages(coordinatesByWord, xBins, words, zoom,
                             
             if dates:
                 try:
-                    #maxdateInChunk = max(dates[chunk])
-                    #mindateInChunk = min(dates[chunk])
-                    #fig.suptitle('{:%Y-%m-%d} - {:%Y-%m-%d}'.format(mindateInChunk, 
-                    #                                                maxdateInChunk),
-                    #             fontsize=9)
                     fig.suptitle(months[chunk],fontsize=9)              
                 except: # Some dates might be wierd in the DB
                     pass
@@ -538,8 +570,11 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                          (float(xyRatio)*float(2)))
             xBins = int(xBins)            
 
+        # Get main image with shapefiles
+        fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
+                                                              binThreshold=binThreshold)
         # Get main image
-        fewResults, filename, gifFileName = genImages(coordinatesByWord, 
+        fewResults, filename, gifFileName = genGridImg(coordinatesByWord, 
                                                       xBins,
                                                       words,
                                                       zoom,
@@ -551,7 +586,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                                       chunks=1,
                                                       binThreshold=binThreshold)
         # Get time series gif
-        fewResults, giffile, gifFileName = genImages(coordinatesByWord, 
+        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, 
                                                      xBins,
                                                      words,
                                                      zoom,
