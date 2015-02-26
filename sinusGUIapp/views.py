@@ -296,7 +296,7 @@ def genShapefileImg(data, words, zoom, binThreshold):
     
     # Convert to percentages and skip where there is none
     def df_percent(df_map):
-        df_map = df_map[df_map['sum'] > 0]
+        df_map = df_map[df_map['sum'] > binThreshold]
         df_map[words] = df_map[words].astype('float').div(df_map["sum"].astype('float'), axis='index')
         return df_map
     
@@ -796,39 +796,40 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                          (float(xyRatio)*float(2)))
             xBins = int(xBins)            
 
-        # Get main image with shapefiles
-        fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
-                                                            binThreshold=binThreshold)
-        """
-        # Get main image
-        fewResults, filename, gifFileName = genGridImg(coordinatesByWord, 
-                                                      xBins,
-                                                      words,
-                                                      zoom,
-                                                      xyRatio, 
-                                                      blurFactor, 
-                                                      minCoordinates,
-                                                      scatter,
-                                                      hits,
-                                                      chunks=1,
-                                                      binThreshold=binThreshold)
-        # Get time series gif
-        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, 
-                                                     xBins,
-                                                     words,
-                                                     zoom,
-                                                     xyRatio, 
-                                                     blurFactor, 
-                                                     minCoordinates,
-                                                     scatter,
-                                                     hits,
-                                                     chunks=7,
-                                                     dates=dates,
-                                                     binThreshold=binThreshold)
-        
-        if gifFileName: # no gif = no histogram                                     
-            dateHistogram(dates, gifFileName)
-        """
+        if bintype == "shape":
+            # Get main image with shapefiles
+            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
+                                                                binThreshold=binThreshold)
+        if bintype == "square":
+            # Get main image
+            fewResults, filename, gifFileName = genGridImg(coordinatesByWord, 
+                                                          xBins,
+                                                          words,
+                                                          zoom,
+                                                          xyRatio, 
+                                                          blurFactor, 
+                                                          minCoordinates,
+                                                          scatter,
+                                                          hits,
+                                                          chunks=1,
+                                                          binThreshold=binThreshold)
+            # Get time series gif
+            fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, 
+                                                         xBins,
+                                                         words,
+                                                         zoom,
+                                                         xyRatio, 
+                                                         blurFactor, 
+                                                         minCoordinates,
+                                                         scatter,
+                                                         hits,
+                                                         chunks=7,
+                                                         dates=dates,
+                                                         binThreshold=binThreshold)
+            
+            if gifFileName: # no gif = no histogram                                     
+                dateHistogram(dates, gifFileName)
+            
         return filename, hits, KWIC, fewResults, gifFileName
         
     else: # if a term has to few hits
@@ -964,7 +965,8 @@ def site(urlSearch=None):
                                or "zoom:" in o
                                or "rankthreshold:" in o
                                or "datespan:" in o
-                               or "binthreshold:" in o]
+                               or "binthreshold:" in o
+                               or "bintype:" in o]
                                
     queryWords = [w.strip() for w in queryWords 
                             if "age:" not in w 
@@ -974,7 +976,8 @@ def site(urlSearch=None):
                                and "zoom:" not in w
                                and "rankthreshold:" not in w
                                and "datespan:" not in w
-                               and "binthreshold:" not in w]
+                               and "binthreshold:" not in w
+                               and "bintype:" not in w]
     
     try:
         xbins = int([o.split(":")[1].strip()
@@ -1008,6 +1011,12 @@ def site(urlSearch=None):
                for o in operators if "binthreshold:" in o][0])
     except:
         binThreshold = 5
+        
+    try:
+        bintype = int([o.split(":")[1].strip()
+               for o in operators if "bintype:" in o][0])
+    except:
+        bintype = "square"
             
             
     if len(queryWords) > 0:
