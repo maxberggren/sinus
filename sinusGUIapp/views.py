@@ -1009,7 +1009,7 @@ def site(urlSearch=None):
         binType = int([o.split(":")[1].strip()
                for o in operators if "bintype:" in o][0])
     except:
-        binType = "square"
+        binType = "shape"
             
             
     if len(queryWords) > 0:
