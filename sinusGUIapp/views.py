@@ -204,11 +204,28 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         alphas = np.abs(np.linspace(0, 1.0, cmap.N))
         cmap._lut[:-3,-1] = alphas
         return cmap
+
+
+    lds, coord_count = [], {}
+
+    for d, word in zip(data, words):
+        coord_count[word] = len(d)
+        ld = pd.DataFrame(d, columns=['longitude', 'latitude'])
+        ld['word'] = word
+        lds.append(ld)
     
-    llcrnrlon = 8
-    llcrnrlat = 54.5
-    urcrnrlon = 26
-    urcrnrlat = 69.5
+    lds = pd.concat(lds)
+    
+    if zoom:
+        llcrnrlon = lds['longitude'].min(axis=0)
+        llcrnrlat = lds['latitude'].min(axis=0)
+        urcrnrlon = lds['longitude'].max(axis=0)
+        urcrnrlat = lds['latitude'].max(axis=0)
+    else:
+        llcrnrlon = 8
+        llcrnrlat = 54.5
+        urcrnrlon = 26
+        urcrnrlat = 69.5
     
     m = Basemap(projection='merc',
                 resolution = 'i', 
@@ -233,19 +250,6 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     _out = m.readshapefile('shapedata/finland/finland-11000000-administrative-regions', 
                            name='muni_fi', drawbounds=False, 
                            color='none', zorder=3)
-    
-    lds, coord_count = [], {}
-    
-    #for r in m.muni_fi_info:
-    #    print r
-    
-    for d, word in zip(data, words):
-        coord_count[word] = len(d)
-        ld = pd.DataFrame(d, columns=['longitude', 'latitude'])
-        ld['word'] = word
-        lds.append(ld)
-    
-    lds = pd.concat(lds)
     
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
