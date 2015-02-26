@@ -217,17 +217,17 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     lds = pd.concat(lds)
     
     if zoom:
-        llcrnrlon = lds['longitude'].min(axis=0)
-        llcrnrlat = lds['latitude'].min(axis=0)
-        urcrnrlon = lds['longitude'].max(axis=0)
-        urcrnrlat = lds['latitude'].max(axis=0)
+        llcrnrlon = lds['longitude'].quantile(0.1)
+        llcrnrlat = lds['latitude'].quantile(0.1)
+        urcrnrlon = lds['longitude'].quantile(0.9)
+        urcrnrlat = lds['latitude'].quantile(0.9)
         
-        print llcrnrlon, llcrnrlat, urcrnrlon, urcrnrlat
+        #print llcrnrlon, llcrnrlat, urcrnrlon, urcrnrlat
         
-        print lds['longitude'].quantile(0.9)
-        print lds['longitude'].quantile(0.1)
-        print lds['latitude'].quantile(0.9)
-        print lds['latitude'].quantile(0.1)
+        #print lds['longitude'].quantile(0.9)
+        #print lds['longitude'].quantile(0.1)
+        #print lds['latitude'].quantile(0.9)
+        #print lds['latitude'].quantile(0.1)
     else:
         llcrnrlon = 8
         llcrnrlat = 54.5
@@ -345,6 +345,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         cmap = plt.get_cmap(colorCycle(i))
         cmap = opacify(cmap)
         
+        print "emptybinfallack:", emptyBinFallback
         if emptyBinFallback == 'county':
             # Optional fallback for empty bins
             shapesToPutOnMap = [df_map_county, df_map_muni]
