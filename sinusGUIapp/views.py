@@ -395,6 +395,7 @@ def genShapefileImg(data, words, zoom, binThreshold):
                 bbox_inches='tight')
 
     #return fewResults, filenameSF, gifFileName 
+    print filename
     return False, filename, None 
 
 
