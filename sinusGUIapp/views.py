@@ -211,8 +211,8 @@ def genShapefileImg(data, words, zoom, binThreshold):
     urcrnrlat = 69.5
     
     m = Basemap(projection='merc',
-                resolution = 'l', 
-                area_thresh=1000,
+                resolution = 'i', 
+                area_thresh=500,
                 llcrnrlon=llcrnrlon, 
                 llcrnrlat=llcrnrlat,
                 urcrnrlon=urcrnrlon, 
@@ -543,8 +543,8 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
                 urcrnrlat = 69.5
             
             m = Basemap(projection='merc',
-                        resolution = 'l', 
-                        area_thresh=1000,
+                        resolution = 'i', 
+                        area_thresh=500,
                         llcrnrlon=llcrnrlon, 
                         llcrnrlat=llcrnrlat,
                         urcrnrlon=urcrnrlon, 
