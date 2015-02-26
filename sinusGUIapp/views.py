@@ -798,8 +798,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
 
         # Get main image with shapefiles
         fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
-        
-        """                                                    binThreshold=binThreshold)
+                                                            binThreshold=binThreshold)
+        """
         # Get main image
         fewResults, filename, gifFileName = genGridImg(coordinatesByWord, 
                                                       xBins,
