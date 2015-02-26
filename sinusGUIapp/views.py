@@ -219,8 +219,8 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     if zoom:
         llcrnrlon = lds['longitude'].quantile(0.03)
         llcrnrlat = lds['latitude'].quantile(0.03)
-        urcrnrlon = lds['longitude'].quantile(0.97)
-        urcrnrlat = lds['latitude'].quantile(0.97)
+        urcrnrlon = lds['longitude'].quantile(0.99)
+        urcrnrlat = lds['latitude'].quantile(0.99)
     else:
         llcrnrlon = 8
         llcrnrlat = 54.5
@@ -233,9 +233,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                 llcrnrlon=llcrnrlon, 
                 llcrnrlat=llcrnrlat,
                 urcrnrlon=urcrnrlon, 
-                urcrnrlat=urcrnrlat,
-                lon_0=lds['longitude'].quantile(0.5),
-                lat_0=lds['latitude'].quantile(0.5)) 
+                urcrnrlat=urcrnrlat) 
     
     # County data
     _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
