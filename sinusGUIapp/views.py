@@ -681,7 +681,8 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
 
 
 def getData(words, xBins=None, scatter=None, zoom=None,
-            xyRatio=1.8, blurFactor=0.6, rankthreshold=3, binThreshold=5, datespan=None):
+            xyRatio=1.8, blurFactor=0.6, rankthreshold=3, 
+            binThreshold=5, datespan=None, binType="shape"):
 
     """ Retrive data from the document database
 
@@ -708,6 +709,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     datespan : str
         span of what dates to be used in the query. eg. 2011-01-01:2011-12-31
     binThreshold : int
+        number of hits required in a bin for it to count
+    binType : int
         number of hits required in a bin for it to count
 
     Returns
@@ -796,11 +799,11 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                          (float(xyRatio)*float(2)))
             xBins = int(xBins)            
 
-        if bintype == "shape":
+        if binType == "shape":
             # Get main image with shapefiles
             fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
                                                                 binThreshold=binThreshold)
-        if bintype == "square":
+        if binType == "square":
             # Get main image
             fewResults, filename, gifFileName = genGridImg(coordinatesByWord, 
                                                           xBins,
@@ -1013,10 +1016,10 @@ def site(urlSearch=None):
         binThreshold = 5
         
     try:
-        bintype = int([o.split(":")[1].strip()
+        binType = int([o.split(":")[1].strip()
                for o in operators if "bintype:" in o][0])
     except:
-        bintype = "square"
+        binType = "square"
             
             
     if len(queryWords) > 0:
@@ -1026,7 +1029,8 @@ def site(urlSearch=None):
                          zoom=zoom,
                          rankthreshold=rankthreshold,
                          binThreshold=binThreshold,
-                         datespan=datespan)
+                         datespan=datespan,
+                         binType=binType)
                          
         filename, hits, KWICs, fewResults, gifFileName = touple
                               
