@@ -148,7 +148,7 @@ def kwic(text, word, source):
         return "[" + source + "] " + left[-26:] + sep + right[:46]
 
 
-def genShapefileImg(data, words, zoom, binThreshold):
+def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     """ Generate an image with shapefiles as bins 
 
     Parameters
@@ -798,7 +798,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         if binType == "shape":
             # Get main image with shapefiles
             fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
-                                                                binThreshold=binThreshold)
+                                                                binThreshold=binThreshold,
+                                                                emptyBinFallback=emptyBinFallback)
         if binType == "square":
             # Get main image
             fewResults, filename, gifFileName = genGridImg(coordinatesByWord, 
