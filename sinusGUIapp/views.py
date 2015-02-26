@@ -37,8 +37,14 @@ from descartes import PolygonPatch
 import json
 import datetime
 from pysal.esda.mapclassify import Natural_Breaks
-
     
+    
+def colorCycle(i, scatter=False):
+    colors = ['Reds', 'Blues', 'BuGn', 'Purples', 'PuRd']
+    if scatter:
+        colors = ['blue', 'red', 'green', 'magenta', 'cyan']
+    return colors[i % len(colors)]
+                         
 def dateHistogram(dates, filename):
     """ Create histogram of given dates
 
@@ -314,13 +320,6 @@ def genShapefileImg(data, words, zoom, binThreshold):
         return -1
     
     labels = ['0 %', '25 %', '50 %', '75 %', '100 %']
-    colorCycle = ['Reds', 'Blues', 'BuGn', 'Purples', 'PuRd',
-                  'Reds', 'Blues', 'BuGn', 'Purples', 'PuRd',
-                  'Reds', 'Blues', 'BuGn', 'Purples', 'PuRd',
-                  'Reds', 'Blues', 'BuGn', 'Purples', 'PuRd',
-                  'Reds', 'Blues', 'BuGn', 'Purples', 'PuRd',
-                  'Reds', 'Blues', 'BuGn', 'Purples', 'PuRd']
-    
     
     fig = plt.figure(figsize=(3.25*len(words),6))
     
@@ -332,7 +331,7 @@ def genShapefileImg(data, words, zoom, binThreshold):
         ax.set_title(u"{word} - hits: {hits}".format(word=word, hits=coord_count[word]), 
                      y=1.01, fontsize=9)
     
-        cmap = plt.get_cmap(colorCycle[i])
+        cmap = plt.get_cmap(colorCycle(i))
         cmap = opacify(cmap)
         
         for df_map in [df_map_county, df_map_muni]:
@@ -458,15 +457,6 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
         
     fewResults = False
     gifFileName = None 
-    
-    colorCycle = ['Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples',
-                  'Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples',
-                  'Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples',
-                  'Reds', 'Blues', 'Oranges', 'BuGn', 'PuRd', 'Purples']
-    colorCycleScatter = ['blue', 'red', 'green', 'magenta', 'cyan',
-                         'blue', 'red', 'green', 'magenta', 'cyan',
-                         'blue', 'red', 'green', 'magenta', 'cyan',
-                         'blue', 'red', 'green', 'magenta', 'cyan']
           
     lon_bins = np.linspace(8, 26, xBins)
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
@@ -583,7 +573,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
             ys = ys[0:density.shape[0], 0:density.shape[1]]
                     
             # Colormap transparency
-            theCM = cm.get_cmap(colorCycle[i])
+            theCM = cm.get_cmap(colorCycle(i))
             theCM._init()
             alphas = np.abs(np.linspace(0, 1.0, theCM.N))
             theCM._lut[:-3,-1] = alphas
@@ -594,7 +584,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
                 m.scatter(x1[0:1000], 
                           y1[0:1000], 
                           alpha=1, 
-                          c=colorCycleScatter[i], 
+                          c=colorCycle(i, scatter=True), 
                           s=80,
                           edgecolors='none')
                 fewResults = True
