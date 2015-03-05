@@ -1185,6 +1185,23 @@ def explore(word=None):
              
     return render_template("explore.html", data=data)
 
+
+@app.route('/sinus/byod', methods = ['GET', 'POST'])
+def byod(word=None):
+    """Run if BYOD in the menu is choosen
+
+    Parameters
+    ----------
+        
+    Returns
+    -------
+    byod.html : html
+        the explore view rendered with render_template("byod.html")
+
+    """                 
+    return render_template("byod.html", data=None)
+
+
     
 @app.errorhandler(404)
 def not_found(error):
