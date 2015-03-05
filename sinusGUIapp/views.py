@@ -218,9 +218,9 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     
     if zoom:
         llcrnrlon = lds['longitude'].quantile(0.20)
-        llcrnrlat = lds['latitude'].quantile(0.15)
+        llcrnrlat = lds['latitude'].quantile(0.17)
         urcrnrlon = lds['longitude'].quantile(0.8)
-        urcrnrlat = lds['latitude'].quantile(0.84)
+        urcrnrlat = lds['latitude'].quantile(0.85)
     else:
         llcrnrlon = 8
         llcrnrlat = 54.5
