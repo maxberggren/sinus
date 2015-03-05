@@ -1229,13 +1229,9 @@ def byod():
                 
         stats = getStats()
             
-        if request.method == 'POST' and len(textInput) == 0:
-            query = request.form['queryInput']
-            queryWords = query.split(",")
-        else:
-            queryWords = []
-            query = None
-    
+        query = request.form['queryInput']
+        queryWords = query.split(",")
+        
         operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback = getOperators(queryWords)
            
         """     
