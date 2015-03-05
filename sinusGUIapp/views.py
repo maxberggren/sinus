@@ -755,7 +755,7 @@ def getOperators(queryWords):
     except:
         emptyBinFallback = None
         
-    return xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback
+    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback
 
 def getStats():
     cacheTimeout = 24*60*60 # 1 day
@@ -1041,8 +1041,7 @@ def site(urlSearch=None):
         queryWords = []
         query = None
 
-    touple = getOperators(queryWords)
-    xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback = touple
+    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback = getOperators(queryWords)
             
     if len(queryWords) > 0:
         touple = getData(queryWords,        
