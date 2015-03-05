@@ -1218,7 +1218,7 @@ def byod():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             excelfile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     
-    if filename:
+    if excelfile:
         df = pd.io.excel.read_excel(excelfile)
         print df.head()
             
