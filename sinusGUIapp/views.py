@@ -12,7 +12,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sinusGUIapp import app
-from flask import Flask, jsonify, make_response, request, render_template, redirect
+from flask import Flask, jsonify, make_response, request, render_template, redirect, url_for
+from werkzeug import secure_filename
 from textLoc26 import *
 import math
 from werkzeug import secure_filename
@@ -1198,7 +1199,13 @@ def byod(word=None):
     byod.html : html
         the explore view rendered with render_template("byod.html")
 
-    """                 
+    """      
+    UPLOAD_FOLDER = 'sinusGUIapp/static/maps'
+    ALLOWED_EXTENSIONS = set(['xlsx'])
+    
+    app = Flask(__name__)
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+           
     return render_template("byod.html", data=None)
 
 
