@@ -98,7 +98,8 @@ if __name__ == "__main__":
                             #deltaEnt20=deltaEnt20,
                             #deltaEnt30=deltaEnt30,
                             #deltaEnt40=deltaEnt40,
-                            #deltaEnt50=deltaEnt50)
+                            #deltaEnt50=deltaEnt50
+                            )
                 mysqldb['ngrams'].update(data, ['token'])
             else:
                 print "Ordet misslyckades pga för få koordinater."
