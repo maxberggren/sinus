@@ -1214,10 +1214,10 @@ def byod():
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            print filename
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('byod',
-                                    filename=filename))
+            print os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            #return redirect(url_for('byod',
+            #                        filename=filename))
            
     return render_template("byod.html", data=None)
 
