@@ -1203,6 +1203,10 @@ def byod():
     UPLOAD_FOLDER = 'sinusGUIapp/static/maps'
     ALLOWED_EXTENSIONS = set(['xlsx'])
     
+    def allowed_file(filename):
+        return '.' in filename and \
+               filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    
     app = Flask(__name__)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     
