@@ -1227,7 +1227,44 @@ def byod():
         df = pd.io.excel.read_excel(excelfile)
         print df.head()
             
-    return render_template("byod.html", data=None)
+    stats = getStats()
+        
+    if request.method == 'POST' and len(textInput) == 0:
+        query = request.form['queryInput']
+        queryWords = query.split(",")
+    else:
+        queryWords = []
+        query = None
+
+    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback = getOperators(queryWords)
+       
+    """     
+    if len(queryWords) > 0:
+        touple = getData(queryWords,        
+                         xBins=xbins,
+                         scatter=scatter,
+                         zoom=zoom,
+                         rankthreshold=rankthreshold,
+                         binThreshold=binThreshold,
+                         datespan=datespan,
+                         binType=binType,
+                         emptyBinFallback=emptyBinFallback)
+                         
+        filename, hits, KWICs, fewResults, gifFileName = touple
+                              
+        documentQuery = { 'query': query,
+                          'filename': filename,
+                          'hits': hits,
+                          'KWICs': KWICs,
+                          'fewResults': fewResults,
+                          'gifFileName': gifFileName }
+    else:
+        documentQuery = None
+    """
+        
+    return render_template("index.html", localizeText=None,
+                                         documentQuery=None,
+                                         stats=stats)
 
 
     
