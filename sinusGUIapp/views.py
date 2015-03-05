@@ -1210,15 +1210,18 @@ def byod():
     app = Flask(__name__)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     
+    excelfile = None
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            print os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            #return redirect(url_for('byod',
-            #                        filename=filename))
-           
+            excelfile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    
+    if filename:
+        df = pd.io.excel.read_excel(excelfile)
+        print df.head()
+            
     return render_template("byod.html", data=None)
 
 
