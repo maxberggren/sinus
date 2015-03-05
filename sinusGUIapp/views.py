@@ -685,6 +685,78 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
     
     return fewResults, filename, gifFileName
 
+def getOperators(queryWords):
+    operators = [o.strip() for o in queryWords 
+                           if "age:" in o 
+                               or "gender:" in o
+                               or "xbins:" in o
+                               or "scatter:" in o
+                               or "zoom:" in o
+                               or "rankthreshold:" in o
+                               or "datespan:" in o
+                               or "binthreshold:" in o
+                               or "bintype:" in o
+                               or "emptybinfallback:" in o]
+                               
+    queryWords = [w.strip() for w in queryWords 
+                            if "age:" not in w 
+                               and "gender:" not in w
+                               and "xbins:" not in w
+                               and "scatter:" not in w
+                               and "zoom:" not in w
+                               and "rankthreshold:" not in w
+                               and "datespan:" not in w
+                               and "binthreshold:" not in w
+                               and "bintype:" not in w
+                               and "emptybinfallback:" not in w]
+    
+    try:
+        xbins = int([o.split(":")[1].strip()
+                    for o in operators if "xbins:" in o][0])
+    except:
+        xbins = None
+
+    try:
+        scatter = int([o.split(":")[1].strip()
+                      for o in operators if "scatter:" in o][0])
+    except:
+        scatter = None
+    try:
+        zoom = int([o.split(":")[1].strip()
+               for o in operators if "zoom:" in o][0])
+    except:
+        zoom = None
+    try:
+        rankthreshold = int([o.split(":")[1].strip()
+               for o in operators if "rankthreshold:" in o][0])
+    except:
+        rankthreshold = 3
+    try:
+        datespan = [o.split(":")[1].strip()
+                   for o in operators if "datespan:" in o][0]
+    except:
+        datespan = None
+
+    try:
+        binThreshold = int([o.split(":")[1].strip()
+               for o in operators if "binthreshold:" in o][0])
+    except:
+        binThreshold = 5
+        
+    try:
+        binType = [o.split(":")[1].strip()
+               for o in operators if "bintype:" in o][0]
+    except:
+        binType = "shape"
+        
+    try:
+        emptyBinFallback = [o.split(":")[1].strip()
+               for o in operators if "emptybinfallback:" in o][0]
+    except:
+        emptyBinFallback = None
+        
+    return xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback
+
 def getStats():
     cacheTimeout = 24*60*60 # 1 day
     stats = {}
@@ -969,75 +1041,8 @@ def site(urlSearch=None):
         queryWords = []
         query = None
 
-    operators = [o.strip() for o in queryWords 
-                           if "age:" in o 
-                               or "gender:" in o
-                               or "xbins:" in o
-                               or "scatter:" in o
-                               or "zoom:" in o
-                               or "rankthreshold:" in o
-                               or "datespan:" in o
-                               or "binthreshold:" in o
-                               or "bintype:" in o
-                               or "emptybinfallback:" in o]
-                               
-    queryWords = [w.strip() for w in queryWords 
-                            if "age:" not in w 
-                               and "gender:" not in w
-                               and "xbins:" not in w
-                               and "scatter:" not in w
-                               and "zoom:" not in w
-                               and "rankthreshold:" not in w
-                               and "datespan:" not in w
-                               and "binthreshold:" not in w
-                               and "bintype:" not in w
-                               and "emptybinfallback:" not in w]
-    
-    try:
-        xbins = int([o.split(":")[1].strip()
-                    for o in operators if "xbins:" in o][0])
-    except:
-        xbins = None
-
-    try:
-        scatter = int([o.split(":")[1].strip()
-                      for o in operators if "scatter:" in o][0])
-    except:
-        scatter = None
-    try:
-        zoom = int([o.split(":")[1].strip()
-               for o in operators if "zoom:" in o][0])
-    except:
-        zoom = None
-    try:
-        rankthreshold = int([o.split(":")[1].strip()
-               for o in operators if "rankthreshold:" in o][0])
-    except:
-        rankthreshold = 3
-    try:
-        datespan = [o.split(":")[1].strip()
-                   for o in operators if "datespan:" in o][0]
-    except:
-        datespan = None
-
-    try:
-        binThreshold = int([o.split(":")[1].strip()
-               for o in operators if "binthreshold:" in o][0])
-    except:
-        binThreshold = 5
-        
-    try:
-        binType = [o.split(":")[1].strip()
-               for o in operators if "bintype:" in o][0]
-    except:
-        binType = "shape"
-        
-    try:
-        emptyBinFallback = [o.split(":")[1].strip()
-               for o in operators if "emptybinfallback:" in o][0]
-    except:
-        emptyBinFallback = None
-            
+    touple = getOperators(queryWords)
+    xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback = touple
             
     if len(queryWords) > 0:
         touple = getData(queryWords,        
