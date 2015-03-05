@@ -77,6 +77,7 @@ if __name__ == "__main__":
                     lons.append(row['longitude'])
 
             if len(lats) > 15:
+                """
                 deltaEnt10 = deltaEntropy(lats, lons, chunk=0.1)            
                 print "Deltaent10:", deltaEnt10            
                 deltaEnt20 = deltaEntropy(lats, lons, chunk=0.2)            
@@ -86,17 +87,18 @@ if __name__ == "__main__":
                 deltaEnt40 = deltaEntropy(lats, lons, chunk=0.4)            
                 print "Deltaent40:", deltaEnt40
                 deltaEnt50 = deltaEntropy(lats, lons, chunk=0.5)            
-                print "Deltaent50:", deltaEnt50                
+                print "Deltaent50:", deltaEnt50 
+                """               
                 ent = entropy(lats, lons)
                 print "Overall entropy:", ent
         
                 data = dict(token=searchWord, 
                             entropy=ent,
-                            deltaEnt10=deltaEnt10,
-                            deltaEnt20=deltaEnt20,
-                            deltaEnt30=deltaEnt30,
-                            deltaEnt40=deltaEnt40,
-                            deltaEnt50=deltaEnt50)
+                            #deltaEnt10=deltaEnt10,
+                            #deltaEnt20=deltaEnt20,
+                            #deltaEnt30=deltaEnt30,
+                            #deltaEnt40=deltaEnt40,
+                            #deltaEnt50=deltaEnt50)
                 mysqldb['ngrams'].update(data, ['token'])
             else:
                 print "Ordet misslyckades pga för få koordinater."
