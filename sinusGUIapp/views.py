@@ -685,6 +685,74 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
     
     return fewResults, filename, gifFileName
 
+def getStats():
+    cacheTimeout = 24*60*60 # 1 day
+    stats = {}
+    
+    # Get sourcecount for sources that have lon lat
+    key = "sourceswithlatlon"
+    if not cache.get(key):
+        stats[key] = []
+        while True:
+            try:
+                result = mysqldb.query("SELECT source, rank, COUNT(*) "
+                                       "as count FROM blogs "
+                                       "WHERE longitude is not NULL "
+                                       "AND rank <> 9999 "
+                                       "GROUP BY source, rank ORDER BY count DESC")
+                break
+            except sqlalchemy.exc.OperationalError:
+                pass
+                  
+        for row in result:
+            stats[key].append(row)
+        
+        cache.set(key, stats[key], timeout=cacheTimeout) # cache for 1 hours    
+    else:
+        stats[key] = cache.get(key)
+    
+    # Get sourcecount for sources that yet have no lat lon
+    key = "sourceswithoutlatlon"
+    if not cache.get(key):
+        stats[key] = []
+        result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
+                               "WHERE "
+                               "    (longitude is NULL AND rank <> 9999 "
+                               "     AND noCoordinate is NULL) "
+                               "AND "
+                               "    (city is not NULL OR "
+                               "     municipality is not NULL "
+                               "     OR county is not NULL) "
+                               "GROUP BY source, rank ORDER BY count DESC") 
+        for row in result:
+            stats[key].append(row)
+        
+        cache.set(key, stats[key], timeout=cacheTimeout) # cache for 1 hours    
+    else:
+        stats[key] = cache.get(key)
+
+    # Get sourcecount for sources that yet have no lat lon
+    key = "sourceswithoutanymetadata"
+    if not cache.get(key):
+        stats[key] = []
+        result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
+                               "WHERE "
+                               "( (country = '' and municipality = '' "
+                               "   and county = '' and city = '') "
+                               "  OR (country is NULL and municipality is NULL "
+                               "      and county is NULL and city is NULL)"
+                               ") "
+                               "AND longitude is NULL AND latitude is NULL AND "
+                               "rank <> 9999 "
+                               "GROUP BY source, rank ORDER BY count DESC") 
+        for row in result:
+            stats[key].append(row)
+        
+        cache.set(key, stats[key], timeout=cacheTimeout) # cache for 1 hours    
+    else:
+        stats[key] = cache.get(key)
+
+    return stats
 
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, rankthreshold=3, 
@@ -865,75 +933,8 @@ def site(urlSearch=None):
         the index view rendered with render_template("index.html")
 
     """  
+    stats = getStats()
     
-    ### Statistics
-    cacheTimeout = 24*60*60 # 1 day
-    stats = {}
-    
-    # Get sourcecount for sources that have lon lat
-    key = "sourceswithlatlon"
-    if not cache.get(key):
-        stats[key] = []
-        while True:
-            try:
-                result = mysqldb.query("SELECT source, rank, COUNT(*) "
-                                       "as count FROM blogs "
-                                       "WHERE longitude is not NULL "
-                                       "AND rank <> 9999 "
-                                       "GROUP BY source, rank ORDER BY count DESC")
-                break
-            except sqlalchemy.exc.OperationalError:
-                pass
-                  
-        for row in result:
-            stats[key].append(row)
-        
-        cache.set(key, stats[key], timeout=cacheTimeout) # cache for 1 hours    
-    else:
-        stats[key] = cache.get(key)
-    
-    # Get sourcecount for sources that yet have no lat lon
-    key = "sourceswithoutlatlon"
-    if not cache.get(key):
-        stats[key] = []
-        result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
-                               "WHERE "
-                               "    (longitude is NULL AND rank <> 9999 "
-                               "     AND noCoordinate is NULL) "
-                               "AND "
-                               "    (city is not NULL OR "
-                               "     municipality is not NULL "
-                               "     OR county is not NULL) "
-                               "GROUP BY source, rank ORDER BY count DESC") 
-        for row in result:
-            stats[key].append(row)
-        
-        cache.set(key, stats[key], timeout=cacheTimeout) # cache for 1 hours    
-    else:
-        stats[key] = cache.get(key)
-
-    # Get sourcecount for sources that yet have no lat lon
-    key = "sourceswithoutanymetadata"
-    if not cache.get(key):
-        stats[key] = []
-        result = mysqldb.query("SELECT source, rank, COUNT(*) as count FROM blogs "
-                               "WHERE "
-                               "( (country = '' and municipality = '' "
-                               "   and county = '' and city = '') "
-                               "  OR (country is NULL and municipality is NULL "
-                               "      and county is NULL and city is NULL)"
-                               ") "
-                               "AND longitude is NULL AND latitude is NULL AND "
-                               "rank <> 9999 "
-                               "GROUP BY source, rank ORDER BY count DESC") 
-        for row in result:
-            stats[key].append(row)
-        
-        cache.set(key, stats[key], timeout=cacheTimeout) # cache for 1 hours    
-    else:
-        stats[key] = cache.get(key)
-
-
     ### Classify text
     try:
         textInput = request.form['textInput']
