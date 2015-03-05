@@ -217,10 +217,10 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     lds = pd.concat(lds)
     
     if zoom:
-        llcrnrlon = lds['longitude'].quantile(0.05)
+        llcrnrlon = lds['longitude'].quantile(0.12)
         llcrnrlat = lds['latitude'].quantile(0.20)
         urcrnrlon = lds['longitude'].quantile(0.88)
-        urcrnrlat = lds['latitude'].quantile(0.85)
+        urcrnrlat = lds['latitude'].quantile(0.95)
     else:
         llcrnrlon = 8
         llcrnrlat = 54.5
