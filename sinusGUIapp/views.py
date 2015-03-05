@@ -1210,6 +1210,7 @@ def byod():
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            print "sddasasdddasads!"
             print filename
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('uploaded_file',
