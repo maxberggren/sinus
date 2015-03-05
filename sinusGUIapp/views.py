@@ -221,15 +221,19 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         llcrnrlat = lds['latitude'].quantile(0.20) - 0.3
         urcrnrlon = lds['longitude'].quantile(0.88) + 0.3
         urcrnrlat = lds['latitude'].quantile(0.83) + 0.3
+        resolution = "h"
+        area_thresh = 50
     else:
         llcrnrlon = 8
         llcrnrlat = 54.5
         urcrnrlon = 26
         urcrnrlat = 69.5
+        resolution = 'i'
+        area_thresh = 500
     
     m = Basemap(projection='merc',
-                resolution = 'i', 
-                area_thresh=500,
+                resolution=resolution, 
+                area_thresh=area_thresh,
                 llcrnrlon=llcrnrlon, 
                 llcrnrlat=llcrnrlat,
                 urcrnrlon=urcrnrlon, 
