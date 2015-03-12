@@ -912,7 +912,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "AND blogs.longitude is not NULL "
                                "AND blogs.rank <= " + str(rankthreshold) + " "
                                " " + spanQuery + " "
-                               "ORDER BY posts.date " )
+                               "ORDER BY posts.date "
+                               " LIMIT 2000" )
                                #ORDER BY RAND() limit 1000? 
         print word.encode('utf-8')
         
