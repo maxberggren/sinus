@@ -78,6 +78,13 @@
 		</div>
 
 
+		{% if documentQuery.queryLimit %}
+		<div class="alert alert-danger"><strong>
+		Maxgränsen för antal anrop till Googles API är för dagen nådd. Kartan genererades på det den fick innan gränsen nåddes, samt orter som cachats sedan tidigare. Datan byggdes på {{ documentQuery.queryLimit }} % av vad som finns. Du måste nu vänta 24 h innan nästa kartgenerering ifall du vill ha med all data i kartan. 
+		</div>
+		{% endif %}
+
+
         {% if documentQuery and not localizeText %}
         {% if documentQuery.filename %}
         <div class="panel panel-default">
@@ -111,11 +118,6 @@
 		{% endif %}
 
 
-		{% if documentQuery.queryLimit %}
-		<div class="alert alert-danger"><strong>
-		Maxgränsen för antal anrop till Googles API är för dagen nådd. Kartan genererades på det den fick innan gränsen nåddes, samt orter som cachats sedan tidigare. Datan byggdes på {{ documentQuery.queryLimit }} % av vad som finns. Du måste nu vänta 24 h innan nästa kartgenerering ifall du vill ha med all data i kartan. 
-		</div>
-		{% endif %}
         
         {% if documentQuery.filename and documentQuery['KWICs'] %}
         {% for word, KWIC in documentQuery['KWICs'].iteritems() %} 
