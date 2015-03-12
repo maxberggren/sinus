@@ -1277,20 +1277,20 @@ def byod():
     if excelfile:
         df = pd.io.excel.read_excel(excelfile)
 
-        print "!!!!!!!!" 
         lats, lons = [], []
         
-        i = 0
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
             # Encode and run by Google API
             lat, lon = getCoordinate(place)
             lats.append(lat)
             lons.append(lon)
-            i += 1
-            if i > 5:
-                break
             
         print lats, lons
+        
+        df['lat'] = lats
+        df['lon'] = lons
+        
+        print df.head()
         
         #print dataframe2tuple(df)
                 
