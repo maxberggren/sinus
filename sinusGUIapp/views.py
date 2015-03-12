@@ -38,7 +38,8 @@ from descartes import PolygonPatch
 import json
 import datetime
 from pysal.esda.mapclassify import Natural_Breaks
-    
+from geocode import latlon
+import geocode    
     
 def colorCycle(i, scatter=False):
     colors = ['Reds', 'Blues', 'BuGn', 'Purples', 'PuRd']
@@ -936,10 +937,10 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         coordinatesByWord = coordinatesByWord + (coordinates,)
         hits[word] = len(coordinates)
         
-        if len(coordinates) < minCoordinates:
+        if len(coordinates) < minCoordinates: # log the one with fewest coordinates
             minCoordinates = len(coordinates)
                 
-    if minCoordinates > 4:
+    if minCoordinates > 4: # all words need more than 4 coordinates
 
         if not xBins: # xBins not set: "guestimate" that 2 hits per bin is good
             xBins = math.sqrt(float(minCoordinates)/
@@ -1192,6 +1193,17 @@ def explore(word=None):
     return render_template("explore.html", data=data)
 
 
+def dataframe2tuple(df):
+    coordinatesByWord = ()
+    
+    for data in df.groupby(['form']):
+        lats, lons = [], []
+        print zip(data['ort'], data['kommun'], data['län'], data['landskap'])
+    
+        #coordinatesByWord = coordinatesByWord + (coordinates,)
+    #pass
+
+
 @app.route('/sinus/byod', methods = ['GET', 'POST'])
 def byod():
     """Run if BYOD in the menu is choosen
@@ -1226,6 +1238,8 @@ def byod():
     if excelfile:
         df = pd.io.excel.read_excel(excelfile)
         print df.head()
+        
+        print dataframe2tuple(df)
                 
         stats = getStats()
             
@@ -1233,29 +1247,40 @@ def byod():
         queryWords = query.split(",")
         
         operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback = getOperators(queryWords)
-           
-        """     
-        if len(queryWords) > 0:
-            touple = getData(queryWords,        
-                             xBins=xbins,
-                             scatter=scatter,
-                             zoom=zoom,
-                             rankthreshold=rankthreshold,
-                             binThreshold=binThreshold,
-                             datespan=datespan,
-                             binType=binType,
-                             emptyBinFallback=emptyBinFallback)
-                             
-            filename, hits, KWICs, fewResults, gifFileName = touple
-                                  
-            documentQuery = { 'query': query,
-                              'filename': filename,
-                              'hits': hits,
-                              'KWICs': KWICs,
-                              'fewResults': fewResults,
-                              'gifFileName': gifFileName }
-        else:
-            documentQuery = None
+        
+        if binType == "shape":
+            # Get main image with shapefiles
+            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, queryWords, zoom,
+                                                                binThreshold=binThreshold,
+                                                                emptyBinFallback=emptyBinFallback)
+        
+        # TODO!!!!!!!!!!!!!!!!!!!
+        # get coordinatesByWord from DF
+        
+        #fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, queryWords, zoom,
+        #                                                        binThreshold=binThreshold,
+        #                                                        emptyBinFallback=emptyBinFallback)
+        
+        """   
+        touple = getData(queryWords,        
+                         xBins=xbins,
+                         scatter=scatter,
+                         zoom=zoom,
+                         rankthreshold=rankthreshold,
+                         binThreshold=binThreshold,
+                         datespan=datespan,
+                         binType=binType,
+                         emptyBinFallback=emptyBinFallback)
+                         
+        filename, hits, KWICs, fewResults, gifFileName = touple
+                              
+        documentQuery = { 'query': query,
+                          'filename': filename,
+                          'hits': hits,
+                          'KWICs': KWICs,
+                          'fewResults': fewResults,
+                          'gifFileName': gifFileName }
+                          
         """
             
         return render_template("index.html", localizeText=None,
