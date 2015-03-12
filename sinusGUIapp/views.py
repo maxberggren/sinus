@@ -1195,13 +1195,15 @@ def explore(word=None):
 
 def dataframe2tuple(df):
     coordinatesByWord = ()
+    words = []
     
-    for name, data in df.groupby(['form']):
+    for word, data in df.groupby(['form']):
+        words.append(word)
         coordinates = zip(data['lon'], data['lat'])
         coordinates = [list(c) for c in coordinates]
         coordinatesByWord = coordinatesByWord + (coordinates,)
     
-    return coordinatesByWord
+    return coordinatesByWord, words
 
 def getCoordinate(place):
     """ Get coordinate from Google API. Also, this is posisbly
@@ -1294,10 +1296,8 @@ def byod():
         df['lon'] = lons
         
         df = df[df.groupby('form').form.transform(len) > 20]
-        
-        words = df['form'].unique()
-                
-        coordinatesByWord = dataframe2tuple(df)
+                        
+        coordinatesByWord, words = dataframe2tuple(df)
                 
         stats = getStats()
             
