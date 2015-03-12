@@ -1241,7 +1241,7 @@ def byod():
 
             
         print zip(df['ort'], df['kommun'], df[u'län'], df['landskap'])[0]        
-        print dataframe2tuple(df)
+        #print dataframe2tuple(df)
                 
         stats = getStats()
             
