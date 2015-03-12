@@ -1223,18 +1223,15 @@ def getCoordinate(place):
                             county + ", " + 
                             region)
     except geocode.NoResultError as error:
-        print error
         try:
             coordinate = latlon(muni + ", " + 
                                 county + ", " + 
                                 region)
         except geocode.NoResultError as error:
-            print error
             try:
                 coordinate = latlon(county + ", " + 
                                    region)
             except geocode.NoResultError as error:
-                print error
                 try:
                     coordinate = latlon(region)
                 except geocode.NoResultError as error:
