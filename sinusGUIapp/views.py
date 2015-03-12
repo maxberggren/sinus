@@ -1293,6 +1293,8 @@ def byod():
         df['lat'] = lats
         df['lon'] = lons
         
+        df = df[df.groupby('form').form.transform(len) > 20]
+        
         words = df['form'].unique()
                 
         coordinatesByWord = dataframe2tuple(df)
