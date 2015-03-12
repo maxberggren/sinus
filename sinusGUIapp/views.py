@@ -912,8 +912,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "AND blogs.longitude is not NULL "
                                "AND blogs.rank <= " + str(rankthreshold) + " "
                                " " + spanQuery + " "
-                               "ORDER BY posts.date "
-                               " LIMIT 2000" )
+                               "ORDER BY posts.date ")
                                #ORDER BY RAND() limit 1000? 
         print word.encode('utf-8')
         
@@ -1293,7 +1292,7 @@ def byod():
                 lat, lon = getCoordinate(place) # from Google's API
             except geocode.QueryLimitError:
                 lat, lon = None, None
-                queryLimit = True
+                queryLimit = float(len(df[df['lat'] > 0])) / float(len(df['lat']))
                 
             lats.append(lat)
             lons.append(lon) 
@@ -1301,13 +1300,13 @@ def byod():
         df['lat'] = lats
         df['lon'] = lons
         
-        print "!!!", len(df[df['lat'] > 0])
-        print "!!!", len(df['lat'])
-        
+        # Set 20 as a threshold
         df = df[df.groupby('form').form.transform(len) > 20]
                         
+        # Convert DF into tuple format that genShapefileImg accepts
         coordinatesByWord, words = dataframe2tuple(df)
-                
+        
+        # Generate statistics
         stats = getStats()
             
         query = request.form['queryInput']
@@ -1321,22 +1320,6 @@ def byod():
                                                                 binThreshold=binThreshold,
                                                                 emptyBinFallback=emptyBinFallback)
         
-        """   
-        touple = getData(queryWords,        
-                         xBins=xbins,
-                         scatter=scatter,
-                         zoom=zoom,
-                         rankthreshold=rankthreshold,
-                         binThreshold=binThreshold,
-                         datespan=datespan,
-                         binType=binType,
-                         emptyBinFallback=emptyBinFallback)
-                         
-        filename, hits, KWICs, fewResults, gifFileName = touple
-                              
-
-                          
-        """
         documentQuery = { 'query': query,
                           'filename': filename,
                           'hits': None,
@@ -1344,12 +1327,11 @@ def byod():
                           'fewResults': fewResults,
                           'gifFileName': None ,
                           'queryLimit': queryLimit }
-                          
                                       
         return render_template("index.html", localizeText=None,
                                              documentQuery=documentQuery,
                                              stats=stats)
-    else: # no file submitted yet
+    else: # no file submitted yet / error
         return render_template("byod.html", data=None)
 
     
