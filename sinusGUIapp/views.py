@@ -1292,6 +1292,8 @@ def byod():
                     
         df['lat'] = lats
         df['lon'] = lons
+        
+        words = df['form'].unique()
                 
         coordinatesByWord = dataframe2tuple(df)
                 
@@ -1304,7 +1306,7 @@ def byod():
         
         if binType == "shape":
             # Get main image with shapefiles
-            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, queryWords, zoom,
+            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
                                                                 binThreshold=binThreshold,
                                                                 emptyBinFallback=emptyBinFallback)
         
