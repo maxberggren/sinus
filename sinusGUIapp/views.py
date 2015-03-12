@@ -1198,8 +1198,9 @@ def dataframe2tuple(df):
     
     for data in df.groupby(['form']):
         lats, lons = [], []
-        print zip(data['ort'], data['kommun'], data['län'], data['landskap'])
+        #print zip(data['ort'], data['kommun'], data['län'], data['landskap'])
     
+        print data
         #coordinatesByWord = coordinatesByWord + (coordinates,)
     #pass
 
