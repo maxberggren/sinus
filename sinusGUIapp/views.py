@@ -151,7 +151,6 @@ def kwic(text, word, source):
 
 
 def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
-    print data
     """ Generate an image with shapefiles as bins 
 
     Parameters
@@ -1199,6 +1198,7 @@ def dataframe2tuple(df):
     
     for name, data in df.groupby(['form']):
         coordinates = zip(data['lon'], data['lat'])
+        coordinates = [list(c) for c in coordinates]
         coordinatesByWord = coordinatesByWord + (coordinates,)
     
     return coordinatesByWord
