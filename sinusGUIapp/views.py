@@ -1238,7 +1238,9 @@ def byod():
     
     if excelfile:
         df = pd.io.excel.read_excel(excelfile)
-        
+
+            
+        print zip(df['ort'], df['kommun'], df['län'], df['landskap'])[0]        
         print dataframe2tuple(df)
                 
         stats = getStats()
