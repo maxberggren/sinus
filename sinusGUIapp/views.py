@@ -38,7 +38,7 @@ from descartes import PolygonPatch
 import json
 import datetime
 from pysal.esda.mapclassify import Natural_Breaks
-#from geocode import latlon
+from geocode import latlon
 import geocode    
     
 def colorCycle(i, scatter=False):
@@ -1222,19 +1222,19 @@ def getCoordinate(place):
                             muni + ", " + 
                             county + ", " + 
                             region)
-    except NoResultError as error:
+    except geocode.NoResultError as error:
         try:
             coordinate = latlon(muni + ", " + 
                                 county + ", " + 
                                 region)
-        except NoResultError as error:
+        except geocode.NoResultError as error:
             try:
                 coordinate = latlon(county + ", " + 
                                    region)
-            except NoResultError as error:
+            except geocode.NoResultError as error:
                 try:
                     coordinate = latlon(region)
-                except NoResultError as error:
+                except geocode.NoResultError as error:
                     print error
                     coordinate = None
     
