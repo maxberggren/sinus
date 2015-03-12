@@ -1197,7 +1197,7 @@ def dataframe2tuple(df):
     coordinatesByWord = ()
     
     for name, data in df.groupby(['form']):
-        coordinates = zip(data['lon'], data['lats'])
+        coordinates = zip(data['lon'], data['lat'])
         print coordinates
         coordinatesByWord = coordinatesByWord + (coordinates,)
     
