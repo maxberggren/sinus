@@ -1197,12 +1197,12 @@ def dataframe2tuple(df):
     coordinatesByWord = ()
     
     for name, data in df.groupby(['form']):
-        lats, lons = [], []
-        #print zip(data['ort'], data['kommun'], data['län'], data['landskap'])
+        coordinates = zip(data['lon'], data['lats'])
+        print coordinates
+        coordinatesByWord = coordinatesByWord + (coordinates,)
     
-        print data.head()
-        #coordinatesByWord = coordinatesByWord + (coordinates,)
-    #pass
+    print coordinatesByWord
+    return coordinatesByWord
 
 def getCoordinate(place):
     """ Get coordinate from Google API. Also, this is posisbly
@@ -1287,19 +1287,16 @@ def byod():
         lats, lons = [], []
         
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
-            # Encode and run by Google API
-            lat, lon = getCoordinate(place)
+            lat, lon = getCoordinate(place) # from Google's API
             lats.append(lat)
             lons.append(lon)
-            
-        print lats, lons
-        
+                    
         df['lat'] = lats
         df['lon'] = lons
         
         print df.head()
         
-        #print dataframe2tuple(df)
+        print dataframe2tuple(df)
                 
         stats = getStats()
             
