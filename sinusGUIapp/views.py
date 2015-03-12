@@ -1296,7 +1296,7 @@ def byod():
         
         print df.head()
         
-        print dataframe2tuple(df)
+        coordinatesByWord = dataframe2tuple(df)
                 
         stats = getStats()
             
@@ -1311,13 +1311,6 @@ def byod():
                                                                 binThreshold=binThreshold,
                                                                 emptyBinFallback=emptyBinFallback)
         
-        # TODO!!!!!!!!!!!!!!!!!!!
-        # get coordinatesByWord from DF
-        
-        #fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, queryWords, zoom,
-        #                                                        binThreshold=binThreshold,
-        #                                                        emptyBinFallback=emptyBinFallback)
-        
         """   
         touple = getData(queryWords,        
                          xBins=xbins,
@@ -1331,17 +1324,19 @@ def byod():
                          
         filename, hits, KWICs, fewResults, gifFileName = touple
                               
-        documentQuery = { 'query': query,
-                          'filename': filename,
-                          'hits': hits,
-                          'KWICs': KWICs,
-                          'fewResults': fewResults,
-                          'gifFileName': gifFileName }
+
                           
         """
-            
+        documentQuery = { 'query': query,
+                          'filename': filename,
+                          'hits': None,
+                          'KWICs': None,
+                          'fewResults': fewResults,
+                          'gifFileName': None }
+                          
+                                      
         return render_template("index.html", localizeText=None,
-                                             documentQuery=None,
+                                             documentQuery=documentQuery,
                                              stats=stats)
     else: # no file submitted yet
         return render_template("byod.html", data=None)
