@@ -1304,7 +1304,7 @@ def byod():
             queryLimit = 100.0 * float(len(df[df['lat'] > 0])) / float(len(df['lat']))
         
         # Set 20 as a threshold
-        df = df[df.groupby('form').form.transform(len) > 20]
+        df = df[df.groupby('form').form.transform(len) > 50]
                         
         # Convert DF into tuple format that genShapefileImg accepts
         coordinatesByWord, words = dataframe2tuple(df)
