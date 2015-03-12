@@ -1200,7 +1200,7 @@ def dataframe2tuple(df):
         lats, lons = [], []
         #print zip(data['ort'], data['kommun'], data['län'], data['landskap'])
     
-        print data
+        print data.head()
         #coordinatesByWord = coordinatesByWord + (coordinates,)
     #pass
 
