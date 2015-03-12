@@ -1240,10 +1240,19 @@ def byod():
         df = pd.io.excel.read_excel(excelfile)
 
         print "!!!!!!!!" 
+        lats, lons = [], []
+        
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
+            # Encode and run by Google API
             placestring = u", ".join(place).encode('utf-8')
-            print geocode.latlon(placestring)
+            lat, lon = geocode.latlon(placestring)
+            
+            lats.append(lat)
+            lons.append(lon)
             break
+            
+        print lats, lons
+        
         #print dataframe2tuple(df)
                 
         stats = getStats()
