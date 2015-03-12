@@ -1240,7 +1240,8 @@ def byod():
         df = pd.io.excel.read_excel(excelfile)
 
         print "!!!!!!!!" 
-        print u", ". join(zip(df['ort'], df['kommun'], df[u'län'], df['landskap']))       
+        for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
+            print u", ".join(place)
         #print dataframe2tuple(df)
                 
         stats = getStats()
