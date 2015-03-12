@@ -1241,7 +1241,8 @@ def byod():
 
         print "!!!!!!!!" 
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
-            print geocode.latlon(u", ".join(place))
+            placestring = u", ".join(place).encode('utf-8')
+            print geocode.latlon(placestring)
             break
         #print dataframe2tuple(df)
                 
