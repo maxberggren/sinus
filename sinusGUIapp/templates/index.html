@@ -111,7 +111,7 @@
 		{% endif %}
 
         
-        {% if documentQuery.filename %}
+        {% if documentQuery.filename and documentQuery['KWICs'] %}
         {% for word, KWIC in documentQuery['KWICs'].iteritems() %} 
         <div class="panel panel-default hideoverflow">
 		  <div class="panel-heading">

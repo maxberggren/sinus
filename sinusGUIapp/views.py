@@ -1245,7 +1245,7 @@ def getCoordinate(place):
                     coordinate = latlon(region)
                 except geocode.NoResultError as error:
                     print error
-                    coordinate = None
+                    coordinate = (None, None)
     
     return coordinate
 
