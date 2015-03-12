@@ -1242,6 +1242,7 @@ def byod():
         print "!!!!!!!!" 
         lats, lons = [], []
         
+        i = 0
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
             # Encode and run by Google API
             placestring = u", ".join(place).encode('utf-8')
@@ -1249,7 +1250,9 @@ def byod():
             
             lats.append(lat)
             lons.append(lon)
-            break
+            i += 1
+            if i > 20:
+                break
             
         print lats, lons
         
