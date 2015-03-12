@@ -1292,13 +1292,16 @@ def byod():
                 lat, lon = getCoordinate(place) # from Google's API
             except geocode.QueryLimitError:
                 lat, lon = None, None
-                queryLimit = float(len(df[df['lat'] > 0])) / float(len(df['lat']))
+                queryLimit = True
                 
             lats.append(lat)
             lons.append(lon) 
                    
         df['lat'] = lats
         df['lon'] = lons
+        
+        if queryLimit: # if fail, set to percent sucess
+            queryLimit = float(len(df[df['lat'] > 0])) / float(len(df['lat']))
         
         # Set 20 as a threshold
         df = df[df.groupby('form').form.transform(len) > 20]
