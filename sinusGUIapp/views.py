@@ -1204,6 +1204,44 @@ def dataframe2tuple(df):
         #coordinatesByWord = coordinatesByWord + (coordinates,)
     #pass
 
+def getCoordinate(place):
+    # This wierd code says:
+    # Can't find city + muni + county + region try:
+    #                   muni + county + region then:
+    #                          county + region and then:
+    #                                   region
+    # But if that fails give up.
+    city, muni, county, region = place
+    city = city.encode('utf-8')    
+    muni = muni.encode('utf-8')    
+    county = county.encode('utf-8')    
+    region = region.encode('utf-8')  
+      
+    try:
+        coordinate = latlon(city + ", " + 
+                            muni + ", " + 
+                            county + ", " + 
+                            region)
+    except geocode.NoResultError as error:
+        print error
+        try:
+            coordinate = latlon(muni + ", " + 
+                                county + ", " + 
+                                region)
+        except geocode.NoResultError as error:
+            print error
+            try:
+                coordinate = latlon(county + ", " + 
+                                   region)
+            except geocode.NoResultError as error:
+                print error
+                try:
+                    coordinate = latlon(region)
+                except geocode.NoResultError as error:
+                    print error
+                    coordinate = None
+    
+    return coordinate
 
 @app.route('/sinus/byod', methods = ['GET', 'POST'])
 def byod():
@@ -1245,13 +1283,11 @@ def byod():
         i = 0
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
             # Encode and run by Google API
-            placestring = u", ".join(place).encode('utf-8')
-            lat, lon = geocode.latlon(placestring)
-            
+            lat, lon = getCoordinate(place)
             lats.append(lat)
             lons.append(lon)
             i += 1
-            if i > 20:
+            if i > 5:
                 break
             
         print lats, lons
