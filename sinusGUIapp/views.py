@@ -38,7 +38,7 @@ from descartes import PolygonPatch
 import json
 import datetime
 from pysal.esda.mapclassify import Natural_Breaks
-from geocode import latlon
+#from geocode import latlon
 import geocode    
     
 def colorCycle(i, scatter=False):
@@ -1241,7 +1241,7 @@ def byod():
 
         print "!!!!!!!!" 
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
-            print u", ".join(place)
+            print geocode.latlon(u", ".join(place))
         #print dataframe2tuple(df)
                 
         stats = getStats()
