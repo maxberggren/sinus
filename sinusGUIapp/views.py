@@ -1238,7 +1238,6 @@ def byod():
     
     if excelfile:
         df = pd.io.excel.read_excel(excelfile)
-        print df.head()
         
         print dataframe2tuple(df)
                 
