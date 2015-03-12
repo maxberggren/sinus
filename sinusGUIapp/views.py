@@ -1286,13 +1286,18 @@ def byod():
     if excelfile:
         df = pd.io.excel.read_excel(excelfile)
 
-        lats, lons = [], []
+        lats, lons, queryLimit = [], [], False
         
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
-            lat, lon = getCoordinate(place) # from Google's API
+            try:
+                lat, lon = getCoordinate(place) # from Google's API
+            except geocode.QueryLimitError:
+                lat, lon = None, None
+                queryLimit = True
+                
             lats.append(lat)
-            lons.append(lon)
-                    
+            lons.append(lon) 
+                   
         df['lat'] = lats
         df['lon'] = lons
         
@@ -1334,7 +1339,8 @@ def byod():
                           'hits': None,
                           'KWICs': None,
                           'fewResults': fewResults,
-                          'gifFileName': None }
+                          'gifFileName': None ,
+                          'queryLimit': queryLimit }
                           
                                       
         return render_template("index.html", localizeText=None,

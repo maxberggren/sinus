@@ -110,6 +110,12 @@
 		</div>
 		{% endif %}
 
+
+		{% if queryLimit %}
+		<div class="alert alert-danger"><strong>
+		Maxgränsen för antal anrop till Googles API är för dagen nådd. Kartan genererades på det den fick innan gränsen nåddes. Du måste nu vänta 24 h innan nästa kartgenerering från excel-fil.
+		</div>
+		{% endif %}
         
         {% if documentQuery.filename and documentQuery['KWICs'] %}
         {% for word, KWIC in documentQuery['KWICs'].iteritems() %} 
