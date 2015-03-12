@@ -1196,7 +1196,7 @@ def explore(word=None):
 def dataframe2tuple(df):
     coordinatesByWord = ()
     
-    for data in df.groupby(['form']):
+    for name, data in df.groupby(['form']):
         lats, lons = [], []
         #print zip(data['ort'], data['kommun'], data['län'], data['landskap'])
     
