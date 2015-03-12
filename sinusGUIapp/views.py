@@ -1301,7 +1301,7 @@ def byod():
         df['lon'] = lons
         
         if queryLimit: # if fail, set to percent sucess
-            queryLimit = float(len(df[df['lat'] > 0])) / float(len(df['lat']))
+            queryLimit = 100.0 * float(len(df[df['lat'] > 0])) / float(len(df['lat']))
         
         # Set 20 as a threshold
         df = df[df.groupby('form').form.transform(len) > 20]
