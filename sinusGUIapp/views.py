@@ -1205,18 +1205,28 @@ def dataframe2tuple(df):
     #pass
 
 def getCoordinate(place):
-    # This wierd code says:
-    # Can't find city + muni + county + region try:
-    #                   muni + county + region then:
-    #                          county + region and then:
-    #                                   region
-    # But if that fails give up.
+    """ Get coordinate from Google API. Also, this is posisbly
+    the worst code ever written """
+    
     city, muni, county, region = place
-    city = city.encode('utf-8')    
-    muni = muni.encode('utf-8')    
-    county = county.encode('utf-8')    
-    region = region.encode('utf-8')  
-      
+    try:
+        city = city.encode('utf-8')  
+    except:
+        city = ""  
+    try:
+        muni = muni.encode('utf-8')    
+    except:
+        muni = ""
+    try:
+        county = county.encode('utf-8')  
+    except:
+        county = ""
+    try:  
+        region = region.encode('utf-8')  
+    except:
+        region = ""
+    
+    # Here a every possible field is stripped untill Google accepts it  
     try:
         coordinate = latlon(city + ", " + 
                             muni + ", " + 
