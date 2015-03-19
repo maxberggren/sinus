@@ -78,12 +78,14 @@ def emptyFolder(folder):
     folder : str
         path to folder
     """
-
+    
     for the_file in os.listdir(folder):
         file_path = os.path.join(folder, the_file)
         try:
-            if os.path.isfile(file_path):
-                os.unlink(file_path)
+            # if older than a day
+            if os.stat(os.path.join(file_path,the_file)).st_mtime < now - 86400:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
         except Exception as e:
             print e
 
@@ -403,7 +405,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     filename += binascii.b2a_hex(os.urandom(15))[:10]
     filename = secure_filename(filename)
     
-    #emptyFolder('sinusGUIapp/static/maps/')
+    emptyFolder('sinusGUIapp/static/maps/')
     plt.savefig("sinusGUIapp/static/maps/" + filename +".png", 
                 dpi=100)
     plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", 
@@ -1328,9 +1330,9 @@ def byod():
                 
         # Note if words are omitted
         if sum(df.groupby('form').form.transform(len) > hitsThreshold) < len(df):
-            wordsOmitted = True
+            resultsOmitted = True
         else:
-            wordsOmitted = False
+            resultsOmitted = False
             
         # Remove words under threshold
         df = df[df.groupby('form').form.transform(len) > hitsThreshold]
@@ -1354,7 +1356,7 @@ def byod():
                           'fewResults': fewResults,
                           'gifFileName': None ,
                           'queryLimit': queryLimit,
-                          'wordsOmitted': wordsOmitted }
+                          'resultsOmitted': resultsOmitted }
                                       
         return render_template("index.html", localizeText=None,
                                              documentQuery=documentQuery,
