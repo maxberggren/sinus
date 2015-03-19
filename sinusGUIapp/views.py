@@ -1330,6 +1330,7 @@ def byod():
             
         # Remove words under threshold
         df = df[df.groupby('form').form.transform(len) > hitsThreshold]
+        words = df['form'].unique()
                         
         # Convert DF into tuple format that genShapefileImg accepts
         coordinatesByWord, words = dataframe2tuple(df)
@@ -1341,8 +1342,7 @@ def byod():
             # Get main image with shapefiles
             fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
                                                                 binThreshold=binThreshold,
-                                                                emptyBinFallback=emptyBinFallback)
-        
+                                                                emptyBinFallback=emptyBinFallback)  
         documentQuery = { 'query': query,
                           'filename': filename,
                           'hits': None,
