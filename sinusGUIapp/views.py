@@ -1322,7 +1322,13 @@ def byod():
         
         operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback, hitsThreshold = getOperators(queryWords)
                 
-        # Set 20 as a threshold
+        # Note if words are omitted
+        if sum(df.groupby('form').form.transform(len) > hitsThreshold) < len(df):
+            wordsOmitted = True
+        else:
+            wordsOmitted = False
+            
+        # Remove words under threshold
         df = df[df.groupby('form').form.transform(len) > hitsThreshold]
                         
         # Convert DF into tuple format that genShapefileImg accepts
@@ -1343,7 +1349,8 @@ def byod():
                           'KWICs': None,
                           'fewResults': fewResults,
                           'gifFileName': None ,
-                          'queryLimit': queryLimit }
+                          'queryLimit': queryLimit,
+                          'wordsOmitted': wordsOmitted }
                                       
         return render_template("index.html", localizeText=None,
                                              documentQuery=documentQuery,
