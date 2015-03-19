@@ -197,9 +197,9 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         mappable.set_array([])
         mappable.set_clim(-0.5, ncolors+0.5)
         colorbar = plt.colorbar(mappable, **kwargs)
-        #colorbar.set_ticks(np.linspace(0, ncolors, ncolors+1)+0.5)
-        #colorbar.set_ticklabels(range(0, ncolors))
-        #colorbar.set_ticklabels(labels)
+        colorbar.set_ticks(np.linspace(0, ncolors, ncolors+1)+0.5)
+        colorbar.set_ticklabels(range(0, ncolors))
+        colorbar.set_ticklabels(labels)
         return colorbar
     
     def opacify(cmap):
@@ -345,7 +345,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                      y=1.01, fontsize=9)
     
         cmap = plt.get_cmap(colorCycle(i))
-        #cmap = opacify(cmap)
+        cmap = opacify(cmap)
         
         print "emptybinfallack:", emptyBinFallback
         if emptyBinFallback == 'county':
