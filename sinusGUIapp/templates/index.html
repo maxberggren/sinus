@@ -83,6 +83,12 @@
 		</div>
 		{% endif %}
 
+		{% if not documentQuery.resultsOmitted %}
+		<div class="alert alert-danger"><strong>Sökord har exkluderats eftersom de inte låg över tröselvärdet. Specificera med flaggan <code>hitsthreshold: XX</code> om du vill förhindra detta.</strong>
+		</div>
+		{% endif %}
+
+
         {% if documentQuery and not localizeText %}
         {% if documentQuery.filename %}
         <div class="panel panel-default">
@@ -107,13 +113,7 @@
 		</div>
 		{% endif %}
 		
-		{% if not documentQuery.filename %}
-		<div class="alert alert-danger"><strong>För kartgenerering krävs att alla ord har träffar över ett 4 träffar.</strong><br /> 
-		
-		<strong>Träffar</strong>: {% for word, hit in documentQuery.hits.iteritems() %} {{ word }} ({{ hit }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %}
-		
-		</div>
-		{% endif %}
+
 
 
         

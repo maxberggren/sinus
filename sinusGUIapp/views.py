@@ -888,6 +888,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     minCoordinates = 99999999999999 # Shame!
     hits = {}
     KWIC = {}
+    resultsOmitted = False
     
     for word in words:
         coordinates, dates = [], []
@@ -942,6 +943,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         
         if len(coordinates) > hitsThreshold: # only draw coordinates over limit
         
+            resultsOmitted = True # so we can show the user that a word has been removed
+            
             KWIC[word.replace('"',"")] = wordkwic
             
             coordinatesByWord = coordinatesByWord + (coordinates,)
@@ -990,7 +993,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         if gifFileName: # no gif = no histogram                                     
             dateHistogram(dates, gifFileName)
         
-    return filename, hits, KWIC, fewResults, gifFileName
+    return filename, hits, KWIC, fewResults, gifFileName, resultsOmitted
         
     #else: # if a term has to few hits
     #    return None, hits, KWIC, fewResults, None
@@ -1064,14 +1067,15 @@ def site(urlSearch=None):
                          emptyBinFallback=emptyBinFallback,
                          hitsThreshold=hitsThreshold)
                          
-        filename, hits, KWICs, fewResults, gifFileName = touple
+        filename, hits, KWICs, fewResults, gifFileName, resultsOmitted = touple
                               
         documentQuery = { 'query': query,
                           'filename': filename,
                           'hits': hits,
                           'KWICs': KWICs,
                           'fewResults': fewResults,
-                          'gifFileName': gifFileName }
+                          'gifFileName': gifFileName,
+                          'resultsOmitted': resultsOmitted }
     else:
         documentQuery = None
         
