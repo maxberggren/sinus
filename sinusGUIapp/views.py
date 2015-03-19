@@ -197,9 +197,9 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         mappable.set_array([])
         mappable.set_clim(-0.5, ncolors+0.5)
         colorbar = plt.colorbar(mappable, **kwargs)
-        colorbar.set_ticks(np.linspace(0, ncolors, ncolors+1)+0.5)
-        colorbar.set_ticklabels(range(0, ncolors))
-        colorbar.set_ticklabels(labels)
+        #colorbar.set_ticks(np.linspace(0, ncolors, ncolors+1)+0.5)
+        #colorbar.set_ticklabels(range(0, ncolors))
+        #colorbar.set_ticklabels(labels)
         return colorbar
     
     def opacify(cmap):
