@@ -759,8 +759,8 @@ def getOperators(queryWords):
         emptyBinFallback = None
         
     try:
-        hitsThreshold = [o.split(":")[1].strip()
-               for o in operators if "hitsthreshold:" in o][0]
+        hitsThreshold = int([o.split(":")[1].strip()
+               for o in operators if "hitsthreshold:" in o][0])
     except:
         hitsThreshold = 50
         
