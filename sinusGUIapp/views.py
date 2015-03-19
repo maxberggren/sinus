@@ -403,7 +403,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     filename += binascii.b2a_hex(os.urandom(15))[:10]
     filename = secure_filename(filename)
     
-    emptyFolder('sinusGUIapp/static/maps/')
+    #emptyFolder('sinusGUIapp/static/maps/')
     plt.savefig("sinusGUIapp/static/maps/" + filename +".png", 
                 dpi=100)
     plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", 
@@ -957,11 +957,10 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         else:
             resultsOmitted = True # so we can show the user that a word has been removed
     
-    words = wordsOverThreshold # so words under threshold is forgotten     
+    words = wordsOverThreshold # so words under threshold is omitted     
 
     if not xBins: # xBins not set: "guestimate" that 2 hits per bin is good
-        xBins = math.sqrt(float(minCoordinates)/
-                                     (float(xyRatio)*float(2)))
+        xBins = math.sqrt(float(minCoordinates)/(float(xyRatio)*float(2)))
         xBins = int(xBins)            
 
     if binType == "shape":
