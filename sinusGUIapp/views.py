@@ -697,7 +697,8 @@ def getOperators(queryWords):
                                or "datespan:" in o
                                or "binthreshold:" in o
                                or "bintype:" in o
-                               or "emptybinfallback:" in o]
+                               or "emptybinfallback:" in o
+                               or "hitsthreshold:" in o]
                                
     queryWords = [w.strip() for w in queryWords 
                             if "age:" not in w 
@@ -709,7 +710,8 @@ def getOperators(queryWords):
                                and "datespan:" not in w
                                and "binthreshold:" not in w
                                and "bintype:" not in w
-                               and "emptybinfallback:" not in w]
+                               and "emptybinfallback:" not in w
+                               and "hitsthreshold:" not in w]
     
     try:
         xbins = int([o.split(":")[1].strip()
@@ -756,7 +758,13 @@ def getOperators(queryWords):
     except:
         emptyBinFallback = None
         
-    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback
+    try:
+        hitsThreshold = [o.split(":")[1].strip()
+               for o in operators if "hitsthreshold:" in o][0]
+    except:
+        hitsThreshold = None
+        
+    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback, hitsThreshold
 
 def getStats():
     cacheTimeout = 24*60*60 # 1 day
@@ -830,7 +838,7 @@ def getStats():
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, rankthreshold=3, 
             binThreshold=5, datespan=None, binType="shape",
-            emptyBinFallback=None):
+            emptyBinFallback=None, hitsThreshold=50):
 
     """ Retrive data from the document database
 
@@ -940,7 +948,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         if len(coordinates) < minCoordinates: # log the one with fewest coordinates
             minCoordinates = len(coordinates)
                 
-    if minCoordinates > 4: # all words need more than 4 coordinates
+    if minCoordinates > hitsThreshold: # a words needs over a limit of hits
 
         if not xBins: # xBins not set: "guestimate" that 2 hits per bin is good
             xBins = math.sqrt(float(minCoordinates)/
@@ -1042,7 +1050,7 @@ def site(urlSearch=None):
         queryWords = []
         query = None
 
-    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback = getOperators(queryWords)
+    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback, hitsThreshold = getOperators(queryWords)
             
     if len(queryWords) > 0:
         touple = getData(queryWords,        
@@ -1053,7 +1061,8 @@ def site(urlSearch=None):
                          binThreshold=binThreshold,
                          datespan=datespan,
                          binType=binType,
-                         emptyBinFallback=emptyBinFallback)
+                         emptyBinFallback=emptyBinFallback,
+                         hitsThreshold=hitsThreshold)
                          
         filename, hits, KWICs, fewResults, gifFileName = touple
                               
@@ -1302,20 +1311,21 @@ def byod():
         
         if queryLimit: # if fail, set to percent sucess
             queryLimit = 100.0 * float(len(df[df['lat'] > 0])) / float(len(df['lat']))
+
+        # Parse operators
+        query = request.form['queryInput']
+        queryWords = query.split(",")
         
+        operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback, hitsThreshold = getOperators(queryWords)
+                
         # Set 20 as a threshold
-        df = df[df.groupby('form').form.transform(len) > 50]
+        df = df[df.groupby('form').form.transform(len) > hitsThreshold]
                         
         # Convert DF into tuple format that genShapefileImg accepts
         coordinatesByWord, words = dataframe2tuple(df)
         
         # Generate statistics
         stats = getStats()
-            
-        query = request.form['queryInput']
-        queryWords = query.split(",")
-        
-        operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback = getOperators(queryWords)
         
         if binType == "shape":
             # Get main image with shapefiles
