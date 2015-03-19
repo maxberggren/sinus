@@ -889,6 +889,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     hits = {}
     KWIC = {}
     resultsOmitted = False
+    wordsOverThreshold = []
     
     for word in words:
         coordinates, dates = [], []
@@ -944,6 +945,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         if len(coordinates) > hitsThreshold: # only draw coordinates over limit
         
             resultsOmitted = True # so we can show the user that a word has been removed
+            wordsOverThreshold.append(word)
             
             KWIC[word.replace('"',"")] = wordkwic
             
@@ -952,7 +954,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             
             if len(coordinates) < minCoordinates: # log the one with fewest coordinates
                 minCoordinates = len(coordinates)
-                
+    
+    words = wordsOverThreshold # so words under threshold is forgotten     
 
     if not xBins: # xBins not set: "guestimate" that 2 hits per bin is good
         xBins = math.sqrt(float(minCoordinates)/
