@@ -345,7 +345,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                      y=1.01, fontsize=9)
     
         cmap = plt.get_cmap(colorCycle(i))
-        cmap = opacify(cmap)
+        #cmap = opacify(cmap)
         
         print "emptybinfallack:", emptyBinFallback
         if emptyBinFallback == 'county':
