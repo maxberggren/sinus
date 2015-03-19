@@ -762,7 +762,7 @@ def getOperators(queryWords):
         hitsThreshold = [o.split(":")[1].strip()
                for o in operators if "hitsthreshold:" in o][0]
     except:
-        hitsThreshold = None
+        hitsThreshold = 50
         
     return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback, hitsThreshold
 

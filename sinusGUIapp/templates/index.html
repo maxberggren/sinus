@@ -108,7 +108,7 @@
 		{% endif %}
 		
 		{% if not documentQuery.filename %}
-		<div class="alert alert-danger"><strong>För kartgenerering krävs fler än 4 träffar på samtliga söktermer</strong><br /> 
+		<div class="alert alert-danger"><strong>För kartgenerering krävs att alla ord har träffar över ett visst tröskelvärde. Specificera denna med flaggan <code>hitsthreshold: 50</code>.</strong><br /> 
 		
 		{% for word, hit in documentQuery.hits.iteritems() %} {{ word }} ({{ hit }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %}
 		
