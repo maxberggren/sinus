@@ -940,60 +940,60 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 wordkwic.append(newkwic)
                 oldkwic = newkwic
         
-        KWIC[word.replace('"',"")] = wordkwic
+        if len(coordinates) > hitsThreshold: # only draw coordinates over limit
         
-        coordinatesByWord = coordinatesByWord + (coordinates,)
-        hits[word] = len(coordinates)
-        
-        if len(coordinates) < minCoordinates: # log the one with fewest coordinates
-            minCoordinates = len(coordinates)
+            KWIC[word.replace('"',"")] = wordkwic
+            
+            coordinatesByWord = coordinatesByWord + (coordinates,)
+            hits[word] = len(coordinates)
+            
+            if len(coordinates) < minCoordinates: # log the one with fewest coordinates
+                minCoordinates = len(coordinates)
                 
-    if minCoordinates > hitsThreshold: # a words needs over a limit of hits
 
-        if not xBins: # xBins not set: "guestimate" that 2 hits per bin is good
-            xBins = math.sqrt(float(minCoordinates)/
-                                         (float(xyRatio)*float(2)))
-            xBins = int(xBins)            
+    if not xBins: # xBins not set: "guestimate" that 2 hits per bin is good
+        xBins = math.sqrt(float(minCoordinates)/
+                                     (float(xyRatio)*float(2)))
+        xBins = int(xBins)            
 
-        if binType == "shape":
-            # Get main image with shapefiles
-            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
-                                                                binThreshold=binThreshold,
-                                                                emptyBinFallback=emptyBinFallback)
-        if binType == "square":
-            # Get main image
-            fewResults, filename, gifFileName = genGridImg(coordinatesByWord, 
-                                                          xBins,
-                                                          words,
-                                                          zoom,
-                                                          xyRatio, 
-                                                          blurFactor, 
-                                                          minCoordinates,
-                                                          scatter,
-                                                          hits,
-                                                          chunks=1,
-                                                          binThreshold=binThreshold)
-            # Get time series gif
-            fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, 
-                                                         xBins,
-                                                         words,
-                                                         zoom,
-                                                         xyRatio, 
-                                                         blurFactor, 
-                                                         minCoordinates,
-                                                         scatter,
-                                                         hits,
-                                                         chunks=7,
-                                                         dates=dates,
-                                                         binThreshold=binThreshold)
-            
-            if gifFileName: # no gif = no histogram                                     
-                dateHistogram(dates, gifFileName)
-            
-        return filename, hits, KWIC, fewResults, gifFileName
+    if binType == "shape":
+        # Get main image with shapefiles
+        fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
+                                                            binThreshold=binThreshold,
+                                                            emptyBinFallback=emptyBinFallback)
+    if binType == "square":
+        # Get main image
+        fewResults, filename, gifFileName = genGridImg(coordinatesByWord, 
+                                                      xBins,
+                                                      words,
+                                                      zoom,
+                                                      xyRatio, 
+                                                      blurFactor, 
+                                                      minCoordinates,
+                                                      scatter,
+                                                      hits,
+                                                      chunks=1)
+        # Get time series gif
+        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, 
+                                                     xBins,
+                                                     words,
+                                                     zoom,
+                                                     xyRatio, 
+                                                     blurFactor, 
+                                                     minCoordinates,
+                                                     scatter,
+                                                     hits,
+                                                     chunks=7,
+                                                     dates=dates,
+                                                     binThreshold=binThreshold)
         
-    else: # if a term has to few hits
-        return None, hits, KWIC, fewResults, None
+        if gifFileName: # no gif = no histogram                                     
+            dateHistogram(dates, gifFileName)
+        
+    return filename, hits, KWIC, fewResults, gifFileName
+        
+    #else: # if a term has to few hits
+    #    return None, hits, KWIC, fewResults, None
     
 
 @app.route('/sinus', methods = ['GET', 'POST'])
