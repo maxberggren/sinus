@@ -56,7 +56,6 @@ if __name__ == "__main__":
                                 county=source['county'],
                                 intrests=source['intrests'],
                                 presentation=source['presentation'],
-                                longitude=source['longitude'],
 
                                 latitude=source['latitude'],
                                 longitude=source['longitude'],
