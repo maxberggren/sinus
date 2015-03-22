@@ -40,8 +40,7 @@ if __name__ == "__main__":
             blogid = source['id']   
             print url
 
-            for post in documents.query("SELECT * from posts "
-                                         "WHERE blog_id = " + str(blogid): 
+            for post in documents.query("SELECT * from posts WHERE blog_id = " + str(blogid): 
                 
                 i += 1
                 # date, text, blog_id, posttitle, posturl
