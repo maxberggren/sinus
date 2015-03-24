@@ -332,7 +332,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                 return i
         return -1
     
-    labels = ['0 %', '25 %', '50 %', '75 %', '100 %']
+    labels = ['None', 'Low', 'Medium', 'High', 'Very high']
     
     fig = plt.figure(figsize=(3.25*len(words),6))
     

@@ -10,14 +10,15 @@ import urllib2
 import json
 import datetime
 import config as c
-#from elasticsearch import Elasticsearch
-#from elasticsearch import helpers
+from elasticsearch import Elasticsearch
+from elasticsearch import helpers
 
 if __name__ == "__main__":
-    documents = dataset.connect(c.LOCATIONDB)
+    documents = dataset.connect(c.LOCALLOCATIONDB)
+
     documents.query("set names 'utf8';")
 
-    #es = Elasticsearch()
+    es = Elasticsearch()
 
     i, j, k = 0, 0, 0
     try:
@@ -25,10 +26,10 @@ if __name__ == "__main__":
         result = documents.query("SELECT count(*) as c "
                                  "from blogs")
         for row in result:
-            print "Hittade " + str(row['c']) + " st källor." 
             sources = row['c']
-        
-        print "Lägger in bloggar en efter en som dokument i ES."
+            print "Hittade {} st källor.".format(sources)
+            
+        print "Lägger in bloggars poster som dokument i ES."
         rows = []
         
         # Blogs
@@ -38,7 +39,8 @@ if __name__ == "__main__":
             k += 1
             url = source['url']  
             blogid = source['id']   
-            print url
+            percent = 100.0*float(j)/float(sources)
+            print "{} procent klart".format(percent)
 
             for post in documents.query("SELECT * from posts "
                                         "WHERE blog_id = " + str(blogid)): 
@@ -82,7 +84,7 @@ if __name__ == "__main__":
 
                 actions.append(action)
 
-            #helpers.bulk(es, actions)
+            helpers.bulk(es, actions)
     
     except KeyboardInterrupt:
         print "Avbryter..."
