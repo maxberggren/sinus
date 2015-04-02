@@ -26,6 +26,9 @@ def genGrid(koordinater, xBins=4, xyRatio=1.8):
                                     lon_bins])
     return density
 
+def sum1(input):
+    return sum(map(sum, input))
+
 if __name__ == "__main__":
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
@@ -55,7 +58,7 @@ if __name__ == "__main__":
     
         #print np.amax(genGrid(coordinates))
         print genGrid(coordinates)
-
+        print genGrid(coordinates) / sum1(genGrid(coordinates))
             
     except KeyboardInterrupt:
         print "Avbryter..."
