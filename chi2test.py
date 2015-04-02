@@ -17,7 +17,7 @@ def entropy(matrix):
         matrix = normalize(matrix)
 
     ent = 0.0
-    for pct in matrix.flatten():
+    for pct in matrix:
         if pct > 0:
             ent -= + pct * math.log(pct, 2)
     
