@@ -62,15 +62,16 @@ if __name__ == "__main__":
             coordinates.append([source['longitude'], source['latitude']])
 
         #matrix = normalize(genGrid(coordinates)) 
-        matrix = genGrid(coordinates)
+        matrix = genGrid(coordinates).ravel() + np.ones(matrix.ravel().shape)
         null_hypothesis = np.load(dump_filename)
-        null_hypothesis = len(coordinates)*null_hypothesis
+        null_hypothesis = len(coordinates)*null_hypothesis.ravel() 
+        null_hypothesis = null_hypothesis + np.ones(null_hypothesis.ravel().shape)
         
-        print matrix.ravel()
-        print null_hypothesis.ravel()
+        print matrix
+        print null_hypothesis
         
-        print scipy.stats.chisquare(matrix.ravel() + np.ones(matrix.ravel().shape), 
-                                    f_exp=null_hypothesis.ravel() + np.ones(null_hypothesis.ravel().shape))
+        print scipy.stats.chisquare(matrix, 
+                                    f_exp=null_hypothesis)
         
     else: # skapa matris att köra chi2 mot
         
