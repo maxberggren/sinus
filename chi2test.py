@@ -42,8 +42,10 @@ def genGrid(koordinater, xBins=4, xyRatio=1.8):
     return density
 
 def sum1(input):
-    print input
-    return sum(map(sum, input))
+    try:
+        return sum(map(sum, input))
+    except Exception:
+        sum(input)
     
 def normalize(matrix):
     return matrix / sum1(matrix)
