@@ -158,6 +158,7 @@ if __name__ == "__main__":
                     
                     if total_error != 0.0:
                         print total_error
+                        print j
                         
                     if total_error < 1e-8 and total_error != 0.0:
                        old_matrix.dump(dump_filename)
