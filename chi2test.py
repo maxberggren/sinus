@@ -160,7 +160,7 @@ if __name__ == "__main__":
                         print total_error
                         print j
                         
-                    if total_error < 1e-8 and total_error != 0.0:
+                    if total_error < 1e-9 and total_error != 0.0:
                        old_matrix.dump(dump_filename)
                        break
                     
