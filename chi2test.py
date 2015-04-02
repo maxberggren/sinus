@@ -62,11 +62,13 @@ if __name__ == "__main__":
         print pattern.format(word="Ord",
                              ent="Entropy",
                              chi2="Chi2", 
+                             chi2="p", 
                              chi2norm="Chi2Norm")
 
         print pattern.format(word="-"*20,
                              ent="-"*15,
                              chi2="-"*15, 
+                             p="-"*15, 
                              chi2norm="-"*15)
         
         for searchword in sys.argv[1:]:
@@ -119,6 +121,7 @@ if __name__ == "__main__":
             print pattern.format(word=searchword,
                                  ent=round(entropy(matrix),4),
                                  chi2=round(chi2, 4), 
+                                 p=round(p, 4)
                                  chi2norm=round(math.sqrt(scipy.stats.chisquare(matrix, 
                                         f_exp=null_hypothesis)[0])/float(len(coordinates)), 4))
         
