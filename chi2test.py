@@ -117,10 +117,10 @@ if __name__ == "__main__":
             """
             (chi2, p) = scipy.stats.chisquare(matrix, f_exp=null_hypothesis)
             print pattern.format(word=searchword,
-                                 ent=entropy(matrix),
-                                 chi2=chi2, 
-                                 chi2norm=math.sqrt(scipy.stats.chisquare(matrix, 
-                                        f_exp=null_hypothesis)[0])/float(len(coordinates)))
+                                 ent=round(entropy(matrix),2),
+                                 chi2=round(chi2, 2), 
+                                 chi2norm=round(math.sqrt(scipy.stats.chisquare(matrix, 
+                                        f_exp=null_hypothesis)[0])/float(len(coordinates)), 2))
         
     else: # skapa matris att köra chi2 mot
         
