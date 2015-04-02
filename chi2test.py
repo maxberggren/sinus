@@ -49,7 +49,7 @@ if __name__ == "__main__":
         # Blogs
         for source in documents.query("SELECT * from blogs "
                                       "WHERE longitude is not NULL and "
-                                      "latitude is not NULL LIMIT 1000"):   
+                                      "latitude is not NULL LIMIT 10000"):   
             j += 1
             k += 1
             url = source['url']  
@@ -58,10 +58,13 @@ if __name__ == "__main__":
             print "{} procent klart".format(percent)
 
             coordinates.append([source['longitude'], source['latitude']])
+            
+            if j % 100:
+                normalize(genGrid(coordinates))
     
         #print np.amax(genGrid(coordinates))
-        print genGrid(coordinates)
-        print normalize(genGrid(coordinates))
+        #print genGrid(coordinates)
+        #print normalize(genGrid(coordinates))
                     
     except KeyboardInterrupt:
         print "Avbryter..."
