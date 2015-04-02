@@ -39,7 +39,7 @@ if __name__ == "__main__":
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
     
-    new_matrix = genGrid([])
+    old_matrix = genGrid([])
     i, j, k = 0, 0, 0
     try:        
         coordinates = []
@@ -59,15 +59,17 @@ if __name__ == "__main__":
             k += 1
             url = source['url']  
             blogid = source['id']   
-            percent = 100.0*float(j)/float(sources)
 
             coordinates.append([source['longitude'], source['latitude']])
             
             if j % 100:
-                diff = new_matrix - normalize(genGrid(coordinates)) 
+                diff = old_matrix - normalize(genGrid(coordinates)) 
+                diff = np.square(diff)
                 print sum1(diff)
                 
-                new_matrix = normalize(genGrid(coordinates))
+                old_matrix = normalize(genGrid(coordinates))
+                
+                #percent = 100.0*float(j)/float(sources)
                 #print "{} procent klart".format(percent)
     
         #print np.amax(genGrid(coordinates))
