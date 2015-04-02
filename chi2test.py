@@ -43,7 +43,7 @@ if __name__ == "__main__":
         # Blogs
         for source in documents.query("SELECT * from blogs "
                                       "WHERE longitude is not NULL and "
-                                      "latitude is not NULL LIMIT 10"):   
+                                      "latitude is not NULL LIMIT 1000"):   
             j += 1
             k += 1
             url = source['url']  
