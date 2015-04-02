@@ -38,49 +38,55 @@ def normalize(matrix):
 if __name__ == "__main__":
 
     print sys.argv
+    
+
+        
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
-    
-    old_matrix = genGrid([])
-    i, j, k = 0, 0, 0
-    try:        
-        coordinates = []
-        result = documents.query("SELECT count(*) as c "
-                                 "from blogs "
-                                 "WHERE longitude is not NULL and "
-                                 "latitude is not NULL")
-        for row in result:
-            sources = row['c']
-            print "Hittade {} st källor.".format(sources)
-                    
-        # Blogs
-        for source in documents.query("SELECT * from blogs "
-                                      "WHERE longitude is not NULL and "
-                                      "latitude is not NULL "
-                                      "ORDER BY RAND() "):   
-            j += 1
-            k += 1
-            url = source['url']  
-            blogid = source['id']    
 
-            coordinates.append([source['longitude'], source['latitude']])
-            
-            if j % 1000:
-                diff = old_matrix - normalize(genGrid(coordinates)) 
-                diff = np.square(diff)
-                total_error = sum1(diff)
+
+    if len(sys.argv > 1):
+        # kör bara på det sökordet
+        pass
+    else: # skapa matris att köra chi2 mot
+        
+        old_matrix = genGrid([])
+        i, j, k = 0, 0, 0
+        try:        
+            coordinates = []
+            result = documents.query("SELECT count(*) as c "
+                                     "from blogs "
+                                     "WHERE longitude is not NULL and "
+                                     "latitude is not NULL")
+            for row in result:
+                sources = row['c']
+                print "Hittade {} st källor.".format(sources)
+                        
+            # Blogs
+            for source in documents.query("SELECT * from blogs "
+                                          "WHERE longitude is not NULL and "
+                                          "latitude is not NULL "
+                                          "ORDER BY RAND() "):   
+                j += 1
+                k += 1
+                url = source['url']  
+                blogid = source['id']    
+    
+                coordinates.append([source['longitude'], source['latitude']])
                 
-                if total_error != 0.0:
-                    print total_error
+                if j % 1000:
+                    diff = old_matrix - normalize(genGrid(coordinates)) 
+                    diff = np.square(diff)
+                    total_error = sum1(diff)
                     
-                if total_error < 1e-10 and total_error != 0.0:
-                   old_matrix.dump("all_blog_matrix.dump")
-                   break
-                
-                old_matrix = normalize(genGrid(coordinates))
-                
-                #percent = 100.0*float(j)/float(sources)
-                #print "{} procent klart".format(percent)
+                    if total_error != 0.0:
+                        print total_error
+                        
+                    if total_error < 1e-9 and total_error != 0.0:
+                       old_matrix.dump("all_blog_matrix.dump")
+                       break
+                    
+                    old_matrix = normalize(genGrid(coordinates))
                     
     except KeyboardInterrupt:
         print "Avbryter..."
