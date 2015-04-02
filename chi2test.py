@@ -63,7 +63,7 @@ if __name__ == "__main__":
 
             coordinates.append([source['longitude'], source['latitude']])
             
-            if j % 1000:
+            if j % 300:
                 diff = old_matrix - normalize(genGrid(coordinates)) 
                 diff = np.square(diff)
                 total_error = sum1(diff)
