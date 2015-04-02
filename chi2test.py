@@ -72,7 +72,8 @@ if __name__ == "__main__":
                                    "IN BOOLEAN MODE) "
                                    "AND blogs.latitude is not NULL "
                                    "AND blogs.longitude is not NULL "
-                                   "AND blogs.rank <= 3 "):
+                                   "AND blogs.rank <= 3 "
+                                   "LIMIT 1000 "):
                                    
             coordinates.append([source['longitude'], source['latitude']])
 
