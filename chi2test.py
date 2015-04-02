@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
             coordinates.append([source['longitude'], source['latitude']])
     
-        print genGrid(coordinates)
+        print np.amax(genGrid(coordinates))
     
     except KeyboardInterrupt:
         print "Avbryter..."
