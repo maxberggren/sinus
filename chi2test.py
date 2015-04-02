@@ -59,7 +59,7 @@ if __name__ == "__main__":
             coordinates.append([source['longitude'], source['latitude']])
             
             if j % 100:
-                normalize(genGrid(coordinates))
+                print normalize(genGrid(coordinates))
                 print "{} procent klart".format(percent)
     
         #print np.amax(genGrid(coordinates))
