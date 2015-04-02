@@ -66,8 +66,8 @@ if __name__ == "__main__":
         null_hypothesis = np.load(dump_filename)
         null_hypothesis = len(coordinates)*null_hypothesis
         
-        print matrix
-        print null_hypothesis
+        print matrix.ravel()
+        print null_hypothesis.ravel()
         
         print scipy.stats.chisquare(matrix.ravel(), 
                                     f_exp=null_hypothesis.ravel())
