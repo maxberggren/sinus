@@ -14,6 +14,7 @@ import scipy
 import math
 
 def entropy(matrix):
+    print matrix
     if sum1(matrix) != 1.0:
         matrix = normalize(matrix)
     print matrix
