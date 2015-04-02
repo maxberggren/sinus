@@ -64,7 +64,9 @@ if __name__ == "__main__":
             coordinates.append([source['longitude'], source['latitude']])
             
             if j % 100:
-                print new_matrix - normalize(genGrid(coordinates)) 
+                diff = new_matrix - normalize(genGrid(coordinates)) 
+                print sum(np.where( diff < 1e-05 ))
+                
                 new_matrix = normalize(genGrid(coordinates))
                 #print "{} procent klart".format(percent)
     
