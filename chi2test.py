@@ -12,8 +12,8 @@ import datetime
 import config as c
 
 def genGrid(koordinater, xBins=4, xyRatio=1.8):
-    print koordinater.shape
-    if koordinater.shape == (0,0):
+
+    if koordinater.shape == (1,0):
         return np.zeros(shape=(xBins,xBins*xyRatio))
         
     lon_bins = np.linspace(8, 26, xBins)
