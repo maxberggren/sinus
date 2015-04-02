@@ -55,12 +55,12 @@ if __name__ == "__main__":
             url = source['url']  
             blogid = source['id']   
             percent = 100.0*float(j)/float(sources)
-            print "{} procent klart".format(percent)
 
             coordinates.append([source['longitude'], source['latitude']])
             
             if j % 100:
                 normalize(genGrid(coordinates))
+                print "{} procent klart".format(percent)
     
         #print np.amax(genGrid(coordinates))
         #print genGrid(coordinates)
