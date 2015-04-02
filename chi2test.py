@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
             coordinates.append([source['longitude'], source['latitude']])
     
-        print coordiantes
+        print coordinates
     
     except KeyboardInterrupt:
         print "Avbryter..."
