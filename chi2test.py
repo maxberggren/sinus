@@ -90,10 +90,10 @@ if __name__ == "__main__":
         print matrix
         print "Nollhypotes:"
         print null_hypothesis
-        
+        print "Chi2:"
         print scipy.stats.chisquare(matrix, 
                                     f_exp=null_hypothesis)
-                                    
+        print "Entropy:"                            
         print entropy(matrix)
         
     else: # skapa matris att köra chi2 mot
