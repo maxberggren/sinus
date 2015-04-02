@@ -57,7 +57,7 @@ if __name__ == "__main__":
     dump_filename = "all_blog_matrix.dump"
 
     if len(sys.argv) > 1:
-        pattern = "{word:>20} | {ent:>15} | {chi2:>15} | {chi2norm:>15}"
+        pattern = "{word:>20} | {ent:>15} | {chi2:>15} | {p:>15} | {chi2norm:>15}"
         
         print pattern.format(word="Ord",
                              ent="Entropy",
