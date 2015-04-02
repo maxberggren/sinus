@@ -84,8 +84,8 @@ if __name__ == "__main__":
         null_hypothesis = len(coordinates)*null_hypothesis.ravel() 
         null_hypothesis += np.ones(null_hypothesis.ravel().shape)
         
-        print matrix
-        print null_hypothesis
+        print matrix.astype("int")
+        print null_hypothesis.astype("int")
         
         print scipy.stats.chisquare(matrix, 
                                     f_exp=null_hypothesis)
