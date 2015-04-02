@@ -71,7 +71,7 @@ if __name__ == "__main__":
                 if total_error != 0.0:
                     print total_error
                     
-                if total_error < 1e-10:
+                if total_error < 1e-10 and total_error != 0.0:
                    break
                 
                 old_matrix = normalize(genGrid(coordinates))
