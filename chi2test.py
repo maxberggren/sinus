@@ -61,8 +61,10 @@ if __name__ == "__main__":
                                    
             coordinates.append([source['longitude'], source['latitude']])
 
-        matrix = normalize(genGrid(coordinates)) 
+        #matrix = normalize(genGrid(coordinates)) 
+        matrix = genGrid(coordinates)
         null_hypothesis = np.load(dump_filename)
+        null_hypothesis = len(coordinates)*null_hypothesis
         
         print matrix
         print null_hypothesis
