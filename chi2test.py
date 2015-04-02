@@ -14,7 +14,7 @@ import config as c
 def genGrid(koordinater, xBins=4, xyRatio=1.8):
 
     if len(koordinater) == 0:
-        return np.zeros(shape=(xBins*xyRatio), xBins)
+        return np.zeros(shape=(int(xBins*xyRatio)), xBins)
         
     lon_bins = np.linspace(8, 26, xBins)
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
