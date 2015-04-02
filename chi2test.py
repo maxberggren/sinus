@@ -57,17 +57,17 @@ if __name__ == "__main__":
     dump_filename = "all_blog_matrix.dump"
 
     if len(sys.argv) > 1:
-        pattern = "{word:>15} | {ent:>10} | {chi2:>10} | {chi2norm:>10}"
+        pattern = "{word:>20} | {ent:>15} | {chi2:>15} | {chi2norm:>15}"
         
         print pattern.format(word="Ord",
                              ent="Entropy",
                              chi2="Chi2", 
                              chi2norm="Chi2Norm")
 
-        print pattern.format(word="-"*15,
-                             ent="-"*10,
-                             chi2="-"*10, 
-                             chi2norm="-"*10)
+        print pattern.format(word="-"*20,
+                             ent="-"*15,
+                             chi2="-"*15, 
+                             chi2norm="-"*15)
         
         for searchword in sys.argv[1:]:
             # kör bara på det sökordet
@@ -117,10 +117,10 @@ if __name__ == "__main__":
             """
             (chi2, p) = scipy.stats.chisquare(matrix, f_exp=null_hypothesis)
             print pattern.format(word=searchword,
-                                 ent=float("%.2f" % entropy(matrix)),
-                                 chi2=float("%.2f" % chi2), 
-                                 chi2norm=float("%.2f" % math.sqrt(scipy.stats.chisquare(matrix, 
-                                        f_exp=null_hypothesis)[0])/float(len(coordinates))))
+                                 ent=entropy(matrix),
+                                 chi2=chi2, 
+                                 chi2norm=math.sqrt(scipy.stats.chisquare(matrix, 
+                                        f_exp=null_hypothesis)[0])/float(len(coordinates)))
         
     else: # skapa matris att köra chi2 mot
         
