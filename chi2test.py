@@ -121,7 +121,7 @@ if __name__ == "__main__":
             print pattern.format(word=searchword,
                                  ent=round(entropy(matrix),4),
                                  chi2=round(chi2, 4), 
-                                 p=round(p, 4)
+                                 p=round(p, 4),
                                  chi2norm=round(math.sqrt(scipy.stats.chisquare(matrix, 
                                         f_exp=null_hypothesis)[0])/float(len(coordinates)), 4))
         
