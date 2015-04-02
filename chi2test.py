@@ -10,6 +10,7 @@ import urllib2
 import json
 import datetime
 import config as c
+import scipy
 
 def genGrid(koordinater, xBins=4, xyRatio=1.8):
 
@@ -39,11 +40,32 @@ if __name__ == "__main__":
         
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
+    dump_filename = "all_blog_matrix.dump"
 
     if len(sys.argv) > 1:
         # kör bara på det sökordet
         searchword = sys.argv[1]
-        pass
+        coordinates = []
+        
+        for source in documents.query("SELECT blogs.longitude, "
+                                   "blogs.latitude, "
+                                   "blogs.id "
+                                   "FROM posts INNER JOIN blogs ON "
+                                   "blogs.id=posts.blog_id "
+                                   "WHERE MATCH(posts.text) "
+                                   "AGAINST ('" + searchword.encode('utf-8') + "' "
+                                   "IN BOOLEAN MODE) "
+                                   "AND blogs.latitude is not NULL "
+                                   "AND blogs.longitude is not NULL "
+                                   "AND blogs.rank <= 3 ")
+                                   
+            coordinates.append([source['longitude'], source['latitude']])
+
+        matrix = normalize(genGrid(coordinates)) 
+        null_hypothesis = np.load(dump_filename)
+        
+        print scipy.stats.chisquare(matrix, null_hypothesis)
+        
     else: # skapa matris att köra chi2 mot
         
         old_matrix = genGrid([])
@@ -79,7 +101,7 @@ if __name__ == "__main__":
                         print total_error
                         
                     if total_error < 1e-8 and total_error != 0.0:
-                       old_matrix.dump("all_blog_matrix.dump")
+                       old_matrix.dump(dump_filename)
                        break
                     
                     old_matrix = normalize(genGrid(coordinates))
