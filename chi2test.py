@@ -69,7 +69,8 @@ if __name__ == "__main__":
         print matrix
         print null_hypothesis
         
-        print scipy.stats.chisquare(matrix, f_exp=null_hypothesis, axis=None)
+        print scipy.stats.chisquare(matrix.ravel(), 
+                                    f_exp=null_hypothesis.ravel())
         
     else: # skapa matris att köra chi2 mot
         
