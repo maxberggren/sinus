@@ -65,7 +65,7 @@ if __name__ == "__main__":
             
             if j % 100:
                 diff = new_matrix - normalize(genGrid(coordinates)) 
-                print len(np.where( diff < 1e-05 ))
+                print sum1(diff)
                 
                 new_matrix = normalize(genGrid(coordinates))
                 #print "{} procent klart".format(percent)
