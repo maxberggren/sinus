@@ -117,12 +117,12 @@ if __name__ == "__main__":
             print "Entropy:"                            
             print entropy(matrix)
             """
-            (chi2, p) = scipy.stats.chisquare(matrix, f_exp=null_hypothesis)
+            (chi2, p) = scipy.stats.power_divergence(matrix, f_exp=null_hypothesis)
             print pattern.format(word=searchword,
                                  ent=round(entropy(matrix),4),
                                  chi2=round(chi2, 4), 
                                  p=round(p, 4),
-                                 chi2norm=round(math.sqrt(scipy.stats.chisquare(matrix, 
+                                 chi2norm=round(math.sqrt(scipy.stats.power_divergence(matrix, 
                                         f_exp=null_hypothesis)[0])/float(len(coordinates)), 4))
         
     else: # skapa matris att köra chi2 mot
