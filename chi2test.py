@@ -39,7 +39,7 @@ if __name__ == "__main__":
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
     
-    new_matrix = genGrid([[]])
+    new_matrix = genGrid(np.array([[]]))
     i, j, k = 0, 0, 0
     try:        
         coordinates = []
