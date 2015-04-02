@@ -69,8 +69,8 @@ if __name__ == "__main__":
         print matrix.ravel()
         print null_hypothesis.ravel()
         
-        print scipy.stats.chisquare(matrix.ravel(), 
-                                    f_exp=null_hypothesis.ravel())
+        print scipy.stats.chisquare(matrix.ravel() + np.ones(matrix.ravel().shape), 
+                                    f_exp=null_hypothesis.ravel() + np.ones(null_hypothesis.ravel().shape))
         
     else: # skapa matris att köra chi2 mot
         
