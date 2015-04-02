@@ -93,8 +93,8 @@ if __name__ == "__main__":
         print scipy.stats.chisquare(matrix, 
                                     f_exp=null_hypothesis)
         print "Chi2norm:"
-        print scipy.stats.chisquare(matrix, 
-                                    f_exp=null_hypothesis)[0]/float(len(coordinates))
+        print math.sqrt(scipy.stats.chisquare(matrix, 
+                                    f_exp=null_hypothesis)[0])/float(len(coordinates))
         print "Entropy:"                            
         print entropy(matrix)
         
