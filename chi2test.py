@@ -45,7 +45,7 @@ def sum1(input):
     try:
         return sum(map(sum, input))
     except Exception:
-        sum(input)
+        return sum(input)
     
 def normalize(matrix):
     return matrix / sum1(matrix)
