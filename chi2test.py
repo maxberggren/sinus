@@ -16,7 +16,7 @@ import math
 def entropy(matrix):
     print matrix
     if sum1(matrix) != 1.0:
-        matrix = normalize(matrix)
+        matrix = normalize(matrix.astype("float"))
     print matrix
     ent = 0.0
     for pct in matrix:
