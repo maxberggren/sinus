@@ -12,7 +12,7 @@ import datetime
 import config as c
 
 if __name__ == "__main__":
-    documents = dataset.connect(c.LOCALLOCATIONDB)
+    documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
     i, j, k = 0, 0, 0
     try:        
@@ -24,9 +24,7 @@ if __name__ == "__main__":
         for row in result:
             sources = row['c']
             print "Hittade {} st källor.".format(sources)
-            
-        print "Lägger in bloggars poster som dokument i ES."
-        
+                    
         # Blogs
         for source in documents.query("SELECT * from blogs "
                                       "WHERE longitude is not NULL and "
