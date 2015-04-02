@@ -88,6 +88,6 @@ if __name__ == "__main__":
                     
                     old_matrix = normalize(genGrid(coordinates))
                     
-    except KeyboardInterrupt:
-        print "Avbryter..."
+        except KeyboardInterrupt:
+            print "Avbryter..."
                         
