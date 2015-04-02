@@ -94,7 +94,7 @@ if __name__ == "__main__":
         print scipy.stats.chisquare(matrix, 
                                     f_exp=null_hypothesis)
         print scipy.stats.chisquare(matrix, 
-                                    f_exp=null_hypothesis)[0]/(matrix.shape[0]*matrix.shape[1])
+                                    f_exp=null_hypothesis)[0]
         print "Entropy:"                            
         print entropy(matrix)
         
