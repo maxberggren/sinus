@@ -12,7 +12,7 @@ import datetime
 import config as c
 
 def genGrid(koordinater, xBins=4, xyRatio=1.8):
-
+    print len(koordinater)
     if len(koordinater) == 0:
         print "!!!!!!"
         
