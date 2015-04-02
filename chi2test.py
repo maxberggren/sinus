@@ -54,7 +54,8 @@ if __name__ == "__main__":
         # Blogs
         for source in documents.query("SELECT * from blogs "
                                       "WHERE longitude is not NULL and "
-                                      "latitude is not NULL LIMIT 10000"):   
+                                      "latitude is not NULL "
+                                      "ORDER BY RAND() "):   
             j += 1
             k += 1
             url = source['url']  
@@ -65,16 +66,18 @@ if __name__ == "__main__":
             if j % 100:
                 diff = old_matrix - normalize(genGrid(coordinates)) 
                 diff = np.square(diff)
-                print sum1(diff)
+                total_error = sum1(diff)
+                
+                if total_error != 0.0:
+                    print total_error
+                    
+                if total_error < 1e-10:
+                   break
                 
                 old_matrix = normalize(genGrid(coordinates))
                 
                 #percent = 100.0*float(j)/float(sources)
                 #print "{} procent klart".format(percent)
-    
-        #print np.amax(genGrid(coordinates))
-        #print genGrid(coordinates)
-        #print normalize(genGrid(coordinates))
                     
     except KeyboardInterrupt:
         print "Avbryter..."
