@@ -13,8 +13,8 @@ import config as c
 
 def genGrid(koordinater, xBins=4, xyRatio=1.8):
 
-    if koordinater.shape == (1,0):
-        return np.zeros(shape=(xBins,xBins*xyRatio))
+    if len(koordinater) == 0:
+        print "!!!!!!"
         
     lon_bins = np.linspace(8, 26, xBins)
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
     
-    new_matrix = genGrid(np.array([[]]))
+    new_matrix = genGrid([[]])
     i, j, k = 0, 0, 0
     try:        
         coordinates = []
