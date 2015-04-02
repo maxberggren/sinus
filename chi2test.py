@@ -85,10 +85,10 @@ if __name__ == "__main__":
         null_hypothesis += np.ones(null_hypothesis.ravel().shape)
         null_hypothesis = null_hypothesis.astype("int")
         
-        #print "Från datat:"
-        #print matrix
-        #print "Nollhypotes:"
-        #print null_hypothesis
+        print "Från datat:"
+        print matrix, sum(matrix)
+        print "Nollhypotes:"
+        print null_hypothesis, sum(null_hypothesis)
         print "Chi2:"
         print scipy.stats.chisquare(matrix, 
                                     f_exp=null_hypothesis)
