@@ -35,6 +35,8 @@ def normalize(matrix):
 if __name__ == "__main__":
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
+    
+    new_matrix = genGrid([[]])
     i, j, k = 0, 0, 0
     try:        
         coordinates = []
@@ -59,8 +61,9 @@ if __name__ == "__main__":
             coordinates.append([source['longitude'], source['latitude']])
             
             if j % 100:
-                print normalize(genGrid(coordinates))
-                print "{} procent klart".format(percent)
+                print normalize(genGrid(coordinates) - new_matrix
+                new_matrix = normalize(genGrid(coordinates))
+                #print "{} procent klart".format(percent)
     
         #print np.amax(genGrid(coordinates))
         #print genGrid(coordinates)
