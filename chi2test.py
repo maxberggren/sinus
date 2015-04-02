@@ -45,7 +45,7 @@ if __name__ == "__main__":
     documents.query("set names 'utf8';")
 
 
-    if len(sys.argv > 1):
+    if len(sys.argv) > 1:
         # kör bara på det sökordet
         pass
     else: # skapa matris att köra chi2 mot
