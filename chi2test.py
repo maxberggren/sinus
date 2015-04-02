@@ -36,6 +36,8 @@ def normalize(matrix):
     return matrix / sum1(matrix)
 
 if __name__ == "__main__":
+
+    print sys.argv
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
     
@@ -72,6 +74,7 @@ if __name__ == "__main__":
                     print total_error
                     
                 if total_error < 1e-10 and total_error != 0.0:
+                   old_matrix.dump("all_blog_matrix.dump")
                    break
                 
                 old_matrix = normalize(genGrid(coordinates))
