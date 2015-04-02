@@ -12,6 +12,17 @@ import datetime
 import config as c
 import scipy
 
+def entropy(matrix):
+    if sum1(matrix) != 1.0:
+        matrix = normalize(matrix)
+
+    ent = 0.0
+    for pct in matrix.flatten():
+        if pct > 0:
+            ent -= + pct * math.log(pct, 2)
+    
+    return ent
+
 def genGrid(koordinater, xBins=4, xyRatio=1.8):
 
     if len(koordinater) == 0:
@@ -73,6 +84,8 @@ if __name__ == "__main__":
         
         print scipy.stats.chisquare(matrix, 
                                     f_exp=null_hypothesis)
+                                    
+        print entropy(matrix)
         
     else: # skapa matris att köra chi2 mot
         
