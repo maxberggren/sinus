@@ -80,14 +80,16 @@ if __name__ == "__main__":
         #matrix = normalize(genGrid(coordinates)) 
         matrix = genGrid(coordinates).ravel()
         matrix += np.ones(matrix.ravel().shape)
+        matrix = matrix.astype("int")
         null_hypothesis = np.load(dump_filename)
         null_hypothesis = len(coordinates)*null_hypothesis.ravel() 
         null_hypothesis += np.ones(null_hypothesis.ravel().shape)
+        null_hypothesis = null_hypothesis.astype("int")
         
         print "Från datat:"
-        print matrix.astype("int")
+        print matrix
         print "Nollhypotes:"
-        print null_hypothesis.astype("int")
+        print null_hypothesis
         
         print scipy.stats.chisquare(matrix, 
                                     f_exp=null_hypothesis)
