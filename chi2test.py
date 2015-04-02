@@ -12,7 +12,7 @@ import datetime
 import config as c
 
 def genGrid(koordinater, xBins=4, xyRatio=1.8):
-    print len(koordinater)
+
     if len(koordinater) == 0:
         print "!!!!!!"
         
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
     
-    new_matrix = genGrid([[]])
+    new_matrix = genGrid([])
     i, j, k = 0, 0, 0
     try:        
         coordinates = []
