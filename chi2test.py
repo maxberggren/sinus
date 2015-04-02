@@ -36,17 +36,13 @@ def normalize(matrix):
     return matrix / sum1(matrix)
 
 if __name__ == "__main__":
-
-    print sys.argv
-    
-
         
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
 
-
     if len(sys.argv) > 1:
         # kör bara på det sökordet
+        searchword = sys.argv[1]
         pass
     else: # skapa matris att köra chi2 mot
         
