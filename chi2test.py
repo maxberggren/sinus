@@ -62,7 +62,7 @@ if __name__ == "__main__":
         print pattern.format(word="Ord",
                              ent="Entropy",
                              chi2="Chi2", 
-                             chi2="p", 
+                             p="p", 
                              chi2norm="Chi2Norm")
 
         print pattern.format(word="-"*20,
