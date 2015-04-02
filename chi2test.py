@@ -57,49 +57,50 @@ if __name__ == "__main__":
     dump_filename = "all_blog_matrix.dump"
 
     if len(sys.argv) > 1:
-        # kör bara på det sökordet
-        searchword = sys.argv[1]
-        coordinates = []
-        
-        for source in documents.query("SELECT blogs.longitude, "
-                                   "blogs.latitude, "
-                                   "blogs.id "
-                                   "FROM posts INNER JOIN blogs ON "
-                                   "blogs.id=posts.blog_id "
-                                   "WHERE MATCH(posts.text) "
-                                   "AGAINST ('" + searchword + "' "
-                                   "IN BOOLEAN MODE) "
-                                   "AND blogs.latitude is not NULL "
-                                   "AND blogs.longitude is not NULL "
-                                   "AND blogs.rank <= 4 "
-                                   "LIMIT 10000 "):
-                                   
-            coordinates.append([source['longitude'], source['latitude']])
-
-        #matrix = normalize(genGrid(coordinates)) 
-        matrix = genGrid(coordinates).ravel()
-        matrix += np.ones(matrix.ravel().shape)
-        matrix = matrix.astype("int")
-        null_hypothesis = np.load(dump_filename)
-        null_hypothesis = len(coordinates)*null_hypothesis.ravel() 
-        null_hypothesis += np.ones(null_hypothesis.ravel().shape)
-        null_hypothesis = null_hypothesis.astype("int")
-        
-        print "Från datat:"
-        print matrix, sum(matrix)
-        print "Nollhypotes:"
-        print null_hypothesis, sum(null_hypothesis)
-        print "Chi2:"
-        print scipy.stats.chisquare(matrix, 
-                                    f_exp=null_hypothesis)
-        (chi2, p) = scipy.stats.chisquare(matrix, f_exp=null_hypothesis)
-        if p < 0.05:
-            print "Verkar intressant!"
-        print "Chi2norm:"
-        print math.sqrt(scipy.stats.chisquare(matrix, 
-                                    f_exp=null_hypothesis)[0])/float(len(coordinates))
-        print "Entropy:"                            
-        print entropy(matrix)
+        for searchword in sys.argv[1:]:
+            # kör bara på det sökordet
+            #searchword = sys.argv[1]
+            coordinates = []
+            
+            for source in documents.query("SELECT blogs.longitude, "
+                                       "blogs.latitude, "
+                                       "blogs.id "
+                                       "FROM posts INNER JOIN blogs ON "
+                                       "blogs.id=posts.blog_id "
+                                       "WHERE MATCH(posts.text) "
+                                       "AGAINST ('" + searchword + "' "
+                                       "IN BOOLEAN MODE) "
+                                       "AND blogs.latitude is not NULL "
+                                       "AND blogs.longitude is not NULL "
+                                       "AND blogs.rank <= 4 "
+                                       "LIMIT 10000 "):
+                                       
+                coordinates.append([source['longitude'], source['latitude']])
+    
+            #matrix = normalize(genGrid(coordinates)) 
+            matrix = genGrid(coordinates).ravel()
+            matrix += np.ones(matrix.ravel().shape)
+            matrix = matrix.astype("int")
+            null_hypothesis = np.load(dump_filename)
+            null_hypothesis = len(coordinates)*null_hypothesis.ravel() 
+            null_hypothesis += np.ones(null_hypothesis.ravel().shape)
+            null_hypothesis = null_hypothesis.astype("int")
+            
+            print "Från datat:"
+            print matrix, sum(matrix)
+            print "Nollhypotes:"
+            print null_hypothesis, sum(null_hypothesis)
+            print "Chi2:"
+            print scipy.stats.chisquare(matrix, 
+                                        f_exp=null_hypothesis)
+            (chi2, p) = scipy.stats.chisquare(matrix, f_exp=null_hypothesis)
+            if p < 0.05:
+                print "Verkar intressant!"
+            print "Chi2norm:"
+            print math.sqrt(scipy.stats.chisquare(matrix, 
+                                        f_exp=null_hypothesis)[0])/float(len(coordinates))
+            print "Entropy:"                            
+            print entropy(matrix)
         
     else: # skapa matris att köra chi2 mot
         
