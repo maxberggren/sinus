@@ -57,6 +57,18 @@ if __name__ == "__main__":
     dump_filename = "all_blog_matrix.dump"
 
     if len(sys.argv) > 1:
+        pattern = "{word:>15} | {ent:>10} | {chi2:>10} | {chi2norm:>10}"
+        
+        print pattern.format(word="Ord",
+                             ent="Entropy",
+                             chi2="Chi2", 
+                             chi2norm="Chi2Norm")
+
+        print pattern.format(word="-"*15,
+                             ent="-"*10,
+                             chi2="-"*10, 
+                             chi2norm="-"*10)
+        
         for searchword in sys.argv[1:]:
             # kör bara på det sökordet
             #searchword = sys.argv[1]
@@ -86,6 +98,7 @@ if __name__ == "__main__":
             null_hypothesis += np.ones(null_hypothesis.ravel().shape)
             null_hypothesis = null_hypothesis.astype("int")
             
+            """
             print "Från datat:"
             print matrix, sum(matrix)
             print "Nollhypotes:"
@@ -101,6 +114,13 @@ if __name__ == "__main__":
                                         f_exp=null_hypothesis)[0])/float(len(coordinates))
             print "Entropy:"                            
             print entropy(matrix)
+            """
+            (chi2, p) = scipy.stats.chisquare(matrix, f_exp=null_hypothesis)
+            print pattern.format(word=searchword,
+                                 ent=entropy(matrix),
+                                 chi2=chi2, 
+                                 chi2norm=math.sqrt(scipy.stats.chisquare(matrix, 
+                                        f_exp=null_hypothesis)[0])/float(len(coordinates)))
         
     else: # skapa matris att köra chi2 mot
         
