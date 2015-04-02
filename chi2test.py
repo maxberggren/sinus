@@ -59,7 +59,7 @@ if __name__ == "__main__":
             j += 1
             k += 1
             url = source['url']  
-            blogid = source['id']   
+            blogid = source['id']    
 
             coordinates.append([source['longitude'], source['latitude']])
             
