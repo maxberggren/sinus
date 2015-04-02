@@ -28,6 +28,9 @@ def genGrid(koordinater, xBins=4, xyRatio=1.8):
 
 def sum1(input):
     return sum(map(sum, input))
+    
+def normalize(matrix):
+    return matrix / sum1(matrix)
 
 if __name__ == "__main__":
     documents = dataset.connect(c.LOCATIONDB)
@@ -58,8 +61,8 @@ if __name__ == "__main__":
     
         #print np.amax(genGrid(coordinates))
         print genGrid(coordinates)
-        print genGrid(coordinates) / sum1(genGrid(coordinates))
-            
+        print normalize(genGrid(coordinates))
+                    
     except KeyboardInterrupt:
         print "Avbryter..."
                         
