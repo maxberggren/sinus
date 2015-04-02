@@ -11,6 +11,21 @@ import json
 import datetime
 import config as c
 
+def genGrid(koordinater, xBins=30, xyRatio=1.8):
+
+    lon_bins = np.linspace(8, 26, xBins)
+    lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
+
+    lons, lats = zip(*koordinater)             
+    lons = np.array(lons)
+    lats = np.array(lats)
+
+    density, _, _ = np.histogram2d(lats, 
+                                   lons, 
+                                   [lat_bins, 
+                                    lon_bins])
+    return density
+
 if __name__ == "__main__":
     documents = dataset.connect(c.LOCATIONDB)
     documents.query("set names 'utf8';")
@@ -38,7 +53,7 @@ if __name__ == "__main__":
 
             coordinates.append([source['longitude'], source['latitude']])
     
-        print coordinates
+        print genGrid(coordinates)
     
     except KeyboardInterrupt:
         print "Avbryter..."
