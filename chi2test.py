@@ -24,7 +24,7 @@ def entropy(matrix):
     
     return ent
 
-def genGrid(koordinater, xBins=4, xyRatio=1.8):
+def genGrid(koordinater, xBins=30, xyRatio=1.8):
 
     if len(koordinater) == 0:
         return np.zeros(shape=(int(xBins*xyRatio-1), xBins-1))
