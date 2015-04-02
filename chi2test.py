@@ -11,6 +11,7 @@ import json
 import datetime
 import config as c
 import scipy
+import math
 
 def entropy(matrix):
     if sum1(matrix) != 1.0:
