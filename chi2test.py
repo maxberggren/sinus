@@ -11,7 +11,7 @@ import json
 import datetime
 import config as c
 
-def genGrid(koordinater, xBins=30, xyRatio=1.8):
+def genGrid(koordinater, xBins=4, xyRatio=1.8):
 
     lon_bins = np.linspace(8, 26, xBins)
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
