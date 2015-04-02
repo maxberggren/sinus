@@ -13,6 +13,9 @@ import config as c
 
 def genGrid(koordinater, xBins=4, xyRatio=1.8):
 
+    if len(koordinater) == 0:
+        return np.zeros(shape=(xBins,xBins*xyRatio))
+        
     lon_bins = np.linspace(8, 26, xBins)
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
 
@@ -61,7 +64,7 @@ if __name__ == "__main__":
             coordinates.append([source['longitude'], source['latitude']])
             
             if j % 100:
-                print normalize(genGrid(coordinates)) - new_matrix
+                print normalize(genGrid(coordinates) - new_matrix
                 new_matrix = normalize(genGrid(coordinates))
                 #print "{} procent klart".format(percent)
     
