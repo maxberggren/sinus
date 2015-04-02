@@ -64,6 +64,9 @@ if __name__ == "__main__":
         matrix = normalize(genGrid(coordinates)) 
         null_hypothesis = np.load(dump_filename)
         
+        print matrix
+        print null_hypothesis
+        
         print scipy.stats.chisquare(matrix, null_hypothesis)
         
     else: # skapa matris att köra chi2 mot
