@@ -402,6 +402,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         df_map_county['expected'] = null_h_county_df['expected']
         
         df_map_muni['expected'] = df_map_muni['expected'].astype('float').div(df_map_muni['expected'].sum(axis=0))
+        df_map_muni[words] = df_map_muni[words].astype('float').div(df_map_muni[words].sum(axis=0))
         
         
     else: # More than one word: compare words against each other
