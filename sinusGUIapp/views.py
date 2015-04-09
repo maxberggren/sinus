@@ -255,16 +255,16 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     
                 coordinates.append([source['longitude'], source['latitude']])
                 
-                if j % 5000:
+                if j % 1000:
                     diff = old_matrix - normalize(genGrid(coordinates)) 
                     diff = np.square(diff)
                     total_error = sum1(diff)
                     
                     if total_error != 0.0:
                         print total_error
-                        print j
+                        print k
                         
-                    if total_error < 1e-9 and total_error != 0.0:
+                    if total_error < 1e-5 and total_error != 0.0:
                        return coordinates
                        break
                     
@@ -383,7 +383,9 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     if len(words) == 1: 
         temp_latlon_df = pd.DataFrame(getEnoughData(), 
                                       columns=['longitude', 'latitude'])
-        null_h_coordinates_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
+                                      
+        null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
+        null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
         print null_h_coordinates_df.head()
         
     # Get total occurencies in every county/municipality
