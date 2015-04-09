@@ -381,37 +381,41 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     df_map_muni = mapPointsToPoly(lds, df_map_muni)
     df_map_county = mapPointsToPoly(lds, df_map_county)
     
-    # Get null hypothesis if its only one word
-    fname = "null_hypothesis_df.pkl" # Where to cache
+    # Only one word
     if len(words) == 1: 
-        if not os.path.isfile(fname):
+        fname_muni = "null_hypothesis_muni_df.pkl" # Where to cache
+        fname_county = "null_hypothesis_county_df.pkl" # Where to cache
+        if not os.path.isfile(fname_muni):
             temp_latlon_df = pd.DataFrame(getEnoughData(), 
                                           columns=['longitude', 'latitude'])
             temp_latlon_df['word'] = "expected"
-            print temp_latlon_df
-            print len(temp_latlon_df['longitude'])
                                           
             null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
-            null_h_muni_df.to_pickle(fname)
+            null_h_muni_df.to_pickle(fname_muni) # Cache to disk
+            null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
+            null_h_county_df.to_pickle(fname_county) # Cache to disk
         else:
-            null_h_muni_df = pd.io.pickle.read_pickle(fname)
+            null_h_muni_df = pd.io.pickle.read_pickle(fname_muni) # Read from cache
+            null_h_county_df = pd.io.pickle.read_pickle(fname_county)
             
         df_map_muni['expected'] = null_h_muni_df['expected']
+        df_map_county['expected'] = null_h_county_df['expected']
         
-    # Get total occurencies in every county/municipality
-    df_map_county["sum"] = df_map_county[words].sum(axis=1)
-    df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
-    
-    print df_map_muni.head(20)
-    
-    def df_percent(df_map):
-        df_map = df_map[df_map['sum'] > binThreshold]
-        df_map[words] = df_map[words].astype('float').div(df_map["sum"].astype('float'), axis='index')
-        return df_map
-    
-    # Convert to percentages and skip where there is none
-    df_map_county = df_percent(df_map_county)
-    df_map_muni = df_percent(df_map_muni)
+    else: # More than one word: compare words against each other
+        
+        # Get total occurencies in every county/municipality
+        df_map_county["sum"] = df_map_county[words].sum(axis=1)
+        df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
+            
+        def df_percent(df_map):
+            df_map = df_map[df_map['sum'] > binThreshold]
+            df_map[words] = df_map[words].astype('float').div(df_map["sum"]
+                                                              .astype('float'), axis='index')
+            return df_map
+        
+        # Convert to percentages and skip where there is none
+        df_map_county = df_percent(df_map_county)
+        df_map_muni = df_percent(df_map_muni)
     
     print df_map_muni.head(20)
     
