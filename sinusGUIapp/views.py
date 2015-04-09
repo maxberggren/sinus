@@ -395,12 +395,12 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
             null_h_muni_df = pd.io.pickle.read_pickle(fname)
             
         df_map_muni['expected'] = null_h_muni_df['expected']
-    
-    print df_map_muni.head(20)
         
     # Get total occurencies in every county/municipality
     df_map_county["sum"] = df_map_county[words].sum(axis=1)
     df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
+    
+    print df_map_muni.head(20)
     
     def df_percent(df_map):
         df_map = df_map[df_map['sum'] > binThreshold]
@@ -410,6 +410,8 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     # Convert to percentages and skip where there is none
     df_map_county = df_percent(df_map_county)
     df_map_muni = df_percent(df_map_muni)
+    
+    print df_map_muni.head(20)
     
     # We'll only use a handful of distinct colors for our choropleth. 
     # These will be overwritten if only one word is being plotted.
