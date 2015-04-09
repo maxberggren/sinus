@@ -292,7 +292,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     # data = [[lon, lat], [lon, lat]]
     
     lds = pd.concat(lds)
-    
+    print "!!!!!!!!!!!!!!!!!!!!!!!"
     padding = 0.5
     
     if zoom:
