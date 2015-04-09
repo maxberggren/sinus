@@ -350,6 +350,8 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         
         mapped_points, all_points, hood_polygons = {}, {}, {}
         
+        words = coordinates_df['word'].unique()
+        
         for word, ld in coordinates_df.groupby(['word']):
             
             # Convert our latitude and longitude into Basemap cartesian map coordinates
