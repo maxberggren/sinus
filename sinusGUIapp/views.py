@@ -406,7 +406,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         df_map_muni[words] = df_map_muni[words].div(df_map_muni['expected'], axis='index')
         del df_map_muni['expected']
         
-        breaks = [0., 1., 2.]
+        breaks = [0., 1., 5.]
         labels = ['Below', 'Expected', 'Above']
         
     else: # More than one word: compare words against each other
@@ -505,7 +505,6 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                                orientation='horizontal', 
                                cax=cax)
         cbar.ax.tick_params(labelsize=6)
-        
         
             
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
