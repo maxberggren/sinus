@@ -242,19 +242,19 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         i, j, k = 0, 0, 0
         try:        
             coordinates = []
-            result = documents.query("SELECT count(*) as c "
-                                     "from blogs "
-                                     "WHERE longitude is not NULL and "
-                                     "latitude is not NULL")
+            result = mysqldb.query("SELECT count(*) as c "
+                                   "from blogs "
+                                   "WHERE longitude is not NULL and "
+                                   "latitude is not NULL")
             for row in result:
                 sources = row['c']
                 print "Hittade {} st källor.".format(sources)
                         
             # Blogs
-            for source in documents.query("SELECT * from blogs "
-                                          "WHERE longitude is not NULL and "
-                                          "latitude is not NULL "
-                                          "ORDER BY RAND() "):   
+            for source in mysqldb.query("SELECT * from blogs "
+                                        "WHERE longitude is not NULL and "
+                                        "latitude is not NULL "
+                                        "ORDER BY RAND() "):   
                 j += 1
                 k += 1
                 url = source['url']  
