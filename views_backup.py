@@ -278,51 +278,47 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         'poly': [Polygon(countys_points) for countys_points in m.countys],
         'name': [r['LAN_NAMN'] for r in m.countys_info]})
     
+    mapped_points, all_points, hood_polygons_county = {}, {}, {}
+    mapped_points_county, mapped_points_muni, hood_polygons_muni = {}, {}, {}
     
-    def mapPointsToPoly(coordinates_df, poly_df):
-        """ Take coordiantes DF and put into polygon DF """
+    for word, ld in lds.groupby(['word']):
         
-        mapped_points, all_points, hood_polygons = {}, {}, {}
-        
-        for word, ld in coordinates_df.groupby(['word']):
-            
-            # Convert our latitude and longitude into Basemap cartesian map coordinates
-            mapped_points[word] = [Point(m(mapped_x, mapped_y)) 
-                                   for mapped_x, mapped_y 
-                                   in zip(ld['longitude'], ld['latitude'])]
-                                   
-            all_points[word] = MultiPoint(mapped_points[word])
-        
-            # Use prep to optimize polygons for faster computation
-            hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
-        
-            # Filter out the points that do not fall within the map we're making
-            mapped_points[word] = filter(hood_polygons[word].contains, all_points[word])
-        
-        
-        def num_of_contained_points(apolygon, mapped_points):
-            """ Counts number of points that fall into a polygon """
-            return int(len(filter(prep(apolygon).contains, mapped_points))) 
-        
-        for word in words:
-            poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
-                                                  args=(mapped_points[word],))
-        
-        return poly_df
-        
-    df_map_muni = mapPointsToPoly(lds, df_map_muni)
-    df_map_county = mapPointsToPoly(lds, df_map_county)
-        
+        # Convert our latitude and longitude into Basemap cartesian map coordinates
+        mapped_points[word] = [Point(m(mapped_x, mapped_y)) 
+                               for mapped_x, mapped_y 
+                               in zip(ld['longitude'], ld['latitude'])]
+                               
+        all_points[word] = MultiPoint(mapped_points[word])
+    
+        # Use prep to optimize polygons for faster computation
+        hood_polygons_county[word] = prep(MultiPolygon(list(df_map_county['poly'].values)))
+        hood_polygons_muni[word] = prep(MultiPolygon(list(df_map_muni['poly'].values)))
+    
+        # Filter out the points that do not fall within the map we're making
+        mapped_points_county[word] = filter(hood_polygons_county[word].contains, all_points[word])
+        mapped_points_muni[word] = filter(hood_polygons_muni[word].contains, all_points[word])
+    
+    
+    def num_of_contained_points(apolygon, mapped_points):
+        """ Counts number of points that fall into a polygon """
+        return int(len(filter(prep(apolygon).contains, mapped_points)))
+    
+    for word in words:
+        df_map_county[word] = df_map_county['poly'].apply(num_of_contained_points, 
+                                                          args=(mapped_points_county[word],))
+        df_map_muni[word] = df_map_muni['poly'].apply(num_of_contained_points, 
+                                                      args=(mapped_points_muni[word],))
+    
     # Get total occurencies in every county/municipality
     df_map_county["sum"] = df_map_county[words].sum(axis=1)
     df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
     
+    # Convert to percentages and skip where there is none
     def df_percent(df_map):
         df_map = df_map[df_map['sum'] > binThreshold]
         df_map[words] = df_map[words].astype('float').div(df_map["sum"].astype('float'), axis='index')
         return df_map
     
-    # Convert to percentages and skip where there is none
     df_map_county = df_percent(df_map_county)
     df_map_muni = df_percent(df_map_muni)
     
@@ -331,7 +327,6 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     breaks = [0., 0.25, 0.5, 0.75, 1.0]
     
     def self_categorize(entry, breaks):
-        """ Put percent into a category (breaks)"""
         for i in range(len(breaks)-1):
             if entry > breaks[i] and entry <= breaks[i+1]:
                 return i
@@ -342,14 +337,9 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     fig = plt.figure(figsize=(3.25*len(words),6))
     
     for i, word in enumerate(words):
+        df_map_county['jenks_bins_'+word] = df_map_county[word].apply(self_categorize, args=(breaks,))
+        df_map_muni['jenks_bins_'+word] = df_map_muni[word].apply(self_categorize, args=(breaks,))
     
-        # Create columns stating which break precentages belongs to
-        df_map_county['jenks_bins_'+word] = df_map_county[word].apply(self_categorize, 
-                                                                      args=(breaks,))
-        df_map_muni['jenks_bins_'+word] = df_map_muni[word].apply(self_categorize, 
-                                                                  args=(breaks,))
-    
-        # Every word uses a subplot
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
         ax.set_title(u"{word} - hits: {hits}".format(word=word, hits=coord_count[word]), 
                      y=1.01, fontsize=9)
@@ -357,7 +347,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         cmap = plt.get_cmap(colorCycle(i))
         cmap = opacify(cmap)
         
-        print "emptybinfallback:", emptyBinFallback
+        print "emptybinfallack:", emptyBinFallback
         if emptyBinFallback == 'county':
             # Optional fallback for empty bins
             shapesToPutOnMap = [df_map_county, df_map_muni]
@@ -366,13 +356,10 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         
         for df_map in shapesToPutOnMap:
         
-            if len(words) == 1: 
-                # When only one word, compare to null hypothesis
-                # getstandard
-                
-                # When only one word, uncomment to use Jenkins natural breaks
+            if len(words) == 1: # When only one word, use Jenkins natural breaks
                 breaks = Natural_Breaks(df_map['sum'], initial=300, k=3)
                 df_map['jenks_bins_'+word] = breaks.yb
+                
                 labels = ['0', "> 0"] + ["> %d"%(perc) for perc in breaks.bins[:-1]]
     
             # Draw neighborhoods with grey outlines
