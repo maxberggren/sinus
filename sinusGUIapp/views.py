@@ -264,7 +264,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                         print total_error
                         print k
                         
-                    if total_error < 1e-5 and total_error != 0.0:
+                    if total_error < 1e-9 and total_error != 0.0:
                        return coordinates
                        break
                     
