@@ -389,7 +389,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                                           
             null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
             #null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
-            print null_h_muni_df.head()
+            print null_h_muni_df.sort(words).head()
             null_h_muni_df.to_pickle(fname)
         else:
             pd.io.pickle.read_pickle(fname)
