@@ -264,7 +264,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                         print total_error
                         print k
                         
-                    if total_error < 1e-9 and total_error != 0.0:
+                    if total_error < 1e-8 and total_error != 0.0:
                        return coordinates
                        break
                     
@@ -400,6 +400,9 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
             
         df_map_muni['expected'] = null_h_muni_df['expected']
         df_map_county['expected'] = null_h_county_df['expected']
+        
+        df_map_muni['expected'] = df_map_muni['expected'].astype('float').div(df_map_muni['expected'].sum(axis=0))
+        
         
     else: # More than one word: compare words against each other
         
