@@ -421,7 +421,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         df_map_county = df_percent(df_map_county)
         df_map_muni = df_percent(df_map_muni)
     
-    print df_map_muni.head(20)
+    print df_map_muni.sort(words, ascending=0).head(20)
     
     # We'll only use a handful of distinct colors for our choropleth. 
     # These will be overwritten if only one word is being plotted.
