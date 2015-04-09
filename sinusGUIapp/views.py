@@ -430,7 +430,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         breaks = [0., 0.25, 0.5, 0.75, 1.0]
         labels = ['None', 'Low', 'Medium', 'High', 'Very high']
     
-    print df_map_muni.sort(words, ascending=0).head(20)
+    #print df_map_muni.sort(words, ascending=0).head(20)
     
     def self_categorize(entry, breaks):
         """ Put percent into a category (breaks)"""
