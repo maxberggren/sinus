@@ -449,7 +449,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         df_map_muni['jenks_bins_'+word] = df_map_muni[word].apply(self_categorize, 
                                                                   args=(breaks,))
                                                                   
-        #print df_map_muni.sort(words, ascending=0).head(20)
+        #print df_map_muni.sort(words, ascending=0).head(20) 
     
         # Every word uses a subplot
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
