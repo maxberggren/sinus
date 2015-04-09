@@ -124,7 +124,7 @@ if __name__ == "__main__":
                                  p=round(p, 100),
                                  chi2norm=round(math.sqrt(scipy.stats.chisquare(matrix, 
                                         f_exp=null_hypothesis)[0])/float(len(coordinates)), 4))
-        
+            print p
     else: # skapa matris att köra chi2 mot
         
         old_matrix = genGrid([])
