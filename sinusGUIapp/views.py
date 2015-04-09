@@ -392,6 +392,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         # data = [[lon, lat], [lon, lat]]
         #ld = pd.DataFrame(d, columns=['longitude', 'latitude'])
         #ld['word'] = "null_hypothesis"
+        print "getEnogugtData"
         data = getEnoughData()
         #null_h_coordinates_df = getNullHypothesis()
         #df_map_null_hypothesis = mapPointsToPoly(null_h_coordinates_df, df_map_county)
@@ -501,7 +502,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     filename += binascii.b2a_hex(os.urandom(15))[:10]
     filename = secure_filename(filename)
     
-    emptyFolder('sinusGUIapp/static/maps/')
+    #emptyFolder('sinusGUIapp/static/maps/')
     plt.savefig("sinusGUIapp/static/maps/" + filename +".png", 
                 dpi=100)
     plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", 
@@ -766,7 +767,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
             plt.savefig(gifFilename, dpi=150)
             
         else: # Just saving one image
-            emptyFolder('sinusGUIapp/static/maps/')
+            #emptyFolder('sinusGUIapp/static/maps/')
             plt.savefig("sinusGUIapp/static/maps/" + filename +".png", 
                         dpi=100)
             plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", 
