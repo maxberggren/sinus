@@ -383,6 +383,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     if len(words) == 1: 
         temp_latlon_df = pd.DataFrame(getEnoughData(), 
                                       columns=['longitude', 'latitude'])
+        temp_latlon_df['word'] = words[0]
                                       
         null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
         null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
