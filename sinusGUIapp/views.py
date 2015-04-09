@@ -380,18 +380,21 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     df_map_county = mapPointsToPoly(lds, df_map_county)
     
     # Get null hypothesis if its only one word
-    fname = "null_hypothesis_df.pkl"
+    fname = "null_hypothesis_df.pkl" # Where to cache
     if len(words) == 1: 
         if not os.path.isfile(fname):
             temp_latlon_df = pd.DataFrame(getEnoughData(), 
                                           columns=['longitude', 'latitude'])
-            temp_latlon_df['word'] = words[0]
+            temp_latlon_df['word'] = "expected"
                                           
             null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
-            print null_h_muni_df.sort(words, ascending=0).head()
             null_h_muni_df.to_pickle(fname)
         else:
-            pd.io.pickle.read_pickle(fname)
+            null_h_muni_df = pd.io.pickle.read_pickle(fname)
+            
+        df_map_muni['expected'] = null_h_muni_df['expected']
+    
+    print df_map_muni.head(20)
         
     # Get total occurencies in every county/municipality
     df_map_county["sum"] = df_map_county[words].sum(axis=1)
