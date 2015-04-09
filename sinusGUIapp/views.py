@@ -388,6 +388,8 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
             temp_latlon_df = pd.DataFrame(getEnoughData(), 
                                           columns=['longitude', 'latitude'])
             temp_latlon_df['word'] = "expected"
+            print temp_latlon_df
+            print len(temp_latlon_df['longitude'])
                                           
             null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
             null_h_muni_df.to_pickle(fname)
