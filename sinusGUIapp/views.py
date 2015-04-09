@@ -238,19 +238,12 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         return matrix / sum1(matrix)        
         
     def getEnoughData():
+        """ Get alot of data until a suitable null hypothesis as converged """
         old_matrix = genGrid([])
         i, j, k = 0, 0, 0
         try:        
             coordinates = []
-            result = mysqldb.query("SELECT count(*) as c "
-                                   "from blogs "
-                                   "WHERE longitude is not NULL and "
-                                   "latitude is not NULL")
-            for row in result:
-                sources = row['c']
-                print "Hittade {} st källor.".format(sources)
-                        
-            # Blogs
+
             for source in mysqldb.query("SELECT * from blogs "
                                         "WHERE longitude is not NULL and "
                                         "latitude is not NULL "
@@ -262,7 +255,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     
                 coordinates.append([source['longitude'], source['latitude']])
                 
-                if j % 1000:
+                if j % 5000:
                     diff = old_matrix - normalize(genGrid(coordinates)) 
                     diff = np.square(diff)
                     total_error = sum1(diff)
@@ -271,7 +264,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                         print total_error
                         print j
                         
-                    if total_error < 1e-6 and total_error != 0.0:
+                    if total_error < 1e-9 and total_error != 0.0:
                        return coordinates
                        break
                     
@@ -388,13 +381,10 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     
     # Get null hypothesis if its only one word
     if len(words) == 1: 
-        # data = [[lon, lat], [lon, lat]]
-        #ld = pd.DataFrame(d, columns=['longitude', 'latitude'])
-        #ld['word'] = "null_hypothesis"
-        print "getEnogugtData "
-        data = getEnoughData()
-        #null_h_coordinates_df = getNullHypothesis()
-        #df_map_null_hypothesis = mapPointsToPoly(null_h_coordinates_df, df_map_county)
+        temp_latlon_df = pd.DataFrame(getEnoughData(), 
+                                      columns=['longitude', 'latitude'])
+        null_h_coordinates_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
+        print null_h_coordinates_df.head()
         
     # Get total occurencies in every county/municipality
     df_map_county["sum"] = df_map_county[words].sum(axis=1)
