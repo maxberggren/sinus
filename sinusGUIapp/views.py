@@ -388,7 +388,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     df_map_county = mapPointsToPoly(lds, df_map_county)
     
     # Get null hypothesis if its only one word
-    if len(words) == 1:
+    if len(words) == 1: 
         # data = [[lon, lat], [lon, lat]]
         #ld = pd.DataFrame(d, columns=['longitude', 'latitude'])
         #ld['word'] = "null_hypothesis"
