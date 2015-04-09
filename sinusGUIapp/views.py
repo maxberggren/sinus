@@ -392,7 +392,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         # data = [[lon, lat], [lon, lat]]
         #ld = pd.DataFrame(d, columns=['longitude', 'latitude'])
         #ld['word'] = "null_hypothesis"
-        print "getEnogugtData"
+        print "getEnogugtData "
         data = getEnoughData()
         #null_h_coordinates_df = getNullHypothesis()
         #df_map_null_hypothesis = mapPointsToPoly(null_h_coordinates_df, df_map_county)
