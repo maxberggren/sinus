@@ -381,7 +381,8 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     df_map_muni = mapPointsToPoly(lds, df_map_muni)
     df_map_county = mapPointsToPoly(lds, df_map_county)
     
-    # Only one word
+    # Only one word: compare to country expectation
+    # TODO: generalize code
     if len(words) == 1: 
         fname_muni = "null_hypothesis_muni_df.pkl" # Where to cache
         fname_county = "null_hypothesis_county_df.pkl" # Where to cache
@@ -398,13 +399,15 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
             null_h_muni_df = pd.io.pickle.read_pickle(fname_muni) # Read from cache
             null_h_county_df = pd.io.pickle.read_pickle(fname_county)
             
-        df_map_muni['expected'] = null_h_muni_df['expected']
-        df_map_county['expected'] = null_h_county_df['expected']
-        
-        df_map_muni = df_map_muni[df_map_muni['expected'] > 0]
+        df_map_muni['expected'] = null_h_muni_df['expected']        
+        df_map_muni = df_map_muni[df_map_muni['expected'] > 0] # remove zeros
         df_map_muni['expected'] = df_map_muni['expected'].astype('float').div(df_map_muni['expected'].sum(axis=0))
         df_map_muni[words] = df_map_muni[words].astype('float').div(df_map_muni[words].sum(axis=0))
         df_map_muni[words] = df_map_muni[words].div(df_map_muni['expected'], axis='index')
+        del df_map_muni['expected']
+        
+        breaks = [0., 1., 2.]
+        labels = ['Below', 'Expected', 'Above']
         
     else: # More than one word: compare words against each other
         
@@ -421,12 +424,11 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         # Convert to percentages and skip where there is none
         df_map_county = df_percent(df_map_county)
         df_map_muni = df_percent(df_map_muni)
+        
+        breaks = [0., 0.25, 0.5, 0.75, 1.0]
+        labels = ['None', 'Low', 'Medium', 'High', 'Very high']
     
     print df_map_muni.sort(words, ascending=0).head(20)
-    
-    # We'll only use a handful of distinct colors for our choropleth. 
-    # These will be overwritten if only one word is being plotted.
-    breaks = [0., 0.25, 0.5, 0.75, 1.0]
     
     def self_categorize(entry, breaks):
         """ Put percent into a category (breaks)"""
@@ -434,8 +436,6 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
             if entry > breaks[i] and entry <= breaks[i+1]:
                 return i
         return -1
-    
-    labels = ['None', 'Low', 'Medium', 'High', 'Very high']
     
     fig = plt.figure(figsize=(3.25*len(words),6))
     
@@ -464,14 +464,14 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         
         for df_map in shapesToPutOnMap:
         
-            if len(words) == 1: 
+            #if len(words) == 1: 
                 # When only one word, compare to null hypothesis
                 # getstandard
                 
                 # When only one word, uncomment to use Jenkins natural breaks
-                breaks = Natural_Breaks(df_map['sum'], initial=300, k=3)
-                df_map['jenks_bins_'+word] = breaks.yb
-                labels = ['0', "> 0"] + ["> %d"%(perc) for perc in breaks.bins[:-1]]
+                #breaks = Natural_Breaks(df_map['sum'], initial=300, k=3)
+                #df_map['jenks_bins_'+word] = breaks.yb
+                #labels = ['0', "> 0"] + ["> %d"%(perc) for perc in breaks.bins[:-1]]
     
             # Draw neighborhoods with grey outlines
             df_map['patches'] = df_map['poly'].map(lambda x: PolygonPatch(x, 
