@@ -387,7 +387,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                                       
         null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
         null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
-        print null_h_coordinates_df.head()
+        print null_h_muni_df.head()
         
     # Get total occurencies in every county/municipality
     df_map_county["sum"] = df_map_county[words].sum(axis=1)
