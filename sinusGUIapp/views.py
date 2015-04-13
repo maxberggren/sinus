@@ -350,7 +350,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         
         mapped_points, all_points, hood_polygons = {}, {}, {}
         
-        words = coordinates_df['word'].unique()
+        uniqeWords = coordinates_df['word'].unique()
         
         for word, ld in coordinates_df.groupby(['word']):
             
@@ -372,7 +372,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
             """ Counts number of points that fall into a polygon """
             return int(len(filter(prep(apolygon).contains, mapped_points))) 
         
-        for word in words:
+        for word in uniqeWords:
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
                                                   args=(mapped_points[word],))
         return poly_df
@@ -383,6 +383,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     
     # Only one word: compare to country expectation
     # TODO: generalize code
+    print words
     if len(words) == 1: 
         fname_muni = "null_hypothesis_muni_df.pkl" # Where to cache
         fname_county = "null_hypothesis_county_df.pkl" # Where to cache
@@ -429,9 +430,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         
         breaks = [0., 0.25, 0.5, 0.75, 1.0]
         labels = ['None', 'Low', 'Medium', 'High', 'Very high']
-    
-    #print df_map_muni.sort(words, ascending=0).head(20)
-    
+        
     def self_categorize(entry, breaks):
         """ Put percent into a category (breaks)"""
         for i in range(len(breaks)-1):
