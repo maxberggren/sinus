@@ -717,7 +717,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
                           y1[0:1000], 
                           alpha=1, 
                           c=colorCycle(i, scatter=True), 
-                          s=80,
+                          s=10,
                           edgecolors='none')
                 fewResults = True
                 
