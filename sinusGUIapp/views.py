@@ -264,7 +264,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                         print total_error
                         print k
                         
-                    if total_error < 1e-8 and total_error != 0.0:
+                    if total_error < 1e-9 and total_error != 0.0:
                        return coordinates
                        break
                     
@@ -535,6 +535,8 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
 
     """ Generate the images i.e. the main image, the 
         time series gif and the histogram.
+        
+        NOTE: going to be depreciated alltogether!
 
     Parameters
     ----------
