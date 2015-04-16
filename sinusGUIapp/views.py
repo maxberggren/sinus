@@ -433,8 +433,8 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         countyMax = float(df_map_county[words].max())
         muniMax = float(df_map_muni[words].max())
                         
-        breaks['muni'] = [0., 0.8, 1., muniMax/2.0, muniMax]
-        breaks['county'] = [0., 0.8, 1., countyMax/2.0, countyMax]
+        breaks['muni'] = [0., 0.5, 1., muniMax/2.0, muniMax]
+        breaks['county'] = [0., 0.5, 1., countyMax/2.0, countyMax]
         
         labels = ['Below avg.', '', 'Expected', '', 'Above avg.']    
     
@@ -1030,7 +1030,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     wordsOverThreshold = []
     
     for word in words:
-        coordinates, dates = [], []
+        coordinates, dates, ranks = [], [], []
         fewResults = False
         if datespan:
             print "datespan", datespan
@@ -1050,6 +1050,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "blogs.source, "
                                "posts.text, "
                                "posts.date, "
+                               "blogs.rank, "
                                "blogs.id "
                                "FROM posts INNER JOIN blogs ON "
                                "blogs.id=posts.blog_id "
@@ -1073,6 +1074,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             coordinates.append([row['longitude'], 
                                 row['latitude']])
             dates.append(row['date'])
+            ranks.append(row['rank'])
             
             newkwic = kwic(row['text'], word, row['source'])
             if oldkwic != newkwic and i < 50:
