@@ -411,7 +411,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                           columns=['longitude', 'latitude'])
             temp_latlon_df['word'] = "expected"
             
-            # Make dataframe and pickle                              
+            # Make dataframe and pickle 
             null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
             null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
             del null_h_muni_df['poly'] # We do not need the polygons
@@ -467,7 +467,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         df_map_county = df_percent(df_map_county)
         df_map_muni = df_percent(df_map_muni)
         
-        breaks['muni'], breaks['county'] = [0., 0.25, 0.5, 0.75, 1.0] * 2
+        breaks['muni'], breaks['county'] = [0., 0.25, 0.5, 0.75, 1.0], [0., 0.25, 0.5, 0.75, 1.0]
         labels = ['None', 'Low', 'Medium', 'High', 'Very high']
         
     def self_categorize(entry, breaks):
