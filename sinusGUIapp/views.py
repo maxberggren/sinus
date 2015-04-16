@@ -152,7 +152,7 @@ def kwic(text, word, source):
         return "[" + source + "] " + left[-26:] + sep + right[:46]
 
 
-def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
+def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
     """ Generate an image with shapefiles as bins 
 
     Parameters
@@ -287,9 +287,9 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     # Put coordinates into DFs 
     lds, coord_count, breaks = [], {}, {}
 
-    for d, word in zip(data, words):
+    for d, word, rank in zip(data, words, ranks):
         coord_count[word] = len(d)
-        ld = pd.DataFrame(d, columns=['longitude', 'latitude'])
+        ld = pd.DataFrame(d, columns=['longitude', 'latitude', 'rank'])
         ld['word'] = word
         lds.append(ld)
         
@@ -361,20 +361,21 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         
         uniqeWords = coordinates_df['word'].unique()
         
-        for word, ld in coordinates_df.groupby(['word']):
+        for word, lds in coordinates_df.groupby(['word']):
             
-            # Convert our latitude and longitude into Basemap cartesian map coordinates
-            mapped_points[word] = [Point(m(mapped_x, mapped_y)) 
-                                   for mapped_x, mapped_y 
-                                   in zip(ld['longitude'], ld['latitude'])]
-                                   
-            all_points[word] = MultiPoint(mapped_points[word])
-        
-            # Use prep to optimize polygons for faster computation
-            hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
-        
-            # Filter out the points that do not fall within the map we're making
-            mapped_points[word] = filter(hood_polygons[word].contains, all_points[word])
+            for rank, ld in lds.groupby(['rank']):
+                # Convert our latitude and longitude into Basemap cartesian map coordinates
+                mapped_points[word] += [Point(m(mapped_x, mapped_y)) 
+                                       for mapped_x, mapped_y 
+                                       in zip(ld['longitude'], ld['latitude'])]
+                                       
+                all_points[word] += MultiPoint(mapped_points[word])
+            
+                # Use prep to optimize polygons for faster computation
+                hood_polygons[word] += prep(MultiPolygon(list(poly_df['poly'].values)))
+            
+                # Filter out the points that do not fall within the map we're making
+                mapped_points[word] += filter(hood_polygons[word].contains, all_points[word])
         
         
         def num_of_contained_points(apolygon, mapped_points):
@@ -1022,7 +1023,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         filename of the gif
     """
     
-    coordinatesByWord = ()
+    coordinatesByWord, ranksByWord = (), ()
     minCoordinates = 99999999999999 # Shame!
     hits = {}
     KWIC = {}
@@ -1089,6 +1090,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             KWIC[word.replace('"',"")] = wordkwic
             
             coordinatesByWord = coordinatesByWord + (coordinates,)
+            ranksByWord = ranksByWord + (ranks,)
             hits[word] = len(coordinates)
             
             if len(coordinates) < minCoordinates: # log the one with fewest coordinates
@@ -1105,12 +1107,13 @@ def getData(words, xBins=None, scatter=None, zoom=None,
 
     if binType == "shape":
         # Get main image with shapefiles
-        fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
+        fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranksByWord,
+                                                            words, zoom,
                                                             binThreshold=binThreshold,
                                                             emptyBinFallback=emptyBinFallback)
     if binType == "square":
         # Get main image
-        fewResults, filename, gifFileName = genGridImg(coordinatesByWord, 
+        fewResults, filename, gifFileName = genGridImg(coordinatesByWord, ranksByWord
                                                       xBins,
                                                       words,
                                                       zoom,
@@ -1121,7 +1124,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                                       hits,
                                                       chunks=1)
         # Get time series gif
-        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, 
+        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, ranksByWord
                                                      xBins,
                                                      words,
                                                      zoom,
@@ -1484,7 +1487,8 @@ def byod():
         
         if binType == "shape":
             # Get main image with shapefiles
-            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, words, zoom,
+            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranksByWord,
+                                                                words, zoom,
                                                                 binThreshold=binThreshold,
                                                                 emptyBinFallback=emptyBinFallback)  
         documentQuery = { 'query': query,
