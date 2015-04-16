@@ -40,15 +40,6 @@ import datetime
 from pysal.esda.mapclassify import Natural_Breaks
 from geocode import latlon
 import geocode   
- 
-def timing(f):
-    def wrap(*args):
-        time1 = time.time()
-        ret = f(*args)
-        time2 = time.time()
-        print '%s function took %0.3f ms' % (f.func_name, (time2-time1)*1000.0)
-        return ret
-    return wrap
         
 def colorCycle(i, scatter=False):
     colors = ['Reds', 'Blues', 'BuGn', 'Purples', 'PuRd']
@@ -127,7 +118,7 @@ def getSynonyms(query):
     
     return synonyms
     
-@timing    
+   
 def kwic(text, word, source):
     """ Make KeyWord In Context from a text and a keyword
 
@@ -248,12 +239,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         except Exception:
             return sum(input)
     
-    @timing    
+       
     def normalize(matrix):
         """ Divide all elements by sum of all elements """
         return matrix / sum1(matrix)        
     
-    @timing    
+       
     def getEnoughData():
         """ Get alot of data until a suitable null hypothesis has converged """
         
@@ -440,7 +431,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             null_h_muni_df = pd.io.pickle.read_pickle(fname_muni) # Read from cache
             null_h_county_df = pd.io.pickle.read_pickle(fname_county)
         
-        @timing    
+           
         def deviationFromAverage(df_map, avg):
             # Expected is to see a word according to country average
             df_map['expected'] = avg['expected']        
@@ -474,7 +465,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         df_map_county["sum"] = df_map_county[words].sum(axis=1)
         df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
         
-        @timing    
+           
         def df_percent(df_map):
             df_map = df_map[df_map['sum'] > binThreshold]
             df_map[words] = df_map[words].astype('float').div(df_map["sum"]
@@ -488,7 +479,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         breaks['muni'], breaks['county'] = [0., 0.25, 0.5, 0.75, 1.0], [0., 0.25, 0.5, 0.75, 1.0]
         labels = ['None', 'Low', 'Medium', 'High', 'Very high']
     
-    @timing    
+       
     def self_categorize(entry, breaks):
         """ Put percent into a category (breaks) """
         
