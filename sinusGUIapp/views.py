@@ -413,9 +413,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             
             # Make dataframe and pickle                              
             null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
-            null_h_muni_df.to_pickle(fname_muni) # Cache to disk
             null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
-            null_h_county_df.to_pickle(fname_county) # Cache to disk
+            del null_h_muni_df['poly'] # We do not need the polygons
+            del null_h_county_df['poly'] 
+            
+            null_h_county_df.to_pickle(fname_county) # Write to disk
+            null_h_muni_df.to_pickle(fname_muni)
         else:
             # Read from pickle
             null_h_muni_df = pd.io.pickle.read_pickle(fname_muni) # Read from cache
