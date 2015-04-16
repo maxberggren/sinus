@@ -430,7 +430,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         df_map_muni = deviationFromAverage(df_map_muni, null_h_muni_df)
         df_map_county = deviationFromAverage(df_map_county, null_h_county_df)
         
-        highestValue = df_map_muni[words].max()
+        highestValue = df_map_county[words].max()
         
         print df_map_county[words].max()
         print df_map_muni[words].max()
