@@ -245,7 +245,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     def getEnoughData():
         """ Get alot of data until a suitable null hypothesis has converged """
         
-        convergenceCrit = 1e-8 
+        convergenceCrit = 1e-9 
         old_matrix = genGrid([])
         i, j, k = 0, 0, 0
         try:        
@@ -370,8 +370,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                       for mapped_x, mapped_y 
                       in zip(ld['longitude'], ld['latitude'])]
                       
-            mapped_points[word] = pd.DataFrame({'points': points,
-                                                'rank': ld['rank']})
+            try:
+                mapped_points[word] = pd.DataFrame({'points': points,
+                                                    'rank': ld['rank']})
+            except KeyError:
+                mapped_points[word] = pd.DataFrame({'points': points})
+                mapped_points[word]['rank'] = 2
                                                    
             # Use prep to optimize polygons for faster computation
             hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
