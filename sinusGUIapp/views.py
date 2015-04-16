@@ -39,8 +39,8 @@ import json
 import datetime
 from pysal.esda.mapclassify import Natural_Breaks
 from geocode import latlon
-import geocode   
-        
+import geocode    
+    
 def colorCycle(i, scatter=False):
     colors = ['Reds', 'Blues', 'BuGn', 'Purples', 'PuRd']
     if scatter:
@@ -118,7 +118,7 @@ def getSynonyms(query):
     
     return synonyms
     
-   
+    
 def kwic(text, word, source):
     """ Make KeyWord In Context from a text and a keyword
 
@@ -151,7 +151,7 @@ def kwic(text, word, source):
     if sep:
         return "[" + source + "] " + left[-26:] + sep + right[:46]
 
-@timing
+
 def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     """ Generate an image with shapefiles as bins 
 
@@ -230,7 +230,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                         lon_bins])
         return density
     
-    @timing
     def sum1(input):
         """ Sum all elements in matrix """
         
@@ -238,13 +237,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             return sum(map(sum, input))
         except Exception:
             return sum(input)
-    
-       
+        
     def normalize(matrix):
         """ Divide all elements by sum of all elements """
         return matrix / sum1(matrix)        
-    
-       
+        
     def getEnoughData():
         """ Get alot of data until a suitable null hypothesis has converged """
         
@@ -358,7 +355,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         'poly': [Polygon(countys_points) for countys_points in m.countys],
         'name': [r['LAN_NAMN'] for r in m.countys_info]})
     
-    @timing
+    
     def mapPointsToPoly(coordinates_df, poly_df):
         """ Take coordiates DF and put into polygon DF """
         
@@ -373,17 +370,13 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                       for mapped_x, mapped_y 
                       in zip(ld['longitude'], ld['latitude'])]
                       
-            try:
-                mapped_points[word] = pd.DataFrame({'points': points,
-                                                    'rank': ld['rank']})
-            except KeyError:
-                mapped_points[word] = pd.DataFrame({'points': points})
-                mapped_points[word]['rank'] = 2
+            mapped_points[word] = pd.DataFrame({'points': points,
+                                                'rank': ld['rank']})
                                                    
             # Use prep to optimize polygons for faster computation
             hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
 
-        @timing
+        
         def num_of_contained_points(apolygon, mapped_points):
             """ Counts number of points that fall into a polygon
                 Points with rank >= 4 gets just halv weight """
@@ -430,8 +423,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             # Read from pickle
             null_h_muni_df = pd.io.pickle.read_pickle(fname_muni) # Read from cache
             null_h_county_df = pd.io.pickle.read_pickle(fname_county)
-        
-           
+            
         def deviationFromAverage(df_map, avg):
             # Expected is to see a word according to country average
             df_map['expected'] = avg['expected']        
@@ -464,8 +456,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Get total occurencies in every county/municipality
         df_map_county["sum"] = df_map_county[words].sum(axis=1)
         df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
-        
-           
+            
         def df_percent(df_map):
             df_map = df_map[df_map['sum'] > binThreshold]
             df_map[words] = df_map[words].astype('float').div(df_map["sum"]
@@ -478,8 +469,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         
         breaks['muni'], breaks['county'] = [0., 0.25, 0.5, 0.75, 1.0], [0., 0.25, 0.5, 0.75, 1.0]
         labels = ['None', 'Low', 'Medium', 'High', 'Very high']
-    
-       
+        
     def self_categorize(entry, breaks):
         """ Put percent into a category (breaks) """
         
@@ -1000,7 +990,6 @@ def getStats():
 
     return stats
 
-@timing
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, rankthreshold=3, 
             binThreshold=5, datespan=None, binType="shape",
