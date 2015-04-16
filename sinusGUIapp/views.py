@@ -205,13 +205,15 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     
     def opacify(cmap):
         """ Add opacity to a colormap going from full opacity to no opacity """
+        
         cmap._init()
         alphas = np.abs(np.linspace(0, 1.0, cmap.N))
         cmap._lut[:-3,-1] = alphas
         return cmap
         
     def genGrid(koordinater, xBins=10, xyRatio=1.8):
-    
+        """ Generate grid from coordinates """
+        
         if len(koordinater) == 0:
             return np.zeros(shape=(int(xBins*xyRatio-1), xBins-1))
             
@@ -229,16 +231,21 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         return density
     
     def sum1(input):
+        """ Sum all elements in matrix """
+        
         try:
             return sum(map(sum, input))
         except Exception:
             return sum(input)
         
     def normalize(matrix):
+        """ Divide all elements by sum of all elements """
         return matrix / sum1(matrix)        
         
     def getEnoughData():
-        """ Get alot of data until a suitable null hypothesis as converged """
+        """ Get alot of data until a suitable null hypothesis has converged """
+        
+        convergenceCrit = 1e-9 
         old_matrix = genGrid([])
         i, j, k = 0, 0, 0
         try:        
@@ -264,7 +271,10 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                         print total_error
                         print k
                         
-                    if total_error < 1e-9 and total_error != 0.0:
+                    # change between every 1000 new datapoints 
+                    # should be less than 1e-9 = 0.0000001 %
+                    if total_error < convergenceCrit and total_error != 0.0:
+                       print "converged!"
                        return coordinates
                        break
                     
@@ -274,6 +284,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
             print "Avbryter..."        
 
 
+    # Put coordinates into DFs 
     lds, coord_count = [], {}
 
     for d, word in zip(data, words):
@@ -281,20 +292,18 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         ld = pd.DataFrame(d, columns=['longitude', 'latitude'])
         ld['word'] = word
         lds.append(ld)
+        
+    lds = pd.concat(lds) # One DF with all coordinates
     
-    # data = [[lon, lat], [lon, lat]]
-    
-    lds = pd.concat(lds)
-    padding = 0.5
-    
-    if zoom:
+    if zoom: # User choose to zoom map to iteresting points
+        padding = 0.5
         llcrnrlon = lds['longitude'].quantile(0.05) - padding
         llcrnrlat = lds['latitude'].quantile(0.20) - padding
         urcrnrlon = lds['longitude'].quantile(0.88) + padding
         urcrnrlat = lds['latitude'].quantile(0.83) + padding
         resolution = "h"
         area_thresh = 50
-    else:
+    else: #
         llcrnrlon = 8
         llcrnrlat = 54.5
         urcrnrlon = 26
@@ -381,28 +390,34 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     df_map_muni = mapPointsToPoly(lds, df_map_muni)
     df_map_county = mapPointsToPoly(lds, df_map_county)
     
-    # Only one word: compare to country expectation
-    # TODO: generalize code
+    # Only one word: compare to country average
     print words
     if len(words) == 1: 
-        fname_muni = "null_hypothesis_muni_df.pkl" # Where to cache
-        fname_county = "null_hypothesis_county_df.pkl" # Where to cache
+        # Where to cache
+        fname_muni = "null_hypothesis_muni_df.pkl" 
+        fname_county = "null_hypothesis_county_df.pkl" 
+        
         if not os.path.isfile(fname_muni):
             temp_latlon_df = pd.DataFrame(getEnoughData(), 
                                           columns=['longitude', 'latitude'])
             temp_latlon_df['word'] = "expected"
-                                          
+            
+            # Make dataframe and pickle                              
             null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
             null_h_muni_df.to_pickle(fname_muni) # Cache to disk
             null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
             null_h_county_df.to_pickle(fname_county) # Cache to disk
         else:
+            # Read from pickle
             null_h_muni_df = pd.io.pickle.read_pickle(fname_muni) # Read from cache
             null_h_county_df = pd.io.pickle.read_pickle(fname_county)
             
+        # Expected is to see a word according to country average
         df_map_muni['expected'] = null_h_muni_df['expected']        
         df_map_muni = df_map_muni[df_map_muni['expected'] > 0] # remove zeros
+        # Calculate percentages
         df_map_muni['expected'] = df_map_muni['expected'].astype('float').div(df_map_muni['expected'].sum(axis=0))
+        # Words will here just be the one word
         df_map_muni[words] = df_map_muni[words].astype('float').div(df_map_muni[words].sum(axis=0))
         df_map_muni[words] = df_map_muni[words].div(df_map_muni['expected'], axis='index')
         del df_map_muni['expected']
@@ -446,11 +461,8 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         df_map_county['jenks_bins_'+word] = df_map_county[word].apply(self_categorize, 
                                                                       args=(breaks,))
         df_map_muni['jenks_bins_'+word] = df_map_muni[word].apply(self_categorize, 
-                                                                  args=(breaks,))
-                                                                  
-        #print df_map_muni.sort(words, ascending=0).head(20) 
-    
-        # Every word uses a subplot
+                                                                  args=(breaks,))                                                  
+        # Subplot for every word
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
         ax.set_title(u"{word} - hits: {hits}".format(word=word, hits=coord_count[word]), 
                      y=1.01, fontsize=9)
@@ -458,24 +470,19 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         cmap = plt.get_cmap(colorCycle(i))
         cmap = opacify(cmap)
         
-        print "emptybinfallback:", emptyBinFallback
+        print "Using empty bin fallback:", emptyBinFallback
         if emptyBinFallback == 'county':
-            # Optional fallback for empty bins
+            # County fallback for empty bins
             shapesToPutOnMap = [df_map_county, df_map_muni]
+        elif emptyBinFallback == 'mp':
+            # Parkvalls fallback strategy
+            shapesToPutOnMap = [df_map_county]
         else: 
             shapesToPutOnMap = [df_map_muni]
         
+        # Put all shapes on map
         for df_map in shapesToPutOnMap:
-        
-            #if len(words) == 1: 
-                # When only one word, compare to null hypothesis
-                # getstandard
-                
-                # When only one word, uncomment to use Jenkins natural breaks
-                #breaks = Natural_Breaks(df_map['sum'], initial=300, k=3)
-                #df_map['jenks_bins_'+word] = breaks.yb
-                #labels = ['0', "> 0"] + ["> %d"%(perc) for perc in breaks.bins[:-1]]
-    
+            
             # Draw neighborhoods with grey outlines
             df_map['patches'] = df_map['poly'].map(lambda x: PolygonPatch(x, 
                                                                           ec='#111111', 
@@ -484,10 +491,12 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
                                                                           zorder=4))
             pc = PatchCollection(df_map['patches'], match_original=True)
             # Apply our custom color values onto the patch collection
-            cmap_list = [cmap(val) for val in (df_map['jenks_bins_'+word].values - 
-                                               df_map['jenks_bins_'+word].values.min())/(
-                                                      df_map['jenks_bins_'+word].values.max()-
-                                                      float(df_map['jenks_bins_'+word].values.min()))]
+            cmaps = (df_map['jenks_bins_'+word].values - 
+                       df_map['jenks_bins_'+word].values.min())/(
+                           df_map['jenks_bins_'+word].values.max()-
+                               float(df_map['jenks_bins_'+word].values.min()))
+                               
+            cmap_list = [cmap(val) for val in cmaps]
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
             
