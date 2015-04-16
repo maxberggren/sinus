@@ -425,7 +425,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         highestValue = df_map_muni[words].max()
         
         breaks = [0., 0.5, 1., float(highestValue)/2.0, float(highestValue)]
-        labels = ['Below', '', 'Expected', '', 'Above']
+        labels = ['Below avg.', '', 'Expected', '', 'Above avg.']
         
     else: # More than one word: compare words against each other
         
