@@ -152,7 +152,7 @@ def kwic(text, word, source):
         return "[" + source + "] " + left[-26:] + sep + right[:46]
 
 
-def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
+def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     """ Generate an image with shapefiles as bins 
 
     Parameters
@@ -366,10 +366,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
         
         for word, ld in coordinates_df.groupby(['word']):            
             # Convert our latitude and longitude into Basemap cartesian map coordinates
-            mapped_points[word] = [Point(m(mapped_x, mapped_y)) 
-                                   for mapped_x, mapped_y 
-                                   in zip(ld['longitude'], ld['latitude'])]
-            mapped_points[word] = pd.DataFrame({'points': mapped_points[word],
+            points = [Point(m(mapped_x, mapped_y)) 
+                      for mapped_x, mapped_y 
+                      in zip(ld['longitude'], ld['latitude'])]
+                      
+            mapped_points[word] = pd.DataFrame({'points': points,
                                                 'rank': ld['rank']})
                                                    
             # Use prep to optimize polygons for faster computation
@@ -377,10 +378,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
 
         
         def num_of_contained_points(apolygon, mapped_points):
-            """ Counts number of points that fall into a polygon """
-            
-            num = 0
-            
+            """ Counts number of points that fall into a polygon
+                Points with rank >= 4 gets just halv weight """
+
+            num = 0            
             for rank, ld in mapped_points.groupby(['rank']):  
                 if rank >= 4: # Downweight bad ranked points
                     num += int(0.5*len(filter(prep(apolygon).contains, ld['points'])))
@@ -468,6 +469,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
         
     def self_categorize(entry, breaks):
         """ Put percent into a category (breaks) """
+        
         for i in range(len(breaks)-1):
             if entry > breaks[i] and entry <= breaks[i+1]:
                 return i
@@ -490,11 +492,15 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
         cmap = plt.get_cmap(colorCycle(i))
         #cmap = opacify(cmap) # Add opacity to colormap
         
-        print "Using empty bin fallback:", emptyBinFallback
-        if emptyBinFallback == 'county':
+        print "Using empty bin fallback:", binModel
+        
+        if binModel == 'municipality+county':
             # County fallback for empty bins
             shapesToPutOnMap = [df_map_county, df_map_muni]
-        elif emptyBinFallback == 'mp':
+        elif binModel == 'county':
+            # Just use countys
+            shapesToPutOnMap = [df_map_county]
+        elif binModel == 'mp':
             # Parkvalls fallback strategy
             shapesToPutOnMap = [df_map_county]
         else: 
@@ -843,7 +849,7 @@ def getOperators(queryWords):
                                or "datespan:" in o
                                or "binthreshold:" in o
                                or "bintype:" in o
-                               or "emptybinfallback:" in o
+                               or "binmodel:" in o
                                or "hitsthreshold:" in o]
                                
     queryWords = [w.strip() for w in queryWords 
@@ -856,7 +862,7 @@ def getOperators(queryWords):
                                and "datespan:" not in w
                                and "binthreshold:" not in w
                                and "bintype:" not in w
-                               and "emptybinfallback:" not in w
+                               and "binmodel:" not in w
                                and "hitsthreshold:" not in w]
     
     try:
@@ -899,10 +905,10 @@ def getOperators(queryWords):
         binType = "shape"
         
     try:
-        emptyBinFallback = [o.split(":")[1].strip()
-               for o in operators if "emptybinfallback:" in o][0]
+        binModel = [o.split(":")[1].strip()
+               for o in operators if "binmodel:" in o][0]
     except:
-        emptyBinFallback = None
+        binModel = None
         
     try:
         hitsThreshold = int([o.split(":")[1].strip()
@@ -910,7 +916,7 @@ def getOperators(queryWords):
     except:
         hitsThreshold = 50
         
-    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback, hitsThreshold
+    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold
 
 def getStats():
     cacheTimeout = 24*60*60 # 1 day
@@ -984,7 +990,7 @@ def getStats():
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, rankthreshold=3, 
             binThreshold=5, datespan=None, binType="shape",
-            emptyBinFallback=None, hitsThreshold=50):
+            binModel=None, hitsThreshold=50):
 
     """ Retrive data from the document database
 
@@ -1117,7 +1123,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranks,
                                                             words, zoom,
                                                             binThreshold=binThreshold,
-                                                            emptyBinFallback=emptyBinFallback)
+                                                            binModel=binModel)
     if binType == "square":
         # Get main image
         fewResults, filename, gifFileName = genGridImg(coordinatesByWord, ranks,
@@ -1207,7 +1213,7 @@ def site(urlSearch=None):
         queryWords = []
         query = None
 
-    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback, hitsThreshold = getOperators(queryWords)
+    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold = getOperators(queryWords)
             
     if len(queryWords) > 0:
         touple = getData(queryWords,        
@@ -1218,7 +1224,7 @@ def site(urlSearch=None):
                          binThreshold=binThreshold,
                          datespan=datespan,
                          binType=binType,
-                         emptyBinFallback=emptyBinFallback,
+                         binModel=binModel,
                          hitsThreshold=hitsThreshold)
                          
         filename, hits, KWICs, fewResults, gifFileName, resultsOmitted = touple
@@ -1474,7 +1480,7 @@ def byod():
         query = request.form['queryInput']
         queryWords = query.split(",")
         
-        operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, emptyBinFallback, hitsThreshold = getOperators(queryWords)
+        operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold = getOperators(queryWords)
                 
         # Note if words are omitted
         if sum(df.groupby('form').form.transform(len) > hitsThreshold) < len(df):
@@ -1497,7 +1503,7 @@ def byod():
             fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranksByWord,
                                                                 words, zoom,
                                                                 binThreshold=binThreshold,
-                                                                emptyBinFallback=emptyBinFallback)  
+                                                                binModel=binModel)  
         documentQuery = { 'query': query,
                           'filename': filename,
                           'hits': None,
