@@ -256,7 +256,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     def getEnoughData():
         """ Get alot of data until a suitable null hypothesis has converged """
         
-        convergenceCrit = 1e-6 
+        convergenceCrit = 1e-9 
         old_matrix = genGrid([])
         i, j, k = 0, 0, 0
         try:        
@@ -1005,7 +1005,6 @@ def getStats():
 
     return stats
 
-@timing
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, rankthreshold=3, 
             binThreshold=5, datespan=None, binType="shape",
