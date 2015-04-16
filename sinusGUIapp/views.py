@@ -392,7 +392,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             # Use prep to optimize polygons for faster computation
             hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
 
-        @timing
         def num_of_contained_points(apolygon, mapped_points):
             """ Counts number of points that fall into a polygon
                 Points with rank >= 4 gets just half weight """
