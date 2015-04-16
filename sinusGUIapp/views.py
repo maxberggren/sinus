@@ -285,7 +285,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
 
 
     # Put coordinates into DFs 
-    lds, coord_count = [], {}
+    lds, coord_count, breaks = [], {}, {}
 
     for d, word in zip(data, words):
         coord_count[word] = len(d)
@@ -432,10 +432,10 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
 
         countyMax = float(df_map_county[words].max())
         muniMax = float(df_map_muni[words].max())
-                
-        highestValue = max([countyMax, muniMax])
+                        
+        breaks['muni'] = [0., 0.5, 1., muniMax/2.0, muniMax]
+        breaks['county'] = [0., 0.5, 1., countyMax/2.0, countyMax]
         
-        breaks = [0., 0.5, 1., float(highestValue)/2.0, float(highestValue)]
         labels = ['Below avg.', '', 'Expected', '', 'Above avg.']    
     
     else:     
@@ -455,7 +455,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         df_map_county = df_percent(df_map_county)
         df_map_muni = df_percent(df_map_muni)
         
-        breaks = [0., 0.25, 0.5, 0.75, 1.0]
+        breaks['muni'], breaks['county'] = [0., 0.25, 0.5, 0.75, 1.0] * 2
         labels = ['None', 'Low', 'Medium', 'High', 'Very high']
         
     def self_categorize(entry, breaks):
@@ -471,16 +471,16 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
     
         # Create columns stating which break precentages belongs to
         df_map_county['jenks_bins_'+word] = df_map_county[word].apply(self_categorize, 
-                                                                      args=(breaks,))
+                                                                      args=(breaks['county'],))
         df_map_muni['jenks_bins_'+word] = df_map_muni[word].apply(self_categorize, 
-                                                                  args=(breaks,))                                                  
+                                                                  args=(breaks['muni'],))                                                  
         # Subplot for every word
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
         ax.set_title(u"{word} - hits: {hits}".format(word=word, hits=coord_count[word]), 
                      y=1.01, fontsize=9)
     
         cmap = plt.get_cmap(colorCycle(i))
-        cmap = opacify(cmap)
+        #cmap = opacify(cmap) # Add opacity to colormap
         
         print "Using empty bin fallback:", emptyBinFallback
         if emptyBinFallback == 'county':
