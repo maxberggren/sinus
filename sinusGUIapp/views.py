@@ -286,10 +286,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
 
     # Put coordinates into DFs 
     lds, coord_count, breaks = [], {}, {}
-    print ranks
     for d, word, rank in zip(data, words, ranks):
         coord_count[word] = len(d)
-        ld = pd.DataFrame(d, columns=['longitude', 'latitude', 'rank'])
+        ld = pd.DataFrame({'longitude': d['longitude'], 
+                           'latitude': d['latitude'],
+                           'rank': rank})
         ld['word'] = word
         lds.append(ld)
         
