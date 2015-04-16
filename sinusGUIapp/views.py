@@ -369,7 +369,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
             mapped_points[word] = [Point(m(mapped_x, mapped_y)) 
                                    for mapped_x, mapped_y 
                                    in zip(ld['longitude'], ld['latitude'])]
-            ranks[word] = ld['rank']
+            mapped_points[word] = pd.DataFrame({'points': mapped_points[word],
+                                                'rank': ld['rank']})
                                                    
             # Use prep to optimize polygons for faster computation
             hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
@@ -377,7 +378,16 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
         
         def num_of_contained_points(apolygon, mapped_points):
             """ Counts number of points that fall into a polygon """
-            return int(len(filter(prep(apolygon).contains, mapped_points))) 
+            
+            num = 0
+            
+            for rank, ld in mapped_points.groupby(['rank']):  
+                if rank == 4:
+                    num += int(len(filter(prep(apolygon).contains, ld)))
+                else:
+                    num += int(len(filter(prep(apolygon).contains, ld)))
+                    
+            return num
         
         for word in uniqeWords:
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
