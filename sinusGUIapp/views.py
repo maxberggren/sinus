@@ -286,7 +286,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
 
     # Put coordinates into DFs 
     lds, coord_count, breaks = [], {}, {}
-
+    print ranks
     for d, word, rank in zip(data, words, ranks):
         coord_count[word] = len(d)
         ld = pd.DataFrame(d, columns=['longitude', 'latitude', 'rank'])
@@ -1107,13 +1107,13 @@ def getData(words, xBins=None, scatter=None, zoom=None,
 
     if binType == "shape":
         # Get main image with shapefiles
-        fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranksByWord,
+        fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranks,
                                                             words, zoom,
                                                             binThreshold=binThreshold,
                                                             emptyBinFallback=emptyBinFallback)
     if binType == "square":
         # Get main image
-        fewResults, filename, gifFileName = genGridImg(coordinatesByWord, ranksByWord,
+        fewResults, filename, gifFileName = genGridImg(coordinatesByWord, ranks,
                                                       xBins,
                                                       words,
                                                       zoom,
@@ -1124,7 +1124,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                                       hits,
                                                       chunks=1)
         # Get time series gif
-        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, ranksByWord,
+        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, ranks,
                                                      xBins,
                                                      words,
                                                      zoom,
