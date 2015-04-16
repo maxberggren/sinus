@@ -359,12 +359,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
     def mapPointsToPoly(coordinates_df, poly_df):
         """ Take coordiates DF and put into polygon DF """
         
-        mapped_points, all_points = {}, {}
+        mapped_points, all_points, hood_polygons = {}, {}, {}
         
         uniqeWords = coordinates_df['word'].unique()
         
         for word, lds in coordinates_df.groupby(['word']):
-            mapped_points[word], all_points[word], hood_polygons[word] = [], [], []
+            mapped_points[word], all_points[word] = [], []
             
             for rank, ld in lds.groupby(['rank']):
                 # Convert our latitude and longitude into Basemap cartesian map coordinates
