@@ -245,7 +245,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     def getEnoughData():
         """ Get alot of data until a suitable null hypothesis has converged """
         
-        convergenceCrit = 1e-9 
+        convergenceCrit = 1e-6 
         old_matrix = genGrid([])
         i, j, k = 0, 0, 0
         try:        
@@ -369,7 +369,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             points = [Point(m(mapped_x, mapped_y)) 
                       for mapped_x, mapped_y 
                       in zip(ld['longitude'], ld['latitude'])]
-                      
+            
+            # If we did not get ranked data, assume rank 2          
             try:
                 mapped_points[word] = pd.DataFrame({'points': points,
                                                     'rank': ld['rank']})
@@ -383,7 +384,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         
         def num_of_contained_points(apolygon, mapped_points):
             """ Counts number of points that fall into a polygon
-                Points with rank >= 4 gets just halv weight """
+                Points with rank >= 4 gets just half weight """
 
             num = 0            
             for rank, ld in mapped_points.groupby(['rank']):  
@@ -418,14 +419,13 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             # Make dataframe and pickle 
             null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
             null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
-            del null_h_muni_df['poly'] # We do not need the polygons
-            del null_h_county_df['poly'] 
-            
-            null_h_county_df.to_pickle(fname_county) # Write to disk
+            #del null_h_muni_df['poly'] # We do not need the polygons
+            #del null_h_county_df['poly'] 
+            null_h_county_df.to_pickle(fname_county)
             null_h_muni_df.to_pickle(fname_muni)
         else:
             # Read from pickle
-            null_h_muni_df = pd.io.pickle.read_pickle(fname_muni) # Read from cache
+            null_h_muni_df = pd.io.pickle.read_pickle(fname_muni)
             null_h_county_df = pd.io.pickle.read_pickle(fname_county)
             
         def deviationFromAverage(df_map, avg):
