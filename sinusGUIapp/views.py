@@ -160,7 +160,6 @@ def kwic(text, word, source):
     if sep:
         return "[" + source + "] " + left[-26:] + sep + right[:46]
 
-@timing
 def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     """ Generate an image with shapefiles as bins 
 
@@ -1007,6 +1006,7 @@ def getStats():
 
     return stats
 
+@timing
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, rankthreshold=3, 
             binThreshold=5, datespan=None, binType="shape",
