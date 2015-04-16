@@ -377,9 +377,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
             hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
         
             # Filter out the points that do not fall within the map we're making
-            #mapped_points[word] = filter(hood_polygons[word].contains, all_points[word])
             mapped_points[word] = [p for p in all_points[word] if hood_polygons[word].contains(p)]
-            #ranks[word] = [r for p, r in zip(all_points[word], ranks[word]) if hood_polygons[word].contains(p)]
+            ranks[word] = [r for p, r in zip(all_points[word], ranks[word]) 
+                           if hood_polygons[word].contains(p)]
         
         
         def num_of_contained_points(apolygon, mapped_points):
