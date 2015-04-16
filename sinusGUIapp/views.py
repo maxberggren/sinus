@@ -416,9 +416,11 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         df_map_muni['expected'] = null_h_muni_df['expected']        
         df_map_muni = df_map_muni[df_map_muni['expected'] > 0] # remove zeros
         # Calculate percentages
-        df_map_muni['expected'] = df_map_muni['expected'].astype('float').div(df_map_muni['expected'].sum(axis=0))
+        df_map_muni['expected'] = df_map_muni['expected'].astype('float')\
+                                                         .div(df_map_muni['expected'].sum(axis=0))
         # Words will here just be the one word
-        df_map_muni[words] = df_map_muni[words].astype('float').div(df_map_muni[words].sum(axis=0))
+        df_map_muni[words] = df_map_muni[words].astype('float')\
+                                               .div(df_map_muni[words].sum(axis=0))
         df_map_muni[words] = df_map_muni[words].div(df_map_muni['expected'], axis='index')
         del df_map_muni['expected']
         
