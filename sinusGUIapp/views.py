@@ -359,7 +359,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
     def mapPointsToPoly(coordinates_df, poly_df):
         """ Take coordiates DF and put into polygon DF """
         
-        mapped_points, all_points, hood_polygons = {}, {}, {}
+        mapped_points, hood_polygons = {}, {}, {}
         ranks = {}
         
         uniqeWords = coordinates_df['word'].unique()
@@ -370,17 +370,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
                                    for mapped_x, mapped_y 
                                    in zip(ld['longitude'], ld['latitude'])]
             ranks[word] = ld['rank']
-                                       
-            all_points[word] = MultiPoint(mapped_points[word])
-            
+                                                   
             # Use prep to optimize polygons for faster computation
             hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
-        
-            # Filter out the points that do not fall within the map we're making
-            mapped_points[word] = [p for p in all_points[word] if hood_polygons[word].contains(p)]
-            ranks[word] = [r for p, r in zip(all_points[word], ranks[word]) 
-                           if hood_polygons[word].contains(p)]
-        
+
         
         def num_of_contained_points(apolygon, mapped_points):
             """ Counts number of points that fall into a polygon """
