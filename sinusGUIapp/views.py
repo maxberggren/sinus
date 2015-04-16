@@ -219,7 +219,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         cmap._lut[:-3,-1] = alphas
         return cmap
     
-    @timing    
     def genGrid(koordinater, xBins=10, xyRatio=1.8):
         """ Generate grid from coordinates """
         
