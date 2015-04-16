@@ -359,7 +359,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
     def mapPointsToPoly(coordinates_df, poly_df):
         """ Take coordiates DF and put into polygon DF """
         
-        mapped_points, all_points, hood_polygons = {}, {}, {}
+        mapped_points, all_points = {}, {}
         
         uniqeWords = coordinates_df['word'].unique()
         
@@ -374,11 +374,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
                                        
                 all_points[word] += MultiPoint(mapped_points[word])
             
-                # Use prep to optimize polygons for faster computation
-                hood_polygons[word] += prep(MultiPolygon(list(poly_df['poly'].values)))
-            
-                # Filter out the points that do not fall within the map we're making
-                mapped_points[word] += filter(hood_polygons[word].contains, all_points[word])
+            # Use prep to optimize polygons for faster computation
+            hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
+        
+            # Filter out the points that do not fall within the map we're making
+            mapped_points[word] = filter(hood_polygons[word].contains, all_points[word])
         
         
         def num_of_contained_points(apolygon, mapped_points):
