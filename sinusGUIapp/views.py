@@ -359,7 +359,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
     def mapPointsToPoly(coordinates_df, poly_df):
         """ Take coordiates DF and put into polygon DF """
         
-        mapped_points, hood_polygons = {}, {}, {}
+        mapped_points, hood_polygons = {}, {}
         ranks = {}
         
         uniqeWords = coordinates_df['word'].unique()
