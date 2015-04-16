@@ -364,7 +364,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
         uniqeWords = coordinates_df['word'].unique()
         
         for word, lds in coordinates_df.groupby(['word']):
-            mapped_points[word], all_points[word] = [], []
+            mapped_points[word] = []
             
             for rank, ld in lds.groupby(['rank']):
                 # Convert our latitude and longitude into Basemap cartesian map coordinates
@@ -372,7 +372,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, emptyBinFallback):
                                        for mapped_x, mapped_y 
                                        in zip(ld['longitude'], ld['latitude'])]
                                        
-                all_points[word] += MultiPoint(mapped_points[word])
+            all_points[word] = MultiPoint(mapped_points[word])
             
             # Use prep to optimize polygons for faster computation
             hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
