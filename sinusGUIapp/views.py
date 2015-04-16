@@ -415,7 +415,7 @@ def genShapefileImg(data, words, zoom, binThreshold, emptyBinFallback):
         def deviationFromAverage(df_map, avg):
             # Expected is to see a word according to country average
             df_map['expected'] = avg['expected']        
-            df_map = df_mapi[df_map['expected'] > 0] # remove zeros
+            df_map = df_map[df_map['expected'] > 0] # remove zeros
             # Calculate percentages
             df_map['expected'] = df_map['expected'].astype('float')\
                                                    .div(df_map['expected'].sum(axis=0))
