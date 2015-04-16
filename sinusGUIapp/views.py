@@ -40,7 +40,16 @@ import datetime
 from pysal.esda.mapclassify import Natural_Breaks
 from geocode import latlon
 import geocode    
-    
+ 
+def timing(f):
+    def wrap(*args):
+        time1 = time.time()
+        ret = f(*args)
+        time2 = time.time()
+        print '%s function took %0.3f ms' % (f.func_name, (time2-time1)*1000.0)
+        return ret
+    return wrap
+       
 def colorCycle(i, scatter=False):
     colors = ['Reds', 'Blues', 'BuGn', 'Purples', 'PuRd']
     if scatter:
@@ -151,7 +160,7 @@ def kwic(text, word, source):
     if sep:
         return "[" + source + "] " + left[-26:] + sep + right[:46]
 
-
+@timing
 def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     """ Generate an image with shapefiles as bins 
 
@@ -210,7 +219,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         alphas = np.abs(np.linspace(0, 1.0, cmap.N))
         cmap._lut[:-3,-1] = alphas
         return cmap
-        
+    
+    @timing    
     def genGrid(koordinater, xBins=10, xyRatio=1.8):
         """ Generate grid from coordinates """
         
@@ -230,6 +240,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                         lon_bins])
         return density
     
+    @timing
     def sum1(input):
         """ Sum all elements in matrix """
         
@@ -237,11 +248,13 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             return sum(map(sum, input))
         except Exception:
             return sum(input)
-        
+    
+    @timing    
     def normalize(matrix):
         """ Divide all elements by sum of all elements """
         return matrix / sum1(matrix)        
-        
+    
+    @timing    
     def getEnoughData():
         """ Get alot of data until a suitable null hypothesis has converged """
         
@@ -355,7 +368,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         'poly': [Polygon(countys_points) for countys_points in m.countys],
         'name': [r['LAN_NAMN'] for r in m.countys_info]})
     
-    
+    @timing
     def mapPointsToPoly(coordinates_df, poly_df):
         """ Take coordiates DF and put into polygon DF """
         
@@ -381,7 +394,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             # Use prep to optimize polygons for faster computation
             hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
 
-        
+        @timing
         def num_of_contained_points(apolygon, mapped_points):
             """ Counts number of points that fall into a polygon
                 Points with rank >= 4 gets just half weight """
