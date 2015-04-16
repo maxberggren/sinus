@@ -1113,7 +1113,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                                             emptyBinFallback=emptyBinFallback)
     if binType == "square":
         # Get main image
-        fewResults, filename, gifFileName = genGridImg(coordinatesByWord, ranksByWord
+        fewResults, filename, gifFileName = genGridImg(coordinatesByWord, ranksByWord,
                                                       xBins,
                                                       words,
                                                       zoom,
@@ -1124,7 +1124,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                                       hits,
                                                       chunks=1)
         # Get time series gif
-        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, ranksByWord
+        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, ranksByWord,
                                                      xBins,
                                                      words,
                                                      zoom,
