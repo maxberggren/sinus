@@ -1529,7 +1529,7 @@ def byod():
         
         if binType == "shape":
             # Get main image with shapefiles
-            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranksByWord=None,
+            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, None,
                                                                 words, zoom,
                                                                 binThreshold=binThreshold,
                                                                 binModel=binModel)  
