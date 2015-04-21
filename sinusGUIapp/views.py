@@ -300,9 +300,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
     if not ranks:
         ranks = ()
-        print data
-        for word in range(len(data)):
-            ranks = ranks + ([2]*len(word),)
+        for batch in data:
+            ranks = ranks + ([2]*len(batch),)
 
     for d, word, rank in zip(data, words, ranks):
         lon, lat = zip(*d)
