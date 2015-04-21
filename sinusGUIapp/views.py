@@ -165,7 +165,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
     Parameters
     ----------
-    coordinatesByWord : tuple
+    data : tuple
         tuple with lists of the coordinates
     words : list
         list of words corresponding to the lists in 
@@ -297,6 +297,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
     # Put coordinates into DFs 
     lds, coord_count, breaks = [], {}, {}
+
+    if not ranks:
+        ranks = ()
+        for word in range(len(data)):
+            ranks = ranks + ([2]*len(word),)
+
     for d, word, rank in zip(data, words, ranks):
         lon, lat = zip(*d)
         coord_count[word] = len(d)
@@ -391,6 +397,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                    
             # Use prep to optimize polygons for faster computation
             hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
+            
+            # Filter out the points that do not fall within the map we're making
+            #mapped_points[word] = [p for p in all_points[word] if hood_polygons[word].contains(p)]
+            #ranks[word] = [r for p, r in zip(all_points[word], ranks[word]) 
+            #               if hood_polygons[word].contains(p)]
+
 
         def num_of_contained_points(apolygon, mapped_points):
             """ Counts number of points that fall into a polygon
@@ -1517,7 +1529,7 @@ def byod():
         
         if binType == "shape":
             # Get main image with shapefiles
-            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranksByWord,
+            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranksByWord=None,
                                                                 words, zoom,
                                                                 binThreshold=binThreshold,
                                                                 binModel=binModel)  

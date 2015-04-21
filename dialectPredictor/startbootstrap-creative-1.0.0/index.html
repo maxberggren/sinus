@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dialektoraklet</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/creative.css" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+
+<body id="page-top">
+
+
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+
+
+            <div id="progressKeeper" class="radius">
+                <div id="progress"></div>
+            </div>
+
+
+            
+            <div id="quiz" class="editable">
+
+            <div class="questionContainer radius">
+                <h1>Dialektoraklet</h1>
+                <hr>
+                <p>Vi vet var du kommer ifrån! Kanske. Svara på 25 frågor kring ordval och uttal och vår algoritm kommer spå din dialektala hemort.</p>
+                <a class="btn btn-primary btn-xl page-scroll begin">Börja</a>
+
+            </div>
+
+
+            <div class="questionContainer radius" style="display: none;">
+                <h4>Fråga 1 av 25</h4>
+                <h1>Sluddrar du och pratar grötigt?</h1>
+                <hr>
+                <p>Använder du ibland fara som i <em>vi skulle fara till farmor</em>?</p>
+                    <ul>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q1" id="q1-a" />Ja</label>
+                        </li>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q1" id="q1-b" />Nej</label>
+                        </li>
+                        </li>
+                    </ul>
+                <div class="btnContainer">
+                        <div class="clear"></div>
+                    </div>
+            </div>
+            <div class="questionContainer radius" style="display: none;">
+                <h4>Fråga 2 av 25</h4>
+                <h1>Fara eller åka?</h1>
+                <hr>
+                <p>Använder du ibland fara som i <em>vi skulle vara till farmor</em>?</p>
+                <div class="answers">
+                    <ul>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q2" id="q2-a" />Jovisst</label>
+                        </li>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q2" id="q2-b" />Nej</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btnContainer">
+                        <div class="prev">
+                            <a class="btnPrev">Föregående fråga</a>
+                        </div>                
+                        <div class="clear"></div>
+                    </div>
+            </div>
+            <div class="questionContainer radius" style="display: none;">
+                <h4>Fråga 3 av 25</h4>
+                <h1>Blabla eller blibli?</h1>
+                <hr>
+                <p>Använder du ibland fara som i <em>vi skulle vara till farmor</em>?</p>
+                <div class="answers">
+                    <ul>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q3" id="q3-a" />Both the &lt;head&gt; section and the &lt;body&gt; section are correct</label>
+                        </li>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q3" id="q3-b" />The &lt;body&gt; section</label>
+                        </li>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q3" id="q3-c" />The &lt;head&gt; section</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btnContainer">
+                        <div class="prev">
+                            <a class="btnPrev">Föregående fråga</a>
+                        </div>   
+                        <div class="clear"></div>
+                    </div>
+            </div>
+            <div class="questionContainer radius" style="display: none;">
+                <h1>Question 2: Inside which HTML element do we put the JavaScript?</h1>
+                <hr>
+                <div class="answers">
+                    <ul>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q4" id="q4-a" />&lt;script type="text/javascript" name="xxx.js"&gt;</label>
+                        </li>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q4" id="q4-b" />&lt;script type="text/javascript" href="xxx.js"&gt;</label>
+                        </li>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q4" id="q4-c" />&lt;script type="text/javascript" src="xxx.js"&gt;</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btnContainer">
+                        <div class="prev">
+                            <a class="btnPrev">Föregående fråga</a>
+                        </div>   
+                        <div class="clear"></div>
+                   </div>
+            </div>
+            <div class="questionContainer radius" style="display: none;">
+                <h1>Question 2: Inside which HTML element do we put the JavaScript?</h1>
+                <hr>
+                <div class="answers">
+                    <ul>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q5" id="q5-a" />True</label>
+                        </li>
+                        <li>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q5" id="q5-b" />False</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btnContainer">
+                        <div class="prev">
+                            <a class="btnPrev">Föregående fråga</a>
+                        </div>   
+                    <div class="clear"></div>
+                </div>
+            </div>
+            </div>
+            <div class="txtStatusBar"></div>
+            <div id="answerSummary" class="radius">
+                <div id="answer"></div>
+            </div>
+           <div id="answerKeeper" class="radius" style="display: none;"></div>
+          
+           <div id="resultKeeper" class="radius" style="display: none;"></div>
+           
+
+
+
+
+            </div>
+        </div>
+    </header>
+
+
+
+
+
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Vad är detta?</h2>
+                    <hr class="primary">
+                    <p>Dialektoraklet är en tjänst som med data om svenska dialekter förutspår din härkomst. Oraklet petar även in frågor som den inte vet svaret på och samlar på så vis in ytterligare data så att den kan bli smartare.</p>
+                    <p>Projektet Spridning av innovationer i nutida svenska (SINUS) är finansierat av forskningsrådet och pågår 2013-2017.</p>
+                </div>
+
+
+                <div class="col-lg-4 col-lg-offset-2 text-center">
+                    <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>
+                    <p><a href="mailto:your-email@your-domain.com">fragor@dialektoraklet.se</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/jquery.fittext.js"></script>
+    <script src="js/wow.min.js"></script>
+
+
+    <script>
+$(function(){
+    var jQuiz = {
+        answers: { q1: 'a', q2: 'a', q3: 'a', q4: 'c', q5: 'a' },
+        questionLength: 5,
+        checkAnswers: function() {
+            var arr = this.answers;
+            var ans = this.userAnswers;
+            var resultArr = []
+            for (var p in ans) {
+                var x = parseInt(p) + 1;
+                var key = 'q' + x;
+                var flag = false;
+                if (ans[p] == 'q' + x + '-' + arr[key]) {
+                    flag = true;
+                }
+                else {
+                    flag = false;
+                }
+                resultArr.push(flag);
+            }
+            return resultArr;
+        },
+        init: function(){
+            $('label > input, .begin').click(function(){
+
+                $(this).parents('.questionContainer').fadeOut(500, function(){
+                    
+                    if ($(this).next().length == 1) {
+                        $(this).next().fadeIn(500);
+                    } 
+                    else {
+                        var arr = $('input[type=radio]:checked');
+                        var ans = jQuiz.userAnswers = [];
+                        for (var i = 0, ii = arr.length; i < ii; i++) {
+                            ans.push(arr[i].getAttribute('id'))
+                        }
+
+                        $('#progress').width(300);
+                        $('#progressKeeper').hide();
+                        var results = jQuiz.checkAnswers();
+                        var resultSet = '';
+                        var trueCount = 0;
+                        for (var i = 0, ii = results.length; i < ii; i++){
+                            if (results[i] == true) trueCount++;
+                            resultSet += '<div> Question ' + (i + 1) + ' is ' + results[i] + '</div>'
+                        }
+                        resultSet += '<div class="totalScore">Your total score is ' + trueCount * 20 + ' / 100</div>'
+                        $('#resultKeeper').html(resultSet).show();
+
+                    }                
+
+                });
+
+            });
+
+            $('.btnPrev').click(function(){
+                $(this).parents('.questionContainer').fadeOut(500, function(){
+                    $(this).prev().fadeIn(500)
+                });
+
+            })
+
+            $('.btnShowResult').click(function(){
+                var arr = $('input[type=radio]:checked');
+                var ans = jQuiz.userAnswers = [];
+                for (var i = 0, ii = arr.length; i < ii; i++) {
+                    ans.push(arr[i].getAttribute('id'))
+                }
+            })
+
+        }
+    };
+    jQuiz.init();
+})
+
+</script>
+
+</body>
+
+</html>
