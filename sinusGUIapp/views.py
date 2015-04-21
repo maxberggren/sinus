@@ -300,6 +300,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
     if not ranks:
         ranks = ()
+        print data
         for word in range(len(data)):
             ranks = ranks + ([2]*len(word),)
 
@@ -1529,7 +1530,7 @@ def byod():
         
         if binType == "shape":
             # Get main image with shapefiles
-            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, None,
+            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, None, # ranks=None
                                                                 words, zoom,
                                                                 binThreshold=binThreshold,
                                                                 binModel=binModel)  
