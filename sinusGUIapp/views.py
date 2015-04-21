@@ -295,14 +295,16 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             print "Avbryter..."        
 
 
-    # Put coordinates into DFs 
+    
     lds, coord_count, breaks = [], {}, {}
 
+    # If ranks not sent in, assume rank 2
     if not ranks:
         ranks = ()
         for batch in data:
             ranks = ranks + ([2]*len(batch),)
 
+    # Put coordinates into DFs 
     for d, word, rank in zip(data, words, ranks):
         lon, lat = zip(*d)
         coord_count[word] = len(d)
@@ -1510,7 +1512,11 @@ def byod():
         queryWords = query.split(",")
         
         operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold = getOperators(queryWords)
-                
+              
+        # If no column "form" is found, assume only one word
+        if not 'form' in df.columns:
+            df['form'] = filename
+
         # Note if words are omitted
         if sum(df.groupby('form').form.transform(len) > hitsThreshold) < len(df):
             resultsOmitted = True
