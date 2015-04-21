@@ -1515,7 +1515,7 @@ def byod():
               
         # If no column "form" is found, assume only one word
         if not 'form' in df.columns:
-            df['form'] = filename
+            df['form'] = filename.split("_-_")[-1].replace(".xlsx", "")
 
         # Note if words are omitted
         if sum(df.groupby('form').form.transform(len) > hitsThreshold) < len(df):
