@@ -422,7 +422,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         for word in uniqeWords:
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
                                                   args=(mapped_points[word],))
-            poly_df[word][poly_df[word] < binThreshold] = 0
+            #poly_df[word][poly_df[word] < binThreshold] = 0
             
         return poly_df
         
