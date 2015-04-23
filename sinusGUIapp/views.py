@@ -421,7 +421,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         
         for word in uniqeWords:
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
-                                                  args=(mapped_points[word],))
+            
+                                              args=(mapped_points[word],))
+                                              
+        # Filter out bins with too low frq
+        poly_df = poly_df[poly_df[uniqeWords] > binThreshold]
         return poly_df
         
         
@@ -443,8 +447,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             # Make dataframe and pickle 
             null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
             null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
-            #del null_h_muni_df['poly'] # We do not need the polygons
-            #del null_h_county_df['poly'] 
             null_h_county_df.to_pickle(fname_county)
             null_h_muni_df.to_pickle(fname_muni)
         else:
@@ -517,13 +519,13 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                                   args=(breaks['muni'],))                                                  
         # Subplot for every word
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
-        ax.set_title(u"{word} - hits: {hits}".format(word=word, hits=coord_count[word]), 
+        ax.set_title(u"{word} - hits: {hits}".format(word=word.replace(" OR ", "/"), hits=coord_count[word]), 
                      y=1.01, fontsize=9)
     
         cmap = plt.get_cmap(colorCycle(i))
         #cmap = opacify(cmap) # Add opacity to colormap
         
-        print "Using empty bin fallback:", binModel
+        print "Empty bin fallback:", binModel
         
         if binModel == 'municipality+county':
             # County fallback for empty bins
@@ -1515,7 +1517,8 @@ def byod():
               
         # If no column "form" is found, assume only one word
         if not 'form' in df.columns:
-            df['form'] = filename.split("_-_")[-1].replace(".xlsx", "")
+            # Use filename
+            df['form'] = filename.split("_-_")[-1].replace(".xlsx", "").lower()
 
         # Note if words are omitted
         if sum(df.groupby('form').form.transform(len) > hitsThreshold) < len(df):
