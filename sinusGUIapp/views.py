@@ -564,15 +564,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            df_map['bins_'+word].values.max()-
                                float(df_map['bins_'+word].values.min()))
             
-            """
             cmap_list = []
             for val in cmaps:
                 if val == 0:
                     cmap_list.append('none')
                 else:
                     cmap_list.append(cmap(val))
-            """
-            cmap_list = [cmap(val) for val in cmaps]                    
+            
+            #cmap_list = [cmap(val) for val in cmaps]                    
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
             
