@@ -552,17 +552,21 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         for df_map in shapesToPutOnMap:
             
             print df_map
+            # Draw neighborhoods with grey outlines
             temp_df = df_map[df_map['jenks_bins_'+word] >= 0]
+            print temp_df
             
-            temp_df['patches'] = temp_df['poly'].map(lambda x: PolygonPatch(x, 
+            df_map['patches'] = df_map['poly'].map(lambda x: PolygonPatch(x, 
                                                                           ec='#111111', 
                                                                           lw=0, 
                                                                           alpha=0, 
                                                                           zorder=4))
-            pc = PatchCollection(temp_df['patches'], match_original=True)
+            pc = PatchCollection(df_map['patches'], match_original=True)
             # Apply our custom color values onto the patch collection
-            cmaps = (temp_df['jenks_bins_'+word].values - 1)/(
-                           temp_df['jenks_bins_'+word].values.max()-float(1))
+            cmaps = (df_map['jenks_bins_'+word].values - 
+                       df_map['jenks_bins_'+word].values.min())/(
+                           df_map['jenks_bins_'+word].values.max()-
+                               float(df_map['jenks_bins_'+word].values.min()))
                                
             cmap_list = [cmap(val) for val in cmaps]
             pc.set_facecolor(cmap_list)
