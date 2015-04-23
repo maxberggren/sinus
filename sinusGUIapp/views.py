@@ -553,8 +553,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             
             print df_map
             # Draw neighborhoods with grey outlines
-            temp_df = df_map[df_map['jenks_bins_'+word] >= 0]
-            print temp_df
+            #temp_df = df_map[df_map['jenks_bins_'+word] != -1]
+            #print temp_df
             
             df_map['patches'] = df_map['poly'].map(lambda x: PolygonPatch(x, 
                                                                           ec='#111111', 
@@ -568,7 +568,16 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            df_map['jenks_bins_'+word].values.max()-
                                float(df_map['jenks_bins_'+word].values.min()))
             print cmaps
-            cmap_list = [cmap(val) for val in cmaps]
+            
+            cmap_list = []
+            for val in cmaps:
+                if val == 0:
+                    cmap_list.append(None)
+                else:
+                    cmap_list.append(cmap(val))
+                    
+            #cmap_list = [cmap(val) for val in cmaps]
+            
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
             
