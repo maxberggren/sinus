@@ -756,7 +756,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
             m.drawcountries()
             m.drawstates()
             m.drawmapboundary()
-            m.fillcontinents(color='white',
+            m.fillcontinents(color='blue',
                              lake_color='black',
                              zorder=0)
             m.drawmapboundary(fill_color='black')
