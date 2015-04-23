@@ -424,23 +424,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                   args=(mapped_points[word],))
                                               
         # Filter out bins with too low frq
-        #poly_df = poly_df[poly_df[uniqeWords] > binThreshold]
-        print poly_df.head()
-        #print poly_df[uniqeWords] > binThreshold
-        #print poly_df.head()
+        poly_df = poly_df.loc[(poly_df[uniqeWords] > binThreshold).any(axis=1)]
         
-        
-        print poly_df.loc[(poly_df[uniqeWords] > binThreshold).any(axis=1)]
-        
-        
-        #to_drop = poly_df[uniqeWords] < binThreshold
-        
-        #poly_df = poly_df.drop(to_drop, axis=1)
-        
-        #poly_df = poly_df[poly_df[uniqeWords] >= binThreshold]
-        #poly_df = poly_df.dropna(how='any', subset=uniqeWords)
-        
-        #print poly_df.head()
         return poly_df
         
         
