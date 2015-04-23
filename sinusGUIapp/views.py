@@ -430,7 +430,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         #print poly_df.head()
         
         
-        print poly_df.loc[(poly_df > binThreshold).any(axis=1)]
+        print poly_df.loc[(poly_df[uniqeWords] > binThreshold).any(axis=1)]
         
         
         #to_drop = poly_df[uniqeWords] < binThreshold
