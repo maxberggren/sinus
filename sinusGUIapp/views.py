@@ -544,7 +544,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             shapesToPutOnMap = [df_map_county]
         elif binModel == 'lab':
             # Lab
-            shapesToPutOnMap = bins_
+            shapesToPutOnMap = [df_map_fallback, df_map_muni]
         else: 
             shapesToPutOnMap = [df_map_muni]
         
