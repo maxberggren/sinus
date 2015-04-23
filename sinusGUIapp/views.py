@@ -516,9 +516,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     for i, word in enumerate(words):
     
         # Create columns stating which break precentages belongs to
-        df_map_county['jenks_bins_'+word] = df_map_county[word].apply(self_categorize, 
+        df_map_county['bins_'+word] = df_map_county[word].apply(self_categorize, 
                                                                       args=(breaks['county'],))
-        df_map_muni['jenks_bins_'+word] = df_map_muni[word].apply(self_categorize, 
+        df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
                                                                   args=(breaks['muni'],))                                                  
         # Subplot for every word
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
@@ -544,18 +544,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             shapesToPutOnMap = [df_map_county]
         elif binModel == 'lab':
             # Lab
-            shapesToPutOnMap = [df_map_fallback, df_map_muni]
+            shapesToPutOnMap = bins_
         else: 
             shapesToPutOnMap = [df_map_muni]
         
         # Put all shapes on map
         for df_map in shapesToPutOnMap:
             
-            print df_map
-            # Draw neighborhoods with grey outlines
-            #temp_df = df_map[df_map['jenks_bins_'+word] != -1]
-            #print temp_df
-            
+            # Create patches
             df_map['patches'] = df_map['poly'].map(lambda x: PolygonPatch(x, 
                                                                           ec='#111111', 
                                                                           lw=0, 
@@ -563,11 +559,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                                           zorder=4))
             pc = PatchCollection(df_map['patches'], match_original=True)
             # Apply our custom color values onto the patch collection
-            cmaps = (df_map['jenks_bins_'+word].values - 
-                       df_map['jenks_bins_'+word].values.min())/(
-                           df_map['jenks_bins_'+word].values.max()-
-                               float(df_map['jenks_bins_'+word].values.min()))
-            print cmaps
+            cmaps = (df_map['bins_'+word].values - 
+                       df_map['bins_'+word].values.min())/(
+                           df_map['bins_'+word].values.max()-
+                               float(df_map['bins_'+word].values.min()))
             
             cmap_list = []
             for val in cmaps:
@@ -575,9 +570,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     cmap_list.append('none')
                 else:
                     cmap_list.append(cmap(val))
-                    
-            #cmap_list = [cmap(val) for val in cmaps]
-            
+                                
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
             
