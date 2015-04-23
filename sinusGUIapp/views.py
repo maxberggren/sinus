@@ -429,8 +429,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         print poly_df.head()
         #print poly_df[uniqeWords] > binThreshold
         #print poly_df.head()
-        print poly_df[poly_df[uniqeWords] >= binThreshold]
-        #poly_df = poly_df.dropna(how='any', subset=uniqeWords)
+        poly_df = poly_df[poly_df[uniqeWords] >= binThreshold]
+        poly_df = poly_df.dropna(how='any', subset=uniqeWords)
         
         print poly_df.head()
         return poly_df
