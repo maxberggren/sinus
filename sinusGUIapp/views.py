@@ -422,10 +422,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         for word in uniqeWords:
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
                                                   args=(mapped_points[word],))
-            
             poly_df[word][poly_df[word] < binThreshold] = 0
-                                                      
-
+            
         return poly_df
         
         
@@ -507,11 +505,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             if entry > breaks[i] and entry <= breaks[i+1]:
                 return i
         return -1 # under or over break interval
-        
-    def genFallbackMap(df):
-        """ Create fallback map to be shown under the municipalitys """
-        print df
-        return df
     
     fig = plt.figure(figsize=(3.25*len(words),6))
     
@@ -530,8 +523,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         cmap = plt.get_cmap(colorCycle(i))
         #cmap = opacify(cmap) # Add opacity to colormap
         
-        df_map_fallback = genFallbackMap(df_map_muni)
-        
         print "Empty bin fallback:", binModel
         
         if binModel == 'municipality+county':
@@ -543,9 +534,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         elif binModel == 'mp':
             # Parkvalls fallback strategy
             shapesToPutOnMap = [df_map_county]
-        elif binModel == 'lab':
-            # Labb
-            shapesToPutOnMap = [df_map_fallback, df_map_muni]
         else: 
             shapesToPutOnMap = [df_map_muni]
         
