@@ -563,6 +563,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                        df_map['bins_'+word].values.min())/(
                            df_map['bins_'+word].values.max()-
                                float(df_map['bins_'+word].values.min()))
+                               
+            print cmaps
             
             cmap_list = []
             for val in cmaps:
