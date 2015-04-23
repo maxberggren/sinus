@@ -541,6 +541,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Put all shapes on map
         for df_map in shapesToPutOnMap:
             
+            print df_map
             # Draw neighborhoods with grey outlines
             df_map['patches'] = df_map['poly'].map(lambda x: PolygonPatch(x, 
                                                                           ec='#111111', 
