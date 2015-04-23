@@ -572,7 +572,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             cmap_list = []
             for val in cmaps:
                 if val == 0:
-                    cmap_list.append(None)
+                    cmap_list.append('none')
                 else:
                     cmap_list.append(cmap(val))
                     
