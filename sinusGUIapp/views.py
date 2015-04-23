@@ -509,6 +509,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     def genFallbackMap(df):
         """ Generate fallback map from municipalitys """
         print df
+        df.to_pickle("labbDF.pkl")
         return df
     
     fig = plt.figure(figsize=(3.25*len(words),6))
@@ -564,7 +565,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            df_map['bins_'+word].values.max()-
                                float(df_map['bins_'+word].values.min()))
                                
-            print cmaps
+            #print cmaps
             
             cmap_list = []
             for val in cmaps:
