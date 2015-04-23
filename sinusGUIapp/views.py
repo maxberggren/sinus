@@ -567,7 +567,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                        df_map['jenks_bins_'+word].values.min())/(
                            df_map['jenks_bins_'+word].values.max()-
                                float(df_map['jenks_bins_'+word].values.min()))
-                               
+            print cmaps
             cmap_list = [cmap(val) for val in cmaps]
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
