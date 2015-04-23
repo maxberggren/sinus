@@ -506,6 +506,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 return i
         return -1 # under or over break interval
     
+    def genFallbackMap(df):
+        """ Generate fallback map from municipalitys """
+        return df
+    
     fig = plt.figure(figsize=(3.25*len(words),6))
     
     for i, word in enumerate(words):
@@ -523,6 +527,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         cmap = plt.get_cmap(colorCycle(i))
         #cmap = opacify(cmap) # Add opacity to colormap
         
+        df_map_fallback = genFallbackMap(df_map_muni)
+        
         print "Empty bin fallback:", binModel
         print "Binthreshold:", binThreshold
         
@@ -535,6 +541,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         elif binModel == 'mp':
             # Parkvalls fallback strategy
             shapesToPutOnMap = [df_map_county]
+        elif binModel == 'lab':
+            # Lab
+            shapesToPutOnMap = [df_map_fallback, df_map_muni]
         else: 
             shapesToPutOnMap = [df_map_muni]
         
