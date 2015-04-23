@@ -506,7 +506,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 return i
         return -1 # under or over break interval
     
-    def genFallbackMap(df) asdas sadd:
+    def genFallbackMap(df):
         """ Generate fallback map from municipalitys """
         print df
         return df
