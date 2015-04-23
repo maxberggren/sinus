@@ -508,6 +508,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
     def genFallbackMap(df):
         """ Generate fallback map from municipalitys """
+        print df
         return df
     
     fig = plt.figure(figsize=(3.25*len(words),6))
