@@ -375,8 +375,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         'name': [r['LAN_NAMN'] for r in m.countys_info]})
 
     # Fix encoding
-    df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
-    df_map_county['name'] = df_map_county.apply(lambda row: row['name'].decode('latin-1'), axis=1)
+    #df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
+    #df_map_county['name'] = df_map_county.apply(lambda row: row['name'].decode('latin-1'), axis=1)
     
     @timing
     def mapPointsToPoly(coordinates_df, poly_df):
@@ -532,6 +532,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         for muni in df[df['bins_'+word] == -1]['name'].unique():
             key, mean = getParent(df, muni, u"Stadsomland")
 
+            # Update municipality with fallback according to rule
             df[df['name'] == key] = mean
 
             print muni, "->", key, mean
