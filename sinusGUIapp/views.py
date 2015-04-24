@@ -373,6 +373,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     df_map_county = pd.DataFrame({
         'poly': [Polygon(countys_points) for countys_points in m.countys],
         'name': [r['LAN_NAMN'] for r in m.countys_info]})
+
+    # Fix encoding
+    df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
+    df_map_county['name'] = df_map_county.apply(lambda row: row['name'].decode('latin-1'), axis=1)
     
     @timing
     def mapPointsToPoly(coordinates_df, poly_df):
