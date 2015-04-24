@@ -534,6 +534,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
             # Update municipality with fallback according to rule
             #df[df['name'] == key] = mean
+            df.ix[df['name'] == key, 'bins_'+word] = mean
 
             print muni, "->", key, mean
 
