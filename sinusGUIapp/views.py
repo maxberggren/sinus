@@ -562,7 +562,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         print "Empty bin fallback:", binModel
         print "Binthreshold:", binThreshold
         
-        if binModel == 'municipality+county':
+        if binModel == 'municipality+county'  sadsadasd asd23:
             # County fallback for empty bins
             shapesToPutOnMap = [df_map_county, df_map_muni]
         elif binModel == 'county':
