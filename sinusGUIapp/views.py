@@ -373,6 +373,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     df_map_county = pd.DataFrame({
         'poly': [Polygon(countys_points) for countys_points in m.countys],
         'name': [r['LAN_NAMN'] for r in m.countys_info]})
+
+    # Fix encoding
+    df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
+    df_map_county['name'] = df_map_county.apply(lambda row: row['name'].decode('latin-1'), axis=1)
     
     @timing
     def mapPointsToPoly(coordinates_df, poly_df):
@@ -506,10 +510,34 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 return i
         return -1 # under or over break interval
     
-    def genFallbackMap(df):
+    def genFallbackMap(df, word):
         """ Generate fallback map from municipalitys """
+        hierarchy = pd.io.excel.read_excel("hierarchy.xlsx")
+
+        def getMuni(df, level, key):
+            return df.groupby(level).get_group(key)['Kommun'].unique()
+
+        def getParent(df, municipality, level):
+            try:
+                key = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
+                if not key == "-":
+                    munis = getMuni(hierarchy, level, key)
+                    return key, round(df.loc[df['name'].isin(munis)]['bins_'+word].mean())
+                else:
+                    return None, None
+            except IndexError:
+                return None, None
+
+        # Every municipality that has no hits
+        for muni in df[df['bins_'+word] == -1]['name'].unique():
+            key, mean = getParent(df, muni, u"Stadsomland")
+
+            df[df['name'] == key] = mean
+
+            print muni, "->", key, mean
+
         print df
-        df.to_pickle("labbDF.pkl")
+        #df.to_pickle("labbDF.pkl")
         return df
     
     fig = plt.figure(figsize=(3.25*len(words),6))
@@ -529,7 +557,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         cmap = plt.get_cmap(colorCycle(i))
         #cmap = opacify(cmap) # Add opacity to colormap
         
-        df_map_fallback = genFallbackMap(df_map_muni)
+        df_map_fallback = genFallbackMap(df_map_muni, word)
         
         print "Empty bin fallback:", binModel
         print "Binthreshold:", binThreshold
@@ -545,7 +573,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             shapesToPutOnMap = [df_map_county]
         elif binModel == 'lab':
             # Lab
-            shapesToPutOnMap = [df_map_fallback, df_map_muni]
+            shapesToPutOnMap = [df_map_fallback]
         else: 
             shapesToPutOnMap = [df_map_muni]
         
