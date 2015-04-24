@@ -40,6 +40,7 @@ import datetime
 from pysal.esda.mapclassify import Natural_Breaks
 from geocode import latlon
 import geocode    
+from scipy.stats import mode
  
 def timing(f):
     def wrap(*args):
@@ -522,7 +523,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 key = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
                 if not key == "-":
                     munis = getMuni(hierarchy, level, key)
-                    return key, round(df.loc[df['name'].isin(munis)]['bins_'+word].mean())
+                    return key, mode(df.loc[df['name'].isin(munis)]['bins_'+word])[0][0]
                 else:
                     return None, None
             except IndexError:
@@ -534,7 +535,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
             # Update municipality with fallback according to rule
             #df[df['name'] == key] = mean
-            df.ix[df['name'] == key, 'bins_'+word] = mean
+            df.loc[df['name'] == key, 'bins_'+word] = mean
 
             print muni, "->", key, mean
 
