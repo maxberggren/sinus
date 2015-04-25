@@ -538,6 +538,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 if mean and mean != -1:
                     df.loc[df['name'] == key, 'bins_'+word] = mean
                     print muni, "->", key, mean
+                    print df.loc[df['name'] == key, 'bins_'+word]
             return df 
 
         df = updateDF(df, u"Stadsomland")
