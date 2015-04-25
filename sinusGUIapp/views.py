@@ -543,9 +543,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         df = updateDF(df, u"Stadsomland")
         df = updateDF(df, u"Gymnasieort")
         df = updateDF(df, u"LA")
-        df = updateDF(df, u"FA")
-        df = updateDF(df, u"Län")
-        df = updateDF(df, u"Landskap")
+        #df = updateDF(df, u"FA")
+        #df = updateDF(df, u"Län")
+        #df = updateDF(df, u"Landskap")
 
         return df
     
