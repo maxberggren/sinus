@@ -529,18 +529,24 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             except IndexError:
                 return None, None
 
-        # Every municipality that has no hits
-        for muni in df[df['bins_'+word] == -1]['name'].unique():
-            key, mean = getParent(df, muni, u"Stadsomland")
+        def updateDF(df, parentLevel):
+            """ Find municipalitys with no hits and update according to rule """
+            for muni in df[df['bins_'+word] == -1]['name'].unique():
+                key, mean = getParent(df, muni, parentLevel)
 
-            # Update municipality with fallback according to rule
-            #df[df['name'] == key] = mean
-            if mean and mean != -1:
-                df.loc[df['name'] == key, 'bins_'+word] = mean
-                print muni, "->", key, mean
+                # Update municipality with fallback according to rule
+                if mean and mean != -1:
+                    df.loc[df['name'] == key, 'bins_'+word] = mean
+                    print muni, "->", key, mean
+            return df
 
-        #print df
-        #df.to_pickle("labbDF.pkl")
+        df = updateDF(df, u"Stadsomland")
+        df = updateDF(df, u"Gymnasieort")
+        df = updateDF(df, u"LA")
+        df = updateDF(df, u"FA")
+        df = updateDF(df, u"Län")
+        df = updateDF(df, u"Landskap")
+
         return df
     
     fig = plt.figure(figsize=(3.25*len(words),6))
