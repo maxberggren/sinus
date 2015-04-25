@@ -531,7 +531,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
         def updateDF(df, parentLevel):
             """ Find municipalitys with no hits and update according to rule """
-            print len(df[df['bins_'+word] == -1]['name'].values)
             for muni in df[df['bins_'+word] == -1]['name'].unique():
                 key, mean = getParent(df, muni, parentLevel)
 
@@ -542,10 +541,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             return df 
 
         df = updateDF(df, u"Stadsomland")
+        print len(df[df['bins_'+word] == -1]['name'].values)
         df = updateDF(df, u"Gymnasieort")
+        print len(df[df['bins_'+word] == -1]['name'].values)
         df = updateDF(df, u"LA-region")
-        #df = updateDF(df, u"FA-region")
-        #df = updateDF(df, u"Län")
+        print len(df[df['bins_'+word] == -1]['name'].values)
+        df = updateDF(df, u"FA-region")
+        print len(df[df['bins_'+word] == -1]['name'].values)
+        df = updateDF(df, u"Län")
         #df = updateDF(df, u"Landskap")
 
         return df
