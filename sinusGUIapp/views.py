@@ -533,7 +533,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             except IndexError:
                 return None, None
 
-        def updateDF(df, parentLevel):
+        def updateDF(df):
             """ Find municipalitys with no hits and update according to rule """
             new_df = df.copy(deep=True)
 
