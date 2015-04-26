@@ -523,7 +523,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
                 if not parent == "-":
                     munis = getMuni(hierarchy, level, parent)
-                    return parent, mode(df.loc[df['name'].isin(munis)]['bins_'+word])[0][0]
+                    #return parent, mode(df.loc[df['name'].isin(munis)][word])[0][0]
+                    return parent, np.mean(df.loc[df['name'].isin(munis)][word])
                 else:
                     return None, None
             except IndexError:
@@ -531,25 +532,25 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
         def updateDF(df, parentLevel):
             """ Find municipalitys with no hits and update according to rule """
-            for muni in df[df['bins_'+word] == -1]['name'].unique():
+            for muni in df[df[word] == 0.0]['name'].unique():
                 parent, mean = getParent(df, muni, parentLevel)
 
                 # Update municipality with fallback according to rule
-                if mean and mean != -1:
-                    df.loc[df['name'] == muni, 'bins_'+word] = mean
+                if mean and mean != 0.0:
+                    df.loc[df['name'] == muni, word] = mean
                     print muni, "->", parent, mean
                     #print df.loc[df['name'] == muni]
             return df 
 
-        print len(df[df['bins_'+word] == -1]['name'].values)
+        print len(df[df['bins_'+word] == 0.0]['name'].values)
         df = updateDF(df, u"Stadsomland")
-        print len(df[df['bins_'+word] == -1]['name'].values)
+        print len(df[df['bins_'+word] == 0.0]['name'].values)
         df = updateDF(df, u"Gymnasieort")
-        print len(df[df['bins_'+word] == -1]['name'].values)
+        print len(df[df['bins_'+word] == 0.0]['name'].values)
         df = updateDF(df, u"LA-region")
-        print len(df[df['bins_'+word] == -1]['name'].values)
+        print len(df[df['bins_'+word] == 0.0]['name'].values)
         df = updateDF(df, u"FA-region")
-        print len(df[df['bins_'+word] == -1]['name'].values)
+        print len(df[df['bins_'+word] == 0.0]['name'].values)
         df = updateDF(df, u"Län")
         #df = updateDF(df, u"Landskap")
 
@@ -558,12 +559,22 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     fig = plt.figure(figsize=(3.25*len(words),6))
     
     for i, word in enumerate(words):
-    
+
+
+
+
         # Create columns stating which break precentages belongs to
         df_map_county['bins_'+word] = df_map_county[word].apply(self_categorize, 
-                                                                      args=(breaks['county'],))
+                                                                args=(breaks['county'],))
         df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
-                                                                  args=(breaks['muni'],))                                                  
+                                                            args=(breaks['muni'],))      
+        # Also create a fallback DF
+        if binModel == 'lab':
+            # Lab
+            df_map_fallback = genFallbackMap(df_map_muni, word)
+
+        df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
+                                                                    args=(breaks['muni'],))                                                  
         # Subplot for every word
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
         ax.set_title(u"{word} - hits: {hits}".format(word=word.replace(" OR ", "/"), hits=coord_count[word]), 
@@ -581,12 +592,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         elif binModel == 'county':
             # Just use countys
             shapesToPutOnMap = [df_map_county]
-        elif binModel == 'mp':
-            # Parkvalls fallback strategy
-            shapesToPutOnMap = [df_map_county]
         elif binModel == 'lab':
             # Lab
-            df_map_fallback = genFallbackMap(df_map_muni, word)
             shapesToPutOnMap = [df_map_fallback]
         else: 
             shapesToPutOnMap = [df_map_muni]
