@@ -536,11 +536,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
                 # Update municipality with fallback according to rule
                 if mean and mean != -1:
-                    df.loc[df.name == muni, 'bins_'+word] = mean # Empty dataframe! Unicode problem?
+                    df.loc[df['name'] == muni, 'bins_'+word] = mean
                     print muni, "->", parent, mean
-                    print df.loc[df['name'] == muni]
+                    #print df.loc[df['name'] == muni]
             return df 
 
+        print len(df[df['bins_'+word] == -1]['name'].values)
         df = updateDF(df, u"Stadsomland")
         print len(df[df['bins_'+word] == -1]['name'].values)
         df = updateDF(df, u"Gymnasieort")
@@ -571,8 +572,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         cmap = plt.get_cmap(colorCycle(i))
         #cmap = opacify(cmap) # Add opacity to colormap
         
-        df_map_fallback = genFallbackMap(df_map_muni, word)
-        
         print "Empty bin fallback:", binModel
         print "Binthreshold:", binThreshold
         
@@ -587,6 +586,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             shapesToPutOnMap = [df_map_county]
         elif binModel == 'lab':
             # Lab
+            df_map_fallback = genFallbackMap(df_map_muni, word)
             shapesToPutOnMap = [df_map_fallback]
         else: 
             shapesToPutOnMap = [df_map_muni]
