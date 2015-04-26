@@ -520,10 +520,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
         def getParent(df, municipality, level):
             try:
-                key = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
-                if not key == "-":
-                    munis = getMuni(hierarchy, level, key)
-                    return key, mode(df.loc[df['name'].isin(munis)]['bins_'+word])[0][0]
+                parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
+                if not parent == "-":
+                    munis = getMuni(hierarchy, level, parent)
+                    return parent, mode(df.loc[df['name'].isin(munis)]['bins_'+word])[0][0]
                 else:
                     return None, None
             except IndexError:
@@ -532,13 +532,13 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         def updateDF(df, parentLevel):
             """ Find municipalitys with no hits and update according to rule """
             for muni in df[df['bins_'+word] == -1]['name'].unique():
-                key, mean = getParent(df, muni, parentLevel)
+                parent, mean = getParent(df, muni, parentLevel)
 
                 # Update municipality with fallback according to rule
                 if mean and mean != -1:
-                    df.loc[df.name == key, 'bins_'+word] = mean
-                    print muni, "->", key, mean
-                    print df.loc[df['name'] == key]
+                    df.loc[df.name == muni, 'bins_'+word] = mean # Empty dataframe! Unicode problem?
+                    print muni, "->", parent, mean
+                    print df.loc[df['name'] == muni]
             return df 
 
         df = updateDF(df, u"Stadsomland")
