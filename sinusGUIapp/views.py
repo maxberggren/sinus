@@ -565,7 +565,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         df_map_county['bins_'+word] = df_map_county[word].apply(self_categorize, 
                                                                 args=(breaks['county'],))
         df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
-                                                            args=(breaks['muni'],))      
+                                                             args=(breaks['muni'],))      
         # Also create a fallback DF
         if binModel == 'lab':
             df_map_fallback = genFallbackMap(df_map_muni, word)
