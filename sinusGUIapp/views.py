@@ -550,8 +550,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         df = updateDF(df, u"LA-region")
         print len(df[df['bins_'+word] == 0.0]['name'].values)
         df = updateDF(df, u"FA-region")
-        print len(df[df['bins_'+word] == 0.0]['name'].values)
-        df = updateDF(df, u"Län")
+        #print len(df[df['bins_'+word] == 0.0]['name'].values)
+        #df = updateDF(df, u"Län")
         #df = updateDF(df, u"Landskap")
 
         return df
@@ -560,9 +560,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
     for i, word in enumerate(words):
 
-
-
-
         # Create columns stating which break precentages belongs to
         df_map_county['bins_'+word] = df_map_county[word].apply(self_categorize, 
                                                                 args=(breaks['county'],))
@@ -570,11 +567,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                             args=(breaks['muni'],))      
         # Also create a fallback DF
         if binModel == 'lab':
-            # Lab
             df_map_fallback = genFallbackMap(df_map_muni, word)
-
-        df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
-                                                                    args=(breaks['muni'],))                                                  
+            df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
+                                                                        args=(breaks['muni'],))                                                  
         # Subplot for every word
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
         ax.set_title(u"{word} - hits: {hits}".format(word=word.replace(" OR ", "/"), hits=coord_count[word]), 
