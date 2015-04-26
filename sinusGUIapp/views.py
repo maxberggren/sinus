@@ -537,20 +537,21 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             """ Find municipalitys with no hits and update according to rule """
             new_df = df.copy(deep=True)
 
-            for muni in df[df[word] == 0.0]['name'].unique():
-                parent, mean = getParent(df, muni, parentLevel)
+            for parentLevel in [u"Stadsomland", u"Gymnasieort", u"LA-region", u"FA-region"]:
+                for muni in df[df[word] == 0.0]['name'].unique():
+                    parent, mean = getParent(df, muni, parentLevel)
 
-                # Update municipality with fallback according to rule
-                if mean and mean != 0.0:
-                    new_df.loc[new_df['name'] == muni, word] = mean
-                    print muni, "->", parent, mean
-                    #print df.loc[df['name'] == muni]
+                    # Update municipality with fallback according to rule
+                    if mean and mean != 0.0:
+                        new_df.loc[new_df['name'] == muni, word] = mean
+                        print muni, "->", parent, mean
+                        #print df.loc[df['name'] == muni]
             return new_df 
 
-        df = updateDF(df, u"Stadsomland")
-        df = updateDF(df, u"Gymnasieort")
-        df = updateDF(df, u"LA-region")
-        df = updateDF(df, u"FA-region")
+        df = updateDF(df)
+        #df = updateDF(df, u"Gymnasieort")
+        #df = updateDF(df, u"LA-region")
+        #df = updateDF(df, u"FA-region")
         #df = updateDF(df, u"Län")
         #df = updateDF(df, u"Landskap")
 
