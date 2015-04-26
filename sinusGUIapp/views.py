@@ -545,17 +545,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     new_df.loc[new_df['name'] == muni, word] = mean
                     print muni, "->", parent, mean
                     #print df.loc[df['name'] == muni]
-            return df 
+            return new_df 
 
-        print len(df[df['bins_'+word] == 0.0]['name'].values)
         df = updateDF(df, u"Stadsomland")
-        print len(df[df['bins_'+word] == 0.0]['name'].values)
         df = updateDF(df, u"Gymnasieort")
-        print len(df[df['bins_'+word] == 0.0]['name'].values)
         df = updateDF(df, u"LA-region")
-        print len(df[df['bins_'+word] == 0.0]['name'].values)
         df = updateDF(df, u"FA-region")
-        print len(df[df['bins_'+word] == 0.0]['name'].values)
         #df = updateDF(df, u"Län")
         #df = updateDF(df, u"Landskap")
 
