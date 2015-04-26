@@ -523,9 +523,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
                 if not parent == "-":
                     munis = getMuni(hierarchy, level, parent)
-                    print "hämtade: ", munis
-                    print "de har värdena: ", df.loc[df['name'].isin(munis)][word]
-                    print "deras genomsnitt: ", np.mean(df.loc[df['name'].isin(munis)][word])
+                    #print "hämtade: ", munis
+                    #print "de har värdena: ", df.loc[df['name'].isin(munis)][word]
+                    #print "deras genomsnitt: ", np.mean(df.loc[df['name'].isin(munis)][word])
                     #return parent, mode(df.loc[df['name'].isin(munis)][word])[0][0]
                     return parent, np.mean(df.loc[df['name'].isin(munis)][word])
                 else:
@@ -547,15 +547,15 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     #print df.loc[df['name'] == muni]
             return df 
 
-        #print len(df[df['bins_'+word] == 0.0]['name'].values)
-        #df = updateDF(df, u"Stadsomland")
-        #print len(df[df['bins_'+word] == 0.0]['name'].values)
-        #df = updateDF(df, u"Gymnasieort")
+        print len(df[df['bins_'+word] == 0.0]['name'].values)
+        df = updateDF(df, u"Stadsomland")
+        print len(df[df['bins_'+word] == 0.0]['name'].values)
+        df = updateDF(df, u"Gymnasieort")
         print len(df[df['bins_'+word] == 0.0]['name'].values)
         df = updateDF(df, u"LA-region")
-        #print len(df[df['bins_'+word] == 0.0]['name'].values)
-        #df = updateDF(df, u"FA-region")
-        #print len(df[df['bins_'+word] == 0.0]['name'].values)
+        print len(df[df['bins_'+word] == 0.0]['name'].values)
+        df = updateDF(df, u"FA-region")
+        print len(df[df['bins_'+word] == 0.0]['name'].values)
         #df = updateDF(df, u"Län")
         #df = updateDF(df, u"Landskap")
 
