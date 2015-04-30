@@ -532,11 +532,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
                 if not parent == "-":
                     munis = getMuni(hierarchy, level, parent)
-                    #print "hämtade: ", munis
-                    #print "de har värdena: ", df.loc[df['name'].isin(munis)][word]
-                    #print "deras genomsnitt: ", np.mean(df.loc[df['name'].isin(munis)][word])
-                    #return parent, mode(df.loc[df['name'].isin(munis)][word])[0][0]
-                    #return parent, np.mean(df.loc[df['name'].isin(munis)][word])
                     return np.mean(df.loc[df['name'].isin(munis)][word])
                 else:
                     return None
@@ -585,8 +580,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Also create a fallback DF if needed
         if binModel == 'lab':
             df_map_fallback = genFallbackMap(df_map_muni, word)
+            
+            if len(words) > 1:
+                df_map_fallback = genFallbackMap(df_map_fallback, word)
+                df_map_fallback = genFallbackMap(df_map_fallback, word)
+            
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
-                                                                        args=(breaks['muni'][word],))                                                  
+                                                                        args=(breaks['muni'][word],)) 
+                                                                                                              
         # Subplot for every word
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
         ax.set_title(u"{word} - hits: {hits}".format(word=word.replace(" OR ", "/"), 
