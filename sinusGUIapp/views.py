@@ -467,7 +467,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     for muni in df[df[word] == 0.0]['name'].unique(): 
                         
                         # Merge the mean of every parent level
-                        mean = [getParentMean(df, muni, parentLevel) 
+                        mean = [getParentMean(df[word], muni, parentLevel) 
                                 for parentLevel in parentLevels]
                         mean = np.array(mean)
                         mean = mean[mean != np.array(None)] # Remove Nones 
@@ -488,6 +488,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     df_map_county = mapPointsToPoly(lds, df_map_county)
     
     if binModel == 'lab':
+        print df_map_muni
         df_map_fallback = genFallbackMap(df_map_muni, words)
 
     print words
