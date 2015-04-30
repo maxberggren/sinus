@@ -518,7 +518,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         def getMuni(df, level, key):
             return df.groupby(level).get_group(key)['Kommun'].unique()
 
-        def getParentMean(df, municipality, level):
+        def getParent(df, municipality, level):
             try:
                 parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
                 if not parent == "-":
@@ -527,32 +527,25 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     #print "de har värdena: ", df.loc[df['name'].isin(munis)][word]
                     #print "deras genomsnitt: ", np.mean(df.loc[df['name'].isin(munis)][word])
                     #return parent, mode(df.loc[df['name'].isin(munis)][word])[0][0]
-                    #return parent, np.mean(df.loc[df['name'].isin(munis)][word])
-                    return np.mean(df.loc[df['name'].isin(munis)][word])
+                    return parent, np.mean(df.loc[df['name'].isin(munis)][word])
                 else:
-                    return None
+                    return None, None
             except IndexError:
-                return None
+                return None, None
 
         def updateDF(df):
             """ Find municipalitys with no hits and update according to rule """
             new_df = df.copy(deep=True)
 
-            #for parentLevels in [[u"Stadsomland", u"Gymnasieort"], [u"LA-region", u"FA-region"]]:
-            for parentLevels in [[u"Gymnasieort"]]:
+            for parentLevel in [u"Stadsomland", u"Gymnasieort", u"LA-region", u"FA-region"]:
                 for muni in df[df[word] == 0.0]['name'].unique():
-                    
-                    # Merge the mean of every parent level
-                    mean = [getParentMean(df, muni, parentLevel) 
-                            for parentLevel in parentLevels]
-                    mean = np.array(mean)
-                    mean = mean[mean != np.array(None)] # Remove Nones 
-                    mean = np.mean(mean)
-    
+                    parent, mean = getParent(df, muni, parentLevel)
+
                     # Update municipality with fallback according to rule
                     if mean and mean != 0.0:
                         new_df.loc[new_df['name'] == muni, word] = mean
-                        
+                        print muni, "->", parent, mean
+                        #print df.loc[df['name'] == muni]
             return new_df 
 
         df = updateDF(df)
