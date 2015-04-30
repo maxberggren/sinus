@@ -539,7 +539,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             new_df = df.copy(deep=True)
 
             #for parentLevels in [[u"Stadsomland", u"Gymnasieort"], [u"LA-region", u"FA-region"]]:
-            for parentLevels in [[u"Stadsomland", u"Gymnasieort"], [u"LA-region", u"FA-region"]]:
+            for parentLevels in [[u"Stadsomland", u"Gymnasieort"], 
+                                 [u"LA-region", u"FA-region"], 
+                                 [u"NDR", u"A", u"Tidningsdistrikt", u"Postnummer", u"P"]]:
                 for muni in df[df[word] == 0.0]['name'].unique(): 
                     
                     # Merge the mean of every parent level
@@ -580,7 +582,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                                         args=(breaks['muni'],))                                                  
         # Subplot for every word
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
-        ax.set_title(u"{word} - hits: {hits}".format(word=word.replace(" OR ", "/"), hits=coord_count[word]), 
+        ax.set_title(u"{word} - hits: {hits}".format(word=word.replace(" OR ", "/"), 
+                                                     hits=coord_count[word]), 
                      y=1.01, fontsize=9)
     
         cmap = plt.get_cmap(colorCycle(i))
