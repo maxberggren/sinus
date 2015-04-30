@@ -474,11 +474,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                         
             return new_df 
 
+        #print df
+        #df = df.groupby(['name'], as_index=False, sort=False).sum()
         print df
-        df = df.groupby(['name'], as_index=False).sum()
+        df = df.loc[df[words].sum(1) > 0, :]
         print df
         df = updateDF(df)
         print df
+        
         return df
                 
         
