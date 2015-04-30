@@ -551,7 +551,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     print mean
     
                     # Update municipality with fallback according to rule
-                    if mean and mean != 0.0:
+                    if mean and mean != 0.0 and mean != True:
                         new_df.loc[new_df['name'] == muni, word] = mean
                         
             return new_df 
