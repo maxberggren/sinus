@@ -428,69 +428,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
                                                   args=(mapped_points[word],))
             poly_df[word][poly_df[word] < binThreshold] = 0
-                    
-        return poly_df
-
-    def genFallbackMap(df, words):
-        """ Generate fallback map from municipalitys """
-        hierarchy = pd.io.excel.read_excel("hierarchy.xlsx")
-        
-        def getMuni(df, level, key):
-            return df.groupby(level).get_group(key)['Kommun'].unique()
-
-        def getParentMean(df, municipality, level, word):
-            try:
-                parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
-                if not parent == "-":
-                    munis = getMuni(hierarchy, level, parent)
-                    return np.mean(df.loc[df['name'].isin(munis)][word])
-                else:
-                    return None
-            except IndexError:
-                return None
-
-        def updateDF(df):
-            """ Find municipalitys with no hits and update according to rule """
-            new_df = df.copy(deep=True)
             
-            for word in words:
-                for parentLevels in [[u"Stadsomland", u"Gymnasieort"], 
-                                     [u"LA-region", u"FA-region"], 
-                                     [u"NDR", u"A", u"Tidningsdistrikt", u"Postnummer", u"P"], 
-                                     [u"Län", u"Landskap"]]:
-                                     
-                    for muni in df[df[word] == 0.0]['name'].unique(): 
-                        
-                        # Merge the mean of every parent level
-                        mean = [getParentMean(df, muni, parentLevel, word) 
-                                for parentLevel in parentLevels]
-                        mean = np.array(mean)
-                        mean = mean[mean != np.array(None)] # Remove Nones 
-                        mean = np.mean(mean)
+        return poly_df
         
-                        # Update municipality with fallback according to rule
-                        if mean and mean != 0.0 and mean != True:
-                            new_df.loc[new_df['name'] == muni, word] = mean
-                        
-            return new_df 
-
-        # print df
-        #df = df.groupby(['name'], as_index=False, sort=False).sum()
-        print df
-        df = df.loc[df[words].sum(1) > 0, :]
-        print df
-        df = updateDF(df)
-        print df
-        
-        return df
-                
         
     df_map_muni = mapPointsToPoly(lds, df_map_muni)
     df_map_county = mapPointsToPoly(lds, df_map_county)
-    
-    # Create fallback DF if needed
-    if binModel == 'lab':
-        df_map_fallback = genFallbackMap(df_map_muni, words)
 
     print words
         
@@ -568,7 +511,57 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 return i
         return -1 # under or over break interval
     
-        
+    def genFallbackMap(df, word):
+        """ Generate fallback map from municipalitys """
+        hierarchy = pd.io.excel.read_excel("hierarchy.xlsx")
+
+        def getMuni(df, level, key):
+            return df.groupby(level).get_group(key)['Kommun'].unique()
+
+        def getParentMean(df, municipality, level):
+            try:
+                parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
+                if not parent == "-":
+                    munis = getMuni(hierarchy, level, parent)
+                    #print "hämtade: ", munis
+                    #print "de har värdena: ", df.loc[df['name'].isin(munis)][word]
+                    #print "deras genomsnitt: ", np.mean(df.loc[df['name'].isin(munis)][word])
+                    #return parent, mode(df.loc[df['name'].isin(munis)][word])[0][0]
+                    #return parent, np.mean(df.loc[df['name'].isin(munis)][word])
+                    return np.mean(df.loc[df['name'].isin(munis)][word])
+                else:
+                    return None
+            except IndexError:
+                return None
+
+        def updateDF(df):
+            """ Find municipalitys with no hits and update according to rule """
+            new_df = df.copy(deep=True)
+
+            for parentLevels in [[u"Stadsomland", u"Gymnasieort"], 
+                                 [u"LA-region", u"FA-region"], 
+                                 [u"NDR", u"A", u"Tidningsdistrikt", u"Postnummer", u"P"], 
+                                 [u"Län", u"Landskap"]]:
+                                 
+                for muni in df[df[word] == 0.0]['name'].unique(): 
+                    
+                    # Merge the mean of every parent level
+                    mean = [getParentMean(df, muni, parentLevel) 
+                            for parentLevel in parentLevels]
+                    mean = np.array(mean)
+                    mean = mean[mean != np.array(None)] # Remove Nones 
+                    mean = np.mean(mean)
+    
+                    # Update municipality with fallback according to rule
+                    if mean and mean != 0.0 and mean != True:
+                        new_df.loc[new_df['name'] == muni, word] = mean
+                        
+            return new_df 
+
+        df = updateDF(df)
+
+        return df
+    
     fig = plt.figure(figsize=(3.25*len(words),6))
     
     for i, word in enumerate(words):
@@ -578,8 +571,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                                 args=(breaks['county'],))
         df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
                                                              args=(breaks['muni'],))      
-        # Also bin fallback DF if needed
+        # Also create a fallback DF if needed
         if binModel == 'lab':
+            df_map_fallback = genFallbackMap(df_map_muni, word)
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'],))                                                  
         # Subplot for every word
