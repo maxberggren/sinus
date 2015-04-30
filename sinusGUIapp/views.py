@@ -538,7 +538,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             """ Find municipalitys with no hits and update according to rule """
             new_df = df.copy(deep=True)
 
-            for parentLevels in [[u"Stadsomland", u"Gymnasieort"], [u"LA-region", u"FA-region"]]:
+            #for parentLevels in [[u"Stadsomland", u"Gymnasieort"], [u"LA-region", u"FA-region"]]:
+            for parentLevels in [[u"Stadsomland", u"Gymnasieort"]]:
                 for muni in df[df[word] == 0.0]['name'].unique():
                     
                     # Merge the mean of every parent level
