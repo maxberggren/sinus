@@ -475,12 +475,15 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     # Since only one word, calculate deviation from country average   
     df_map_muni = deviationFromAverage(df_map_muni, null_h_muni_df)
     df_map_county = deviationFromAverage(df_map_county, null_h_county_df)
-
-    countyMax = float(df_map_county[words].max(axis=1).max(axis=0))
-    muniMax = float(df_map_muni[words].max(axis=1).max(axis=0))
-                    
-    breaks['muni'] = [0., 0.5, 1., muniMax/2.0, muniMax]
-    breaks['county'] = [0., 0.5, 1., countyMax/2.0, countyMax]
+    
+    breaks['muni'], breaks['county'] = {}, {}
+           
+    for word in words:    
+        countyMax = float(df_map_county[word].max(axis=0))
+        muniMax = float(df_map_muni[word].max(axis=0))
+        
+        breaks['muni'][word] = [0., 0.5, 1., muniMax/2.0, muniMax]
+        breaks['county'][word] = [0., 0.5, 1., countyMax/2.0, countyMax]
     
     labels = ['Below avg.', '', 'Avg.', '', 'Above avg.']    
     
@@ -574,14 +577,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
         # Create columns stating which break precentages belongs to
         df_map_county['bins_'+word] = df_map_county[word].apply(self_categorize, 
-                                                                args=(breaks['county'],))
+                                                                args=(breaks['county'][word],))
         df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
-                                                             args=(breaks['muni'],))      
+                                                             args=(breaks['muni'][word],))      
         # Also create a fallback DF if needed
         if binModel == 'lab':
             df_map_fallback = genFallbackMap(df_map_muni, word)
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
-                                                                        args=(breaks['muni'],))                                                  
+                                                                        args=(breaks['muni'][word],))                                                  
         # Subplot for every word
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
         ax.set_title(u"{word} - hits: {hits}".format(word=word.replace(" OR ", "/"), 
