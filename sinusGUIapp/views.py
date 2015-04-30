@@ -542,8 +542,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 for muni in df[df[word] == 0.0]['name'].unique():
                 
                     mean = [getParentMean(df, muni, parentLevel) 
-                            for parentLevel in parentLevels
-                            if parentLevel]
+                            for parentLevel in parentLevels]
+                    mean = mean[mean != np.array(None)] # Remove Nones 
+                    
                     print mean
                     mean = np.mean(mean)
     
