@@ -584,6 +584,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             if len(words) > 1:
                 df_map_fallback = genFallbackMap(df_map_fallback, word)
                 df_map_fallback = genFallbackMap(df_map_fallback, word)
+                df_map_fallback = genFallbackMap(df_map_fallback, word)
+                df_map_fallback = genFallbackMap(df_map_fallback, word)
+                df_map_fallback = genFallbackMap(df_map_fallback, word)
+                df_map_fallback = genFallbackMap(df_map_fallback, word)
+                df_map_fallback = genFallbackMap(df_map_fallback, word)
             
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
