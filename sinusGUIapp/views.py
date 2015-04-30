@@ -428,7 +428,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
                                                   args=(mapped_points[word],))
             poly_df[word][poly_df[word] < binThreshold] = 0
-            
+                    
         return poly_df
 
     def genFallbackMap(df, words):
@@ -475,7 +475,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             return new_df 
 
         print df
-        df = df.groupby(['name']).sum()
+        df = df.groupby(['name'], as_index=False).sum()
         print df
         df = updateDF(df)
         print df
