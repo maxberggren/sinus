@@ -438,56 +438,55 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     print words
         
     ### Only one word: compare to country average
-    #if len(words) == 1: 
-    
-    fname_muni = "null_hypothesis_muni_df.pkl" 
-    fname_county = "null_hypothesis_county_df.pkl" 
-    
-    if not os.path.isfile(fname_muni):
-        temp_latlon_df = pd.DataFrame(getEnoughData(), 
-                                      columns=['longitude', 'latitude'])
-        temp_latlon_df['word'] = "expected"
+    if len(words) == 1: 
         
-        # Make dataframe and pickle 
-        null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
-        null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
-        null_h_county_df.to_pickle(fname_county)
-        null_h_muni_df.to_pickle(fname_muni)
-    else:
-        # Read from pickle
-        null_h_muni_df = pd.io.pickle.read_pickle(fname_muni)
-        null_h_county_df = pd.io.pickle.read_pickle(fname_county)
+        fname_muni = "null_hypothesis_muni_df.pkl" 
+        fname_county = "null_hypothesis_county_df.pkl" 
         
-    def deviationFromAverage(df_map, avg):
-        # Expected is to see a word according to country average
-        df_map['expected'] = avg['expected']        
-        df_map = df_map[df_map['expected'] > 0] # remove zeros
-        # Calculate percentages
-        df_map['expected'] = df_map['expected'].astype('float')\
-                                               .div(df_map['expected'].sum(axis=0))
-        # Words will here just be the one word
-        df_map[words] = df_map[words].astype('float')\
-                                     .div(df_map[words].sum(axis=0))
-        df_map[words] = df_map[words].div(df_map['expected'], axis='index')
-        del df_map['expected']
-        return df_map
-     
-    # Since only one word, calculate deviation from country average   
-    df_map_muni = deviationFromAverage(df_map_muni, null_h_muni_df)
-    df_map_county = deviationFromAverage(df_map_county, null_h_county_df)
-    
-    breaks['muni'], breaks['county'] = {}, {}
-           
-    for word in words:    
-        countyMax = float(df_map_county[word].max(axis=0))
-        muniMax = float(df_map_muni[word].max(axis=0))
+        if not os.path.isfile(fname_muni):
+            temp_latlon_df = pd.DataFrame(getEnoughData(), 
+                                          columns=['longitude', 'latitude'])
+            temp_latlon_df['word'] = "expected"
+            
+            # Make dataframe and pickle 
+            null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
+            null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
+            null_h_county_df.to_pickle(fname_county)
+            null_h_muni_df.to_pickle(fname_muni)
+        else:
+            # Read from pickle
+            null_h_muni_df = pd.io.pickle.read_pickle(fname_muni)
+            null_h_county_df = pd.io.pickle.read_pickle(fname_county)
+            
+        def deviationFromAverage(df_map, avg):
+            # Expected is to see a word according to country average
+            df_map['expected'] = avg['expected']        
+            df_map = df_map[df_map['expected'] > 0] # remove zeros
+            # Calculate percentages
+            df_map['expected'] = df_map['expected'].astype('float')\
+                                                   .div(df_map['expected'].sum(axis=0))
+            # Words will here just be the one word
+            df_map[words] = df_map[words].astype('float')\
+                                         .div(df_map[words].sum(axis=0))
+            df_map[words] = df_map[words].div(df_map['expected'], axis='index')
+            del df_map['expected']
+            return df_map
+         
+        # Since only one word, calculate deviation from country average   
+        df_map_muni = deviationFromAverage(df_map_muni, null_h_muni_df)
+        df_map_county = deviationFromAverage(df_map_county, null_h_county_df)
         
-        breaks['muni'][word] = [0., 0.5, 1., muniMax/2.0, muniMax]
-        breaks['county'][word] = [0., 0.5, 1., countyMax/2.0, countyMax]
-    
-    labels = ['Below avg.', '', 'Avg.', '', 'Above avg.']    
-    
-    """
+        breaks['muni'], breaks['county'] = {}, {}
+               
+        for word in words:    
+            countyMax = float(df_map_county[word].max(axis=0))
+            muniMax = float(df_map_muni[word].max(axis=0))
+            
+            breaks['muni'][word] = [0., 0.5, 1., muniMax/2.0, muniMax]
+            breaks['county'][word] = [0., 0.5, 1., countyMax/2.0, countyMax]
+        
+        labels = ['Below avg.', '', 'Avg.', '', 'Above avg.']    
+        
     else:     
         ### More than one word: compare words against each other 
            
@@ -504,10 +503,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Convert to percentages and skip where there is none
         df_map_county = df_percent(df_map_county)
         df_map_muni = df_percent(df_map_muni)
-        
-        breaks['muni'], breaks['county'] = [0., 0.25, 0.5, 0.75, 1.0], [0., 0.25, 0.5, 0.75, 1.0]
+
+        breaks['muni'], breaks['county'] = {}, {}
+               
+        for word in words:    
+            breaks['muni'][word] = [0., 0.25, 0.5, 0.75, 1.0]
+            breaks['county'][word] = [0., 0.25, 0.5, 0.75, 1.0]
+            
         labels = ['None', 'Low', 'Medium', 'High', 'Very high']
-    """
         
     def self_categorize(entry, breaks):
         """ Put percent into a category (breaks) """
@@ -555,7 +558,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     mean = [getParentMean(df, muni, parentLevel) 
                             for parentLevel in parentLevels]
                     mean = np.array(mean)
-                    print mean
                     mean = mean[mean != np.array(None)] # Remove Nones 
                     mean = np.mean(mean)
     
