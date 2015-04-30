@@ -539,8 +539,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             new_df = df.copy(deep=True)
 
             #for parentLevels in [[u"Stadsomland", u"Gymnasieort"], [u"LA-region", u"FA-region"]]:
-            for parentLevels in [[u"Stadsomland", u"Gymnasieort"], [u"LA-region"], [u"FA-region"]]:
-                for muni in df[df[word] == 0.0]['name'].unique():
+            for parentLevels in [[u"Stadsomland"], [u"Gymnasieort"], [u"LA-region"], [u"FA-region"]]:
+                for muni in df[df[word] == 0.0]['name'].unique(): 
                     
                     # Merge the mean of every parent level
                     mean = [getParentMean(df, muni, parentLevel) 
