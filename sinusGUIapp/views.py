@@ -556,10 +556,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                  [u"LA-region", u"FA-region"], 
                                  [u"NDR", u"A", u"Tidningsdistrikt", u"Postnummer", u"P"], 
                                  [u"Län", u"Landskap"]]:
-                                 
-                for muni in df[df[word] == 0.0]['name'].unique(): 
+                 
                 print "tittar på", word
                 print df[df[word] == 0.0]
+                                 
+                for muni in df[df[word] == 0.0]['name'].unique(): 
+                
                 #print df.loc[df[word] == 0.0, :]
                 #print df[df[word] == 0.0]['name'].unique()
                 #for muni in df.loc[df[word] == 0.0, :]['name']:
