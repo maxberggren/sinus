@@ -495,6 +495,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
             
         def df_percent(df_map):
+            print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+            print df_map
             df_map = df_map[df_map['sum'] > binThreshold]
             df_map[words] = df_map[words].astype('float').div(df_map["sum"]
                                                               .astype('float'), axis='index')
