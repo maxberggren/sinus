@@ -495,20 +495,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
             
         def df_percent(df_map):
-            print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-            
-            #df_map = df_map[df_map['sum'] > binThreshold] TODO: GLÖM EJ att hantera!
-            #df_map[words] = df_map[words].astype('float').div(df_map["sum"]
-            #                                                  .astype('float'), axis='index')
-                                                              
-            #df_map[words] = df_map[words].astype('float')/ \
-            #                df_map['sum'].replace({ 0 : np.nan }).astype('float')
-            
             df_map[words] = df_map[words].astype('float').div(df_map["sum"].replace({ 0 : np.nan })
                                                               .astype('float'), axis='index')
             df_map[words] = df_map[words].fillna(0)
-            
-            print df_map
+            df_map.loc[df_map['sum'] < binThreshold, words] = 0
+                        
             return df_map
         
         # Convert to percentages and skip where there is none
@@ -545,14 +536,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     munis = getMuni(hierarchy, level, parent)
                     
                     parentData = df.loc[df['name'].isin(munis), word]
-                    #print df.loc[df['name'].isin(munis), :]
-                    #parentData = parentData[parentData > 0.0] 
-                    #try:
                     if np.mean(parentData.values) > 0:
-                        print municipality, munis, df, df.loc[df['name'].isin(munis), :], parentData, np.mean(parentData), level, word
-                        
-                    #except:
-                    #    pass
+                        print municipality, munis, df.loc[df['name'].isin(munis), :], parentData, np.mean(parentData), level, word
+                    
                       
                     mean = np.mean(parentData)  
                     return mean
