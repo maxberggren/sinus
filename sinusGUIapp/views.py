@@ -533,7 +533,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 if not parent == "-":
                     munis = getMuni(hierarchy, level, parent)
                     
-                    print "{} uppdateras med medelvärdet på {}. vilka har {}".format(municipality, munis, df.loc[df['name'].isin(munis), word])
+                    print "{} uppdateras med medelvardet pa {}. vilka har {}".format(municipality, munis, df.loc[df['name'].isin(munis), word])
                     return np.mean(df.loc[df['name'].isin(munis), word])
                 else:
                     return None
