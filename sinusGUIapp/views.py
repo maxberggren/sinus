@@ -534,7 +534,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     munis = getMuni(hierarchy, level, parent)
                     
                     parentData = df.loc[df['name'].isin(munis), word]
-                    parentData = parentData[parentData[word] > 0.0]
+                    parentData = parentData[parentData > 0.0]
                     try:
                         print "{} uppdateras med medelvardet pa {}. vilka har {}, alltså medelvardet {}".format(municipality, munis, parentData, np.mean(parentData))
                     except:
