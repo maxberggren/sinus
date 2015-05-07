@@ -527,7 +527,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         def getMuni(df, level, key):
             return df.groupby(level).get_group(key)['Kommun'].unique()
 
-        def getParentMean(df, municipality, level, word) asdasdasdsadasd:
+        def getParentMean(df, municipality, level, word):
             try:
                 parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
                 if not parent == "-":
