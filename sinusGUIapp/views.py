@@ -557,7 +557,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     mean = np.mean(mean)
                     
                     if len(words) < 1:
-                        threshold = 0.3
+                        threshold = 0.5
                     else:
                         threshold = 0.0
     
