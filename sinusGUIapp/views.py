@@ -580,7 +580,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             return new_df 
 
         print df
-        columns = ['name', 'poly'] + [word
+        columns = ['name', 'poly'] + [word]
         df = updateDF(df[columns], word)
         print df
 
