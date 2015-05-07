@@ -535,7 +535,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     
                     parentData = df.loc[df['name'].isin(munis), word]
                     print df.loc[df['name'].isin(munis), :]
-                    #parentData = parentData[parentData > 0.0]
+                    #parentData = parentData[parentData > 0.0] 
                     try:
                         print "{} uppdateras med medelvardet pa {}. vilka har {}, alltså medelvardet {}. level={}, word={}".format(municipality, munis, parentData, np.mean(parentData), level, word)
                     except:
@@ -548,7 +548,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             except IndexError:
                 return None
 
-        def updateDF(df):
+        def updateDF(df, word):
             """ Find municipalitys with no hits and update according to rule """
             new_df = df.copy(deep=True)
 
@@ -573,7 +573,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             return new_df 
 
         print df
-        df = updateDF(df)
+        df = updateDF(df, word)
         print df
 
         return df
