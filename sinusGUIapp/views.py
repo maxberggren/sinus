@@ -532,7 +532,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
                 if not parent == "-":
                     munis = getMuni(hierarchy, level, parent)
-                    return np.mean(df.loc[df['name'].isin(munis)][word])*2
+                    return np.mean(df.loc[df['name'].isin(munis)][word])
                 else:
                     return None
             except IndexError:
@@ -546,8 +546,13 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                  [u"LA-region", u"FA-region"], 
                                  [u"NDR", u"A", u"Tidningsdistrikt", u"Postnummer", u"P"], 
                                  [u"Län", u"Landskap"]]:
-                                 
-                for muni in df[df[word] == 0.0]['name'].unique(): 
+                 
+                if len(words) > 1:
+                    threshold = 0.3
+                else:
+                    threshold = 0.0
+                                    
+                for muni in df[df[word] < threshold]['name'].unique(): 
                     
                     # Merge the mean of every parent level
                     mean = [getParentMean(df, muni, parentLevel, word) 
