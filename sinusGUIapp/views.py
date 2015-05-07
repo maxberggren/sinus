@@ -520,14 +520,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 return i
         return -1 # under or over break interval
     
-    def genFallbackMap(df, words):
+    def genFallbackMap(df, word):
         """ Generate fallback map from municipalitys """
         hierarchy = pd.io.excel.read_excel("hierarchy.xlsx")
 
         def getMuni(df, level, key):
             return df.groupby(level).get_group(key)['Kommun'].unique()
 
-        def getParentMean(df, municipality, level, word):
+        def getParentMean(df, municipality, level):
             try:
                 parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
                 if not parent == "-":
@@ -538,7 +538,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             except IndexError:
                 return None
 
-        def updateDF(df, word):
+        def updateDF(df):
             """ Find municipalitys with no hits and update according to rule """
             new_df = df.copy(deep=True)
 
@@ -546,16 +546,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                  [u"LA-region", u"FA-region"], 
                                  [u"NDR", u"A", u"Tidningsdistrikt", u"Postnummer", u"P"], 
                                  [u"Län", u"Landskap"]]:
-                 
-                if len(words) > 1:
-                    threshold = 0.3
-                else:
-                    threshold = 0.0
-                                    
-                for muni in df[df[word] < threshold]['name'].unique(): 
+                                 
+                for muni in df[df[word] == 0.0]['name'].unique(): 
                     
                     # Merge the mean of every parent level
-                    mean = [getParentMean(df, muni, parentLevel, word) 
+                    mean = [getParentMean(df, muni, parentLevel) 
                             for parentLevel in parentLevels]
                     mean = np.array(mean)
                     mean = mean[mean != np.array(None)] # Remove Nones 
@@ -568,17 +563,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             return new_df 
 
         print df
-        for word in words:
-            df = updateDF(df, word)
+        df = updateDF(df)
         print df
 
         return df
     
-    fig = plt.figure(figsize=(3.25*len(words), 6))
-    
-    # Also create a fallback DF if needed
-    if binModel == 'lab':  
-        df_map_fallback = genFallbackMap(df_map_muni, words) 
+    fig = plt.figure(figsize=(3.25*len(words),6))
     
     for i, word in enumerate(words):
 
@@ -587,7 +577,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                                 args=(breaks['county'][word],))
         df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
                                                              args=(breaks['muni'][word],))      
-        if binModel == 'lab':           
+        # Also create a fallback DF if needed
+        if binModel == 'lab':
+            df_map_fallback = genFallbackMap(df_map_muni, word)            
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
                                                                                                               
