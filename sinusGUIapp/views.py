@@ -554,7 +554,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                             for parentLevel in parentLevels]
                     mean = np.array(mean)
                     mean = mean[mean != np.array(None)] # Remove Nones 
-                    mean = np.mean(mean)
+                    mean = np.max(mean)
     
                     # Update municipality with fallback according to rule
                     if mean and mean != 0.0 and mean != True:
