@@ -501,7 +501,13 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             #df_map[words] = df_map[words].astype('float').div(df_map["sum"]
             #                                                  .astype('float'), axis='index')
                                                               
-            df_map[words] = df_map[words].astype('float')/df_map['sum'].replace({ 0 : np.nan }).astype('float')
+            #df_map[words] = df_map[words].astype('float')/ \
+            #                df_map['sum'].replace({ 0 : np.nan }).astype('float')
+            
+            df_map[words] = df_map[words].astype('float').div(df_map["sum"].replace({ 0 : np.nan })
+                                                              .astype('float'), axis='index')
+            df_map[words] = df_map[words].fillna(0)
+            
             print df_map
             return df_map
         
