@@ -534,11 +534,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     munis = getMuni(hierarchy, level, parent)
                     
                     try:
-                        print "{} uppdateras med medelvardet pa {}. vilka har {}, alltså medelvardet {}".format(municipality, munis, df.loc[df['name'].isin(munis), word], np.mean(df.loc[df['name'].isin(munis), df['name'] > 0.0]))
+                        print "{} uppdateras med medelvardet pa {}. vilka har {}, alltså medelvardet {}".format(municipality, munis, df.loc[df['name'].isin(munis), word], np.mean(df.loc[df['name'].isin(munis), df[word] > 0.0]))
                     except:
                         pass
                       
-                    mean = np.mean(df.loc[df['name'].isin(munis), word])  
+                    mean = np.mean(df.loc[df['name'].isin(munis), df[word] > 0.0])  
                     return mean
                 else:
                     return None
