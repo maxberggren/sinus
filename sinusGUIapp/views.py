@@ -538,7 +538,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     parentData = df.loc[df['name'].isin(munis), word]
                     if np.mean(parentData.values) > 0:
                         print municipality, munis, df.loc[df['name'].isin(munis), :], parentData, np.mean(parentData), level, word
-                    
                       
                     mean = np.mean(parentData)  
                     return mean
