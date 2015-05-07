@@ -496,10 +496,13 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             
         def df_percent(df_map):
             print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+            
+            #df_map = df_map[df_map['sum'] > binThreshold] TODO: GLÖM EJ att hantera!
+            #df_map[words] = df_map[words].astype('float').div(df_map["sum"]
+            #                                                  .astype('float'), axis='index')
+                                                              
+            df_map[words] = df_map[words].astype('float')/df_map['sum'].replace({ 0 : np.nan }).astype('float')
             print df_map
-            df_map = df_map[df_map['sum'] > binThreshold]
-            df_map[words] = df_map[words].astype('float').div(df_map["sum"]
-                                                              .astype('float'), axis='index')
             return df_map
         
         # Convert to percentages and skip where there is none
