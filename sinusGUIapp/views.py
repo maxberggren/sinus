@@ -495,6 +495,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
             
         def df_percent(df_map):
+            # Handle divide by zero as zeros
             df_map[words] = df_map[words].astype('float').div(df_map["sum"].replace({ 0 : np.nan })
                                                               .astype('float'), axis='index')
             df_map[words] = df_map[words].fillna(0)
@@ -557,15 +558,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                   
                 for muni in df[df[word] == 0.0]['name'].unique(): 
                 
-                #print df.loc[df[word] == 0.0, :]
-                #print df[df[word] == 0.0]['name'].unique()
-                #for muni in df.loc[df[word] == 0.0, :]['name']:
-                    
                     # Merge the mean of every parent level
                     mean = [getParentMean(df, muni, parentLevel, word) 
                             for parentLevel in parentLevels]
                     mean = np.array(mean)
                     mean = mean[mean != np.array(None)] # Remove Nones 
+                    mean = mean[mean != 0.0] # Remove Nones 
                     mean = np.mean(mean)
     
                     # Update municipality with fallback according to rule
