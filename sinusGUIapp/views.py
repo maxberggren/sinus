@@ -533,12 +533,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 if not parent == "-":
                     munis = getMuni(hierarchy, level, parent)
                     
+                    parentData = df.loc[df['name'].isin(munis), word]
+                    parentData = parentData[parentMunis[word] > 0.0]
                     try:
-                        print "{} uppdateras med medelvardet pa {}. vilka har {}, alltså medelvardet {}".format(municipality, munis, df.loc[df['name'].isin(munis), word], np.mean(df.loc[df['name'].isin(munis), word]))
+                        print "{} uppdateras med medelvardet pa {}. vilka har {}, alltså medelvardet {}".format(municipality, munis, parentData, np.mean(parentData))
                     except:
                         pass
                       
-                    mean = np.mean(df.loc[df['name'].isin(munis), word])  
+                    mean = np.mean(parentData)  
                     return mean
                 else:
                     return None
