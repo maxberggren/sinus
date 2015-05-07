@@ -555,9 +555,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     mean = np.array(mean)
                     mean = mean[mean != np.array(None)] # Remove Nones 
                     mean = np.mean(mean)
+                    
+                    if len(words) < 1:
+                        threshold = 0.3
+                    else:
+                        threshold = 0.0
     
                     # Update municipality with fallback according to rule
-                    if mean and mean != 0.0 and mean != True:
+                    if mean and mean > threshold and mean != True:
                         new_df.loc[new_df['name'] == muni, word] = mean
                         
             return new_df 
@@ -571,7 +576,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
     fig = plt.figure(figsize=(3.25*len(words),6))
     
-    df_map_fallback = genFallbackMap(df_map_muni, words) 
+    # Create a fallback DF if needed
+    if binModel == 'lab':  
+        df_map_fallback = genFallbackMap(df_map_muni, words) 
     
     for i, word in enumerate(words):
 
@@ -580,7 +587,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                                 args=(breaks['county'][word],))
         df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
                                                              args=(breaks['muni'][word],))      
-        # Also create a fallback DF if needed
         if binModel == 'lab':           
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
