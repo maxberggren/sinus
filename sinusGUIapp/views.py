@@ -532,7 +532,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
                 if not parent == "-":
                     munis = getMuni(hierarchy, level, parent)
-                    return np.mean(df.loc[df['name'].isin(munis)][word])
+                    return np.mean(df.loc[df['name'].isin(munis)][word])*2
                 else:
                     return None
             except IndexError:
@@ -555,14 +555,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     mean = np.array(mean)
                     mean = mean[mean != np.array(None)] # Remove Nones 
                     mean = np.mean(mean)
-                    
-                    if len(words) < 1:
-                        threshold = 0.5
-                    else:
-                        threshold = 0.0
     
                     # Update municipality with fallback according to rule
-                    if mean and mean > threshold and mean != True:
+                    if mean and mean != 0.0 and mean != True:
                         new_df.loc[new_df['name'] == muni, word] = mean
                         
             return new_df 
@@ -574,9 +569,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
         return df
     
-    fig = plt.figure(figsize=(3.25*len(words),6))
+    fig = plt.figure(figsize=(3.25*len(words), 6))
     
-    # Create a fallback DF if needed
+    # Also create a fallback DF if needed
     if binModel == 'lab':  
         df_map_fallback = genFallbackMap(df_map_muni, words) 
     
