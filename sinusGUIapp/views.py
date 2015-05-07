@@ -536,10 +536,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     parentData = df.loc[df['name'].isin(munis), word]
                     #print df.loc[df['name'].isin(munis), :]
                     #parentData = parentData[parentData > 0.0] 
-                    #try:
-                    #    print "{} uppdateras med medelvardet pa {}. vilka har {}, alltså medelvardet {}. level={}, word={}".format(municipality, munis, parentData, np.mean(parentData), level, word)
-                    #except:
-                    #    pass
+                    try:
+                        if np.mean(parentData) > 0:
+                            print "{} uppdateras med medelvardet pa {}. vilka har {}, alltså medelvardet {}. level={}, word={}".format(municipality, munis, parentData, np.mean(parentData), level, word)
+                    except:
+                        pass
                       
                     mean = np.mean(parentData)  
                     return mean
@@ -556,10 +557,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                  [u"LA-region", u"FA-region"], 
                                  [u"NDR", u"A", u"Tidningsdistrikt", u"Postnummer", u"P"], 
                                  [u"Län", u"Landskap"]]:
-                 
-                print "tittar på", word
-                print df[df[word] == 0.0]
-                                 
+                                                  
                 for muni in df[df[word] == 0.0]['name'].unique(): 
                 
                 #print df.loc[df[word] == 0.0, :]
