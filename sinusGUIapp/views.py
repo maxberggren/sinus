@@ -557,10 +557,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                  [u"NDR", u"A", u"Tidningsdistrikt", u"Postnummer", u"P"], 
                                  [u"Län", u"Landskap"]]:
                                  
-                #for muni in df[df[word] == 0.0]['name'].unique(): 
-                print df.loc[df[word] == 0.0, :]
-                print df[df[word] == 0.0]['name'].unique()
-                for muni in df.loc[df[word] == 0.0, :]['name']:
+                for muni in df[df[word] == 0.0]['name'].unique(): 
+                #print df.loc[df[word] == 0.0, :]
+                #print df[df[word] == 0.0]['name'].unique()
+                #for muni in df.loc[df[word] == 0.0, :]['name']:
                     
                     # Merge the mean of every parent level
                     mean = [getParentMean(df, muni, parentLevel, word) 
@@ -576,7 +576,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             return new_df 
 
         print df
-        df = updateDF(df, word)
+        columns = ['name', 'poly'] + word
+        df = updateDF(df[columns], word)
         print df
 
         return df
