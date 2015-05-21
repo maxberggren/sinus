@@ -1635,7 +1635,7 @@ def byod():
                                                           words,
                                                           zoom,
                                                           hits,
-                                                          xyRatio=1.8, 
+                                                          1.8, 
                                                           minCoordinates=999999999,
                                                           scatter=0,
                                                           chunks=1)
