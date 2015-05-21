@@ -111,7 +111,6 @@ def get_grids(queries, xBins=15):
     grids = []
     for dist in queries:
         word, source = dist
-        #word = word.decode('utf-8')
         
         print "letar efter {} i {}".format(word, source)
         
@@ -137,12 +136,13 @@ def get_grids(queries, xBins=15):
                 lats.append(row['latitude'])
                 lons.append(row['longitude'])
                 
+            print "Hittade {} koordinater".format(len(lats))
             grids.append(gen_grid(lats, lons, xBins=xBins))
             
         else: # Get from excel file
             df = pd.io.excel.read_excel("excelData/" + source)
             if 'form' in df.columns:
-                df = df.loc[df['form'] == word] # Filter for word of intrest
+                df = df.loc[df['form'] == word.decode('utf-8')] # Filter for word of intrest
             lats, lons = [], [] 
             
             for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
