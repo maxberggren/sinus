@@ -141,7 +141,8 @@ def get_grids(queries, xBins=15):
             
         else: # Get from excel file
             df = pd.io.excel.read_excel("excelData/" + source)
-            df = df.loc[df['form'] == word] # Filter for word of intrest
+            if 'form' in df.columns:
+                df = df.loc[df['form'] == word] # Filter for word of intrest
             lats, lons = [], [] 
             
             for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
@@ -229,7 +230,8 @@ queries = [('termobyxor', 'DB'),
            ('litta', 'DB'),
            ('söndrig', 'DB'),
            ('nyckelen', 'DB'),
-           #('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')
+           ('chokladet', 'DB'),
+           ('sovde', 'Moderna dialektskillnader - SOVDE.xlsx')
           ]
           
 grids = get_grids(queries, xBins=xBins)
