@@ -130,6 +130,7 @@ for dist in [('täckbyxor', 'DB'),
             lons.append(row['longitude'])
             
         print not_in(gen_grid(lats, lons))
+        print gen_grid(lats, lons)
         
     else: # Get from excel file
         df = pd.io.excel.read_excel("excelData/" + source)
