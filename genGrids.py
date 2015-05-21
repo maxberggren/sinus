@@ -130,7 +130,7 @@ for dist in [('lide', 'DB'),
         
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
             try:
-                lat, lon = getCoordinate(place) # from Google's API
+                lat, lon = get_coordinate(place) # from Google's API
             except geocode.QueryLimitError:
                 lat, lon = None, None
                 queryLimit = True
