@@ -152,6 +152,7 @@ def get_grids(queries):
     
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
+np.set_printoptions(precision=5, linewidth=130)
 
 grids = get_grids([('termobyxor', 'DB'),
                    ('litta', 'DB'),
@@ -162,8 +163,6 @@ grids = get_grids([('termobyxor', 'DB'),
     
 product = np.ones(grids[0].shape)             
 for grid in grids:
-
-    np.set_printoptions(precision=4, linewidth=130)
     print grid
     product = np.multiply(product, grid)  
     
