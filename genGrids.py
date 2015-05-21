@@ -186,14 +186,15 @@ import matplotlib.pyplot as plt
 
 fig = plt.figure(figsize=(3.25*1,6))
 
-lon_bins = np.linspace(8, 26, 20)
-lat_bins = np.linspace(54.5, 69.5, 15*1.8)
-    
 llcrnrlon = 8
 llcrnrlat = 54.5
 urcrnrlon = 26
 urcrnrlat = 69.5
 
+xBins = 15
+lon_bins = np.linspace(llcrnrlon, urcrnrlon, xBins)
+lat_bins = np.linspace(llcrnrlat, urcrnrlat, xBins*1.8)
+    
 m = Basemap(projection='merc',
             resolution = 'i', 
             area_thresh=500,
