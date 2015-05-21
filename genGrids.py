@@ -57,9 +57,9 @@ def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
         smallest = np.amin(np.nonzero(density))
         density[zeros] = smallest
     
-           
+    print density           
     density = np.log(density)
-        
+    print density
     return normalize(density)
 
 def get_coordinate(place):
@@ -239,7 +239,7 @@ grids = get_grids(queries, xBins=xBins)
 product = np.ones(grids[0].shape)      
        
 for grid, query in zip(grids, queries):
-    print grid
+    #print grid
     make_map(grid, query[0], xBins=xBins)
     product = np.multiply(product, grid)  
     
