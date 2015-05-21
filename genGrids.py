@@ -23,7 +23,7 @@ def normalize(matrix):
 def not_in(matrix):
     """ Prob of not being in each element """
     
-    return normalize(np.amax(matrix) - matrix)
+    return normalize(1 - matrix)
 
 def gen_grid(lats, lons, xBins=15, xyRatio=1.8, fix_zeros=False):
     """ Generate grid from coordinates """
