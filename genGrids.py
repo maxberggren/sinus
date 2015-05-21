@@ -14,11 +14,20 @@ def sum1(input):
     except Exception:
         return sum(input)
 
-def normalize(matrix):
-    """ Divide all elements by sum of all elements """
-    return matrix / sum1(matrix)     
+def normalize(matrix, fix_zeros=True):
+    """ Divide all elements by sum of all elements 
+        and set zero elements to lowest occurance """
+        
+    matrix = matrix / sum1(matrix)  
+    
+    # Set zeros to the smallest value         
+    zeros = np.in1d(matrix.ravel(), [0.]).reshape(matrix.shape)
+    smallest = np.amin(np.nonzero(matrix))
+    matrix[zeros] = smallest
+    
+    return matrix
 
-def genGrid(koordinater, xBins=15, xyRatio=1.8):
+def gen_grid(koordinater, xBins=15, xyRatio=1.8):
     """ Generate grid from coordinates """
     
     if len(koordinater) == 0:
@@ -35,15 +44,10 @@ def genGrid(koordinater, xBins=15, xyRatio=1.8):
                                    lons, 
                                    [lat_bins, 
                                     lon_bins])
-     
-    # Set zeros to the smallest value         
-    zeros = np.in1d(density.ravel(), [0.]).reshape(density.shape)
-    smallest = np.amin(np.nonzero(density))
-    density[zeros] = smallest
     
     return density
 
-def getCoordinate(place):
+def get_coordinate(place):
     """ Get coordinate from Google API. Also, this is posisbly
     the worst code ever written """
     
@@ -91,7 +95,7 @@ def getCoordinate(place):
 
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
-np.set_printoptions(precision=5, linewidth=130)
+np.set_printoptions(precision=4, linewidth=130)
 
 for dist in [('lide', 'DB'),
              ('tjottaheikki', 'Moderna dialektskillnader - TJOTTAHEIKKI.xlsx')]:
@@ -120,4 +124,4 @@ for dist in [('lide', 'DB'),
         for row in result:
             coordinates.append([row['longitude'], 
                                 row['latitude']])
-        print normalize(genGrid(coordinates))
+        print normalize(gen_grid(coordinates))
