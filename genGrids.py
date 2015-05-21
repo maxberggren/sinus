@@ -18,7 +18,7 @@ def normalize(matrix):
     """ Divide all elements by sum of all elements """
     return matrix / sum1(matrix)     
 
-def genGrid(koordinater, xBins=10, xyRatio=1.8):
+def genGrid(koordinater, xBins=20, xyRatio=1.8):
     """ Generate grid from coordinates """
     
     if len(koordinater) == 0:
