@@ -184,6 +184,8 @@ from scipy import ndimage
 import matplotlib.pyplot as plt
 
 
+fig = plt.figure(figsize=(3.25*1,6))
+
 lon_bins = np.linspace(8, 26, 20)
 lat_bins = np.linspace(54.5, 69.5, 15*1.8)
     
