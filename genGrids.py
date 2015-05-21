@@ -19,7 +19,7 @@ def normalize(matrix):
     
     return matrix / sum1(matrix) 
 
-def gen_grid(koordinater, xBins=15, xyRatio=1.8, fix_zeros=True):
+def gen_grid(lats, lons, xBins=15, xyRatio=1.8, fix_zeros=True):
     """ Generate grid from coordinates """
     
     if len(koordinater) == 0:
@@ -27,8 +27,7 @@ def gen_grid(koordinater, xBins=15, xyRatio=1.8, fix_zeros=True):
         
     lon_bins = np.linspace(8, 26, xBins)
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
-
-    lons, lats = zip(*koordinater)             
+    
     lons = np.array(lons)
     lats = np.array(lats)
 
@@ -101,7 +100,7 @@ for dist in [('lide', 'DB'),
     print "letar efter {} i {}".format(word, source)
     
     if source == "DB":
-        coordinates = []
+        lats, lons = [], []
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
                                "blogs.source, "
@@ -119,6 +118,21 @@ for dist in [('lide', 'DB'),
                                "AND blogs.rank <= 4 "
                                "ORDER BY posts.date ")        
         for row in result:
-            coordinates.append([row['longitude'], 
-                                row['latitude']])
-        print normalize(gen_grid(coordinates))
+            lats.append(row['latitude'])
+            lons.append(row['longitude'])
+            
+        print normalize(gen_grid(lats, lons))
+        
+    else: # Get from excel file
+        df = pd.io.excel.read_excel(excelfile)
+        lats, lons = [], []
+        
+        for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
+            try:
+                lat, lon = getCoordinate(place) # from Google's API
+            except geocode.QueryLimitError:
+                lat, lon = None, None
+                queryLimit = True
+                
+            lats.append(lat)
+            lons.append(lon) 
