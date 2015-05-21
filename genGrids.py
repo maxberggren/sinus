@@ -116,7 +116,7 @@ def get_grids(queries, xBins=15):
         word, source = dist
         word = word.decode('utf-8')
         
-        print "letar efter {} i {}".decode('utf-8').format(word, source)
+        print "letar efter {} i {}".encode('utf-8').format(word, source)
         
         if source == "DB":
             lats, lons = [], []
@@ -236,7 +236,7 @@ queries = [#('sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            #('nyckelen', 'DB'),
            #('chokladet', 'DB'),
            #('böla', 'DB'),
-           ('soligt', 'DB')]
+           ('täckbyxor', 'DB')]
           
 grids = get_grids(queries, xBins=xBins)
 product = np.ones(grids[0].shape)      
