@@ -234,7 +234,8 @@ queries = [#('sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            ('litta', 'DB'),
            ('söndrig', 'DB'),
            ('nyckelen', 'DB'),
-           ('chokladet', 'DB')]
+           ('chokladet', 'DB'),
+           ('böla', 'DB')]
           
 grids = get_grids(queries, xBins=xBins)
 product = np.ones(grids[0].shape)      
