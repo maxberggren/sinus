@@ -23,7 +23,7 @@ def normalize(matrix):
 def not_in(matrix):
     """ Prob of not being in each element """
     
-    return 1/matrix
+    return np.amax(matrix) - matrix
 
 def gen_grid(lats, lons, xBins=15, xyRatio=1.8, fix_zeros=False):
     """ Generate grid from coordinates """
@@ -129,7 +129,7 @@ for dist in [('täckbyxor', 'DB'),
             lats.append(row['latitude'])
             lons.append(row['longitude'])
             
-        print gen_grid(lats, lons)
+        print not_in(gen_grid(lats, lons))
         
     else: # Get from excel file
         df = pd.io.excel.read_excel("excelData/" + source)
@@ -146,4 +146,4 @@ for dist in [('täckbyxor', 'DB'),
             lats.append(lat)
             lons.append(lon) 
             
-        print not_in(gen_grid(lats, lons))
+        print gen_grid(lats, lons)
