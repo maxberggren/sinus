@@ -226,7 +226,7 @@ def make_map(matrix, name, xBins=15):
                    
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
-np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=130)
+np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=135)
 
 xBins = 20
 queries = [#('sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
