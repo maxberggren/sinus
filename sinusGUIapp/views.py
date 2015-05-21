@@ -1631,14 +1631,14 @@ def byod():
         if binType == "square":
             # Get main image
             fewResults, filename, gifFileName = genGridImg(coordinatesByWord,
-                                                          xbins,
-                                                          words,
-                                                          zoom,
-                                                          hits,
-                                                          1.8, 
-                                                          minCoordinates=999999999,
-                                                          scatter=0,
-                                                          chunks=1)
+                                                           xbins,
+                                                           words,
+                                                           zoom,
+                                                           1.8, 
+                                                           blurFactor=1,
+                                                           minCoordinates=999999999,
+                                                           scatter=0,
+                                                           chunks=1)
 
         documentQuery = { 'query': query,
                           'filename': filename,
