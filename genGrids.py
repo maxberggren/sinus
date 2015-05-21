@@ -14,20 +14,12 @@ def sum1(input):
     except Exception:
         return sum(input)
 
-def normalize(matrix, fix_zeros=True):
-    """ Divide all elements by sum of all elements 
-        and set zero elements to lowest occurance """
-        
-    matrix = matrix / sum1(matrix)  
+def normalize(matrix):
+    """ Divide all elements by sum of all elements """
     
-    # Set zeros to the smallest value         
-    zeros = np.in1d(matrix.ravel(), [0.]).reshape(matrix.shape)
-    smallest = np.amin(np.nonzero(matrix))
-    matrix[zeros] = smallest
-    
-    return matrix
+    return matrix / sum1(matrix) 
 
-def gen_grid(koordinater, xBins=15, xyRatio=1.8):
+def gen_grid(koordinater, xBins=15, xyRatio=1.8, fix_zeros=True):
     """ Generate grid from coordinates """
     
     if len(koordinater) == 0:
@@ -43,8 +35,13 @@ def gen_grid(koordinater, xBins=15, xyRatio=1.8):
     density, _, _ = np.histogram2d(lats, 
                                    lons, 
                                    [lat_bins, 
-                                    lon_bins])
-    
+                                    lon_bins])      
+    if fix_zeros:
+        # Set zeros to the smallest value in the matrix  
+        zeros = np.in1d(density.ravel(), [0.]).reshape(density.shape)
+        smallest = np.amin(np.nonzero(density))
+        density[zeros] = smallest
+        
     return density
 
 def get_coordinate(place):
