@@ -50,14 +50,15 @@ def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
                                    lons, 
                                    [lat_bins, 
                                     lon_bins])   
-                                    
-    density = np.log(density)
        
     if no_zeros:
         # Set zeros to the smallest value in the matrix  
         zeros = np.in1d(density.ravel(), [0.]).reshape(density.shape)
         smallest = np.amin(np.nonzero(density))
         density[zeros] = smallest
+    
+           
+    density = np.log(density)
         
     return normalize(density)
 
@@ -227,13 +228,12 @@ mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=130)
 
 xBins = 10
-queries = [('sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
+queries = [#('sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            ('termobyxor', 'DB'),
            ('litta', 'DB'),
            ('söndrig', 'DB'),
            ('nyckelen', 'DB'),
-           ('chokladet', 'DB')
-          ]
+           ('chokladet', 'DB')]
           
 grids = get_grids(queries, xBins=xBins)
 product = np.ones(grids[0].shape)      
