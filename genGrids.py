@@ -98,7 +98,7 @@ for dist in [('lide', 'DB'),
              ('täck'.decode('utf-8'), 'Moderna dialektskillnader - TERMOBYXOR.xlsx')]:
     
     word, source = dist
-    print "letar efter {} i {}".format(word, source)
+    print u"letar efter {} i {}".format(word, source)
     
     if source == "DB":
         lats, lons = [], []
