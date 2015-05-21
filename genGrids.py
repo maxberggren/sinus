@@ -127,7 +127,7 @@ def get_grids(queries, xBins=15):
                                    "FROM posts INNER JOIN blogs ON "
                                    "blogs.id=posts.blog_id "
                                    "WHERE MATCH(posts.text) "
-                                   "AGAINST ('" + word.decode('latin-1') + "' "
+                                   "AGAINST ('" + word + "' "
                                    "IN BOOLEAN MODE) "
                                    "AND blogs.latitude is not NULL "
                                    "AND blogs.longitude is not NULL "
