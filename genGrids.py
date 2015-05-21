@@ -124,7 +124,7 @@ for dist in [('lide', 'DB'),
             lats.append(row['latitude'])
             lons.append(row['longitude'])
             
-        print normalize(gen_grid(lats, lons))
+        print normalize(gen_grid(lats, lons, fix_zeros=False))
         
     else: # Get from excel file
         df = pd.io.excel.read_excel("excelData/" + source)
