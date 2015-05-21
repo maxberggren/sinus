@@ -98,8 +98,9 @@ for dist in [('täckbyxor', 'DB'),
              ('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')]:
     
     word, source = dist
+    word = word.decode('utf-8')
     
-    print "letar efter {} i {}".decode('utf-8').format(word.decode('utf-8'), source)
+    print "letar efter {} i {}".decode('utf-8').format(word, source)
     
     if source == "DB":
         lats, lons = [], []
@@ -113,7 +114,7 @@ for dist in [('täckbyxor', 'DB'),
                                "FROM posts INNER JOIN blogs ON "
                                "blogs.id=posts.blog_id "
                                "WHERE MATCH(posts.text) "
-                               "AGAINST ('" + word + "' "
+                               "AGAINST ('" + word.encode('utf-8') + "' "
                                "IN BOOLEAN MODE) "
                                "AND blogs.latitude is not NULL "
                                "AND blogs.longitude is not NULL "
