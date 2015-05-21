@@ -20,7 +20,7 @@ def normalize(matrix):
     
     return matrix / sum1(matrix) 
 
-def not(matrix):
+def not_in(matrix):
     """ Prob of not being in each element """
     
     return 1 - matrix
@@ -146,4 +146,4 @@ for dist in [('täckbyxor', 'DB'),
             lats.append(lat)
             lons.append(lon) 
             
-        print not(normalize(gen_grid(lats, lons)))
+        print not_in(normalize(gen_grid(lats, lons)))
