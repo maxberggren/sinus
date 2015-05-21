@@ -137,3 +137,5 @@ for dist in [('lide', 'DB'),
                 
             lats.append(lat)
             lons.append(lon) 
+            
+        print normalize(gen_grid(lats, lons))
