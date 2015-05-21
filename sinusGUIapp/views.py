@@ -1608,12 +1608,13 @@ def byod():
             resultsOmitted = True
         else:
             resultsOmitted = False
+          
+        
+        print df
             
         # Remove words under threshold
         df = df[df.groupby('form').form.transform(len) > hitsThreshold]
         words = df['form'].unique()
-        
-        print df
                         
         # Convert DF into tuple format that genShapefileImg accepts
         coordinatesByWord, words = dataframe2tuple(df)
