@@ -35,6 +35,12 @@ def genGrid(koordinater, xBins=15, xyRatio=1.8):
                                    lons, 
                                    [lat_bins, 
                                     lon_bins])
+     
+    # Set zeros to the smallest value         
+    ix = np.in1d(density.ravel(), [0.]).reshape(density.shape)      
+    smallest = np.amin(density)
+    density[ix] = smallest
+    
     return density
 
 def getCoordinate(place):
