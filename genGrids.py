@@ -5,6 +5,7 @@ import dataset
 import geocode    
 from geocode import latlon
 import numpy as np
+from numpy import inf
 import pandas as pd
 
 from mpl_toolkits.basemap import Basemap, cm, maskoceans
@@ -59,6 +60,7 @@ def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
     
     print density           
     density = np.log(density)
+    density[density == -inf] = 0
     print density
     return normalize(density)
 
