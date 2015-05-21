@@ -105,7 +105,7 @@ def get_coordinate(place):
     return coordinate
 
 
-def get_grids(queries, xBins=xBins):
+def get_grids(queries, xBins=15):
     print queries
     grids = []
     for dist in queries:
