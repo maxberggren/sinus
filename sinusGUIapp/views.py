@@ -1610,7 +1610,7 @@ def byod():
             resultsOmitted = False
           
         
-        print df
+        print df.form.value_counts().to_dict()
             
         # Remove words under threshold
         df = df[df.groupby('form').form.transform(len) > hitsThreshold]
