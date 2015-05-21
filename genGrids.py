@@ -116,7 +116,7 @@ def get_grids(queries, xBins=15):
         word, source = dist
         word = word.decode('utf-8')
         
-        print "letar efter {} i {}".encode('utf-8').format(word, source)
+        print "letar efter {} i {}".decode('utf-8').format(word, source)
         
         if source == "DB":
             lats, lons = [], []
@@ -130,7 +130,7 @@ def get_grids(queries, xBins=15):
                                    "FROM posts INNER JOIN blogs ON "
                                    "blogs.id=posts.blog_id "
                                    "WHERE MATCH(posts.text) "
-                                   "AGAINST ('" + word.encode('utf-8') + "' "
+                                   "AGAINST ('" + word + "' "
                                    "IN BOOLEAN MODE) "
                                    "AND blogs.latitude is not NULL "
                                    "AND blogs.longitude is not NULL "
