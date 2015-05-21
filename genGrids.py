@@ -105,7 +105,7 @@ def get_coordinate(place):
     return coordinate
 
 
-def get_grids(queries):
+def get_grids(queries, xBins=xBins):
     print queries
     grids = []
     for dist in queries:
@@ -137,7 +137,7 @@ def get_grids(queries):
                 lats.append(row['latitude'])
                 lons.append(row['longitude'])
                 
-            grids.append(gen_grid(lats, lons))
+            grids.append(gen_grid(lats, lons), xBins=xBins)
             
         else: # Get from excel file
             df = pd.io.excel.read_excel("excelData/" + source)
@@ -154,7 +154,7 @@ def get_grids(queries):
                 lats.append(lat)
                 lons.append(lon) 
                 
-            grids.append(gen_grid(lats, lons))
+            grids.append(gen_grid(lats, lons, xBins=xBins))
     
     return grids        
 
@@ -175,7 +175,7 @@ def make_map(matrix, name):
     urcrnrlon = 26
     urcrnrlat = 69.5
     
-    xBins = 3
+    xBins = 15
     lon_bins = np.linspace(llcrnrlon, urcrnrlon, xBins)
     lat_bins = np.linspace(llcrnrlat, urcrnrlat, xBins*1.8)
         
@@ -225,6 +225,7 @@ mysqldb = dataset.connect(c.LOCATIONDB)
 mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=130)
 
+xBins = 10
 queries = [('termobyxor', 'DB'),
            ('litta', 'DB'),
            ('söndrig', 'DB'),
@@ -232,7 +233,7 @@ queries = [('termobyxor', 'DB'),
            #('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')
           ]
           
-grids = get_grids(queries)
+grids = get_grids(queries, xBins=xBins)
 product = np.ones(grids[0].shape)      
        
 for grid, query in zip(grids, queries):
