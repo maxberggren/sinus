@@ -1,6 +1,9 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import numpy as np
 import geocode    
 from geocode import latlon
+import dataset
 
 def sum1(input):
     """ Sum all elements in matrix """
@@ -79,5 +82,34 @@ def getCoordinate(place):
     
     return coordinate
 
+mysqldb = dataset.connect(c.LOCATIONDB) 
+mysqldb.query("set names 'utf8'") # For safety
 
-
+for dist in [('litta', 'DB'),
+             ('tjottaheikki', 'Moderna dialektskillnader - TJOTTAHEIKKI.xlsx')]:
+    
+    word, source = dist
+    print "letar efter {} i {}".format(word, source)
+    
+    if source == "DB":
+        coordinates = []
+        result = mysqldb.query("SELECT blogs.longitude, "
+                               "blogs.latitude, "
+                               "blogs.source, "
+                               "posts.text, "
+                               "posts.date, "
+                               "blogs.rank, "
+                               "blogs.id "
+                               "FROM posts INNER JOIN blogs ON "
+                               "blogs.id=posts.blog_id "
+                               "WHERE MATCH(posts.text) "
+                               "AGAINST ('" + word + "' "
+                               "IN BOOLEAN MODE) "
+                               "AND blogs.latitude is not NULL "
+                               "AND blogs.longitude is not NULL "
+                               "AND blogs.rank <= 4 "
+                               "ORDER BY posts.date ")        
+        for row in result:
+            coordinates.append([row['longitude'], 
+                                row['latitude']])
+        print coordinates
