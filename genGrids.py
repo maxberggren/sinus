@@ -242,4 +242,4 @@ for grid, query in zip(grids, queries):
     
 print normalize(product)
 density = normalize(product)
-make_map(density, "product")
+make_map(density, "product", xBins=xBins)
