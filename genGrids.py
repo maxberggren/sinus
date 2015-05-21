@@ -157,4 +157,5 @@ np.set_printoptions(precision=4, linewidth=130)
 grids = get_grids([('täckbyxor', 'DB'),
                    ('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')])
                    
-print grids
+for grid in grids:
+    print grid
