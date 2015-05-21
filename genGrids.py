@@ -113,4 +113,4 @@ for dist in [('litta', 'DB'),
         for row in result:
             coordinates.append([row['longitude'], 
                                 row['latitude']])
-        print coordinates
+        print genGrid(coordinates)
