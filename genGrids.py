@@ -95,7 +95,7 @@ mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(precision=4, linewidth=130)
 
 for dist in [('lide', 'DB'),
-             ('tjottaheikki', 'Moderna dialektskillnader - TJOTTAHEIKKI.xlsx')]:
+             ('termo', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')]:
     
     word, source = dist
     print "letar efter {} i {}".format(word, source)
