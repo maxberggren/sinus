@@ -155,7 +155,7 @@ mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(precision=4, linewidth=130)
 
 grids = get_grids([('termobyxor', 'DB'),
-                   ('litta' 'DB'),
+                   ('litta', 'DB'),
                    ('lide', 'DB'),
                    ('flakmoppe', 'DB'),
                    #('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')
