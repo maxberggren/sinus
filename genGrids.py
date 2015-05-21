@@ -49,7 +49,10 @@ def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
     density, _, _ = np.histogram2d(lats, 
                                    lons, 
                                    [lat_bins, 
-                                    lon_bins])      
+                                    lon_bins])   
+                                    
+    density = np.log(density)
+       
     if no_zeros:
         # Set zeros to the smallest value in the matrix  
         zeros = np.in1d(density.ravel(), [0.]).reshape(density.shape)
@@ -106,10 +109,8 @@ def get_coordinate(place):
 
 
 def get_grids(queries, xBins=15):
-    print queries
     grids = []
     for dist in queries:
-        print dist
         word, source = dist
         word = word.decode('utf-8')
         
@@ -211,7 +212,7 @@ def make_map(matrix, name, xBins=15):
     
     p = plt.pcolor(xs, ys, density, 
                    cmap=theCM, 
-                   norm=LogNorm(), 
+                   #norm=LogNorm(), 
                    antialiased=True)                    
     
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
