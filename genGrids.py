@@ -226,7 +226,7 @@ mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=130)
 
 xBins = 10
-queries = [('sovde', 'Moderna dialektskillnader - SOVDE.xlsx')
+queries = [('sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            ('termobyxor', 'DB'),
            ('litta', 'DB'),
            ('söndrig', 'DB'),
