@@ -535,11 +535,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
                 if not parent == "-":
                     munis = getMuni(hierarchy, level, parent)
-                    
                     parentData = df.loc[df['name'].isin(munis), word]
-                    #if np.mean(parentData.values) > 0:
-                    #    print municipality, munis, parentData, np.mean(parentData), level, word
-                      
                     mean = np.mean(parentData)  
                     return mean
                 else:
@@ -563,7 +559,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                             for parentLevel in parentLevels]
                     mean = np.array(mean)
                     mean = mean[mean != np.array(None)] # Remove Nones 
-                    mean = mean[mean != 0.0] # Remove Nones 
+                    #mean = mean[mean != 0.0] # Remove zeroes
                     mean = np.mean(mean)
     
                     # Update municipality with fallback according to rule
@@ -572,9 +568,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                         
             return new_df 
 
-        print df
+        #print df
         df = updateDF(df, word)
-        print df
+        #print df
 
         return df
     
