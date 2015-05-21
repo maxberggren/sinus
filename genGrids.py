@@ -152,7 +152,7 @@ def get_grids(queries):
     
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
-np.set_printoptions(precision=5, linewidth=130)
+np.set_printoptions(precision=7, linewidth=130)
 
 grids = get_grids([('termobyxor', 'DB'),
                    ('litta', 'DB'),
