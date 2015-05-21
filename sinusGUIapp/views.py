@@ -1612,6 +1612,8 @@ def byod():
         # Remove words under threshold
         df = df[df.groupby('form').form.transform(len) > hitsThreshold]
         words = df['form'].unique()
+        
+        print df.groupby('form').form.count().to_dict()
                         
         # Convert DF into tuple format that genShapefileImg accepts
         coordinatesByWord, words = dataframe2tuple(df)
@@ -1625,6 +1627,18 @@ def byod():
                                                                 words, zoom,
                                                                 binThreshold=binThreshold,
                                                                 binModel=binModel)  
+        if binType == "square":
+            # Get main image
+            fewResults, filename, gifFileName = genGridImg(coordinatesByWord, None,
+                                                          xBins,
+                                                          words,
+                                                          zoom,
+                                                          hits,
+                                                          xyRatio=1.8, 
+                                                          minCoordinates=999999999,
+                                                          scatter=0,
+                                                          chunks=1)
+
         documentQuery = { 'query': query,
                           'filename': filename,
                           'hits': None,
