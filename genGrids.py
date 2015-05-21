@@ -156,8 +156,7 @@ np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewid
 
 grids = get_grids([('termobyxor', 'DB'),
                    ('litta', 'DB'),
-                   ('lide', 'DB'),
-                   ('flakmoppe', 'DB'),
+                   ('söndrig', 'DB'),
                    #('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')
                    ])
     
