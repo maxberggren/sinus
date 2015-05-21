@@ -228,6 +228,7 @@ np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewid
 queries = [('termobyxor', 'DB'),
            ('litta', 'DB'),
            ('söndrig', 'DB'),
+           ('nyckelen', 'DB'),
            #('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')
           ]
           
