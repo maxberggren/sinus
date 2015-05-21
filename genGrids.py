@@ -25,7 +25,7 @@ def not_in(matrix):
     
     return 1 - matrix
 
-def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
+def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=True):
     """ Generate grid from coordinates """
     
     if len(lats) == 0:
