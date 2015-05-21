@@ -111,9 +111,9 @@ def get_grids(queries, xBins=15):
     grids = []
     for dist in queries:
         word, source = dist
-        word = word.decode('utf-8')
+        #word = word.decode('utf-8')
         
-        print "letar efter {} i {}".decode('utf-8').format(word, source)
+        print "letar efter {} i {}".format(word, source)
         
         if source == "DB":
             lats, lons = [], []
@@ -132,7 +132,7 @@ def get_grids(queries, xBins=15):
                                    "AND blogs.latitude is not NULL "
                                    "AND blogs.longitude is not NULL "
                                    "AND blogs.rank <= 4 "
-                                   "ORDER BY posts.date ")        
+                                   "ORDER BY posts.date ")
             for row in result:
                 lats.append(row['latitude'])
                 lons.append(row['longitude'])
@@ -239,9 +239,8 @@ grids = get_grids(queries, xBins=xBins)
 product = np.ones(grids[0].shape)      
        
 for grid, query in zip(grids, queries): 
-    #print grid 
-    make_map(grid, query[0], xBins=xBins)
-    product = np.multiply(product, grid)  
+    make_map(grid, query[0], xBins=xBins) 
+    product = np.multiply(product, grid) 
     
 print normalize(product)
 density = normalize(product)
