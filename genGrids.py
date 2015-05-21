@@ -227,13 +227,13 @@ np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewid
 
 xBins = 12
 queries = [#('sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
-           ('söndrig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
-           ('gräddbullar', 'DB'),
-           ('termobyxor', 'DB'),
-           ('litta', 'DB'),
+           ('trasig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
+           ('tremänning', 'DB'),
+           ('äppelpaj', 'DB'),
+           ('färskpotatis', 'DB'),
            #('söndrig', 'DB'),
-           ('nyckelen', 'DB'),
-           ('chokladet', 'DB'),
+           #('nyckelen', 'DB'),
+           #('chokladet', 'DB'),
            #('böla', 'DB'),
            #('söligt', 'DB')
            ]
