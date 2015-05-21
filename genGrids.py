@@ -181,6 +181,7 @@ from matplotlib.colors import LogNorm
 from matplotlib.ticker import LogFormatter
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
+import matplotlib.pyplot as plt
 
 
 lon_bins = np.linspace(8, 26, 20)
