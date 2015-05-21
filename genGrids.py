@@ -165,7 +165,7 @@ def colorCycle(i, scatter=False):
     return colors[i % len(colors)]
     
  
-def make_map(matrix, name):
+def make_map(matrix, name, xBins=15):
     
     density = matrix
     fig = plt.figure(figsize=(3.25*1,6))
@@ -175,7 +175,6 @@ def make_map(matrix, name):
     urcrnrlon = 26
     urcrnrlat = 69.5
     
-    xBins = 15
     lon_bins = np.linspace(llcrnrlon, urcrnrlon, xBins)
     lat_bins = np.linspace(llcrnrlat, urcrnrlat, xBins*1.8)
         
@@ -238,7 +237,7 @@ product = np.ones(grids[0].shape)
        
 for grid, query in zip(grids, queries):
     print grid
-    make_map(grid, query[0])
+    make_map(grid, query[0], xBins=xBins)
     product = np.multiply(product, grid)  
     
 print normalize(product)
