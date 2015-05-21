@@ -22,7 +22,7 @@ def normalize(matrix):
 def gen_grid(lats, lons, xBins=15, xyRatio=1.8, fix_zeros=True):
     """ Generate grid from coordinates """
     
-    if len(koordinater) == 0:
+    if len(lats) == 0:
         return np.zeros(shape=(int(xBins*xyRatio-1), xBins-1))
         
     lon_bins = np.linspace(8, 26, xBins)
