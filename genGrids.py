@@ -38,10 +38,7 @@ def genGrid(koordinater, xBins=15, xyRatio=1.8):
      
     # Set zeros to the smallest value         
     zeros = np.in1d(density.ravel(), [0.]).reshape(density.shape)
-    print zeros
     smallest = np.amin(np.nonzero(density))
-    print smallest
-    print density
     density[zeros] = smallest
     
     return density
@@ -94,7 +91,7 @@ def getCoordinate(place):
 
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
-#np.set_printoptions(precision=5, linewidth=130)
+np.set_printoptions(precision=5, linewidth=130)
 
 for dist in [('lide', 'DB'),
              ('tjottaheikki', 'Moderna dialektskillnader - TJOTTAHEIKKI.xlsx')]:
