@@ -1630,7 +1630,7 @@ def byod():
                                                                 binModel=binModel)  
         if binType == "square":
             # Get main image
-            fewResults, filename, gifFileName = genGridImg(coordinatesByWord, None,
+            fewResults, filename, gifFileName = genGridImg(coordinatesByWord,
                                                           xbins,
                                                           words,
                                                           zoom,
