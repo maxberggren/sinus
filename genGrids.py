@@ -25,7 +25,7 @@ def not_in(matrix):
     
     return 1 - matrix
 
-def gen_grid(lats, lons, xBins=15, xyRatio=1.8, fix_zeros=False):
+def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=True):
     """ Generate grid from coordinates """
     
     if len(lats) == 0:
@@ -41,7 +41,7 @@ def gen_grid(lats, lons, xBins=15, xyRatio=1.8, fix_zeros=False):
                                    lons, 
                                    [lat_bins, 
                                     lon_bins])      
-    if fix_zeros:
+    if no_zeros:
         # Set zeros to the smallest value in the matrix  
         zeros = np.in1d(density.ravel(), [0.]).reshape(density.shape)
         smallest = np.amin(np.nonzero(density))
@@ -154,8 +154,15 @@ mysqldb = dataset.connect(c.LOCATIONDB)
 mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(precision=4, linewidth=130)
 
-grids = get_grids([('täckbyxor', 'DB'),
-                   ('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')])
-                   
+grids = get_grids([('termobyxor', 'DB'),
+                   ('litta' 'DB'),
+                   ('lide', 'DB'),
+                   ('flakmoppe', 'DB')
+                   #('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')])
+    
+product = np.ones(grids[0].shape)             
 for grid in grids:
-    print grid
+    #print grid
+    product = np.multiply(product, grid)  
+    
+print product
