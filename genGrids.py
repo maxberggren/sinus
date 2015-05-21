@@ -158,7 +158,8 @@ grids = get_grids([('termobyxor', 'DB'),
                    ('litta' 'DB'),
                    ('lide', 'DB'),
                    ('flakmoppe', 'DB')
-                   #('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')])
+                   #('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')
+                   ])
     
 product = np.ones(grids[0].shape)             
 for grid in grids:
