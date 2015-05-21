@@ -210,7 +210,6 @@ def make_map(matrix, name):
         
     
     p = plt.pcolor(xs, ys, density, 
-                   cmap=theCM, 
                    norm=LogNorm(), 
                    antialiased=True)                    
     
