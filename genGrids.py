@@ -126,7 +126,7 @@ for dist in [('lide', 'DB'),
         
     else: # Get from excel file
         df = pd.io.excel.read_excel("excelData/" + source)
-        df = df.loc[df['täck'] == word] # Filter for word of intrest
+        df = df.loc[df['form'] == word] # Filter for word of intrest
         lats, lons = [], []
         
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
