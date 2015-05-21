@@ -1613,7 +1613,7 @@ def byod():
         df = df[df.groupby('form').form.transform(len) > hitsThreshold]
         words = df['form'].unique()
         
-        print df['form'].value_counts().to_dict()
+        print df['form'].value_counts()
                         
         # Convert DF into tuple format that genShapefileImg accepts
         coordinatesByWord, words = dataframe2tuple(df)
