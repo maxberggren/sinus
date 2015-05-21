@@ -100,7 +100,7 @@ def get_grids(queries):
     
     grids = []
     for dist in queries:
-        
+        print dist
         word, source = dist
         word = word.decode('utf-8')
         
@@ -157,7 +157,7 @@ np.set_printoptions(precision=4, linewidth=130)
 grids = get_grids([('termobyxor', 'DB'),
                    ('litta' 'DB'),
                    ('lide', 'DB'),
-                   ('flakmoppe', 'DB')
+                   ('flakmoppe', 'DB'),
                    #('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')
                    ])
     
