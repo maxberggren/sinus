@@ -166,3 +166,63 @@ for grid in grids:
     product = np.multiply(product, grid)  
     
 print normalize(product)
+density = normalize(product)
+
+from mpl_toolkits.basemap import Basemap, cm, maskoceans
+import matplotlib.cm as cm
+from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.colors import LogNorm
+from matplotlib.ticker import LogFormatter
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from scipy import ndimage
+
+
+lon_bins = np.linspace(8, 26, 20)
+lat_bins = np.linspace(54.5, 69.5, 15*1.8)
+    
+llcrnrlon = 8
+llcrnrlat = 54.5
+urcrnrlon = 26
+urcrnrlat = 69.5
+
+m = Basemap(projection='merc',
+            resolution = 'i', 
+            area_thresh=500,
+            llcrnrlon=llcrnrlon, 
+            llcrnrlat=llcrnrlat,
+            urcrnrlon=urcrnrlon, 
+            urcrnrlat=urcrnrlat,)   
+
+m.drawcoastlines(linewidth=0.5)
+m.drawcountries()
+m.drawstates()
+m.drawmapboundary()
+m.fillcontinents(color='white',
+                 lake_color='black',
+                 zorder=0)
+m.drawmapboundary(fill_color='black')
+
+lon_bins_2d, lat_bins_2d = np.meshgrid(lon_bins, 
+                                       lat_bins)
+xs, ys = m(lon_bins_2d, lat_bins_2d)
+xs = xs[0:density.shape[0], 0:density.shape[1]]
+ys = ys[0:density.shape[0], 0:density.shape[1]]
+        
+# Colormap transparency
+theCM = cm.get_cmap(colorCycle(i))
+theCM._init()
+alphas = np.abs(np.linspace(0, 1.0, theCM.N))
+theCM._lut[:-3,-1] = alphas
+    
+
+p = plt.pcolor(xs, ys, density, 
+               cmap=theCM, 
+               norm=LogNorm(), 
+               vmin=1, 
+               antialiased=True)                    
+
+fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
+
+plt.savefig("sinusGUIapp/static/maps/product.pdf", 
+            dpi=100, 
+            bbox_inches='tight')
