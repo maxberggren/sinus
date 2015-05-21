@@ -47,10 +47,7 @@ def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
     lons = np.array(lons)
     lats = np.array(lats)
 
-    density, _, _ = np.histogram2d(lats, 
-                                   lons, 
-                                   [lat_bins, 
-                                    lon_bins])   
+    density, _, _ = np.histogram2d(lats, lons, [lat_bins, lon_bins])   
        
     if no_zeros:
         # Set zeros to the smallest value in the matrix  
@@ -130,7 +127,7 @@ def get_grids(queries, xBins=15):
                                    "FROM posts INNER JOIN blogs ON "
                                    "blogs.id=posts.blog_id "
                                    "WHERE MATCH(posts.text) "
-                                   "AGAINST ('" + word + "' "
+                                   "AGAINST ('" + word.encode('latin-1') + "' "
                                    "IN BOOLEAN MODE) "
                                    "AND blogs.latitude is not NULL "
                                    "AND blogs.longitude is not NULL "
@@ -241,8 +238,8 @@ queries = [#('sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
 grids = get_grids(queries, xBins=xBins)
 product = np.ones(grids[0].shape)      
        
-for grid, query in zip(grids, queries):
-    #print grid
+for grid, query in zip(grids, queries): 
+    #print grid 
     make_map(grid, query[0], xBins=xBins)
     product = np.multiply(product, grid)  
     
