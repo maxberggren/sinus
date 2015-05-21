@@ -95,56 +95,66 @@ def get_coordinate(place):
     
     return coordinate
 
+
+def get_grids(queries):
+    
+    grids = []
+    for dist in queries:
+        
+        word, source = dist
+        word = word.decode('utf-8')
+        
+        print "letar efter {} i {}".decode('utf-8').format(word, source)
+        
+        if source == "DB":
+            lats, lons = [], []
+            result = mysqldb.query("SELECT blogs.longitude, "
+                                   "blogs.latitude, "
+                                   "blogs.source, "
+                                   "posts.text, "
+                                   "posts.date, "
+                                   "blogs.rank, "
+                                   "blogs.id "
+                                   "FROM posts INNER JOIN blogs ON "
+                                   "blogs.id=posts.blog_id "
+                                   "WHERE MATCH(posts.text) "
+                                   "AGAINST ('" + word.encode('utf-8') + "' "
+                                   "IN BOOLEAN MODE) "
+                                   "AND blogs.latitude is not NULL "
+                                   "AND blogs.longitude is not NULL "
+                                   "AND blogs.rank <= 4 "
+                                   "ORDER BY posts.date ")        
+            for row in result:
+                lats.append(row['latitude'])
+                lons.append(row['longitude'])
+                
+            grids.append(gen_grid(lats, lons))
+            
+        else: # Get from excel file
+            df = pd.io.excel.read_excel("excelData/" + source)
+            df = df.loc[df['form'] == word] # Filter for word of intrest
+            lats, lons = [], [] 
+            
+            for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
+                try:
+                    lat, lon = get_coordinate(place) # from Google's API
+                except geocode.QueryLimitError:
+                    lat, lon = None, None
+                    queryLimit = True
+                    
+                lats.append(lat)
+                lons.append(lon) 
+                
+            grids.append(gen_grid(lats, lons))
+    
+    return grids        
+    
+    
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(precision=4, linewidth=130)
 
-for dist in [('täckbyxor', 'DB'),
-             ('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')]:
-    
-    word, source = dist
-    word = word.decode('utf-8')
-    
-    print "letar efter {} i {}".decode('utf-8').format(word, source)
-    
-    if source == "DB":
-        lats, lons = [], []
-        result = mysqldb.query("SELECT blogs.longitude, "
-                               "blogs.latitude, "
-                               "blogs.source, "
-                               "posts.text, "
-                               "posts.date, "
-                               "blogs.rank, "
-                               "blogs.id "
-                               "FROM posts INNER JOIN blogs ON "
-                               "blogs.id=posts.blog_id "
-                               "WHERE MATCH(posts.text) "
-                               "AGAINST ('" + word.encode('utf-8') + "' "
-                               "IN BOOLEAN MODE) "
-                               "AND blogs.latitude is not NULL "
-                               "AND blogs.longitude is not NULL "
-                               "AND blogs.rank <= 4 "
-                               "ORDER BY posts.date ")        
-        for row in result:
-            lats.append(row['latitude'])
-            lons.append(row['longitude'])
-            
-        print not_in(gen_grid(lats, lons))
-        print gen_grid(lats, lons)
-        
-    else: # Get from excel file
-        df = pd.io.excel.read_excel("excelData/" + source)
-        df = df.loc[df['form'] == word] # Filter for word of intrest
-        lats, lons = [], [] 
-        
-        for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
-            try:
-                lat, lon = get_coordinate(place) # from Google's API
-            except geocode.QueryLimitError:
-                lat, lon = None, None
-                queryLimit = True
-                
-            lats.append(lat)
-            lons.append(lon) 
-            
-        print gen_grid(lats, lons)
+grids = get_grids([('täckbyxor', 'DB'),
+                   ('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')])
+                   
+print grids
