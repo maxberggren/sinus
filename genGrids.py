@@ -20,6 +20,11 @@ def normalize(matrix):
     
     return matrix / sum1(matrix) 
 
+def not(matrix):
+    """ Prob of not being in each element """
+    
+    return 1 - matrix
+
 def gen_grid(lats, lons, xBins=15, xyRatio=1.8, fix_zeros=False):
     """ Generate grid from coordinates """
     
@@ -141,4 +146,4 @@ for dist in [('täckbyxor', 'DB'),
             lats.append(lat)
             lons.append(lon) 
             
-        print normalize(gen_grid(lats, lons))
+        print not(normalize(gen_grid(lats, lons)))
