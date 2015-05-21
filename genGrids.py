@@ -85,6 +85,7 @@ def getCoordinate(place):
 
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
+np.set_printoptions(precision=5)
 
 for dist in [('lide', 'DB'),
              ('tjottaheikki', 'Moderna dialektskillnader - TJOTTAHEIKKI.xlsx')]:
