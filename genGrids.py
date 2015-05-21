@@ -163,7 +163,7 @@ grids = get_grids([('termobyxor', 'DB'),
     
 product = np.ones(grids[0].shape)             
 for grid in grids:
-    #print grid
+    print grid
     product = np.multiply(product, grid)  
     
 print normalize(product)
