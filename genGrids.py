@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import numpy as np
+import config as c
 import geocode    
 from geocode import latlon
 import dataset
