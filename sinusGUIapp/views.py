@@ -1253,18 +1253,18 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                                        hits=hits,
                                                        chunks=1)
         # Get time series gif
-        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord, ranks,
-                                                     xBins,
-                                                     words,
-                                                     zoom,
-                                                     xyRatio, 
-                                                     blurFactor, 
-                                                     minCoordinates,
-                                                     scatter,
-                                                     hits,
-                                                     chunks=7,
-                                                     dates=dates,
-                                                     binThreshold=binThreshold)
+        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord=coordinatesByWord,
+                                                      xBins=xBins,
+                                                      words=words,
+                                                      zoom=zoom,
+                                                      xyRatio=xyRatio, 
+                                                      blurFactor=blurFactor, 
+                                                      minCoordinates=minCoordinates,
+                                                      scatter=scatter,
+                                                      hits=hits,
+                                                      chunks=7,
+                                                      dates=dates,
+                                                      binThreshold=binThreshold)
         
         if gifFileName: # no gif = no histogram                                     
             dateHistogram(dates, gifFileName)
