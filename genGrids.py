@@ -166,4 +166,4 @@ for grid in grids:
     #print grid
     product = np.multiply(product, grid)  
     
-print product
+print normalize(product)
