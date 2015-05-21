@@ -1609,8 +1609,8 @@ def byod():
         else:
             resultsOmitted = False
           
-        
-        print df.form.value_counts().to_dict()
+        # Save hits of different terms
+        hits = df.form.value_counts().to_dict()
             
         # Remove words under threshold
         df = df[df.groupby('form').form.transform(len) > hitsThreshold]
@@ -1631,7 +1631,7 @@ def byod():
         if binType == "square":
             # Get main image
             fewResults, filename, gifFileName = genGridImg(coordinatesByWord, None,
-                                                          xBins,
+                                                          xbins,
                                                           words,
                                                           zoom,
                                                           hits,
