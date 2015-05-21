@@ -7,6 +7,15 @@ from geocode import latlon
 import numpy as np
 import pandas as pd
 
+from mpl_toolkits.basemap import Basemap, cm, maskoceans
+import matplotlib.cm as cm
+from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.colors import LogNorm
+from matplotlib.ticker import LogFormatter
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from scipy import ndimage
+import matplotlib.pyplot as plt
+
 def sum1(input):
     """ Sum all elements in matrix """
     
@@ -155,83 +164,81 @@ def colorCycle(i, scatter=False):
         colors = ['blue', 'red', 'green', 'magenta', 'cyan']
     return colors[i % len(colors)]
     
+ 
+def make_map(matrix, name):
     
+    density = matrix
+    fig = plt.figure(figsize=(3.25*1,6))
+    
+    llcrnrlon = 8
+    llcrnrlat = 54.5
+    urcrnrlon = 26
+    urcrnrlat = 69.5
+    
+    xBins = 15
+    lon_bins = np.linspace(llcrnrlon, urcrnrlon, xBins)
+    lat_bins = np.linspace(llcrnrlat, urcrnrlat, xBins*1.8)
+        
+    m = Basemap(projection='merc',
+                resolution = 'i', 
+                area_thresh=500,
+                llcrnrlon=llcrnrlon, 
+                llcrnrlat=llcrnrlat,
+                urcrnrlon=urcrnrlon, 
+                urcrnrlat=urcrnrlat,)   
+    
+    m.drawcoastlines(linewidth=0.5)
+    m.drawcountries()
+    m.drawstates()
+    m.drawmapboundary()
+    m.fillcontinents(color='white',
+                     lake_color='black',
+                     zorder=0)
+    m.drawmapboundary(fill_color='black')
+    
+    lon_bins_2d, lat_bins_2d = np.meshgrid(lon_bins, 
+                                           lat_bins)
+    xs, ys = m(lon_bins_2d, lat_bins_2d)
+    xs = xs[0:density.shape[0], 0:density.shape[1]]
+    ys = ys[0:density.shape[0], 0:density.shape[1]]
+            
+    # Colormap transparency
+    theCM = cm.get_cmap(colorCycle(0))
+    theCM._init()
+    alphas = np.abs(np.linspace(0, 1.0, theCM.N))
+    theCM._lut[:-3,-1] = alphas
+        
+    
+    p = plt.pcolor(xs, ys, density, 
+                   cmap=theCM, 
+                   norm=LogNorm(), 
+                   antialiased=True)                    
+    
+    fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
+    
+    plt.savefig("sinusGUIapp/static/maps/" + name + ".pdf", 
+                dpi=100, 
+                bbox_inches='tight')
+                
+                   
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=130)
 
-grids = get_grids([('termobyxor', 'DB'),
-                   ('litta', 'DB'),
-                   ('söndrig', 'DB'),
-                   #('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')
-                   ])
-    
-product = np.ones(grids[0].shape)             
-for grid in grids:
+queries = [('termobyxor', 'DB'),
+           ('litta', 'DB'),
+           ('söndrig', 'DB'),
+           #('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')
+          ]
+          
+grids = get_grids(queries)
+product = np.ones(grids[0].shape)      
+       
+for grid, query in zip(grids, queries):
     print grid
+    make_map(grid, query[0])
     product = np.multiply(product, grid)  
     
 print normalize(product)
 density = normalize(product)
-
-from mpl_toolkits.basemap import Basemap, cm, maskoceans
-import matplotlib.cm as cm
-from matplotlib.colors import LinearSegmentedColormap
-from matplotlib.colors import LogNorm
-from matplotlib.ticker import LogFormatter
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-from scipy import ndimage
-import matplotlib.pyplot as plt
-
-
-fig = plt.figure(figsize=(3.25*1,6))
-
-llcrnrlon = 8
-llcrnrlat = 54.5
-urcrnrlon = 26
-urcrnrlat = 69.5
-
-xBins = 15
-lon_bins = np.linspace(llcrnrlon, urcrnrlon, xBins)
-lat_bins = np.linspace(llcrnrlat, urcrnrlat, xBins*1.8)
-    
-m = Basemap(projection='merc',
-            resolution = 'i', 
-            area_thresh=500,
-            llcrnrlon=llcrnrlon, 
-            llcrnrlat=llcrnrlat,
-            urcrnrlon=urcrnrlon, 
-            urcrnrlat=urcrnrlat,)   
-
-m.drawcoastlines(linewidth=0.5)
-m.drawcountries()
-m.drawstates()
-m.drawmapboundary()
-m.fillcontinents(color='white',
-                 lake_color='black',
-                 zorder=0)
-m.drawmapboundary(fill_color='black')
-
-lon_bins_2d, lat_bins_2d = np.meshgrid(lon_bins, 
-                                       lat_bins)
-xs, ys = m(lon_bins_2d, lat_bins_2d)
-xs = xs[0:density.shape[0], 0:density.shape[1]]
-ys = ys[0:density.shape[0], 0:density.shape[1]]
-        
-# Colormap transparency
-theCM = cm.get_cmap(colorCycle(0))
-theCM._init()
-alphas = np.abs(np.linspace(0, 1.0, theCM.N))
-theCM._lut[:-3,-1] = alphas
-    
-
-p = plt.pcolor(xs, ys, density, 
-               cmap=theCM, 
-               norm=LogNorm(), 
-               antialiased=True)                    
-
-fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
-
-plt.savefig("sinusGUIapp/static/maps/product.pdf", 
-            dpi=100, 
-            bbox_inches='tight')
+make_map(density, "product")
