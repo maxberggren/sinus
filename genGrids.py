@@ -137,7 +137,7 @@ def get_grids(queries, xBins=15):
                 lats.append(row['latitude'])
                 lons.append(row['longitude'])
                 
-            grids.append(gen_grid(lats, lons), xBins=xBins)
+            grids.append(gen_grid(lats, lons, xBins=xBins))
             
         else: # Get from excel file
             df = pd.io.excel.read_excel("excelData/" + source)
