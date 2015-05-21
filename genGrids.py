@@ -227,7 +227,6 @@ theCM._lut[:-3,-1] = alphas
 p = plt.pcolor(xs, ys, density, 
                cmap=theCM, 
                norm=LogNorm(), 
-               vmin=1, 
                antialiased=True)                    
 
 fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
