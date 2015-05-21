@@ -985,7 +985,7 @@ def getOperators(queryWords):
         xbins = int([o.split(":")[1].strip()
                     for o in operators if "xbins:" in o][0])
     except:
-        xbins = None
+        xbins = 20
 
     try:
         scatter = int([o.split(":")[1].strip()
