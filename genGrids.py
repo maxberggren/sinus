@@ -95,7 +95,7 @@ mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(precision=4, linewidth=130)
 
 for dist in [('lide', 'DB'),
-             ('termo', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')]:
+             ('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')]:
     
     word, source = dist
     print "letar efter {} i {}".format(word, source)
@@ -126,7 +126,7 @@ for dist in [('lide', 'DB'),
         
     else: # Get from excel file
         df = pd.io.excel.read_excel("excelData/" + source)
-        df = df.loc[df['form'] == word]
+        df = df.loc[df['täck'] == word] # Filter for word of intrest
         lats, lons = [], []
         
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
