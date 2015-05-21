@@ -175,7 +175,7 @@ def make_map(matrix, name):
     urcrnrlon = 26
     urcrnrlat = 69.5
     
-    xBins = 8
+    xBins = 15
     lon_bins = np.linspace(llcrnrlon, urcrnrlon, xBins)
     lat_bins = np.linspace(llcrnrlat, urcrnrlat, xBins*1.8)
         
@@ -208,6 +208,7 @@ def make_map(matrix, name):
     alphas = np.abs(np.linspace(0, 1.0, theCM.N))
     theCM._lut[:-3,-1] = alphas
         
+    
     p = plt.pcolor(xs, ys, density, 
                    cmap=theCM, 
                    norm=LogNorm(), 
