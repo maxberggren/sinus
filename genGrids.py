@@ -214,7 +214,7 @@ def make_map(matrix, name, xBins=15):
     
     p = plt.pcolor(xs, ys, density, 
                    cmap=theCM, 
-                   #norm=LogNorm(), 
+                   norm=LogNorm(), 
                    antialiased=True)                    
     
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
