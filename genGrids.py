@@ -95,10 +95,12 @@ mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(precision=4, linewidth=130)
 
 for dist in [('lide', 'DB'),
-             ('täck'.decode('utf-8'), 'Moderna dialektskillnader - TERMOBYXOR.xlsx')]:
+             ('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')]:
     
     word, source = dist
-    print u"letar efter {} i {}".format(word, source)
+    word = word.decode('utf-8')
+    
+    print "letar efter {} i {}".decode('utf-8').format(word, source)
     
     if source == "DB":
         lats, lons = [], []
