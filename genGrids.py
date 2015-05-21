@@ -97,7 +97,7 @@ def get_coordinate(place):
 
 
 def get_grids(queries):
-    
+    print queries
     grids = []
     for dist in queries:
         print dist
