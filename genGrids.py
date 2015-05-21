@@ -148,6 +148,12 @@ def get_grids(queries):
             grids.append(gen_grid(lats, lons))
     
     return grids        
+
+def colorCycle(i, scatter=False):
+    colors = ['Reds', 'Blues', 'BuGn', 'Purples', 'PuRd']
+    if scatter:
+        colors = ['blue', 'red', 'green', 'magenta', 'cyan']
+    return colors[i % len(colors)]
     
     
 mysqldb = dataset.connect(c.LOCATIONDB) 
