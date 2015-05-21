@@ -20,7 +20,7 @@ def normalize(matrix):
     
     return matrix / sum1(matrix) 
 
-def gen_grid(lats, lons, xBins=15, xyRatio=1.8, fix_zeros=True):
+def gen_grid(lats, lons, xBins=15, xyRatio=1.8, fix_zeros=False):
     """ Generate grid from coordinates """
     
     if len(lats) == 0:
@@ -94,13 +94,12 @@ mysqldb = dataset.connect(c.LOCATIONDB)
 mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(precision=4, linewidth=130)
 
-for dist in [('lide', 'DB'),
+for dist in [('täckbyxor', 'DB'),
              ('täck', 'Moderna dialektskillnader - TERMOBYXOR.xlsx')]:
     
     word, source = dist
-    word = word.decode('utf-8')
     
-    print "letar efter {} i {}".decode('utf-8').format(word, source)
+    print "letar efter {} i {}".decode('utf-8').format(word.decode('utf-8'), source)
     
     if source == "DB":
         lats, lons = [], []
@@ -124,7 +123,7 @@ for dist in [('lide', 'DB'),
             lats.append(row['latitude'])
             lons.append(row['longitude'])
             
-        print normalize(gen_grid(lats, lons, fix_zeros=False))
+        print normalize(gen_grid(lats, lons))
         
     else: # Get from excel file
         df = pd.io.excel.read_excel("excelData/" + source)
