@@ -125,7 +125,7 @@ for dist in [('lide', 'DB'),
         print normalize(gen_grid(lats, lons))
         
     else: # Get from excel file
-        df = pd.io.excel.read_excel(excelfile)
+        df = pd.io.excel.read_excel(source)
         lats, lons = [], []
         
         for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
