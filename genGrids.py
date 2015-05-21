@@ -113,4 +113,4 @@ for dist in [('lide', 'DB'),
         for row in result:
             coordinates.append([row['longitude'], 
                                 row['latitude']])
-        print genGrid(coordinates).astype('int')
+        print normalize(genGrid(coordinates))
