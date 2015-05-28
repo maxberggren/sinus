@@ -143,4 +143,5 @@ if __name__ == "__main__":
     urcrnrlon = 26
     urcrnrlat = 69.5
     
-    count_words_in_region("country", (urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat))
+    #count_words_in_region("country", (urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat))
+    count_words_in_region("skaune", (14.653015, 56.256273, 12.551880, 55.349353))
