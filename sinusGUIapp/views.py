@@ -1237,19 +1237,22 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             resultsOmitted = True # so we can show the user that a word has been removed
     
     words = wordsOverThreshold # so words under threshold is omitted     
-    print hits
 
     if not xBins: # xBins not set: "guestimate" that 2 hits per bin is good
         xBins = math.sqrt(float(minCoordinates)/(float(xyRatio)*float(2)))
         xBins = int(xBins)            
 
-    if binType == "shape":
+    if hits == {}:
+        # I.e. no word had enough hits
+        fewResults, filename, gifFileName = True, None, None
+        
+    elif binType == "shape":
         # Get main image with shapefiles
         fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranks,
                                                             words, zoom,
                                                             binThreshold=binThreshold,
                                                             binModel=binModel)
-    if binType == "square":
+    elif binType == "square":
         # Get main image
         fewResults, filename, gifFileName = genGridImg(coordinatesByWord=coordinatesByWord,
                                                        xBins=xBins,
