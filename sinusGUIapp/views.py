@@ -147,7 +147,7 @@ def kwic(text, word, source):
     """
     
     text = text.lower()
-    text = text.replace("å", "a").replace("ä", "a").replace("ö", "o")
+    #text = text.replace("å", "a").replace("ä", "a").replace("ö", "o")
     
     if " or " in word.lower():
         words = word.lower().split(" or ")
