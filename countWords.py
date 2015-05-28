@@ -22,7 +22,7 @@ if __name__ == "__main__":
     
     #nPosts = 50000
     #nPosts = 43131671
-    nPosts = int(float(43131671)/float(100)) # only count a percent
+    nPosts = int(float(43131671)/float(1000)) # only count a percent
     offsets = xrange(0, nPosts, batch)
     
     #bigrams = Counter() 
@@ -75,7 +75,8 @@ if __name__ == "__main__":
             i += 1
             rows.append(dict(token=token, 
                              frequency=frq, 
-                             ngram=1))
+                             ngram=1,
+                             region="country"))
             
             if i % batch == 0: # Skickar in i DB i batchar
                 db['tempwordcounts'].insert_many(rows,
@@ -84,7 +85,7 @@ if __name__ == "__main__":
         
         del onegrams
         remainingBatches = (nPosts - offset)/batch
-        print str(100*offset/nPosts)[0:4], "%", "- Tog:", (time.time() - start), "sekunder."
+        print str(100*offset/nPosts)[0:4], "%", "- Tog:", int((time.time() - start)), "sekunder."
     
        
     # Rensa lite
@@ -103,7 +104,7 @@ if __name__ == "__main__":
     print "Databasen räknar ord. Ha tålamod."
     result = db.query("SELECT token, SUM(frequency) as frq "
                       "FROM tempwordcounts "
-                      "GROUP BY token")
+                      "GROUP BY token, region")
     i = 0                  
     rows = []
     print "Sparar in slutgiltiga ordfrekvenser" 
