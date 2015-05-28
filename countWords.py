@@ -25,7 +25,7 @@ def count_words_in_region(region, bounding_box):
     
     #nPosts = 50000
     #nPosts = 43131671
-    nPosts = int(float(43131671)/float(10000)) # only count a percent
+    nPosts = int(float(43131671)/float(100)) # only count a percent
     offsets = xrange(0, nPosts, batch)
     
     #bigrams = Counter() 
@@ -143,5 +143,5 @@ if __name__ == "__main__":
     urcrnrlon = 26
     urcrnrlat = 69.5
     
-    #count_words_in_region("country", (urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat))
+    count_words_in_region("country", (urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat))
     count_words_in_region("skaune", (14.653015, 56.256273, 12.551880, 55.349353))
