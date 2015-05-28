@@ -1243,9 +1243,12 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         xBins = math.sqrt(float(minCoordinates)/(float(xyRatio)*float(2)))
         xBins = int(xBins)            
 
-    if not any([(val > hitsThreshold) for val in hits.itervalues()]):
-        # I.e. no word had enough hits
-        fewResults, filename, gifFileName = True, None, None
+    #if hits == {}:
+    #    # I.e. no word had enough hits
+    #    fewResults, filename, gifFileName = True, None, None
+    
+    print hits
+    print any([(val > hitsThreshold) for val in hits.itervalues()])
     
     if binType == "shape":
         # Get main image with shapefiles
