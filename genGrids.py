@@ -111,6 +111,7 @@ def get_grids(queries, xBins=15):
     grids = []
     for dist in queries:
         word, source = dist
+        word = word.replace("NOT ", "")
         
         print "letar efter {} i {}".format(word, source)
         
@@ -227,11 +228,12 @@ np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewid
 
 xBins = 12
 queries = [#('sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
+           #('tremänning', 'DB'),
+           #('äppelpaj', 'DB'),
+           #('färskpotatis', 'DB'),
+           #('fara', 'DB'),
+           ('NOT böla', 'DB'),
            #('trasig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
-           ('tremänning', 'DB'),
-           ('äppelpaj', 'DB'),
-           ('färskpotatis', 'DB'),
-           ('fara', 'DB'),
            #('nyckelen', 'DB'),
            #('chokladet', 'DB'),
            #('böla', 'DB'),
@@ -243,7 +245,12 @@ product = np.ones(grids[0].shape)
        
 for grid, query in zip(grids, queries): 
     make_map(grid, query[0], xBins=xBins) 
-    product = np.multiply(product, grid) 
+    
+    if query[0][0:3] == "NOT ":
+        product = np.multiply(product, not_in(grid)) 
+    else:
+        product = np.multiply(product, grid) 
+    
     
 print normalize(product)
 density = normalize(product)
