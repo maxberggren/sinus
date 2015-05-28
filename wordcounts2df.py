@@ -11,7 +11,10 @@ print df.head()
 
 def rel_error(values):
     if len(values) == 2:
-        return abs((values[0] - values[1])/values[0])
+        try:
+            return abs((values[0] - values[1])/values[0])
+        except:
+            return 0.0
     else: 
         return 0.0
 
