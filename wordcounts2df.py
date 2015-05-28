@@ -11,6 +11,6 @@ print df.head()
 def rel_error(values):
     return len(values)
 
-grouped_count = df.groupby("frequency").frequency.agg(rel_error)
+grouped_count = df.groupby("token").frequency.agg(rel_error)
 
 print grouped_count.head()
