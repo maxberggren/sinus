@@ -56,8 +56,8 @@ def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
         density[zeros] = smallest
     
     # Test with logarihming the data  
-    #density = np.log(density)
-    #density[density == -inf] = 0
+    density = np.log(density)
+    density[density == -inf] = 0
     return normalize(density)
 
 def get_coordinate(place):
@@ -228,14 +228,14 @@ np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewid
 
 xBins = 12
 queries = [#('sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
-           #('tremänning', 'DB'),
+           ('nästkusin', 'DB'),
            #('äppelpaj', 'DB'),
            #('färskpotatis', 'DB'),
            #('fara', 'DB'),
-           ('NOT böla', 'DB'),
+           #('NOT böla', 'DB'),
            #('trasig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
-           #('nyckelen', 'DB'),
-           #('chokladet', 'DB'),
+           ('nyckelen', 'DB'),
+           ('chokladet', 'DB'),
            #('böla', 'DB'),
            #('söligt', 'DB')
            ]
