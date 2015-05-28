@@ -3,7 +3,6 @@ from sqlalchemy import create_engine
 import pandas as pd
 import config as c
 
-pd.set_printoptions(max_rows=10000)
 
 engine = create_engine(c.LOCATIONDB, echo=False)
 
@@ -20,5 +19,7 @@ def rel_error(values):
         return 0.0
 
 grouped_count = df.groupby("token").frequency.agg(rel_error)
+
+grouped_count.set_printoptions(max_rows=10000)
 
 print grouped_count.order(ascending=False)
