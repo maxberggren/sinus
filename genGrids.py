@@ -242,7 +242,7 @@ grids = get_grids(queries, xBins=xBins)
 product = np.ones(grids[0].shape)      
        
 for grid, query in zip(grids, queries): 
-    #make_map(grid, query[0], xBins=xBins) 
+    make_map(grid, query[0], xBins=xBins) 
     product = np.multiply(product, grid) 
     
 print normalize(product)
