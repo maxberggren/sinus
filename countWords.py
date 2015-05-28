@@ -105,7 +105,8 @@ def count_words_in_region(region, bounding_box):
     print "Databasen räknar ord. Ha tålamod."
     result = db.query("SELECT token, SUM(frequency) as frq "
                       "FROM tempwordcounts "
-                      "GROUP BY token, region")
+                      "WHERE region = '" + region + "' "
+                      "GROUP BY token")
     i = 0                  
     rows = []
     print "Sparar in slutgiltiga ordfrekvenser" 
