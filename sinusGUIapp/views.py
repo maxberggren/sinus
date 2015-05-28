@@ -50,7 +50,7 @@ def timing(f):
         return ret
     return wrap
        
-def colorCycle(i, scatter=False):
+def colorCycle(i, scatter=False, hotcold=False):
     colors = ['Reds', 'Blues', 'BuGn', 'Purples', 'PuRd']
     if scatter:
         colors = ['blue', 'red', 'green', 'magenta', 'cyan']
@@ -594,7 +594,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                      hits=coord_count[word]), 
                      y=1.01, fontsize=9)
     
-        cmap = plt.get_cmap(colorCycle(i))
+        colormap = colorCycle(i)
+        if len(words) == 1:
+            colormap = "coolwarm"
+            
+        cmap = plt.get_cmap(colormap)
         #cmap = opacify(cmap) # Add opacity to colormap
         
         print "Empty bin fallback:", binModel
