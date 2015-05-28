@@ -1237,6 +1237,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             resultsOmitted = True # so we can show the user that a word has been removed
     
     words = wordsOverThreshold # so words under threshold is omitted     
+    print hits
 
     if not xBins: # xBins not set: "guestimate" that 2 hits per bin is good
         xBins = math.sqrt(float(minCoordinates)/(float(xyRatio)*float(2)))
