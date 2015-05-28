@@ -1228,25 +1228,26 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             
             coordinatesByWord = coordinatesByWord + (coordinates,)
             ranksByWord = ranksByWord + (ranks,)
-            hits[word] = len(coordinates)
             
             if len(coordinates) < minCoordinates: # log the one with fewest coordinates
                 minCoordinates = len(coordinates)
                 
         else:
-            resultsOmitted = True # so we can show the user that a word has been removed
+            resultsOmitted = True # So we can show the user that a word has been removed
+            
+        hits[word] = len(coordinates)
     
-    words = wordsOverThreshold # so words under threshold is omitted     
+    words = wordsOverThreshold # So words under threshold is omitted     
 
     if not xBins: # xBins not set: "guestimate" that 2 hits per bin is good
         xBins = math.sqrt(float(minCoordinates)/(float(xyRatio)*float(2)))
         xBins = int(xBins)            
 
-    if hits == {}:
-        # I.e. no word had enough hits
-        fewResults, filename, gifFileName = True, None, None
+    #if hits == {}:
+    #    # I.e. no word had enough hits
+    #    fewResults, filename, gifFileName = True, None, None
         
-    elif binType == "shape":
+    if binType == "shape":
         # Get main image with shapefiles
         fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranks,
                                                             words, zoom,
