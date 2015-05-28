@@ -22,7 +22,7 @@ def count_words_in_region(region, bounding_box):
     
     #nPosts = 50000
     #nPosts = 43131671
-    nPosts = int(float(43131671)/float(1000)) # only count a percent
+    nPosts = int(float(43131671)/float(10000)) # only count a percent
     offsets = xrange(0, nPosts, batch)
     
     #bigrams = Counter() 
