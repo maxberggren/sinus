@@ -595,7 +595,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                      y=1.01, fontsize=9)
     
         cmap = plt.get_cmap(colorCycle(i))
-        cmap = opacify(cmap) # Add opacity to colormap
+        #cmap = opacify(cmap) # Add opacity to colormap
         
         print "Empty bin fallback:", binModel
         print "Binthreshold:", binThreshold
