@@ -14,6 +14,9 @@ import config as c
 
 
 def count_words_in_region(region, bounding_box):
+
+    urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat = bounding_box
+    
     batch = 1000
     varchar = sqlalchemy.types.String(length=255)
     warnings.simplefilter("ignore")
@@ -55,6 +58,10 @@ def count_words_in_region(region, bounding_box):
                           "WHERE blogs.latitude is not NULL "
                           "AND blogs.longitude is not NULL "
                           "AND blogs.rank <= 3 "
+                          "AND blogs.longitude > " + str(llcrnrlon)
+                          "AND blogs.longitude < " + str(urcrnrlon)
+                          "AND blogs.latitude > " + str(llcrnrlat)
+                          "AND blogs.latitude < " + str(urcrnrlat)
                           "LIMIT "+ str(batch) +" offset " + str(offset))
         
         for row in result:
@@ -136,4 +143,4 @@ if __name__ == "__main__":
     urcrnrlon = 26
     urcrnrlat = 69.5
     
-    count_words_in_region("country", [urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat])
+    count_words_in_region("country", (urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat))
