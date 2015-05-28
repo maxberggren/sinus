@@ -2,9 +2,8 @@ from __future__ import division
 from sqlalchemy import create_engine
 import pandas as pd
 import config as c
-import numpy as np
 
-np.set_printoptions(threshold=10000)
+pd.set_printoptions(max_rows=10000)
 
 engine = create_engine(c.LOCATIONDB, echo=False)
 
@@ -22,4 +21,4 @@ def rel_error(values):
 
 grouped_count = df.groupby("token").frequency.agg(rel_error)
 
-print grouped_count.order(ascending=False).index[0:500]
+print grouped_count.order(ascending=False)
