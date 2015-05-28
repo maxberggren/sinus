@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from __future__ import division
-from mpl_toolkits.basemap import Basemap, cm, maskoceans
+from __future__ import divisionlat
 import matplotlib.cm as cm
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.colors import LogNorm
@@ -675,6 +674,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", 
                 dpi=100, 
                 bbox_inches='tight')
+    plt.close('all')
 
     #return fewResults, filenameSF, gifFileName 
     return False, filename, None 
@@ -951,6 +951,8 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
         gif2file = "sinusGUIapp/static/maps/" + filename +".gif"
         writeGif(gif2file, images, duration=0.5)
         gifFileName = filename
+        
+    plt.close('all')
     
     return fewResults, filename, gifFileName
 
@@ -1635,7 +1637,7 @@ def byod():
                                                            words=words,
                                                            zoom=zoom,
                                                            xyRatio=1.8, 
-                                                           blurFactor=1,
+                                                           blurFactor=0,
                                                            minCoordinates=999999999,
                                                            scatter=0,
                                                            hits=hits,
