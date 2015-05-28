@@ -146,6 +146,9 @@ def kwic(text, word, source):
         e.g. [twingly] this is a text with WORD to be highlighted
     """
     
+    text = text.lower()
+    text = text.replace("å", "a").replace("ä", "a").replace("ö", "o")
+    
     if " or " in word.lower():
         words = word.lower().split(" or ")
         word = words[0] # Quickfix: choose the first in the or-clause
@@ -155,7 +158,6 @@ def kwic(text, word, source):
         except:
             return ""
         
-    text = text.lower()
     left, sep, right = text.partition(word.lower().replace('"', ""))
     if sep:
         return "[" + source + "] " + left[-26:] + sep + right[:46]
