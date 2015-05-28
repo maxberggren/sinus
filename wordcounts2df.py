@@ -7,3 +7,10 @@ engine = create_engine(c.LOCATIONDB, echo=False)
 df = pd.read_sql_query('SELECT * FROM wordcounts', engine, index_col='id')
 
 print df.head()
+
+def rel_error(values):
+    return len(values)
+
+grouped_count = df.groupby("frequency").frequency.agg(rel_error)
+
+print grouped_count.head()
