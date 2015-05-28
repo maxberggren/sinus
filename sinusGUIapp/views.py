@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from __future__ import divisionlat
+from __future__ import division
 import matplotlib.cm as cm
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.colors import LogNorm
