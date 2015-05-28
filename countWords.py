@@ -58,10 +58,10 @@ def count_words_in_region(region, bounding_box):
                           "WHERE blogs.latitude is not NULL "
                           "AND blogs.longitude is not NULL "
                           "AND blogs.rank <= 3 "
-                          "AND blogs.longitude > " + str(llcrnrlon)
-                          "AND blogs.longitude < " + str(urcrnrlon)
-                          "AND blogs.latitude > " + str(llcrnrlat)
-                          "AND blogs.latitude < " + str(urcrnrlat)
+                          "AND blogs.longitude > " + str(llcrnrlon) + " "
+                          "AND blogs.longitude < " + str(urcrnrlon) + " "
+                          "AND blogs.latitude > " + str(llcrnrlat) + " "
+                          "AND blogs.latitude < " + str(urcrnrlat) + " "
                           "LIMIT "+ str(batch) +" offset " + str(offset))
         
         for row in result:
