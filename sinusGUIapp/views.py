@@ -1247,7 +1247,9 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     #    # I.e. no word had enough hits
     #    fewResults, filename, gifFileName = True, None, None
     
-    print hits  
+    print hits
+    print [(val > 0) for val in hits.itervalues()]
+    
     if binType == "shape":
         # Get main image with shapefiles
         fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranks,
