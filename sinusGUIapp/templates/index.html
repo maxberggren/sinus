@@ -84,7 +84,8 @@
 		{% endif %}
 
 		{% if documentQuery.resultsOmitted %}
-		<div class="alert alert-danger"><strong>Sökord har exkluderats eftersom de inte låg över tröselvärdet. Specificera med flaggan <code>hitsthreshold: XX</code> om du vill förhindra detta.</strong>
+		<div class="alert alert-danger"><strong>Sökord har exkluderats eftersom de inte låg över tröselvärdet. Specificera med flaggan <code>hitsthreshold: XX</code> om du vill förhindra detta.</strong>. {% for word, val in documentQuery.hits.iteritems() %} {{ word }}: {{ val }}{% if not loop.last %},{% else %}.{% endif %} {% endfor %}
+
 		</div>
 		{% endif %}
 
