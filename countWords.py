@@ -12,8 +12,8 @@ import sqlalchemy
 import warnings
 import config as c
 
-if __name__ == "__main__":
 
+def count_words_in_region(region, bounding_box):
     batch = 1000
     varchar = sqlalchemy.types.String(length=255)
     warnings.simplefilter("ignore")
@@ -76,7 +76,7 @@ if __name__ == "__main__":
             rows.append(dict(token=token, 
                              frequency=frq, 
                              ngram=1,
-                             region="country"))
+                             region=region))
             
             if i % batch == 0: # Skickar in i DB i batchar
                 db['tempwordcounts'].insert_many(rows,
@@ -96,8 +96,9 @@ if __name__ == "__main__":
     except:
         pass
     try:
-        result = db.query("drop table wordcounts")
-        print "Den gamla wordcounttabellen togs bort"
+        #result = db.query("drop table wordcounts")
+        result = db.query("delete from wordcounts WHERE region = '{}'".format(region))
+        print "I wordcounttabellen togs rader bort som var av samma typ som de som nu ska in"
     except:
         pass
 
@@ -112,7 +113,8 @@ if __name__ == "__main__":
         i += 1
         rows.append(dict(token=row['token'], 
                          frequency=int(row['frq']), 
-                         ngram=1))
+                         ngram=1,
+                         region=region))
         if i % batch == 0:
             db['wordcounts'].insert_many(rows,
                                      types={'token': varchar})
@@ -124,3 +126,13 @@ if __name__ == "__main__":
     except:
         pass
     print "wordcountstabellen är nu populerad med nytt fräscht!"
+    
+if __name__ == "__main__":
+
+    # Bounding box of Sweden
+    llcrnrlon = 8
+    llcrnrlat = 54.5
+    urcrnrlon = 26
+    urcrnrlat = 69.5
+    
+    count_words_in_region("country", [urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat])
