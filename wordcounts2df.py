@@ -6,8 +6,12 @@ import config as c
 
 engine = create_engine(c.LOCATIONDB, echo=False)
 
-df = pd.read_sql_query('SELECT * FROM wordcounts WHERE token = "country" or token = "skaune"', 
+check_region = "skaune"
+df = pd.read_sql_query('SELECT * FROM wordcounts '
+                       'WHERE region = "country" '
+                       'or region = "' + check_region + '"', 
                        engine, index_col='id')
+
 df = df[df['frequency'] > 5]
 #print df.head()
 
