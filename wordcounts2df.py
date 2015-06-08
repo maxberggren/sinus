@@ -12,7 +12,7 @@ df = df[df['frequency'] > 15]
 
 def rel_frq(values):
     if len(values) == 2:
-        return (values.values[0] - values.values[1])/values.values[0]
+        return (values.values[1] - values.values[0])/values.values[0]
     else: 
         return 0.0
 
@@ -21,5 +21,5 @@ grouped_count = df.groupby("token").frequency.agg(rel_frq)
 i = 0
 for index, value in grouped_count.order(ascending=False).iteritems():
     print index, value
-    #if value < 0.65:
-    #    break
+    if value < 0.5:
+        break
