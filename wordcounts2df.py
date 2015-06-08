@@ -7,7 +7,7 @@ import config as c
 engine = create_engine(c.LOCATIONDB, echo=False)
 
 df = pd.read_sql_query('SELECT * FROM wordcounts', engine, index_col='id')
-df = df[df['frequency'] > 15]
+df = df[df['frequency'] > 5]
 #print df.head()
 
 def rel_frq(values):
