@@ -8,9 +8,9 @@ engine = create_engine(c.LOCATIONDB, echo=False)
 
 df = pd.read_sql_query('SELECT * FROM wordcounts', engine, index_col='id')
 df = df[df['frequency'] > 100]
-print df.head()
+#print df.head()
 
-"""
+
 def rel_error(values):
     if len(values) == 2:
         return abs((values.values[0] - values.values[1])/values.values[0])
@@ -24,4 +24,3 @@ for index, value in grouped_count.order(ascending=False).iteritems():
     print index
     if i > 100:
         break
-"""
