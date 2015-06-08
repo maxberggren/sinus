@@ -7,17 +7,16 @@ import config as c
 engine = create_engine(c.LOCATIONDB, echo=False)
 
 df = pd.read_sql_query('SELECT * FROM wordcounts', engine, index_col='id')
-df = df[df['frequency'] > 30]
+df = df[df['frequency'] > 15]
 #print df.head()
 
-
-def rel_error(values):
+def rel_frq(values):
     if len(values) == 2:
         return abs((values.values[0] - values.values[1])/values.values[0])
     else: 
         return 0.0
 
-grouped_count = df.groupby("token").frequency.agg(rel_error)
+grouped_count = df.groupby("token").frequency.agg(rel_frq)
 
 i = 0
 for index, value in grouped_count.order(ascending=False).iteritems():
