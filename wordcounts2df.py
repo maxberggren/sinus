@@ -20,4 +20,4 @@ def rel_error(values):
 
 grouped_count = df.groupby("token").frequency.agg(rel_error)
 
-print grouped_count.order(ascending=False).values()[0:300]
+print grouped_count.order(ascending=False).values[0:300]
