@@ -137,11 +137,7 @@ def count_words_in_region(region, bounding_box):
     
 if __name__ == "__main__":
 
-    # Bounding box of Sweden
-    llcrnrlon = 8
-    llcrnrlat = 54.5
-    urcrnrlon = 26
-    urcrnrlat = 69.5
-    
-    count_words_in_region("country", (urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat))
+    # Sweden total    
+    count_words_in_region("country", (26, 69.5, 8, 54.5))
+    # Skåne
     count_words_in_region("skaune", (14.653015, 56.256273, 12.551880, 55.349353))
