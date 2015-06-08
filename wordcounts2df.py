@@ -7,11 +7,9 @@ import config as c
 engine = create_engine(c.LOCATIONDB, echo=False)
 
 df = pd.read_sql_query('SELECT * FROM wordcounts', engine, index_col='id')
-
-
-
 print df.head()
 
+"""
 def rel_error(values):
     if len(values) == 2:
         return abs((values.values[0] - values.values[1])/values.values[0])
@@ -20,10 +18,9 @@ def rel_error(values):
 
 grouped_count = df.groupby("token").frequency.agg(rel_error)
 
-#print grouped_count.order(ascending=False).values[0:300]
-
 i = 0
 for index, value in grouped_count.order(ascending=False).iteritems():
     print index
-    if i > 300:
+    if i > 100:
         break
+"""
