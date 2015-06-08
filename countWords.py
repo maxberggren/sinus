@@ -17,14 +17,13 @@ def count_words_in_region(region, bounding_box):
 
     urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat = bounding_box
     
-    batch = 1000
+    
     varchar = sqlalchemy.types.String(length=255)
     warnings.simplefilter("ignore")
     
     db = dataset.connect(c.LOCATIONDB)
     
-    #nPosts = 50000
-    #nPosts = 43131671
+    batch = 1000
     nPosts = int(float(43131671)/float(100)) # only count a percent
     offsets = xrange(0, nPosts, batch)
     
@@ -138,6 +137,10 @@ def count_words_in_region(region, bounding_box):
 if __name__ == "__main__":
 
     # Sweden total    
-    count_words_in_region("country", (26, 69.5, 8, 54.5))
+    #count_words_in_region("country", (26, 69.5, 8, 54.5))
     # Skåne
-    count_words_in_region("skaune", (14.653015, 56.256273, 12.551880, 55.349353))
+    #count_words_in_region("skaune", (14.653015, 56.256273, 12.551880, 55.349353))
+    # Norrland
+    count_words_in_region("norrland", (25.975690, 69.173527, 12.372609, 62.213702))
+
+    #urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat)
