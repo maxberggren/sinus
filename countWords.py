@@ -135,7 +135,7 @@ def count_words_in_region(region, bounding_box):
     print "wordcountstabellen är nu populerad med nytt fräscht!"
     
 if __name__ == "__main__":
-    
+
     # Coordinates on form: (urcrnrlon, urcrnrlat, llcrnrlon, llcrnrlat)
 
     # Sweden total    
@@ -143,6 +143,8 @@ if __name__ == "__main__":
     # Skåne
     #count_words_in_region("skaune", (14.653015, 56.256273, 12.551880, 55.349353))
     # Norrland
-    count_words_in_region("norrland", (25.975690, 69.173527, 12.372609, 62.213702))
+    #count_words_in_region("norrland", (25.975690, 69.173527, 12.372609, 62.213702))
+    # Småland
+    count_words_in_region("smauland", (16.880994, 58.143755, 13.349390, 56.624219))
 
     
