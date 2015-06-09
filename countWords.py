@@ -145,6 +145,8 @@ if __name__ == "__main__":
     # Norrland
     #count_words_in_region("norrland", (25.975690, 69.173527, 12.372609, 62.213702))
     # Småland
-    count_words_in_region("smauland", (16.880994, 58.143755, 13.349390, 56.624219))
+    #count_words_in_region("smauland", (16.880994, 58.143755, 13.349390, 56.624219))
+    # Göteborg
+    count_words_in_region("gotlaborg", (13.867365, 59.393105, 11.401765, 56.482094))
 
     
