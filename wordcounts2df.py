@@ -25,6 +25,6 @@ grouped_count = df.groupby("token").frequency.agg(rel_frq)
 
 i = 0
 for index, value in grouped_count.order(ascending=False).iteritems():
-    print index, value, index.encode('latin-1')
+    print index, value, index.encode('utf-8')
     if value < 0.5:
         break
