@@ -34,7 +34,7 @@ def count_words_in_region(region, bounding_box):
                                 "abcdefghijklmnopqrstuvxyzåäöé")
     punkter = string.punctuation
     
-    print "Räknar ord bland den första procenten"
+    print "Räknar ord bland den första procenten i", region
     try:
         result = db.query("drop table tempwordcounts")
         print "Tog bort tabellen tempwordcounts för att göra rum för nytt."
