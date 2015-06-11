@@ -6,13 +6,13 @@ import config as c
 
 engine = create_engine(c.LOCATIONDB, echo=False)
 
-check_region = "smauland"
+check_region = "skane"
 df = pd.read_sql_query('SELECT * FROM wordcounts '
                        'WHERE region = "country" '
                        'or region = "' + check_region + '"', 
                        engine, index_col='id')
 
-df = df[df['frequency'] > 5]
+df = df[df['frequency'] > 10]
 #print df.head()
 
 def rel_frq(values):
