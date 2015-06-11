@@ -36,7 +36,7 @@ def not_in(matrix):
     
     return 1 - matrix
 
-def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
+def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=True):
     """ Generate grid from coordinates """
     
     if len(lats) == 0:
@@ -239,15 +239,15 @@ mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=155)
 
 xBins = 20
-queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
-           #('nästkusin', 'DB'),
-           #('äppelpaj', 'DB'),
-           #('färskpotatis', 'DB'),
+queries = [('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
+           ('nästkusin', 'DB'),
+           ('äppelpaj', 'DB'),
+           ('gräddbullar', 'DB'),
            #('fara', 'DB'),
            #('NOT böla', 'DB'),
            #('trasig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
            ('nyckelen', 'DB'),	
-           #('chokladet', 'DB'),
+           ('chokladet', 'DB'),
            #('böla', 'DB'),
            #('söligt', 'DB')
            ]
