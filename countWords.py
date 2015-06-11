@@ -24,7 +24,7 @@ def count_words_in_region(region, bounding_box):
     db = dataset.connect(c.LOCATIONDB)
     
     batch = 3000
-    nPosts = int(43131671.0/3.0) # only count a third
+    nPosts = int(24*43131671.0/100.0) 
     offsets = xrange(0, nPosts, batch)
     
     #bigrams = Counter() 
@@ -152,5 +152,9 @@ if __name__ == "__main__":
     count_words_in_region("malardalen", (18.532594, 59.933278, 14.962038, 58.497572))
     # Mälardalen
     count_words_in_region("finland", (26.971690, 65.189505, 20.643567, 59.497556))
+    # Dalarna
+    count_words_in_region("dalarna", (16.539451, 61.911557, 12.672264, 60.002842))
+    # Dalarna
+    count_words_in_region("gotland", (19.593651, 58.081954, 17.739940, 56.724710))
 
     
