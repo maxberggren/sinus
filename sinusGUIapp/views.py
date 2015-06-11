@@ -157,10 +157,14 @@ def kwic(text, word, source):
             text = text.decode("utf-8")
         except:
             return ""
-        
-    left, sep, right = text.partition(word.lower().replace('"', ""))
-    if sep:
-        return "[" + source + "] " + left[-26:] + sep + right[:46]
+          
+    kwics = []  
+    for word in words:    
+        left, sep, right = text.partition(word.lower().replace('"', ""))
+        if sep:
+            kwics.append("[" + source + "] " + left[-26:] + sep + right[:46])
+            
+    return "\n".join(kwics)
 
 def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     """ Generate an image with shapefiles as bins 
