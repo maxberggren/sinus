@@ -253,7 +253,8 @@ queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            ('NOT chokladet', 'DB'),
            ('NOT svalen', 'DB'),
            #('NOT böla', 'DB'),
-           ('NOT söligt', 'DB')
+           ('NOT söligt', 'DB'),
+           ('NOT poängpromenad', 'DB'),
            ('fett', 'DB')
            ]
           
