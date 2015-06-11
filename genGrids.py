@@ -227,8 +227,8 @@ def make_map(matrix, name, xBins=15):
                    cmap=theCM, 
                    norm=LogNorm(), 
                    antialiased=True,
-                   vmax=1,
-                   vmin=0)                    
+                   vmax=1.0,
+                   vmin=0.01)                    
     
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     
