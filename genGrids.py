@@ -57,8 +57,8 @@ def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=True):
         density[zeros] = smallest
     
     # Test with logaritmizing the data  
-    #density = np.log(density)
-    #density[density == -inf] = 0
+    density = np.log(density)
+    density[density == -inf] = 0
     return normalize(density)
 
 def get_coordinate(place):
@@ -114,8 +114,8 @@ def get_grids(queries, xBins=15):
     
     for query in queries:
         word, source = query
-        word = word.replace("NOT ", "")
         print "letar efter {} i {}".format(word, source)
+        word = word.replace("NOT ", "")
         
         grid = cache.get(str(query) + str(xBins))
 
