@@ -239,22 +239,23 @@ mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=155)
 
 xBins = 20
-queries = [('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
-           ('nästkusin', 'DB'),
-           ('äppelpaj', 'DB'),
-           ('gräddbullar', 'DB'),
+queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
+           #('nästkusin', 'DB'),
+           #('äppelpaj', 'DB'),
+           #('gräddbullar', 'DB'),
            #('fara', 'DB'),
            #('NOT böla', 'DB'),
            #('trasig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
-           ('nyckelen', 'DB'),	
-           ('chokladet', 'DB'),
-           #('böla', 'DB'),
+           #('nyckelen', 'DB'),	
+           #('chokladet', 'DB'),
+           ('böla', 'DB'),
            #('söligt', 'DB')
            ]
           
 grids = get_grids(queries, xBins=xBins)
 product = np.ones(grids[0].shape)      
-       
+ 
+# Multiply all distributions into a final one      
 for grid, query in zip(grids, queries): 
     #make_map(grid, query[0], xBins=xBins) 
     
@@ -263,7 +264,10 @@ for grid, query in zip(grids, queries):
     else:
         product = np.multiply(product, grid) 
     
-    
 print normalize(product)
 density = normalize(product)
 make_map(density, "product", xBins=xBins)
+
+
+
+
