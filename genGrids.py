@@ -139,7 +139,7 @@ def get_grids(queries, xBins=15):
                                        "IN BOOLEAN MODE) "
                                        "AND blogs.latitude is not NULL "
                                        "AND blogs.longitude is not NULL "
-                                       "AND blogs.rank <= 4 "
+                                       "AND blogs.rank <= 3 "
                                        "ORDER BY posts.date ")
                 for row in result:
                     lats.append(row['latitude'])
@@ -236,7 +236,7 @@ def make_map(matrix, name, xBins=15):
 cache = SqliteCache("cache") 
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
-np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=135)
+np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=155)
 
 xBins = 20
 queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
