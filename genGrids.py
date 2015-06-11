@@ -219,9 +219,9 @@ def make_map(matrix, name, xBins=15):
             
     # Colormap transparency
     theCM = cm.get_cmap(colorCycle(0)) 
-    #theCM._init()
-    #alphas = np.abs(np.linspace(0, 1.0, theCM.N))
-    #theCM._lut[:-3,-1] = alphas
+    theCM._init()
+    alphas = np.abs(np.linspace(0, 1.0, theCM.N))
+    theCM._lut[:-3,-1] = alphas
     
     p = plt.pcolor(xs, ys, density, 
                    cmap=theCM, 
@@ -242,15 +242,15 @@ np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewid
 
 xBins = 20
 queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
-           ('syssling', 'DB'),
+           ('nästkusin', 'DB'),
            ('NOT tyken', 'DB'),
            #('äppelpaj', 'DB'),
-           ('kokosbollar', 'DB'),
+           ('gräddbullar', 'DB'),
            #('fara', 'DB'),
            #('NOT böla', 'DB'),
-           ('trasig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
-           ('NOT nyckelen', 'DB'),	
-           ('NOT chokladet', 'DB'),
+           ('söndrig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
+           ('nyckelen', 'DB'),	
+           ('chokladet', 'DB'),
            ('NOT svalen', 'DB'),
            #('NOT böla', 'DB'),
            ('NOT poängpromenad', 'DB')
