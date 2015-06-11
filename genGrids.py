@@ -103,7 +103,7 @@ def get_coordinate(place):
                     coordinate = latlon(region)
                 except geocode.NoResultError as error:
                     print error
-                    coordinate = query
+                    coordinate = (None, None)
     
     return coordinate
 
