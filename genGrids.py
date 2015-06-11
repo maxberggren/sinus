@@ -218,7 +218,7 @@ def make_map(matrix, name, xBins=15):
     ys = ys[0:density.shape[0], 0:density.shape[1]]
             
     # Colormap transparency
-    theCM = cm.get_cmap(colorCycle(0))
+    theCM = cm.get_cmap(colorCycle(0)) 
     #theCM._init()
     #alphas = np.abs(np.linspace(0, 1.0, theCM.N))
     #theCM._lut[:-3,-1] = alphas
