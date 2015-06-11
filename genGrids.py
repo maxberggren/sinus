@@ -241,16 +241,16 @@ np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewid
 
 xBins = 20
 queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
-           #('nästkusin', 'DB'),
+           ('syssling', 'DB'),
            #('äppelpaj', 'DB'),
-           #('gräddbullar', 'DB'),
+           ('kokosbollar', 'DB'),
            #('fara', 'DB'),
            #('NOT böla', 'DB'),
-           #('trasig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
-           #('nyckelen', 'DB'),	
-           #('chokladet', 'DB'),
-           ('böla', 'DB'),
-           #('söligt', 'DB')
+           ('trasig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
+           ('NOT nyckelen', 'DB'),	
+           ('NOT chokladet', 'DB'),
+           ('NOT böla', 'DB'),
+           ('NOT söligt', 'DB')
            ]
           
 grids = get_grids(queries, xBins=xBins)
