@@ -1270,6 +1270,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                                        hits=hits,
                                                        chunks=1)
         # Get time series gif
+        """
         fewResults, giffile, gifFileName = genGridImg(coordinatesByWord=coordinatesByWord,
                                                       xBins=xBins,
                                                       words=words,
@@ -1285,6 +1286,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         
         if gifFileName: # no gif = no histogram                                     
             dateHistogram(dates, gifFileName)
+        """
         
     return filename, hits, KWIC, fewResults, gifFileName, resultsOmitted
         
