@@ -34,7 +34,7 @@ def normalize(matrix):
 def not_in(matrix):
     """ Prob of not being in each element """
     
-    return 1 - matrix
+    return normalize(1 - matrix)
 
 def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=True):
     """ Generate grid from coordinates """

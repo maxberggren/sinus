@@ -166,7 +166,7 @@ def kwic(text, word, source):
         if sep:
             kwics.append("[" + source + "] " + left[-26:] + sep + right[:46])
             
-    return "\n".join(kwics)
+    return "<br />".join(kwics)
 
 def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     """ Generate an image with shapefiles as bins 
