@@ -251,6 +251,7 @@ queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            ('trasig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
            ('NOT nyckelen', 'DB'),	
            ('NOT chokladet', 'DB'),
+           ('NOT svalen', 'DB'),
            #('NOT böla', 'DB'),
            ('NOT söligt', 'DB')
            ]
