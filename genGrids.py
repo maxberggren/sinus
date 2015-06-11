@@ -164,8 +164,9 @@ def get_grids(queries, xBins=15):
                         lat, lon = None, None
                         queryLimit = True
                         
-                    lats.append(lat)
-                    lons.append(lon) 
+                    if lat and lon:
+                        lats.append(lat)
+                        lons.append(lon) 
                     
                 grid = gen_grid(lats, lons, xBins=xBins)
                 cache.set(str(query) + str(xBins), grid, timeout=60*60*24*31) 
