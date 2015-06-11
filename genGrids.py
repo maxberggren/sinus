@@ -57,8 +57,8 @@ def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
         density[zeros] = smallest
     
     # Test with logarihming the data  
-    density = np.log(density)
-    density[density == -inf] = 0
+    #density = np.log(density)
+    #density[density == -inf] = 0
     return normalize(density)
 
 def get_coordinate(place):
