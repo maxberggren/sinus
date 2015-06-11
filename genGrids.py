@@ -118,8 +118,9 @@ def get_grids(queries, xBins=15):
         print "letar efter {} i {}".format(word, source)
         
         grid = cache.get(str(query) + str(xBins))
-        print type(grid) 
+
         if isinstance(grid, np.ndarray): # Found in cache
+            print "hämtade från cachen: {}".format(str(query) + str(xBins))
             grids.append(grid)
             
         else: # Not found in cache
