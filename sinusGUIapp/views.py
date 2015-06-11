@@ -666,7 +666,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         cbar.ax.tick_params(labelsize=6)
         
             
-    fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
+    try:
+        fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
+    except:
+        pass
+    
     plt.plot()
 
     # Generate randomized filename
