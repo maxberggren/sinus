@@ -218,14 +218,14 @@ def make_map(matrix, name, xBins=15):
     ys = ys[0:density.shape[0], 0:density.shape[1]]
             
     # Colormap transparency
-    theCM = cm.get_cmap(colorCycle(0))
-    theCM._init()
-    alphas = np.abs(np.linspace(0, 1.0, theCM.N))
-    theCM._lut[:-3,-1] = alphas
+    #theCM = cm.get_cmap(colorCycle(0))
+    #theCM._init()
+    #alphas = np.abs(np.linspace(0, 1.0, theCM.N))
+    #theCM._lut[:-3,-1] = alphas
     
     p = plt.pcolor(xs, ys, density, 
                    cmap=theCM, 
-                   norm=LogNorm(), 
+                   #norm=LogNorm(), 
                    antialiased=True,
                    vmax=1.0,
                    vmin=0.01)                    
@@ -264,9 +264,11 @@ product = np.ones(grids[0].shape)
 # Multiply all distributions into a final one      
 for grid, query in zip(grids, queries): 
     if query[0][0:4] == "NOT ":
+        print not_in(grid)
         make_map(not_in(grid), query[0], xBins=xBins) 
         product = np.multiply(product, not_in(grid)) 
     else:
+        print grid
         make_map(grid, query[0], xBins=xBins) 
         product = np.multiply(product, grid) 
     
