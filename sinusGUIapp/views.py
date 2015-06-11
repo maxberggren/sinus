@@ -1310,7 +1310,8 @@ def site(urlSearch=None):
         the index view rendered with render_template("index.html")
 
     """  
-    stats = getStats()
+    #stats = getStats()
+    stats = None
     
     ### Classify text
     try:
