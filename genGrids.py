@@ -262,10 +262,10 @@ product = np.ones(grids[0].shape)
 # Multiply all distributions into a final one      
 for grid, query in zip(grids, queries): 
     if query[0][0:4] == "NOT ":
-        #make_map(not_in(grid), query[0], xBins=xBins) 
+        make_map(not_in(grid), query[0], xBins=xBins) 
         product = np.multiply(product, not_in(grid)) 
     else:
-        #make_map(grid, query[0], xBins=xBins) 
+        make_map(grid, query[0], xBins=xBins) 
         product = np.multiply(product, grid) 
     
 print normalize(product)
