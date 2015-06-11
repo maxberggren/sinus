@@ -56,7 +56,7 @@ def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
         smallest = np.amin(np.nonzero(density))
         density[zeros] = smallest
     
-    # Test with logarihming the data  
+    # Test with logaritmizing the data  
     #density = np.log(density)
     #density[density == -inf] = 0
     return normalize(density)
@@ -251,7 +251,7 @@ queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            ('trasig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
            ('NOT nyckelen', 'DB'),	
            ('NOT chokladet', 'DB'),
-           ('NOT böla', 'DB'),
+           #('NOT böla', 'DB'),
            ('NOT söligt', 'DB')
            ]
           
