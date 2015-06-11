@@ -7,6 +7,7 @@ from geocode import latlon
 import numpy as np
 from numpy import inf
 import pandas as pd
+from sqlite_cache import SqliteCache
 
 from mpl_toolkits.basemap import Basemap, cm, maskoceans
 import matplotlib.cm as cm
@@ -102,62 +103,73 @@ def get_coordinate(place):
                     coordinate = latlon(region)
                 except geocode.NoResultError as error:
                     print error
-                    coordinate = (None, None)
+                    coordinate = query
     
     return coordinate
 
 
 def get_grids(queries, xBins=15):
+    
     grids = []
-    for dist in queries:
-        word, source = dist
+    
+    for query in queries:
+        word, source = query
         word = word.replace("NOT ", "")
-        
         print "letar efter {} i {}".format(word, source)
         
-        if source == "DB":
-            lats, lons = [], []
-            result = mysqldb.query("SELECT blogs.longitude, "
-                                   "blogs.latitude, "
-                                   "blogs.source, "
-                                   "posts.text, "
-                                   "posts.date, "
-                                   "blogs.rank, "
-                                   "blogs.id "
-                                   "FROM posts INNER JOIN blogs ON "
-                                   "blogs.id=posts.blog_id "
-                                   "WHERE MATCH(posts.text) "
-                                   "AGAINST ('" + word + "' "
-                                   "IN BOOLEAN MODE) "
-                                   "AND blogs.latitude is not NULL "
-                                   "AND blogs.longitude is not NULL "
-                                   "AND blogs.rank <= 4 "
-                                   "ORDER BY posts.date ")
-            for row in result:
-                lats.append(row['latitude'])
-                lons.append(row['longitude'])
-                
-            print "Hittade {} koordinater".format(len(lats))
-            grids.append(gen_grid(lats, lons, xBins=xBins))
+        grid = cache.get(query)
+        
+        if grid: # Found in cache
+            grids.append(grid)
             
-        else: # Get from excel file
-            df = pd.io.excel.read_excel("excelData/" + source)
-            if 'form' in df.columns:
-                df = df.loc[df['form'] == word.decode('utf-8')] # Filter for word of intrest
-            lats, lons = [], [] 
-            
-            for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
-                try:
-                    lat, lon = get_coordinate(place) # from Google's API
-                except geocode.QueryLimitError:
-                    lat, lon = None, None
-                    queryLimit = True
+        else: # Not found in cache
+            if source == "DB": # Database
+                lats, lons = [], []
+                result = mysqldb.query("SELECT blogs.longitude, "
+                                       "blogs.latitude, "
+                                       "blogs.source, "
+                                       "posts.text, "
+                                       "posts.date, "
+                                       "blogs.rank, "
+                                       "blogs.id "
+                                       "FROM posts INNER JOIN blogs ON "
+                                       "blogs.id=posts.blog_id "
+                                       "WHERE MATCH(posts.text) "
+                                       "AGAINST ('" + word + "' "
+                                       "IN BOOLEAN MODE) "
+                                       "AND blogs.latitude is not NULL "
+                                       "AND blogs.longitude is not NULL "
+                                       "AND blogs.rank <= 4 "
+                                       "ORDER BY posts.date ")
+                for row in result:
+                    lats.append(row['latitude'])
+                    lons.append(row['longitude'])
                     
-                lats.append(lat)
-                lons.append(lon) 
+                print "Hittade {} koordinater".format(len(lats))
+                grid = gen_grid(lats, lons, xBins=xBins)
+                cache.set(query, grid, timeout=60*60*24*31)   
+                grids.append(grid)
                 
-            grids.append(gen_grid(lats, lons, xBins=xBins))
-    
+            else: # Get from excel file
+                df = pd.io.excel.read_excel("excelData/" + source)
+                if 'form' in df.columns:
+                    df = df.loc[df['form'] == word.decode('utf-8')] # Filter for word of intrest
+                lats, lons = [], [] 
+                
+                for place in zip(df['ort'], df['kommun'], df[u'län'], df['landskap']):
+                    try:
+                        lat, lon = get_coordinate(place) # from Google's API
+                    except geocode.QueryLimitError:
+                        lat, lon = None, None
+                        queryLimit = True
+                        
+                    lats.append(lat)
+                    lons.append(lon) 
+                    
+                grid = gen_grid(lats, lons, xBins=xBins)
+                cache.set(query, grid, timeout=60*60*24*31) 
+                grids.append(grid)
+            
     return grids        
 
 def colorCycle(i, scatter=False):
@@ -221,7 +233,8 @@ def make_map(matrix, name, xBins=15):
                 dpi=100, 
                 bbox_inches='tight')
                 
-                   
+
+cache = SqliteCache("cache")                   
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=135)
@@ -234,7 +247,7 @@ queries = [('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            #('fara', 'DB'),
            #('NOT böla', 'DB'),
            #('trasig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
-           ('nyckelen', 'DB'),
+           ('nyckelen', 'DB'),	
            ('chokladet', 'DB'),
            #('böla', 'DB'),
            #('söligt', 'DB')
