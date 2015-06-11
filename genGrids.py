@@ -117,7 +117,7 @@ def get_grids(queries, xBins=15):
         word = word.replace("NOT ", "")
         print "letar efter {} i {}".format(word, source)
         
-        grid = cache.get(query)
+        grid = cache.get(str(query))
         
         if grid: # Found in cache
             grids.append(grid)
@@ -147,7 +147,7 @@ def get_grids(queries, xBins=15):
                     
                 print "Hittade {} koordinater".format(len(lats))
                 grid = gen_grid(lats, lons, xBins=xBins)
-                cache.set(query, grid, timeout=60*60*24*31)   
+                cache.set(str(query), grid, timeout=60*60*24*31)   
                 grids.append(grid)
                 
             else: # Get from excel file
@@ -167,7 +167,7 @@ def get_grids(queries, xBins=15):
                     lons.append(lon) 
                     
                 grid = gen_grid(lats, lons, xBins=xBins)
-                cache.set(query, grid, timeout=60*60*24*31) 
+                cache.set(str(query), grid, timeout=60*60*24*31) 
                 grids.append(grid)
             
     return grids        
