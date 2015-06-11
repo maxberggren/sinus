@@ -259,8 +259,8 @@ product = np.ones(grids[0].shape)
  
 # Multiply all distributions into a final one      
 for grid, query in zip(grids, queries): 
-    print query[0][0:3]
-    if query[0][0:3] == "NOT ":
+    print query[0][0:4]
+    if query[0][0:4] == "NOT":
         print "!!!!!!!!!!!!!!!!!!!"
         print not_in(grid)
         make_map(not_in(grid), query[0], xBins=xBins) 
