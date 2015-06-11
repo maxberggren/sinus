@@ -254,6 +254,7 @@ queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            ('NOT svalen', 'DB'),
            #('NOT böla', 'DB'),
            ('NOT söligt', 'DB')
+           ('fett', 'DB')
            ]
           
 grids = get_grids(queries, xBins=xBins)
