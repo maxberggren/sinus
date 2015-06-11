@@ -151,7 +151,9 @@ def kwic(text, word, source):
     
     if " or " in word.lower():
         words = word.lower().split(" or ")
-        word = words[0] # Quickfix: choose the first in the or-clause
+    else:
+        words = [word]
+        
     if type(text) is str:
         try:
             text = text.decode("utf-8")
