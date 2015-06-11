@@ -118,6 +118,7 @@ def get_grids(queries, xBins=15):
         print "letar efter {} i {}".format(word, source)
         
         grid = cache.get(str(query))
+        print grid
         
         if grid: # Found in cache
             grids.append(grid)
