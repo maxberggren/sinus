@@ -36,7 +36,7 @@ def not_in(matrix):
     
     return normalize(1 - matrix)
 
-def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=True):
+def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
     """ Generate grid from coordinates """
     
     if len(lats) == 0:
@@ -226,9 +226,7 @@ def make_map(matrix, name, xBins=15):
     p = plt.pcolor(xs, ys, density, 
                    cmap=theCM, 
                    #norm=LogNorm(), 
-                   antialiased=True,
-                   vmax=1.0,
-                   vmin=0.01)                    
+                   antialiased=True)                    
     
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     
