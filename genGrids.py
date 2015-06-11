@@ -117,7 +117,7 @@ def get_grids(queries, xBins=15):
         word = word.replace("NOT ", "")
         print "letar efter {} i {}".format(word, source)
         
-        grid = cache.get(str(query))
+        grid = cache.get(str(query) + str(xBins))
         
         if type(grid) == 'numpy.ndarray': # Found in cache
             grids.append(grid)
@@ -147,7 +147,7 @@ def get_grids(queries, xBins=15):
                     
                 print "Hittade {} koordinater".format(len(lats))
                 grid = gen_grid(lats, lons, xBins=xBins)
-                cache.set(str(query), grid, timeout=60*60*24*31)   
+                cache.set(str(query) + str(xBins), grid, timeout=60*60*24*31)   
                 grids.append(grid)
                 
             else: # Get from excel file
@@ -167,7 +167,7 @@ def get_grids(queries, xBins=15):
                     lons.append(lon) 
                     
                 grid = gen_grid(lats, lons, xBins=xBins)
-                cache.set(str(query), grid, timeout=60*60*24*31) 
+                cache.set(str(query) + str(xBins), grid, timeout=60*60*24*31) 
                 grids.append(grid)
             
     return grids        
@@ -220,7 +220,6 @@ def make_map(matrix, name, xBins=15):
     theCM._init()
     alphas = np.abs(np.linspace(0, 1.0, theCM.N))
     theCM._lut[:-3,-1] = alphas
-        
     
     p = plt.pcolor(xs, ys, density, 
                    cmap=theCM, 
@@ -234,12 +233,12 @@ def make_map(matrix, name, xBins=15):
                 bbox_inches='tight')
                 
 
-cache = SqliteCache("cache")                   
+cache = SqliteCache("cache") 
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # For safety
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=135)
 
-xBins = 12
+xBins = 20
 queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            #('nästkusin', 'DB'),
            #('äppelpaj', 'DB'),
