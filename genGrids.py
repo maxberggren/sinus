@@ -261,9 +261,11 @@ product = np.ones(grids[0].shape)
 for grid, query in zip(grids, queries): 
     
     if query[0][0:3] == "NOT ":
+        print not_in(grid)
         make_map(not_in(grid), query[0], xBins=xBins) 
         product = np.multiply(product, not_in(grid)) 
     else:
+        print grid
         make_map(grid, query[0], xBins=xBins) 
         product = np.multiply(product, grid) 
     
