@@ -119,7 +119,7 @@ def get_grids(queries, xBins=15):
         
         grid = cache.get(str(query) + str(xBins))
         print type(grid) 
-        if isinstance(grid, numpy.ndarray): # Found in cache
+        if isinstance(grid, np.ndarray): # Found in cache
             grids.append(grid)
             
         else: # Not found in cache
