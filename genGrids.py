@@ -36,7 +36,7 @@ def not_in(matrix):
     
     return normalize(1 - matrix)
 
-def gen_grid(lats, lons, xBins=15, xyRatio=1.8, no_zeros=False):
+def gen_grid(lats, lons, xyRatio=1.8, no_zeros=False):
     """ Generate grid from coordinates """
     
     if len(lats) == 0:
@@ -108,7 +108,7 @@ def get_coordinate(place):
     return coordinate
 
 
-def get_grids(queries, xBins=15):
+def get_grids(queries):
     
     grids = []
     
@@ -168,7 +168,7 @@ def get_grids(queries, xBins=15):
                         lats.append(lat)
                         lons.append(lon) 
                     
-                grid = gen_grid(lats, lons, xBins=xBins)
+                grid = gen_grid(lats, lons)
                 cache.set(str(query) + str(xBins), grid, timeout=60*60*24*31) 
                 grids.append(grid)
             
@@ -181,7 +181,7 @@ def colorCycle(i, scatter=False):
     return colors[i % len(colors)]
     
  
-def make_map(matrix, name, xBins=15):
+def make_map(matrix, name):
     
     density = matrix
     fig = plt.figure(figsize=(3.25*1,6))
@@ -235,9 +235,11 @@ def make_map(matrix, name, xBins=15):
                 bbox_inches='tight')
                 
 
+
+
 cache = SqliteCache("cache") 
 mysqldb = dataset.connect(c.LOCATIONDB) 
-mysqldb.query("set names 'utf8'") # For safety
+mysqldb.query("set names 'utf8'") # Might help
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=155)
 
 xBins = 20
@@ -256,23 +258,26 @@ queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            ('NOT poängpromenad', 'DB')
            ]
           
-grids = get_grids(queries, xBins=xBins)
+grids = get_grids(queries)
 product = np.ones(grids[0].shape)      
  
+def negative(query):
+    return query[0][0:4] == "NOT "
+
 # Multiply all distributions into a final one      
 for grid, query in zip(grids, queries): 
-    if query[0][0:4] == "NOT ":
+    if negative(query):
         print not_in(grid)
-        make_map(not_in(grid), query[0], xBins=xBins) 
+        make_map(not_in(grid), query[0]) 
         product = np.multiply(product, not_in(grid)) 
     else:
         print grid
-        make_map(grid, query[0], xBins=xBins) 
+        make_map(grid, query[0]) 
         product = np.multiply(product, grid) 
     
 print normalize(product)
 density = normalize(product)
-make_map(density, "product", xBins=xBins)
+make_map(density, "product")
 
 
 
