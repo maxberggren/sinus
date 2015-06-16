@@ -91,7 +91,7 @@ def count_words_in_region(region, bounding_box):
         
         del onegrams
         remainingBatches = (nPosts - offset)/batch
-        print str(100*offset/nPosts)[0:4], "%", "- Tog:", int((time.time() - start)), "sekunder."
+        print str(100*offset/nPosts)[0:4], "%", "- Tog:", int((time.time() - start)), "sekunder. Region:", region
     
        
     # Rensa lite
