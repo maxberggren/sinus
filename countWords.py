@@ -24,7 +24,7 @@ def count_words_in_region(region, bounding_box):
     db = dataset.connect(c.LOCATIONDB)
     
     batch = 1000
-    nPosts = int(8*43131671.0/100.0) 
+    nPosts = int(4*43131671.0/100.0) 
     offsets = xrange(0, nPosts, batch)
     
     #bigrams = Counter() 
