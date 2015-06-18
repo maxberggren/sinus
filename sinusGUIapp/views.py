@@ -386,7 +386,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             [r['Shape_Area'] for r in m.muni_no_info] + \
             [0 for r in m.muni_fi_info]
     
-    df_map_muni = pd.DataFrame({'poly': polygons, 'name': names, 'area': areas})
+    df_map_muni = pd.DataFrame({'poly': polygons, 'name': names, 'area': areas})    
     
     # County DF
     df_map_county = pd.DataFrame({
@@ -544,7 +544,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     def genFallbackMap(df, word):
         """ Generate fallback map from municipalitys """
         hierarchy = pd.io.excel.read_excel("hierarchy.xlsx")
-        print hierarchy
 
         def getMuni(df, level, key):
             return df.groupby(level).get_group(key)['Kommun'].unique()
@@ -587,9 +586,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                         
             return new_df 
 
-        #print df
         df = updateDF(df, word)
-        #print df
 
         return df
     
@@ -621,9 +618,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         cmap = plt.get_cmap(colormap)
         #cmap = opacify(cmap) # Add opacity to colormap
         
-        print "Empty bin fallback:", binModel
-        print "Binthreshold:", binThreshold
-        
         if binModel == 'municipality+county':
             # County fallback for empty bins
             shapesToPutOnMap = [df_map_county, df_map_muni]
@@ -651,9 +645,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                        df_map['bins_'+word].values.min())/(
                            df_map['bins_'+word].values.max()-
                                float(df_map['bins_'+word].values.min()))
-                               
-            #print cmaps
-            
+                                           
             cmap_list = []
             for val in cmaps:
                 if val == 0:
@@ -1192,11 +1184,9 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         coordinates, dates, ranks = [], [], []
         fewResults = False
         if datespan:
-            print "datespan", datespan
             try:
                 dateFrom = datespan.split("->")[0].encode('utf-8')
                 dateTo = datespan.split("->")[1].encode('utf-8')
-                print dateFrom, dateTo  
                 spanQuery = "AND posts.date BETWEEN CAST('"+dateFrom+"' AS DATE) "
                 spanQuery += "AND CAST('"+dateTo+"' AS DATE) "   
             except:

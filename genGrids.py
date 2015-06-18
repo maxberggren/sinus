@@ -61,8 +61,17 @@ def gen_grid(lats, lons, xyRatio=1.8, no_zeros=False):
     #density[density == -inf] = 0
     return normalize(density)
 
+def entropy(pctMatrix):
+
+    ent = 0.0
+    for pct in pctMatrix.flatten():
+        if pct > 0:
+            ent -= + pct * math.log(pct, 2)
+    
+    return ent
+
 def get_coordinate(place):
-    """ Get coordinate from Google API. Also, this is posisbly
+    """ Get coordinate from Google API. Also, this is possisbly
     the worst code ever written """
     
     city, muni, county, region = place
@@ -259,6 +268,7 @@ queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            ]
           
 grids = get_grids(queries)
+print [entropy(m) for m in grids] # Show entrolpy for the matrixes
 product = np.ones(grids[0].shape)      
  
 def negative(query):
