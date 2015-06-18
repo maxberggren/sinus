@@ -374,16 +374,16 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             finnishMunis.append(r['Kunta_ni1'])
             
     # Municipality DF (SE + NO + FI)
-    polygons = [Polygon(p) for p in m.muni] + \ # SE
-               [Polygon(p) for p in m.muni_no] + \ # NO
-               [Polygon(p) for p in m.muni_fi] # FI
+    polygons = [Polygon(p) for p in m.muni] + \ 
+               [Polygon(p) for p in m.muni_no] + \ 
+               [Polygon(p) for p in m.muni_fi] 
                
-    names = [r['KNNAMN'] for r in m.muni_info] + \ # SE
-            [r['NAVN'] for r in m.muni_no_info] + \ # NO
+    names = [r['KNNAMN'] for r in m.muni_info] + \ 
+            [r['NAVN'] for r in m.muni_no_info] + \ 
             finnishMunis # FI
             
-    areas = [r['LANDAREAKM'] for r in m.muni_info] + \ # SE
-            [r['Shape_Area'] for r in m.muni_no_info] + \ # NO
+    areas = [r['LANDAREAKM'] for r in m.muni_info] + \ 
+            [r['Shape_Area'] for r in m.muni_no_info] + \ 
             [0 for r in m.muni_fi_info] # FI
     
     df_map_muni = pd.DataFrame({'poly': polygons, 'name': names, 'area': areas})
