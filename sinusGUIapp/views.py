@@ -348,6 +348,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 urcrnrlon=urcrnrlon, 
                 urcrnrlat=urcrnrlat) 
     
+    start_time = time.time()
     # County data
     _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
                            name='countys', drawbounds=False, 
@@ -363,6 +364,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     _out = m.readshapefile('shapedata/finland/finland-11000000-administrative-regions', 
                            name='muni_fi', drawbounds=False, 
                            color='none', zorder=3)
+                           
+    print("--- %s sekunder att läsa alla shapefiles ---" % (time.time() - start_time))
     
     finnishMunis = []
     for r in m.muni_fi_info:
