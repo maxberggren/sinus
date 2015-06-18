@@ -406,7 +406,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 [Polygon(p) for p in m.countys_fi],
         'name': [r['LAN_NAMN'] for r in m.countys_info] + \
                 [r['VARNAME_1'] for r in m.countys_fi_info]})
-
+    
+    print df_map_county
+    
     # Fix encoding
     df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
     df_map_county['name'] = df_map_county.apply(lambda row: row['name'].decode('latin-1'), axis=1)
