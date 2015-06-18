@@ -391,6 +391,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     useFinnishCounties = True # TODO: not hardcoded like thiz plz
     if useFinnishCounties:
         finnishPolygons = [Polygon(p) for p in m.countys_fi]
+        finnishMunis = ["länsnamn" for r in m.countys_fi_info]
             
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
@@ -408,7 +409,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         'poly': [Polygon(p) for p in m.countys] + \
                 [Polygon(p) for p in m.countys_fi],
         'name': [r['LAN_NAMN'] for r in m.countys_info] + \
-                ["namn" for r in m.countys_fi_info]})
+                ["länsnamn" for r in m.countys_fi_info]})
                 #[r['VARNAME_1'] for r in m.countys_fi_info]})
     
     print df_map_county
