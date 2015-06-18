@@ -384,7 +384,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             
     areas = [r['LANDAREAKM'] for r in m.muni_info] + \ 
             [r['Shape_Area'] for r in m.muni_no_info] + \ 
-            [0 for r in m.muni_fi_info] # FI
+            [0 for r in m.muni_fi_info] 
     
     df_map_muni = pd.DataFrame({'poly': polygons, 'name': names, 'area': areas})
     
