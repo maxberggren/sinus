@@ -365,26 +365,26 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            color='none', zorder=3)
     
     finnishMunis = []
-    # If a municipality has a Swedish name, 
-    # take that, if not take Finnish name.
     for r in m.muni_fi_info:
         if r['Kunta_ni2'] != "N_A":
+            # If there is a Swedish name
             finnishMunis.append(r['Kunta_ni2'])
         else:
+            # Take the Finnish
             finnishMunis.append(r['Kunta_ni1'])
             
     # Municipality DF (SE + NO + FI)
-    polygons = [Polygon(p) for p in m.muni] + \ 
-               [Polygon(p) for p in m.muni_no] + \ 
-               [Polygon(p) for p in m.muni_fi] 
+    polygons = [Polygon(p) for p in m.muni] + \
+               [Polygon(p) for p in m.muni_no] + \
+               [Polygon(p) for p in m.muni_fi]
                
-    names = [r['KNNAMN'] for r in m.muni_info] + \ 
-            [r['NAVN'] for r in m.muni_no_info] + \ 
-            finnishMunis 
+    names = [r['KNNAMN'] for r in m.muni_info] + \
+            [r['NAVN'] for r in m.muni_no_info] + \
+            finnishMunis
             
-    areas = [r['LANDAREAKM'] for r in m.muni_info] + \ 
-            [r['Shape_Area'] for r in m.muni_no_info] + \ 
-            [0 for r in m.muni_fi_info] 
+    areas = [r['LANDAREAKM'] for r in m.muni_info] + \
+            [r['Shape_Area'] for r in m.muni_no_info] + \
+            [0 for r in m.muni_fi_info]
     
     df_map_muni = pd.DataFrame({'poly': polygons, 'name': names, 'area': areas})
     
@@ -544,6 +544,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     def genFallbackMap(df, word):
         """ Generate fallback map from municipalitys """
         hierarchy = pd.io.excel.read_excel("hierarchy.xlsx")
+        print hierarchy
 
         def getMuni(df, level, key):
             return df.groupby(level).get_group(key)['Kommun'].unique()
@@ -586,7 +587,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                         
             return new_df 
 
+        #print df
         df = updateDF(df, word)
+        #print df
 
         return df
     
@@ -617,7 +620,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             
         cmap = plt.get_cmap(colormap)
         #cmap = opacify(cmap) # Add opacity to colormap
-                
+        
+        print "Empty bin fallback:", binModel
+        print "Binthreshold:", binThreshold
+        
         if binModel == 'municipality+county':
             # County fallback for empty bins
             shapesToPutOnMap = [df_map_county, df_map_muni]
@@ -645,7 +651,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                        df_map['bins_'+word].values.min())/(
                            df_map['bins_'+word].values.max()-
                                float(df_map['bins_'+word].values.min()))
-                                           
+                               
+            #print cmaps
+            
             cmap_list = []
             for val in cmaps:
                 if val == 0:
