@@ -544,7 +544,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     def genFallbackMap(df, word):
         """ Generate fallback map from municipalitys """
         hierarchy = pd.io.excel.read_excel("hierarchy.xlsx")
-        print hierarchy
 
         def getMuni(df, level, key):
             return df.groupby(level).get_group(key)['Kommun'].unique()
@@ -587,9 +586,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                         
             return new_df 
 
-        #print df
         df = updateDF(df, word)
-        #print df
 
         return df
     
@@ -620,10 +617,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             
         cmap = plt.get_cmap(colormap)
         #cmap = opacify(cmap) # Add opacity to colormap
-        
-        print "Empty bin fallback:", binModel
-        print "Binthreshold:", binThreshold
-        
+                
         if binModel == 'municipality+county':
             # County fallback for empty bins
             shapesToPutOnMap = [df_map_county, df_map_muni]
@@ -651,9 +645,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                        df_map['bins_'+word].values.min())/(
                            df_map['bins_'+word].values.max()-
                                float(df_map['bins_'+word].values.min()))
-                               
-            #print cmaps
-            
+                                           
             cmap_list = []
             for val in cmaps:
                 if val == 0:
