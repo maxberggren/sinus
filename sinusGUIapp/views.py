@@ -358,7 +358,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
                            name='countys', drawbounds=False, 
                            color='none', zorder=2)
-    _out = m.readshapefile('shapedata/finland/FIN_adm1', 
+    _out = m.readshapefile('shapedata/finland/fin_adm1', 
                            name='countys_fi', drawbounds=False, 
                            color='none', zorder=2)
     
@@ -481,7 +481,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     if len(words) == 1: 
         
         fname_muni = "null_hypothesis_muni_df.pkl" 
-        fname_county = "null_hypothesis_county_df.pkl" 
+        fname_county = "null_hypothesis_county_df2.pkl" 
         
         if not os.path.isfile(fname_muni):
             temp_latlon_df = pd.DataFrame(getEnoughData(), 
