@@ -366,7 +366,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
     finlaen = []
     for r in m.muni_fi_info:
-        print r,
+        print r['Kunta_ni2'],
         finlaen.append(r['Kunta_ni2'])
     print len(finlaen)    
         
