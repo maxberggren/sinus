@@ -365,14 +365,15 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            color='none', zorder=3)
     
     for r in m.muni_fi_info:
-        print r
+        print r['Kunta_ni1'],
+        
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
                [Polygon(p) for p in m.muni_no] + \
                [Polygon(p) for p in m.muni_fi]
     names = [r['KNNAMN'] for r in m.muni_info] + \
             [r['NAVN'] for r in m.muni_no_info] + \
-            [r['Kunta'] for r in m.muni_fi_info]
+            [r['Kunta_ni1'] for r in m.muni_fi_info]
     areas = [r['LANDAREAKM'] for r in m.muni_info] + \
             [r['Shape_Area'] for r in m.muni_no_info] + \
             [0 for r in m.muni_fi_info]
