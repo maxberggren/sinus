@@ -364,11 +364,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            name='muni_fi', drawbounds=False, 
                            color='none', zorder=3)
     
-    finlaen = []
+    finnishMunis = []
     for r in m.muni_fi_info:
-        print r['Kunta_ni2'],
-        finlaen.append(r['Kunta_ni2'])
-    print len(finlaen)    
+        if r['Kunta_ni2'] != "N_A":
+            # If there is a Swedish name
+            finnishMunis.append(r['Kunta_ni2'])
+        else:
+            # Take the Finnish
+            finnishMunis.append(r['Kunta_ni1'])
         
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
@@ -376,7 +379,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                [Polygon(p) for p in m.muni_fi]
     names = [r['KNNAMN'] for r in m.muni_info] + \
             [r['NAVN'] for r in m.muni_no_info] + \
-            [r['Kunta_ni1'] for r in m.muni_fi_info]
+            [finnishMunis]
     areas = [r['LANDAREAKM'] for r in m.muni_info] + \
             [r['Shape_Area'] for r in m.muni_no_info] + \
             [0 for r in m.muni_fi_info]
@@ -539,6 +542,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     def genFallbackMap(df, word):
         """ Generate fallback map from municipalitys """
         hierarchy = pd.io.excel.read_excel("hierarchy.xlsx")
+        print hierarchy
 
         def getMuni(df, level, key):
             return df.groupby(level).get_group(key)['Kommun'].unique()
