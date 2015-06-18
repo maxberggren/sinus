@@ -377,6 +377,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     #print [r for r in m.countys_fi_info]
     
     finnishMunis = []
+    finnishPolygons = [Polygon(p) for p in m.muni_fi]
+    
     for r in m.muni_fi_info:
         if r['Kunta_ni2'] != "N_A":
             # If there is a Swedish name
@@ -385,20 +387,21 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             # Take the Finnish
             finnishMunis.append(r['Kunta_ni1'])
             
+    # In case Finnish counties is to be used instead of municipalities
+    useFinnishCounties = True # TODO: not hardcoded like thiz plz
+    if useFinnishCounties:
+        finnishPolygons = [Polygon(p) for p in m.countys_fi]
+            
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
                [Polygon(p) for p in m.muni_no] + \
-               [Polygon(p) for p in m.muni_fi]
+               finnishPolygons
                
     names = [r['KNNAMN'] for r in m.muni_info] + \
             [r['NAVN'] for r in m.muni_no_info] + \
             finnishMunis
-            
-    areas = [r['LANDAREAKM'] for r in m.muni_info] + \
-            [r['Shape_Area'] for r in m.muni_no_info] + \
-            [0 for r in m.muni_fi_info]
     
-    df_map_muni = pd.DataFrame({'poly': polygons, 'name': names, 'area': areas})    
+    df_map_muni = pd.DataFrame({'poly': polygons, 'name': names})    
     
     # County DF
     df_map_county = pd.DataFrame({
