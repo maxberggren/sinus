@@ -364,6 +364,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            name='muni_fi', drawbounds=False, 
                            color='none', zorder=3)
     
+    for r in m.muni_fi_info:
+        print r
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
                [Polygon(p) for p in m.muni_no] + \
