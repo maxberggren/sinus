@@ -358,7 +358,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
                            name='countys', drawbounds=False, 
                            color='none', zorder=2)
-    _out = m.readshapefile('shapedata/finland/FIN_adm1', 
+    _out = m.readshapefile('shapedata/finland/FIN_adm2', 
                            name='countys_fi', drawbounds=False, 
                            color='none', zorder=2)
     
@@ -405,7 +405,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         'poly': [Polygon(p) for p in m.countys] + \
                 [Polygon(p) for p in m.countys_fi],
         'name': [r['LAN_NAMN'] for r in m.countys_info] + \
-                [r['VARNAME_1'] for r in m.countys_fi_info]})
+                ["namn" for r in m.countys_fi_info]})
+                #[r['VARNAME_1'] for r in m.countys_fi_info]})
     
     print df_map_county
     
