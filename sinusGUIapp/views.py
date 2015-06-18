@@ -387,8 +387,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             # Take the Finnish
             finnishMunis.append(r['Kunta_ni1'])
             
+    useFinnishCounties = False # TODO: not hardcoded like thiz plz
     # In case Finnish counties is to be used instead of municipalities
-    useFinnishCounties = True # TODO: not hardcoded like thiz plz
     if useFinnishCounties:
         finnishPolygons = [Polygon(p) for p in m.countys_fi]
         finnishMunis = ["länsnamn" for r in m.countys_fi_info]
