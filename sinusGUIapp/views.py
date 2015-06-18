@@ -369,7 +369,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            color='none', zorder=3)
                            
     print("--- %s sekunder att läsa alla shapefiles ---" % (time.time() - start_time))
-    print [r for r in m.countys_fi_info]
+    #print [r for r in m.countys_fi_info]
     
     finnishMunis = []
     for r in m.muni_fi_info:
@@ -397,8 +397,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
     # County DF
     df_map_county = pd.DataFrame({
-        'poly': [Polygon(countys_points) for countys_points in m.countys],
-        'name': [r['LAN_NAMN'] for r in m.countys_info]})
+        'poly': [Polygon(p) for p in m.countys] + \
+                [Polygon(p) for p in m.countys_fi],
+        'name': [r['LAN_NAMN'] for r in m.countys_info] + \
+                [r['VARNAME_1'] for r in m.countys_fi_info]})
 
     # Fix encoding
     df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
