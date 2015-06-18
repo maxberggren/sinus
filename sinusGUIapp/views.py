@@ -374,6 +374,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             finnishMunis.append(r['Kunta_ni1'])
             
     print finnishMunis
+    print [r.decode('latin-1').encode('utf-8') for r in finnishMunis]
         
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
