@@ -380,7 +380,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                
     names = [r['KNNAMN'] for r in m.muni_info] + \ 
             [r['NAVN'] for r in m.muni_no_info] + \ 
-            finnishMunis # FI
+            finnishMunis 
             
     areas = [r['LANDAREAKM'] for r in m.muni_info] + \ 
             [r['Shape_Area'] for r in m.muni_no_info] + \ 
