@@ -46,7 +46,12 @@ def timing(f):
         time1 = time.time()
         ret = f(*args)
         time2 = time.time()
-        print '%s function took %0.3f ms' % (f.func_name, (time2-time1)*1000.0)
+        if 60 > time2-time1 > 0:
+            print '%s function took %0.3f s' % (f.func_name, (time2-time1))
+        elif time2-time1 > 60:
+            print '%s function took %0.3f min' % (f.func_name, (time2-time1)/60.0)
+        elif time2-time1 < 0:
+            print '%s function took %0.3f ms' % (f.func_name, (time2-time1)*1000.0)
         return ret
     return wrap
        
