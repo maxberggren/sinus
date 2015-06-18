@@ -374,8 +374,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            color='none', zorder=3)
                            
     print("--- %s sekunder att läsa alla shapefiles ---" % (time.time() - start_time))
-    #print [r for r in m.countys_fi_info]
-    print m.countys_fi_info[0].keys() #metadata
     
     finnishMunis = []
     finnishPolygons = [Polygon(p) for p in m.muni_fi]
@@ -392,7 +390,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     # In case Finnish counties is to be used instead of municipalities
     if useFinnishCounties:
         finnishPolygons = [Polygon(p) for p in m.countys_fi]
-        finnishMunis = ["länsnamn" for r in m.countys_fi_info]
+        finnishMunis = [r['NAME_1'] for r in m.countys_fi_info]
             
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
@@ -410,8 +408,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         'poly': [Polygon(p) for p in m.countys] + \
                 [Polygon(p) for p in m.countys_fi],
         'name': [r['LAN_NAMN'] for r in m.countys_info] + \
-                ["länsnamn" for r in m.countys_fi_info]})
-                #[r['VARNAME_1'] for r in m.countys_fi_info]})
+                [r['NAME_1'] for r in m.countys_fi_info]})
     
     print df_map_county
     
@@ -481,7 +478,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     if len(words) == 1: 
         
         fname_muni = "null_hypothesis_muni_df.pkl" 
-        fname_county = "null_hypothesis_county_df2.pkl" 
+        fname_county = "null_hypothesis_county_df.pkl" 
         
         if not os.path.isfile(fname_muni):
             temp_latlon_df = pd.DataFrame(getEnoughData(), 
