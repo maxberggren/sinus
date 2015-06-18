@@ -364,8 +364,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            name='muni_fi', drawbounds=False, 
                            color='none', zorder=3)
     
+    finlaen = []
     for r in m.muni_fi_info:
         print r['Kunta_ni1'],
+        finlaen.append(r['Kunta_ni1'])
+    print len(finlaen)    
         
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
@@ -847,7 +850,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
                 urcrnrlat = 69.5
             
             m = Basemap(projection='merc',
-                        resolution = 'i', 
+                        resolution='i', 
                         area_thresh=250,
                         llcrnrlon=llcrnrlon, 
                         llcrnrlat=llcrnrlat,
@@ -856,7 +859,6 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
             
             m.drawcoastlines(linewidth=0.5)
             m.drawcountries()
-            m.drawstates()
             m.drawmapboundary()
             m.fillcontinents(color='white',
                              lake_color='black',
