@@ -375,6 +375,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            
     print("--- %s sekunder att läsa alla shapefiles ---" % (time.time() - start_time))
     #print [r for r in m.countys_fi_info]
+    print m.countys_fi_info[0].keys() #metadata
     
     finnishMunis = []
     finnishPolygons = [Polygon(p) for p in m.muni_fi]
