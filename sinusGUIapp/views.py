@@ -251,7 +251,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                         lon_bins])
         return density
     
-    @timing
     def sum1(input):
         """ Sum all elements in matrix """
         
@@ -260,7 +259,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         except Exception:
             return sum(input)
     
-    @timing    
     def normalize(matrix):
         """ Divide all elements by sum of all elements """
         return matrix / sum1(matrix)        
@@ -375,6 +373,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            
     print("--- %s sekunder att läsa alla shapefiles ---" % (time.time() - start_time))
     
+    start_time = time.time()
     finnishMunis = []
     finnishPolygons = [Polygon(p) for p in m.muni_fi]
     
@@ -386,7 +385,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             # Take the Finnish
             finnishMunis.append(r['Kunta_ni1'])
             
-    useFinnishCounties = True # TODO: not hardcoded like thiz plz
+    useFinnishCounties = True # WHEN CHANGED CACHE PICKLES NEEDS TO BE REMOVED!
     # In case Finnish counties is to be used instead of municipalities
     if useFinnishCounties:
         finnishPolygons = [Polygon(p) for p in m.countys_fi]
@@ -410,12 +409,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         'name': [r['LAN_NAMN'] for r in m.countys_info] + \
                 [r['NAME_1'] for r in m.countys_fi_info]})
     
-    print df_map_county
-    
     # Fix encoding
     df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
     df_map_county['name'] = df_map_county.apply(lambda row: row['name'].decode('latin-1'), axis=1)
     
+    print("--- %s sekunder att sätta upp dataframes med polygoner ---" % (time.time() - start_time))
+
     @timing
     def mapPointsToPoly(coordinates_df, poly_df):
         """ Take coordiates DF and put into polygon DF """
@@ -427,10 +426,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         
         for word, ld in coordinates_df.groupby(['word']):             
             # Convert our latitude and longitude into Basemap cartesian map coordinates
+            start_time = time.time()
             points = [Point(m(mapped_x, mapped_y)) 
                       for mapped_x, mapped_y 
                       in zip(ld['longitude'], ld['latitude'])]
             
+            print("--- %s sekunder att konvertera till Point() ---" % (time.time() - start_time))
             # If we did not get ranked data, assume rank 2          
             try:
                 mapped_points[word] = pd.DataFrame({'points': points,
@@ -438,9 +439,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             except KeyError:
                 mapped_points[word] = pd.DataFrame({'points': points})
                 mapped_points[word]['rank'] = 2
-                                                   
+    
+            start_time = time.time()                                                   
             # Use prep to optimize polygons for faster computation
             hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
+            print("--- %s sekunder att göra prep(MultiPolygon) ---" % (time.time() - start_time))
             
             # Filter out the points that do not fall within the map we're making
             #mapped_points[word] = [p for p in all_points[word] if hood_polygons[word].contains(p)]
@@ -462,9 +465,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             return num
         
         for word in uniqeWords:
+            start_time = time.time()   
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
                                                   args=(mapped_points[word],))
             poly_df[word][poly_df[word] < binThreshold] = 0
+            print("--- %s sekunder att kolla hur många träffar som är i varje polygon för ordet %s) ---" % (time.time() - start_time)), word
             
         return poly_df
         
@@ -480,6 +485,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         fname_muni = "null_hypothesis_muni_df.pkl" 
         fname_county = "null_hypothesis_county_df.pkl" 
         
+        start_time = time.time()   
         if not os.path.isfile(fname_muni):
             temp_latlon_df = pd.DataFrame(getEnoughData(), 
                                           columns=['longitude', 'latitude'])
@@ -494,7 +500,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             # Read from pickle
             null_h_muni_df = pd.io.pickle.read_pickle(fname_muni)
             null_h_county_df = pd.io.pickle.read_pickle(fname_county)
-            
+        
+        print("--- %s sekunder att ladda nollhypotes) ---" % (time.time() - start_time))
+
+
         def deviationFromAverage(df_map, avg):
             # Expected is to see a word according to country average
             df_map['expected'] = avg['expected']        
@@ -509,9 +518,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             del df_map['expected']
             return df_map
          
+        start_time = time.time()   
         # Since only one word, calculate deviation from country average   
         df_map_muni = deviationFromAverage(df_map_muni, null_h_muni_df)
         df_map_county = deviationFromAverage(df_map_county, null_h_county_df)
+        print("--- %s sekunder att kolla avvikelse fr nollhypotes) ---" % (time.time() - start_time))
         
         breaks['muni'], breaks['county'] = {}, {}
                
@@ -541,8 +552,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             return df_map
         
         # Convert to percentages and skip where there is none
+        start_time = time.time()   
         df_map_county = df_percent(df_map_county)
         df_map_muni = df_percent(df_map_muni)
+        print("--- %s sekunder att konvertera till procent) ---" % (time.time() - start_time))
 
         breaks['muni'], breaks['county'] = {}, {}
                
@@ -613,17 +626,22 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
     for i, word in enumerate(words):
 
+        start_time = time.time()  
         # Create columns stating which break precentages belongs to
         df_map_county['bins_'+word] = df_map_county[word].apply(self_categorize, 
                                                                 args=(breaks['county'][word],))
         df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
                                                              args=(breaks['muni'][word],))      
+        print("--- %s sekunder att kategorisera procent) ---" % (time.time() - start_time))
+
         # Also create a fallback DF if needed
         if binModel == 'lab':
-            df_map_fallback = genFallbackMap(df_map_muni, word)            
+            start_time = time.time() 
+            df_map_fallback = genFallbackMap(df_map_muni, word)    
+            print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
-                                                                                                              
+        start_time = time.time()                                                                                                       
         # Subplot for every word
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
         ax.set_title(u"{word} - hits: {hits}".format(word=word.replace(" OR ", "/"), 
@@ -694,6 +712,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                cax=cax)
         cbar.ax.tick_params(labelsize=6)
         
+        print("--- %s sekunder att skapa karta) ---" % (time.time() - start_time))      
             
     try:
         fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
@@ -1231,7 +1250,6 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                " " + spanQuery + " "
                                "ORDER BY posts.date ")
                                #ORDER BY RAND() limit 1000? 
-        print word.encode('utf-8')
         
         # Get all lon and lats, and dates
         # and keywords in contexts (kwic)
