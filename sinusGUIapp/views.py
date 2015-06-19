@@ -389,7 +389,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     # In case Finnish counties is to be used instead of municipalities
     if useFinnishCounties:
         finnishPolygons = [Polygon(p) for p in m.countys_fi]
-        finnishMunis = [r['NAME_1'] for r in m.countys_fi_info]
+        finnishMunis = ["temp" for r in m.countys_fi_info]
             
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
@@ -407,7 +407,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         'poly': [Polygon(p) for p in m.countys] + \
                 [Polygon(p) for p in m.countys_fi],
         'name': [r['LAN_NAMN'] for r in m.countys_info] + \
-                [r['NAME_1'] for r in m.countys_fi_info]})
+                ["temp" for r in m.countys_fi_info]})
     
     # Fix encoding
     df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
