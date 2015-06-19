@@ -442,7 +442,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
             start_time = time.time()                                                   
             # Use prep to optimize polygons for faster computation
-            hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
+            #hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
             print("--- %s sekunder att göra prep(MultiPolygon) ---" % (time.time() - start_time))
             
             # Filter out the points that do not fall within the map we're making
@@ -457,15 +457,18 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
             num = 0            
             for rank, ld in mapped_points.groupby(['rank']):  
-                if rank >= 4: # Downweight bad ranked points
-                    num += int(0.5*len(filter(prep(apolygon).contains, ld['points'])))
+                if rank >= 4: # Downweight badly ranked points
+                    num += int(0.5*len(filter(apolygon.contains, ld['points'])))
                 else:
-                    num += int(len(filter(prep(apolygon).contains, ld['points'])))
+                    num += int(len(filter(apolygon.contains, ld['points'])))
                     
             return num
         
         for word in uniqeWords:
             start_time = time.time()   
+
+            poly_df['poly'] = prep(MultiPolygon(list(poly_df['poly'].values)))
+
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
                                                   args=(mapped_points[word],))
             poly_df[word][poly_df[word] < binThreshold] = 0
