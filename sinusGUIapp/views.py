@@ -469,7 +469,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
                                                   args=(mapped_points[word],))
             poly_df[word][poly_df[word] < binThreshold] = 0
-            print("--- %s sekunder att kolla hur många träffar som är i varje polygon för ordet %s) ---" % (time.time() - start_time)), word
+            print("--- %s sekunder att kolla hur många träffar som är i varje polygon) ---" % (time.time() - start_time))
             
         return poly_df
         
@@ -1219,6 +1219,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     wordsOverThreshold = []
     
     for word in words:
+        start_time = time.time()
         coordinates, dates, ranks = [], [], []
         fewResults = False
         if datespan:
@@ -1284,6 +1285,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             resultsOmitted = True # So we can show the user that a word has been removed
             
         hits[word] = len(coordinates)
+
+        print("--- %s sekunder att hämta data för ett ord ---" % (time.time() - start_time))
     
     words = wordsOverThreshold # So words under threshold is omitted     
 
