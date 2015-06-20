@@ -346,7 +346,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
     cachedMapWithShapes = "mapwithshapefiles.pkl"
 
-    if not os.path.isfile(cachedMapWithShapes):
+    if not os.path.isfile(cachedMapWithShapes) or zoom:
+        # If no cache is awalible, set up object
         start_time = time.time()
 
         m = Basemap(projection='merc',
@@ -382,6 +383,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                
         print("--- %s sekunder att läsa alla shapefiles ---" % (time.time() - start_time))
     else:
+        # Read from cache to save precious time
         start_time = time.time()
         with open(cachedMapWithShapes, 'rb') as f:
             m = pickle.load(f)
