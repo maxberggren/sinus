@@ -656,6 +656,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         if binModel == 'lab':
             start_time = time.time() 
             df_map_fallback = genFallbackMap(df_map_muni, word)    
+            df_map_fallback = genFallbackMap(df_map_fallback, word)    
             print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
