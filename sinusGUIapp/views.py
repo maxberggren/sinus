@@ -1043,7 +1043,6 @@ def getOperators(queryWords):
                                or "binthreshold:" in o
                                or "bintype:" in o
                                or "binmodel:" in o
-                               or "exclude:" in o
                                or "hitsthreshold:" in o]
                                
     queryWords = [w.strip() for w in queryWords 
@@ -1057,7 +1056,6 @@ def getOperators(queryWords):
                                and "binthreshold:" not in w
                                and "bintype:" not in w
                                and "binmodel:" not in w
-                               and "exclude:" not in w
                                and "hitsthreshold:" not in w]
     
     try:
@@ -1110,15 +1108,8 @@ def getOperators(queryWords):
                for o in operators if "hitsthreshold:" in o][0])
     except:
         hitsThreshold = 50
-    
-    excludeStr = []    
-    try:
-        excludeStr.append([o.split(":")[1].strip().replace('"','')
-               for o in operators if "exclude:" in o][0])
-    except:
-        excludeStr = [] 
         
-    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, excludeStr
+    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold
 
 def getStats():
     cacheTimeout = 24*60*60 # 1 day
@@ -1192,7 +1183,7 @@ def getStats():
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, rankthreshold=3, 
             binThreshold=5, datespan=None, binType="shape",
-            binModel=None, hitsThreshold=50, excludeStr=None):
+            binModel=None, hitsThreshold=50):
 
     """ Retrive data from the document database
 
@@ -1259,6 +1250,11 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 spanQuery = ""
         else:
             spanQuery = ""
+
+        if " EXCLUDE " in word:
+            exclude = word.split(" EXCLUDE ")[1].replace('"',"")
+            word = word.split(" EXCLUDE ")[0]
+        print "excluding:", exclude
             
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
@@ -1284,7 +1280,6 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         wordkwic = []
         i = 0
         oldkwic = ""
-        print excludeStr
         for row in result:
             coordinates.append([row['longitude'], 
                                 row['latitude']])
@@ -1424,7 +1419,7 @@ def site(urlSearch=None):
         queryWords = []
         query = None
 
-    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, excludeStr = getOperators(queryWords)
+    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold = getOperators(queryWords)
             
     if len(queryWords) > 0:
         touple = getData(queryWords,        
@@ -1436,8 +1431,7 @@ def site(urlSearch=None):
                          datespan=datespan,
                          binType=binType,
                          binModel=binModel,
-                         hitsThreshold=hitsThreshold,
-                         excludeStr=excludeStr)
+                         hitsThreshold=hitsThreshold)
                          
         filename, hits, KWICs, fewResults, gifFileName, resultsOmitted = touple
                               
