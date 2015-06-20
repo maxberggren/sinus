@@ -40,7 +40,7 @@ from pysal.esda.mapclassify import Natural_Breaks
 from geocode import latlon
 import geocode    
 from scipy.stats import mode
-import pickle 
+import cPickle as pickle
 
 def timing(f):
     def wrap(*args):
