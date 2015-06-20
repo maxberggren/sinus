@@ -1284,8 +1284,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         wordkwic = []
         i = 0
         oldkwic = ""
+        print excludeStr
         for row in result:
-            print excludeStr
             coordinates.append([row['longitude'], 
                                 row['latitude']])
             dates.append(row['date'])
