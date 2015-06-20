@@ -353,7 +353,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
     start_time = time.time()
     # County data
-    _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std_kompr', 
+    _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
                            name='countys', drawbounds=False, 
                            color='none', zorder=2)
     _out = m.readshapefile('shapedata/finland/fin-adm2', 
@@ -361,7 +361,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            color='none', zorder=2)
     
     # Municipality data
-    _out = m.readshapefile('shapedata/Kommuner_SCB/Kommuner_SCB_Std_kompr', 
+    _out = m.readshapefile('shapedata/Kommuner_SCB/Kommuner_SCB_Std', 
                            name='muni', drawbounds=False, 
                            color='none', zorder=3)
     _out = m.readshapefile('shapedata/finland/finland-11000000-administrative-regions', 
