@@ -471,7 +471,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             #poly_df[word][poly_df[word] < binThreshold] = 0
             poly_df[poly_df.loc[:,word] < binThreshold] = 0
 
-            .loc[row_indexer,col_indexer]
             print("--- %s sekunder att kolla hur många träffar som är i varje polygon) ---" % (time.time() - start_time))
             
         return poly_df
