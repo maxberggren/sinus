@@ -694,7 +694,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
             
-        #m.drawcoastlines(linewidth=0.5)
+        #m.drawcoastlines(linewidth=0.5) 
         m.drawcountries()
         m.drawstates()
         m.drawmapboundary()
