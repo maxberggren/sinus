@@ -376,7 +376,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         #                       color='none', zorder=3)
 
         # Make cached map
-        pickle.dump(m, cachedMapWithShapes)
+        with open(cachedMapWithShapes,'wb') as f:
+            pickle.dump(m, f)
                                
         print("--- %s sekunder att läsa alla shapefiles ---" % (time.time() - start_time))
     else:
