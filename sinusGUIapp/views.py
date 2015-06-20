@@ -468,7 +468,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             start_time = time.time()   
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
                                                   args=(mapped_points[word],))
-            poly_df[word][poly_df[word] < binThreshold] = 0
+            #poly_df[word][poly_df[word] < binThreshold] = 0
+            poly_df[poly_df.loc[:,word] < binThreshold] = 0
+
+            .loc[row_indexer,col_indexer]
             print("--- %s sekunder att kolla hur många träffar som är i varje polygon) ---" % (time.time() - start_time))
             
         return poly_df
@@ -511,7 +514,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             # Calculate percentages
             df_map['expected'] = df_map['expected'].astype('float')\
                                                    .div(df_map.loc[:,'expected'].sum(axis=0))
-                                                   
+
             # Words will here just be the one word
             df_map[words] = df_map[words].astype('float')\
                                          .div(df_map[words].sum(axis=0))
