@@ -40,7 +40,8 @@ from pysal.esda.mapclassify import Natural_Breaks
 from geocode import latlon
 import geocode    
 from scipy.stats import mode
- 
+import cPickle as pickle
+
 def timing(f):
     def wrap(*args):
         time1 = time.time()
@@ -342,38 +343,56 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         urcrnrlat = 69.5
         resolution = 'i'
         area_thresh = 250
-    
-    m = Basemap(projection='merc',
-                resolution=resolution, 
-                area_thresh=area_thresh,
-                llcrnrlon=llcrnrlon, 
-                llcrnrlat=llcrnrlat,
-                urcrnrlon=urcrnrlon, 
-                urcrnrlat=urcrnrlat) 
-    
+
+    cachedMapWithShapes = "mapwithshapefiles.pkl"
+
+    if not os.path.isfile(cachedMapWithShapes) or zoom:
+        # If no cache is awalible, set up object
+        start_time = time.time()
+
+        m = Basemap(projection='merc',
+                    resolution=resolution, 
+                    area_thresh=area_thresh,
+                    llcrnrlon=llcrnrlon, 
+                    llcrnrlat=llcrnrlat,
+                    urcrnrlon=urcrnrlon, 
+                    urcrnrlat=urcrnrlat) 
+
+        # County data
+        _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
+                               name='countys', drawbounds=False, 
+                               color='none', zorder=2)
+        _out = m.readshapefile('shapedata/finland/fin-adm2', 
+                               name='countys_fi', drawbounds=False, 
+                               color='none', zorder=2)
+        
+        # Municipality data
+        _out = m.readshapefile('shapedata/Kommuner_SCB/Kommuner_SCB_Std', 
+                               name='muni', drawbounds=False, 
+                               color='none', zorder=3)
+        _out = m.readshapefile('shapedata/finland/finland-11000000-administrative-regions', 
+                               name='muni_fi', drawbounds=False, 
+                               color='none', zorder=3)
+        #_out = m.readshapefile('shapedata/N2000-Kartdata-master/NO_Kommuner_pol_latlng', 
+        #                       name='muni_no', drawbounds=False, 
+        #                       color='none', zorder=3)
+
+        # Make cached map
+        if not zoom:
+            with open(cachedMapWithShapes,'wb') as f:
+                pickle.dump(m, f)
+                               
+        print("--- %s sekunder att läsa alla shapefiles ---" % (time.time() - start_time))
+    else:
+        # Read from cache to save precious time
+        start_time = time.time()
+        with open(cachedMapWithShapes, 'rb') as f:
+            m = pickle.load(f)
+        print("--- %s sekunder att läsa alla shapefiles från cache ---" % (time.time() - start_time))
+
+
     start_time = time.time()
-    # County data
-    _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
-                           name='countys', drawbounds=False, 
-                           color='none', zorder=2)
-    _out = m.readshapefile('shapedata/finland/fin-adm2', 
-                           name='countys_fi', drawbounds=False, 
-                           color='none', zorder=2)
-    
-    # Municipality data
-    _out = m.readshapefile('shapedata/Kommuner_SCB/Kommuner_SCB_Std', 
-                           name='muni', drawbounds=False, 
-                           color='none', zorder=3)
-    _out = m.readshapefile('shapedata/N2000-Kartdata-master/NO_Kommuner_pol_latlng', 
-                           name='muni_no', drawbounds=False, 
-                           color='none', zorder=3)
-    _out = m.readshapefile('shapedata/finland/finland-11000000-administrative-regions', 
-                           name='muni_fi', drawbounds=False, 
-                           color='none', zorder=3)
-                           
-    print("--- %s sekunder att läsa alla shapefiles ---" % (time.time() - start_time))
-    
-    start_time = time.time()
+
     finnishMunis = []
     finnishPolygons = [Polygon(p) for p in m.muni_fi]
     
@@ -393,12 +412,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
-               [Polygon(p) for p in m.muni_no] + \
-               finnishPolygons
+               finnishPolygons 
+               #[Polygon(p) for p in m.muni_no]
                
     names = [r['KNNAMN'] for r in m.muni_info] + \
-            [r['NAVN'] for r in m.muni_no_info] + \
-            finnishMunis
+            finnishMunis 
+            #[r['NAVN'] for r in m.muni_no_info] 
     
     df_map_muni = pd.DataFrame({'poly': polygons, 'name': names})    
     
@@ -415,7 +434,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
     print("--- %s sekunder att sätta upp dataframes med polygoner ---" % (time.time() - start_time))
 
-    @timing
     def mapPointsToPoly(coordinates_df, poly_df):
         """ Take coordiates DF and put into polygon DF """
         
@@ -1232,7 +1250,15 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 spanQuery = ""
         else:
             spanQuery = ""
-            
+
+        if " EXCLUDE " in word:
+            exclude = word.split(" EXCLUDE ")[1].replace('"',"")
+            word = word.split(" EXCLUDE ")[0]
+        else:
+            exclude = None
+
+        print "skulle kunna exkludera, men ej ännu implementerat:", exclude
+             
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
                                "blogs.source, "
