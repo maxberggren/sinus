@@ -347,7 +347,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     cachedMapWithShapes = "mapwithshapefiles.pkl"
 
     if not os.path.isfile(cachedMapWithShapes):
-
+        start_time = time.time()
+        
         m = Basemap(projection='merc',
                     resolution=resolution, 
                     area_thresh=area_thresh,
