@@ -1043,6 +1043,7 @@ def getOperators(queryWords):
                                or "binthreshold:" in o
                                or "bintype:" in o
                                or "binmodel:" in o
+                               or "exclude:" in o
                                or "hitsthreshold:" in o]
                                
     queryWords = [w.strip() for w in queryWords 
@@ -1056,6 +1057,7 @@ def getOperators(queryWords):
                                and "binthreshold:" not in w
                                and "bintype:" not in w
                                and "binmodel:" not in w
+                               and "exclude:" not in w
                                and "hitsthreshold:" not in w]
     
     try:
@@ -1108,8 +1110,15 @@ def getOperators(queryWords):
                for o in operators if "hitsthreshold:" in o][0])
     except:
         hitsThreshold = 50
+    
+    excludeStr = []    
+    try:
+        excludeStr.append([o.split(":")[1].strip().replace('"','')
+               for o in operators if "exclude:" in o][0])
+    except:
+        excludeStr = [] 
         
-    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold
+    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, excludeStr
 
 def getStats():
     cacheTimeout = 24*60*60 # 1 day
@@ -1276,6 +1285,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         i = 0
         oldkwic = ""
         for row in result:
+            print excludeStr
             coordinates.append([row['longitude'], 
                                 row['latitude']])
             dates.append(row['date'])
@@ -1414,7 +1424,7 @@ def site(urlSearch=None):
         queryWords = []
         query = None
 
-    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold = getOperators(queryWords)
+    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, excludeStr = getOperators(queryWords)
             
     if len(queryWords) > 0:
         touple = getData(queryWords,        
@@ -1426,7 +1436,8 @@ def site(urlSearch=None):
                          datespan=datespan,
                          binType=binType,
                          binModel=binModel,
-                         hitsThreshold=hitsThreshold)
+                         hitsThreshold=hitsThreshold,
+                         excludeStr=excludeStr)
                          
         filename, hits, KWICs, fewResults, gifFileName, resultsOmitted = touple
                               
