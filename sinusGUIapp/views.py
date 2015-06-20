@@ -1254,6 +1254,9 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         if " EXCLUDE " in word:
             exclude = word.split(" EXCLUDE ")[1].replace('"',"")
             word = word.split(" EXCLUDE ")[0]
+        else:
+            exclude = None
+
         print "excluding:", exclude
             
         result = mysqldb.query("SELECT blogs.longitude, "
@@ -1281,16 +1284,17 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         i = 0
         oldkwic = ""
         for row in result:
-            coordinates.append([row['longitude'], 
-                                row['latitude']])
-            dates.append(row['date'])
-            ranks.append(row['rank'])
-            
-            newkwic = kwic(row['text'], word, row['source'])
-            if oldkwic != newkwic and i < 50:
-                i += 1
-                wordkwic.append(newkwic)
-                oldkwic = newkwic
+            if not exclude or exclude not in row['text']:
+                coordinates.append([row['longitude'], 
+                                    row['latitude']])
+                dates.append(row['date'])
+                ranks.append(row['rank'])
+                
+                newkwic = kwic(row['text'], word, row['source'])
+                if oldkwic != newkwic and i < 50:
+                    i += 1
+                    wordkwic.append(newkwic)
+                    oldkwic = newkwic
         
         if len(coordinates) > hitsThreshold: # only draw coordinates over limit
         
