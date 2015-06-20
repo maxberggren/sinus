@@ -510,7 +510,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             df_map = df_map[df_map['expected'] > 0] # remove zeros
             # Calculate percentages
             df_map['expected'] = df_map['expected'].astype('float')\
-                                                   .div(df_map['expected'].sum(axis=0))
+                                                   .div(df_map.loc[:,'expected'].sum(axis=0))
+                                                   
             # Words will here just be the one word
             df_map[words] = df_map[words].astype('float')\
                                          .div(df_map[words].sum(axis=0))
