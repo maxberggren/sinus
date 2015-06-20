@@ -393,11 +393,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
-               finnishPolygons + \
+               finnishPolygons 
                #[Polygon(p) for p in m.muni_no]
                
     names = [r['KNNAMN'] for r in m.muni_info] + \
-            finnishMunis + \
+            finnishMunis 
             #[r['NAVN'] for r in m.muni_no_info] 
     
     df_map_muni = pd.DataFrame({'poly': polygons, 'name': names})    
