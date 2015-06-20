@@ -415,7 +415,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
     print("--- %s sekunder att sätta upp dataframes med polygoner ---" % (time.time() - start_time))
 
-    @timing
     def mapPointsToPoly(coordinates_df, poly_df):
         """ Take coordiates DF and put into polygon DF """
         
