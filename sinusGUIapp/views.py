@@ -1284,7 +1284,21 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         i = 0
         oldkwic = ""
         for row in result:
-            if not exclude or exclude.encode('utf-8') not in row['text']:
+            if exclude:
+                print exclude
+                print exclude.encode('utf-8') not in row['text']
+                if exclude.encode('utf-8') not in row['text']:
+                    coordinates.append([row['longitude'], 
+                                        row['latitude']])
+                    dates.append(row['date'])
+                    ranks.append(row['rank'])
+                    
+                    newkwic = kwic(row['text'], word, row['source'])
+                    if oldkwic != newkwic and i < 50:
+                        i += 1
+                        wordkwic.append(newkwic)
+                        oldkwic = newkwic     
+            else:
                 coordinates.append([row['longitude'], 
                                     row['latitude']])
                 dates.append(row['date'])
