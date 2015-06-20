@@ -1257,7 +1257,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         else:
             exclude = None
 
-        print "skulle kunna exkludera, men ej ännu implementerat:", exclude
+        print "Exkluderar:", exclude
               
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
@@ -1285,7 +1285,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         oldkwic = ""
         for row in result:
             if exclude:
-                if exclude.encode('utf-8') in row['text']:   
+                if exclude.encode('utf-8') in row['text'] or word.encode('utf-8') not in row['text']:   
                     continue         
 
             coordinates.append([row['longitude'], 
