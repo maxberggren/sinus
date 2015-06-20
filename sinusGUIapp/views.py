@@ -353,7 +353,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
     start_time = time.time()
     # County data
-    _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
+    _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std_kompr', 
                            name='countys', drawbounds=False, 
                            color='none', zorder=2)
     _out = m.readshapefile('shapedata/finland/fin-adm2', 
@@ -361,12 +361,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                            color='none', zorder=2)
     
     # Municipality data
-    _out = m.readshapefile('shapedata/Kommuner_SCB/Kommuner_SCB_Std', 
+    _out = m.readshapefile('shapedata/Kommuner_SCB/Kommuner_SCB_Std_kompr', 
                            name='muni', drawbounds=False, 
                            color='none', zorder=3)
-    _out = m.readshapefile('shapedata/N2000-Kartdata-master/NO_Kommuner_pol_latlng', 
-                           name='muni_no', drawbounds=False, 
-                           color='none', zorder=3)
+    #_out = m.readshapefile('shapedata/N2000-Kartdata-master/NO_Kommuner_pol_latlng', 
+    #                       name='muni_no', drawbounds=False, 
+    #                       color='none', zorder=3)
     _out = m.readshapefile('shapedata/finland/finland-11000000-administrative-regions', 
                            name='muni_fi', drawbounds=False, 
                            color='none', zorder=3)
@@ -393,12 +393,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             
     # Municipality DF (SE + NO + FI)
     polygons = [Polygon(p) for p in m.muni] + \
-               [Polygon(p) for p in m.muni_no] + \
-               finnishPolygons
+               finnishPolygons + \
+               #[Polygon(p) for p in m.muni_no]
                
     names = [r['KNNAMN'] for r in m.muni_info] + \
-            [r['NAVN'] for r in m.muni_no_info] + \
-            finnishMunis
+            finnishMunis + \
+            #[r['NAVN'] for r in m.muni_no_info] 
     
     df_map_muni = pd.DataFrame({'poly': polygons, 'name': names})    
     
@@ -510,8 +510,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             df_map = df_map[df_map['expected'] > 0] # remove zeros
             # Calculate percentages
             df_map['expected'] = df_map['expected'].astype('float')\
-                                                   .div(df_map.loc[:,'expected'].sum(axis=0))
-                                                   
+                                                   .div(df_map['expected'].sum(axis=0))
             # Words will here just be the one word
             df_map[words] = df_map[words].astype('float')\
                                          .div(df_map[words].sum(axis=0))
