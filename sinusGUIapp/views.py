@@ -655,8 +655,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Also create a fallback DF if needed
         if binModel == 'lab':
             start_time = time.time() 
-            df_map_fallback = genFallbackMap(df_map_muni, word)    
-            df_map_fallback = genFallbackMap(df_map_fallback, word)    
+            df_map_fallback = genFallbackMap(df_map_muni, word)     
             print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
@@ -1285,6 +1284,10 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         i = 0
         oldkwic = ""
         for row in result:
+            if exclude:
+                if exclude.encode('utf-8') in row['text']:   
+                    continue         
+
             coordinates.append([row['longitude'], 
                                 row['latitude']])
             dates.append(row['date'])
