@@ -5,7 +5,7 @@ import config as c
 
 engine = create_engine(c.LOCATIONDB, echo=False)
 
-check_region = "finland"
+check_region = "skaune"
 df = pd.read_sql_query('SELECT * FROM wordcounts '
                        'WHERE region = "country" '
                        'or region = "' + check_region + '"', 
