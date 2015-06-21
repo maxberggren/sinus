@@ -1257,7 +1257,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         else:
             exclude = None
 
-        print "Exkluderar:", exclude
+        if exclude:
+            print "Exkluderar:", exclude
               
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
