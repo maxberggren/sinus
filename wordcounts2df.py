@@ -9,7 +9,7 @@ check_region = "skaune"
 df = pd.read_sql_query('SELECT * FROM wordcounts '
                        'WHERE region = "country" '
                        'or region = "' + check_region + '"' 
-                       'and frequency > 10', 
+                       'and frequency > 20', 
                        engine, index_col='id')
 
 #df = df[df['frequency'] > 10]
