@@ -8,10 +8,11 @@ engine = create_engine(c.LOCATIONDB, echo=False)
 check_region = "skaune"
 df = pd.read_sql_query('SELECT * FROM wordcounts '
                        'WHERE region = "country" '
-                       'or region = "' + check_region + '"', 
+                       'or region = "' + check_region + '"' 
+                       'and frequency > 10', 
                        engine, index_col='id')
 
-df = df[df['frequency'] > 10]
+#df = df[df['frequency'] > 10]
 
 def rel_frq(values):
     if len(values) == 2:
