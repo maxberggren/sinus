@@ -358,6 +358,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     urcrnrlon=urcrnrlon, 
                     urcrnrlat=urcrnrlat) 
 
+        ### Read shapefiles
+
         # County data (SV)
         _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
                                name='countys', drawbounds=False, 
@@ -397,16 +399,20 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     # Municipality DF (SE + FI)   
     df_map_muni = pd.DataFrame({
         'poly': [Polygon(p) for p in m.muni] + \
-                [Polygon(p) for p in m.regions_fi], 
+                [Polygon(p) for p in m.regions_fi] + \
+                [Polygon(p) for p in m.region_al], 
         'name': [r['KNNAMN'] for r in m.muni_info] + \
-                ["temp" for r in m.regions_fi_info] })    
+                ["temp" for r in m.regions_fi_info] + \
+                ["åland" for r in m.region_al_info] })    
     
     # County DF
     df_map_county = pd.DataFrame({
         'poly': [Polygon(p) for p in m.countys] + \
-                [Polygon(p) for p in m.regions_fi],
+                [Polygon(p) for p in m.regions_fi] + \
+                [Polygon(p) for p in m.region_al],
         'name': [r['LAN_NAMN'] for r in m.countys_info] + \
-                ["temp" for r in m.regions_fi_info]})
+                ["temp" for r in m.regions_fi_info] + \
+                ["åland" for r in m.region_al_info]})
     
     # Fix encoding
     df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
