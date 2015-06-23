@@ -19,8 +19,6 @@ df = pd.read_sql_query('SELECT * FROM wordcounts '
                        'and frequency > {}'.format(check_region, common_word_occurance*0.00009902951079*threshold), 
                        engine, index_col='id')
 
-#df = df[df['frequency'] > 10]
-
 def rel_frq(values):
     if len(values) == 2:
         return (values.values[1] - values.values[0])/values.values[0]

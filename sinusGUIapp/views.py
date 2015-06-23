@@ -358,24 +358,25 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     urcrnrlon=urcrnrlon, 
                     urcrnrlat=urcrnrlat) 
 
-        # County data
+        # County data (SV)
         _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
                                name='countys', drawbounds=False, 
                                color='none', zorder=2)
+        
+        # Finnish regions (sv: landskap)
         _out = m.readshapefile('shapedata/finland/fin-adm2', 
-                               name='countys_fi', drawbounds=False, 
+                               name='regions_fi', drawbounds=False, 
                                color='none', zorder=2)
         
-        # Municipality data
+        # Åland
+        _out = m.readshapefile('shapedata/finland/ala-adm0', 
+                               name='region_al', drawbounds=False, 
+                               color='none', zorder=2)
+        
+        # Municipality data (SV)
         _out = m.readshapefile('shapedata/Kommuner_SCB/Kommuner_SCB_Std', 
                                name='muni', drawbounds=False, 
                                color='none', zorder=3)
-        _out = m.readshapefile('shapedata/finland/finland-11000000-administrative-regions', 
-                               name='muni_fi', drawbounds=False, 
-                               color='none', zorder=3)
-        #_out = m.readshapefile('shapedata/N2000-Kartdata-master/NO_Kommuner_pol_latlng', 
-        #                       name='muni_no', drawbounds=False, 
-        #                       color='none', zorder=3)
 
         # Make cached map
         if not zoom:
@@ -392,41 +393,20 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
 
     start_time = time.time()
-
-    finnishMunis = []
-    finnishPolygons = [Polygon(p) for p in m.muni_fi]
-    
-    for r in m.muni_fi_info:
-        if r['Kunta_ni2'] != "N_A":
-            # If there is a Swedish name
-            finnishMunis.append(r['Kunta_ni2'])
-        else:
-            # Take the Finnish
-            finnishMunis.append(r['Kunta_ni1'])
             
-    useFinnishCounties = True # WHEN CHANGED CACHE PICKLES NEEDS TO BE REMOVED!
-    # In case Finnish counties is to be used instead of municipalities
-    if useFinnishCounties:
-        finnishPolygons = [Polygon(p) for p in m.countys_fi]
-        finnishMunis = ["temp" for r in m.countys_fi_info]
-            
-    # Municipality DF (SE + NO + FI)
-    polygons = [Polygon(p) for p in m.muni] + \
-               finnishPolygons 
-               #[Polygon(p) for p in m.muni_no]
-               
-    names = [r['KNNAMN'] for r in m.muni_info] + \
-            finnishMunis 
-            #[r['NAVN'] for r in m.muni_no_info] 
-    
-    df_map_muni = pd.DataFrame({'poly': polygons, 'name': names})    
+    # Municipality DF (SE + FI)   
+    df_map_muni = pd.DataFrame({
+        'poly': [Polygon(p) for p in m.muni] + \
+                [Polygon(p) for p in m.regions_fi], 
+        'name': [r['KNNAMN'] for r in m.muni_info] + \
+                ["temp" for r in m.regions_fi_info] })    
     
     # County DF
     df_map_county = pd.DataFrame({
         'poly': [Polygon(p) for p in m.countys] + \
-                [Polygon(p) for p in m.countys_fi],
+                [Polygon(p) for p in m.regions_fi],
         'name': [r['LAN_NAMN'] for r in m.countys_info] + \
-                ["temp" for r in m.countys_fi_info]})
+                ["temp" for r in m.regions_fi_info]})
     
     # Fix encoding
     df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
