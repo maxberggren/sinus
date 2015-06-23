@@ -5,17 +5,17 @@ import config as c
 import dataset
 
 check_region = "finland"
+threshold = 0.5
 
 db = dataset.connect(c.LOCATIONDB)
 result = db.query("SELECT * FROM wordcounts WHERE token = 'och'")
-common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)
-print common_word_occurance
+common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
 
 engine = create_engine(c.LOCATIONDB, echo=False)
 df = pd.read_sql_query('SELECT * FROM wordcounts '
                        'WHERE region = "country" '
                        'or region = "' + check_region + '"' 
-                       'and frequency > 300', 
+                       'and frequency > ' + common_word_occurance*0.00009902951079*threshold, 
                        engine, index_col='id')
 
 #df = df[df['frequency'] > 10]
