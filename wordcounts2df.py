@@ -2,10 +2,16 @@ from __future__ import division
 from sqlalchemy import create_engine
 import pandas as pd
 import config as c
-
-engine = create_engine(c.LOCATIONDB, echo=False)
+import dataset
 
 check_region = "finland"
+
+db = dataset.connect(c.LOCATIONDB)
+result = db.query("SELECT * FROM wordcounts WHERE token = 'och'")
+common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)
+print common_word_occurance
+
+engine = create_engine(c.LOCATIONDB, echo=False)
 df = pd.read_sql_query('SELECT * FROM wordcounts '
                        'WHERE region = "country" '
                        'or region = "' + check_region + '"' 
