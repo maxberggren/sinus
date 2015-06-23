@@ -14,8 +14,8 @@ common_word_occurance = db['wordcounts'].find_one(token='och', region=check_regi
 engine = create_engine(c.LOCATIONDB, echo=False)
 df = pd.read_sql_query('SELECT * FROM wordcounts '
                        'WHERE region = "country" '
-                       'or region = "' + check_region + '"' 
-                       'and frequency > ' + common_word_occurance*0.00009902951079*threshold, 
+                       'or region = "{}"' 
+                       'and frequency > {}'.format(check_region, common_word_occurance*0.00009902951079*threshold), 
                        engine, index_col='id')
 
 #df = df[df['frequency'] > 10]
