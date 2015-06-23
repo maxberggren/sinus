@@ -6,7 +6,7 @@ import dataset
 
 check_region = "skaune"
 threshold = 0.5
-print "threshold:",common_word_occurance*0.00009902951079*threshold)
+print "threshold:",common_word_occurance*0.00009902951079*threshold
 
 db = dataset.connect(c.LOCATIONDB)
 result = db.query("SELECT * FROM wordcounts WHERE token = 'och'")
