@@ -4,8 +4,8 @@ import pandas as pd
 import config as c
 import dataset
 
-check_region = "skaune"
-threshold = 0.5
+check_region = "finland"
+threshold = 0.3
 
 db = dataset.connect(c.LOCATIONDB)
 result = db.query("SELECT * FROM wordcounts WHERE token = 'och'")
@@ -32,5 +32,5 @@ grouped_count = df.groupby("token").frequency.agg(rel_frq)
 i = 0
 for index, value in grouped_count.order(ascending=False).iteritems():
     print index.decode('latin-1').encode('utf-8'), value
-    if value < 0.5:
+    if value < 0.3:
         break
