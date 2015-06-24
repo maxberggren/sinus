@@ -498,7 +498,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             df_map[words] = df_map[words].astype('float')\
                                          .div(df_map[words].sum(axis=0))
 
-            # Divide distribution percentage by expected percentage                             
+            # Divide distribution percentage by expected percentage              
+            df_map[words + "_frq"] = df_map[words]                             
             df_map[words] = df_map[words].div(df_map['expected'], axis='index')
             del df_map['expected']
 
@@ -657,7 +658,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         for df_map in shapesToPutOnMap:
             
             # Create patches
-            print df_map[word][df_map[word] > 0].median()
+            print df_map
 
             df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], lw=0, zorder=4), axis=1)
 
