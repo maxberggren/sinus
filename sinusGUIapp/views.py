@@ -657,12 +657,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         for df_map in shapesToPutOnMap:
             
             # Create patches
-            print df_map[word].median()
+            print df_map[word].iloc[s.nonzero()[0]].median()
 
-            df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], 
-                                                                      lw=0, 
-                                                                      alpha=0, 
-                                                                      zorder=4), axis=1)
+            df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], lw=0, zorder=4), axis=1)
 
             pc = PatchCollection(df_map['patches'], match_original=True)
             # Apply our custom color values onto the patch collection
@@ -674,7 +671,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             cmap_list = []
 
             def cmapOpacity(val, opacity):
-                """ Fix for seting opacity """
+                """ Fix for setting opacity """
                 r, g, b, a = cmap(val)
                 a = opacity
                 return r, g, b, a
@@ -683,8 +680,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 if val == 0:
                     cmap_list.append('none')
                 else:
-                    print cmapOpacity(val, 0.5)
-                    cmap_list.append(cmapOpacity(val, 0.5))
+                    cmap_list.append(cmapOpacity(val, 1))
             
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
