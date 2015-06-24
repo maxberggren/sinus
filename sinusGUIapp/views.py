@@ -485,19 +485,25 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
 
         def deviationFromAverage(df_map, avg):
-            # Expected is to see a word according to country average
-            print avg[avg['expected'] < 1]
+            """ Make DFs into percentages and see the deviation from country average """
 
             df_map['expected'] = avg['expected']        
             df_map = df_map[df_map['expected'] > 0] # remove zeros
+
             # Calculate percentages
             df_map['expected'] = df_map['expected'].astype('float')\
                                                    .div(df_map['expected'].sum(axis=0))
+
+            print df_map[df_map['expected'] == 0]
+
             # Words will here just be the one word
             df_map[words] = df_map[words].astype('float')\
                                          .div(df_map[words].sum(axis=0))
+
+            # Divide distribution percentage by expected percentage                             
             df_map[words] = df_map[words].div(df_map['expected'], axis='index')
             del df_map['expected']
+
             return df_map
          
         start_time = time.time()   
@@ -672,7 +678,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 else:
                     cmap_list.append(cmap(val))
             
-            #cmap_list = [cmap(val) for val in cmaps]                    
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
             
