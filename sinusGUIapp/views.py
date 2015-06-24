@@ -672,12 +672,19 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                float(df_map['bins_'+word].values.min()))
                                            
             cmap_list = []
+
+            def cmapOpacity(val, opacity):
+                """ Fix for seting opacity """
+                r, g, b, a = cmap(val)
+                a = opacity
+                return r, g, b, a
+
             for val in cmaps:
                 if val == 0:
                     cmap_list.append('none')
                 else:
                     print cmap(val)
-                    cmap_list.append(cmap(val))
+                    cmap_list.append(cmapOpacity(val, 0.5))
             
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
