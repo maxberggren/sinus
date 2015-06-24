@@ -268,7 +268,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     def getEnoughData():
         """ Get alot of data until a suitable null hypothesis has converged """
         
-        convergenceCrit = 1e-9 
+        convergenceCrit = 1e-10 
         old_matrix = genGrid([])
         i, j, k = 0, 0, 0
         try:        
@@ -511,7 +511,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         def deviationFromAverage(df_map, avg):
             # Expected is to see a word according to country average
             print avg[avg['expected'] < 1]
-             
+
             df_map['expected'] = avg['expected']        
             df_map = df_map[df_map['expected'] > 0] # remove zeros
             # Calculate percentages
