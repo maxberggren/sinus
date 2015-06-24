@@ -268,46 +268,22 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     def getEnoughData():
         """ Get alot of data until a suitable null hypothesis has converged """
         
-        convergenceCrit = 1e-10 
-        old_matrix = genGrid([])
-        i, j, k = 0, 0, 0
         try:        
             coordinates = []
 
-            for source in mysqldb.query("SELECT * from blogs "
+            for source in mysqldb.query("SELECT longitude, latitude from blogs "
                                         "WHERE longitude is not NULL and "
                                         "latitude is not NULL "
-                                        "ORDER BY RAND() "):   
-                j += 1
-                k += 1
-                url = source['url']  
-                blogid = source['id']    
+                                        "ORDER BY RAND() "
+                                        "LIMIT 500000"):   
     
                 coordinates.append([source['longitude'], source['latitude']])
                 
-                if j % 1000 == 0:
-                    diff = old_matrix - normalize(genGrid(coordinates)) 
-                    diff = np.square(diff)
-                    total_error = sum1(diff)
-                    
-                    if total_error != 0.0:
-                        print total_error
-                        print k
-                        
-                    # change between every 1000 new datapoints 
-                    # should be less than 1e-9 = 0.0000001 %
-                    if total_error < convergenceCrit and total_error != 0.0:
-                       print "converged!"
-                       return coordinates
-                       break
-                    
-                    old_matrix = normalize(genGrid(coordinates))
-                    
+            return coordinates
+   
         except KeyboardInterrupt:
             print "Avbryter..."        
 
-
-    
     lds, coord_count, breaks = [], {}, {}
 
     # If ranks not sent in, assume rank 2
