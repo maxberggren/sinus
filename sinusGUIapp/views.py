@@ -683,7 +683,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 if val == 0:
                     cmap_list.append('none')
                 else:
-                    print cmap(val)
+                    print cmapOpacity(val, 0.5)
                     cmap_list.append(cmapOpacity(val, 0.5))
             
             pc.set_facecolor(cmap_list)
