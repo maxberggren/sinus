@@ -623,8 +623,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Also create a fallback DF if needed
         if binModel == 'lab':
             start_time = time.time() 
-            df_map_fallback = genFallbackMap(df_map_muni, word)  
-            df_map_fallback = genFallbackMap(df_map_muni, word)    
+            df_map_fallback = genFallbackMap(df_map_muni, word)     
             print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
@@ -658,11 +657,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         for df_map in shapesToPutOnMap:
             
             # Create patches
-            df_map['patches'] = df_map['poly'].map(lambda x: PolygonPatch(x, 
-                                                                          ec='#111111', 
-                                                                          lw=0, 
-                                                                          alpha=0, 
-                                                                          zorder=4))
+            #df_map['patches'] = df_map['poly'].map(lambda x: PolygonPatch(x, 
+            #                                                              ec='#111111', 
+            #                                                              lw=0, 
+            #                                                              alpha=0, 
+            #                                                              zorder=4))
+
+            df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], lw=0, alpha=0, zorder=4), axis=1)
+
             pc = PatchCollection(df_map['patches'], match_original=True)
             # Apply our custom color values onto the patch collection
             cmaps = (df_map['bins_'+word].values - 
