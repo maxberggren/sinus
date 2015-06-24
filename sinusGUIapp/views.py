@@ -660,7 +660,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             print df_map[word].median()
 
             df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], 
-                                                                      lw=0, 
+                                                                      lw=1, 
                                                                       alpha=.5, 
                                                                       zorder=4), axis=1)
 
