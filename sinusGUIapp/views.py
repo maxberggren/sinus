@@ -661,7 +661,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
             df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], 
                                                                       lw=0, 
-                                                                      alpha=0.8, 
+                                                                      alpha=0, 
                                                                       zorder=4), axis=1)
 
             pc = PatchCollection(df_map['patches'], match_original=True)
@@ -676,6 +676,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 if val == 0:
                     cmap_list.append('none')
                 else:
+                    print cmap(val)
                     cmap_list.append(cmap(val))
             
             pc.set_facecolor(cmap_list)
