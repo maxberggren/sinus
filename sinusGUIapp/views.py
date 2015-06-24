@@ -494,7 +494,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             df_map['expected'] = df_map['expected'].astype('float')\
                                                    .div(df_map['expected'].sum(axis=0))
 
-            print df_map[df_map['expected'] == 0]
+            print df_map[df_map['expected'] == 0.0] # This should be empty
 
             # Words will here just be the one word
             df_map[words] = df_map[words].astype('float')\
