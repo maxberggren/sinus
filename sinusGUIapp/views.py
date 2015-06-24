@@ -494,8 +494,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             df_map['expected'] = df_map['expected'].astype('float')\
                                                    .div(df_map['expected'].sum(axis=0))
 
-            print df_map[df_map['expected'] == 0.0] # This should be empty
-
             # Words will here just be the one word
             df_map[words] = df_map[words].astype('float')\
                                          .div(df_map[words].sum(axis=0))
@@ -625,7 +623,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Also create a fallback DF if needed
         if binModel == 'lab':
             start_time = time.time() 
-            df_map_fallback = genFallbackMap(df_map_muni, word)     
+            df_map_fallback = genFallbackMap(df_map_muni, word)  
+            df_map_fallback = genFallbackMap(df_map_muni, word)    
             print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
