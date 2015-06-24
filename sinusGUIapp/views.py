@@ -341,7 +341,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         llcrnrlat = 54.5
         urcrnrlon = 26
         urcrnrlat = 69.5
-        resolution = 'h'
+        resolution = 'i'
         area_thresh = 250
 
     cachedMapWithShapes = "mapwithshapefiles.pkl"
@@ -510,6 +510,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
         def deviationFromAverage(df_map, avg):
             # Expected is to see a word according to country average
+            print avg[avg['expected'] < 1]
+             
             df_map['expected'] = avg['expected']        
             df_map = df_map[df_map['expected'] > 0] # remove zeros
             # Calculate percentages
@@ -890,7 +892,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
                 urcrnrlat = 69.5
             
             m = Basemap(projection='merc',
-                        resolution='h', 
+                        resolution='i', 
                         area_thresh=250,
                         llcrnrlon=llcrnrlon, 
                         llcrnrlat=llcrnrlat,
