@@ -532,6 +532,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
             
         def df_percent(df_map):
+            # Save for later use
+            for word in words:
+                df_map[word + "_frq"] = df_map[word]
+
             # Handle divide by zero as zeros
             df_map[words] = df_map[words].astype('float').div(df_map["sum"].replace({ 0 : np.nan })
                                                               .astype('float'), axis='index')
@@ -687,6 +691,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                         opacity = 1
                     else:
                         opacity = 0.5
+
+                    opacity = 1 # Let's wait with using opacity for significance
                     cmap_list.append(cmapOpacity(val, opacity))
             
             pc.set_facecolor(cmap_list)
