@@ -657,10 +657,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         for df_map in shapesToPutOnMap:
             
             # Create patches
-            print df_map
+            print df_map[word].median()
+
             df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], 
                                                                       lw=0, 
-                                                                      alpha=0, 
+                                                                      alpha=.5, 
                                                                       zorder=4), axis=1)
 
             pc = PatchCollection(df_map['patches'], match_original=True)
