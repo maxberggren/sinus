@@ -657,7 +657,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         for df_map in shapesToPutOnMap:
             
             # Create patches
-            print df_map[word].iloc[s.nonzero()[0]].median()
+            print df_map[word][df_map[word] > 0].median()
 
             df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], lw=0, zorder=4), axis=1)
 
