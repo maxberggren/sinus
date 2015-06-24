@@ -498,8 +498,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             df_map[words] = df_map[words].astype('float')\
                                          .div(df_map[words].sum(axis=0))
 
-            # Divide distribution percentage by expected percentage              
-            df_map[words + "_frq"] = df_map[words]                             
+            # Divide distribution percentage by expected percentage   
+            for word in words:           
+                df_map[word + "_frq"] = df_map[word]      
+                                       
             df_map[words] = df_map[words].div(df_map['expected'], axis='index')
             del df_map['expected']
 
