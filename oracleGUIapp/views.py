@@ -5,7 +5,11 @@ from oracleGUIapp import app
 from flask import Flask, jsonify, make_response, request, render_template, redirect, url_for
 from werkzeug import secure_filename
 
-questions = [(u'Sluddrar och pratar du grötigt?', 
+questions = [(u'Sludd
+
+
+
+rar och pratar du grötigt?', 
               u'Detta är en undertext som <em>förklarar mer</em>.', 
               ['Ja', 'Nej']),
               
