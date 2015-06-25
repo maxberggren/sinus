@@ -28,6 +28,7 @@ from PIL import Image
 import os
 import config as c
 from sqlite_cache import SqliteCache
+from sqlalchemy import create_engine
 import sqlalchemy
 from itertools import groupby
 from shapely.geometry import Point, Polygon, MultiPoint, MultiPolygon
