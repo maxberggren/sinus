@@ -8,6 +8,7 @@ from werkzeug import secure_filename
 @app.route('/oracle/', methods = ['GET', 'POST'])
 @app.route('/oracle', methods = ['GET', 'POST'])
 def oracle():
+    print "wat"
     return render_template("index.html")
 
     
