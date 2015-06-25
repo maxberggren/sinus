@@ -6,7 +6,7 @@ from oracleGUIapp import app
 import re
 
 @app.template_filter('italic')
-def reverse_filter(s):
+def italic(s):
     return re.sub('\*{2}(.+)\*{2}', '<i>\\1</i>', s)
 
 app.debug = True
