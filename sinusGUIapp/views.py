@@ -1447,121 +1447,40 @@ def site(urlSearch=None):
 @app.route('/sinus/explore', methods = ['GET', 'POST'])
 @app.route('/sinus/explore/<word>', methods = ['GET'])
 def explore(word=None):
-    """Run if explore in the menu is choosen
-
-    Parameters
-    ----------
-    word : str
-        the word to explore
-        
-    Returns
-    -------
-    explore.html : html
-        the explore view rendered with render_template("explore.html")
-
-    """    
-    result = mysqldb.query("select * from ngrams "
-                           "where entropy < 3 "
-                           "and entropy > 0 "
-                           "order by entropy ")
-    totEntWords, totEnt = [], []
-
-    for row in result:
-        if row['token'].decode('utf-8') not in s:
-            totEntWords.append(row['token'].decode('utf-8'))
-            totEnt.append(row['entropy'])
-
-    totEntWords = zip(totEntWords, totEnt)
-        
-    if word:
-        synonyms = getSynonyms(word)
-        synonyms.insert(0, word)
-        synonyms = ", ".join(synonyms)
-    else:
-        synonyms = None
-
-
-    ### Calculate alot of different delta entropys
-
-    # Get delta entropy 10 % (difference between first and last 10%)
-    result = mysqldb.query("select * from ngrams "
-                           "where deltaEnt10 is not NULL "
-                           "and deltaEnt10 > 1 "
-                           "order by deltaEnt10 desc")
-    deltaEnt10Words, ent10 = [], []
-
-    for row in result:
-        if row['token'].decode('utf-8') not in s:
-            deltaEnt10Words.append(row['token'].decode('utf-8'))
-            ent10.append(row['deltaEnt10'])
-
-    deltaEnt10Words = zip(deltaEnt10Words, ent10)
-
-    # Get delta entropy 20 %
-    result = mysqldb.query("select * from ngrams "
-                           "where deltaEnt20 is not NULL "
-                           "and deltaEnt20 > 1 "
-                           "order by deltaEnt20 desc")
-    deltaEnt20Words, ent20 = [], []
-
-    for row in result:
-        if row['token'].decode('utf-8') not in s:
-            deltaEnt20Words.append(row['token'].decode('utf-8'))
-            ent20.append(row['deltaEnt20'])
-
-    deltaEnt20Words = zip(deltaEnt20Words, ent20)
-
-    # Get delta entropy 30 %
-    result = mysqldb.query("select * from ngrams "
-                           "where deltaEnt30 is not NULL "
-                           "and deltaEnt30 > 1 "
-                           "order by deltaEnt30 desc")
-    deltaEnt30Words, ent30 = [], []
-
-    for row in result:
-        if row['token'].decode('utf-8') not in s:
-            deltaEnt30Words.append(row['token'].decode('utf-8'))
-            ent30.append(row['deltaEnt30'])
-
-    deltaEnt30Words = zip(deltaEnt30Words, ent30)
-
-    # Get delta entropy 40 %
-    result = mysqldb.query("select * from ngrams "
-                           "where deltaEnt40 is not NULL "
-                           "and deltaEnt40 > 1 "
-                           "order by deltaEnt40 desc")
-    deltaEnt40Words, ent40 = [], []
-
-    for row in result:
-        if row['token'].decode('utf-8') not in s:
-            deltaEnt40Words.append(row['token'].decode('utf-8'))
-            ent40.append(row['deltaEnt40'])
-
-    deltaEnt40Words = zip(deltaEnt40Words, ent40)
-
-    # Get delta entropy 50 %
-    result = mysqldb.query("select * from ngrams "
-                           "where deltaEnt50 is not NULL "
-                           "and deltaEnt50 > 1 "
-                           "order by deltaEnt50 desc")
-    deltaEnt50Words, ent50 = [], []
-
-    for row in result:
-        if row['token'].decode('utf-8') not in s:
-            deltaEnt50Words.append(row['token'].decode('utf-8'))
-            ent50.append(row['deltaEnt50'])     
-
-    deltaEnt50Words = zip(deltaEnt50Words, ent50)
-
-
+    """ Run if explore in the menu is choosen """    
     
-    data = { 'totEntWords': totEntWords,
-             'deltaEnt10Words': deltaEnt10Words, 
-             'deltaEnt20Words': deltaEnt20Words, 
-             'deltaEnt30Words': deltaEnt30Words, 
-             'deltaEnt40Words': deltaEnt40Words, 
-             'deltaEnt50Words': deltaEnt50Words, 
-             'synonyms': synonyms }    
+    check_region = "finland"
+    threshold = 0.3
+    
+    db = dataset.connect(c.LOCATIONDB)
+    common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
+    
+    engine = create_engine(c.LOCATIONDB, echo=False)
+    df = pd.read_sql_query('SELECT * FROM wordcounts '
+                           'WHERE region = "country" '
+                           'or region = "{}"' 
+                           'and frequency > {}'.format(check_region, common_word_occurance*0.00009902951079*threshold), 
+                           engine, index_col='id')
+    
+    def rel_frq(values):
+        if len(values) == 2:
+            return (values.values[1] - values.values[0])/values.values[0]
+        else: 
+            return 0.0
+    
+    grouped_count = df.groupby("token").frequency.agg(rel_frq)
+    
+    words, frqs = [], []
+    for index, value in grouped_count.order(ascending=False).iteritems():
+        #print index.decode('latin-1').encode('utf-8'), value
+        words.append(index.decode('latin-1').encode('utf-8'))
+        frqs.append(value)
+        if value < 0.3:
+            break
+
+    interestingWords = zip(words, frqs)
+    
+    data = { 'totEntWords': interestingWords }    
              
     return render_template("explore.html", data=data)
 

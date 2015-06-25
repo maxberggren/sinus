@@ -8,7 +8,7 @@ check_region = "finland"
 threshold = 0.3
 
 db = dataset.connect(c.LOCATIONDB)
-result = db.query("SELECT * FROM wordcounts WHERE token = 'och'")
+#result = db.query("SELECT * FROM wordcounts WHERE token = 'och'")
 common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
 print "threshold:",common_word_occurance*0.00009902951079*threshold
 
