@@ -10,8 +10,8 @@ questions = [(u'Sluddrar och pratar du grötigt?',
               ['Ja', 'Nej']),
               
              (u'Fara eller åka?',
-              u'Använder du ibland fara som i **vi skulle vara till farmor**?',
-              ['Jo', 'Nej']),
+              u'Fyll i följande mening: **vi skulle...**',
+              ['...fara till farmor', u'...åka till farmor']),
               
              (u'Polisen?',
               u'Vilket av följade använder du oftast för att tala om polisen?',
