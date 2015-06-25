@@ -62,7 +62,7 @@
                     <ul>
                         {% for answer in answers %}
                         <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q1" id="q1-{{ "abcdefghijklmno"[loop.index-1] }}" />{{answer}}</label>
+                            <label class="btn btn-primary btn-xl"><input type="radio" name="q{{ loop.index }}" id="q{{ loop.index }}-{{ "abcdefghijklmno"[loop.index-1] }}" />{{answer}}</label>
                         </li>
                         {% endfor %}
                     </ul>
