@@ -1474,7 +1474,7 @@ def explore(word=None):
     words, frqs = [], []
     for index, value in grouped_count.order(ascending=False).iteritems():
         #print index.decode('latin-1').encode('utf-8'), value
-        words.append(index.decode('latin-1').encode('utf-8'))
+        words.append(index.decode('utf-8')) 
         frqs.append(value)
         if value < 0.3:
             break
