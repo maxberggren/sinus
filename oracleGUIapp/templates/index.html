@@ -150,10 +150,10 @@
             init: function(){
                 $('label > input, .begin').click(function(){
     
-                    $(this).parents('.questionContainer').fadeOut(500, function(){
+                    $(this).parents('.questionContainer').fadeOut(200, function(){
                         
                         if ($(this).next().length == 1) {
-                            $(this).next().fadeIn(500);
+                            $(this).next().fadeIn(200);
                         } 
                         else {
                             var arr = $('input[type=radio]:checked');
@@ -183,8 +183,8 @@
                 });
     
                 $('.btnPrev').click(function(){
-                    $(this).parents('.questionContainer').fadeOut(500, function(){
-                        $(this).prev().fadeIn(500)
+                    $(this).parents('.questionContainer').fadeOut(200, function(){
+                        $(this).prev().fadeIn(200)
                     });
     
                 })
@@ -193,7 +193,7 @@
                     var arr = $('input[type=radio]:checked');
                     var ans = jQuiz.userAnswers = [];
                     for (var i = 0, ii = arr.length; i < ii; i++) {
-                        ans.push(arr[i+1].getAttribute('id'))
+                        ans.push(arr[i].getAttribute('id'))
                     }
                 })
     
