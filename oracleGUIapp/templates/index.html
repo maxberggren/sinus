@@ -126,27 +126,7 @@
 
     <script>
     $(function(){
-        var jQuiz = {
-            answers: { q1: 'a', q2: 'a', q3: 'a' },
-            questionLength: {{ n_questions }},
-            checkAnswers: function() {
-                var arr = this.answers;
-                var ans = this.userAnswers;
-                var resultArr = []
-                for (var p in ans) {
-                    var x = parseInt(p) + 1;
-                    var key = 'q' + x;
-                    var flag = false;
-                    if (ans[p] == 'q' + x + '-' + arr[key]) {
-                        flag = true;
-                    }
-                    else {
-                        flag = false;
-                    }
-                    resultArr.push(flag);
-                }
-                return resultArr;
-            },
+        var jQuiz = 
             init: function(){
                 $('label > input, .begin').click(function(){
     
@@ -164,18 +144,10 @@
     
                             $('#progress').width(300);
                             $('#progressKeeper').hide();
-                            var results = jQuiz.checkAnswers();
                             var resultSet = '';
-                            var trueCount = 0;
-                            for (var i = 0, ii = results.length; i < ii; i++){
-                                if (results[i] == true) trueCount++;
-                                resultSet += '<div> Question ' + (i + 1) + ' is ' + results[i] + '</div>'
-                            }
-                            resultSet += '<div class="totalScore">Your total score is ' + trueCount * 20 + ' / 100</div>'
-                            for (var i = 0, ii = results.length; i > ii; i--){
-                                resultSet += '<div> Question ' + (i + 1) + ' is ' + jQuiz.userAnswers[i] + '</div>'
-                            }
-                            resultSet += '<div class="totalScore">You answered ' + jQuiz.userAnswers + '</div>'
+                            
+
+                            resultSet += '<div class="totalScore">Your answers: ' + jQuiz.userAnswers + '</div>'
                             $('#resultKeeper').html(resultSet).show();
     
                         }                
