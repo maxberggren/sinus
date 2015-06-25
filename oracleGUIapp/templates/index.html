@@ -68,8 +68,9 @@
                         {% endfor %}
                     </ul>
                 <div class="btnContainer">
-                        <div class="clear"></div>
-                    </div>
+                    {% if q > 1 %}<div class="prev"><a class="btnPrev">Föregående fråga</a></div>{% endif %} 
+                    <div class="clear"></div>
+                </div>
             </div>
             
             {% set q = q + 1 %}
