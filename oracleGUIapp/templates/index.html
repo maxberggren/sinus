@@ -59,7 +59,7 @@
                 <h4>Fråga {{ q }} av {{ n_questions }}</h4>
                 <h1>{{ question }}</h1>
                 <hr>
-                <p>{{ explanation|italic }}</p>
+                <p>{{ explanation|italic|safe }}</p>
                     <ul>
                         {% for answer in answers %}
                         <li>
