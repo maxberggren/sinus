@@ -11,6 +11,3 @@ def index(word=None):
     return render_template("index.html")
 
     
-@app.errorhandler(404)
-def not_found(error):
-    return make_response(jsonify( { 'error': 'Not found' } ), 404)
