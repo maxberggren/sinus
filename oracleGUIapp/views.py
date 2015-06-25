@@ -15,7 +15,7 @@ questions = [(u'Sluddrar och pratar du grötigt?',
               
              (u'Polisen?',
               u'Vilket av följade använder du oftast för att tala om polisen?',
-              [u'Bängen', 'Snuten', u'Farbror blå'])]
+              [u'Bängen', 'Snuten', u'Farbror blå detta är alldels för långt'])]
 
 @app.route('/oracle/', methods = ['GET', 'POST'])
 @app.route('/oracle', methods = ['GET', 'POST'])
