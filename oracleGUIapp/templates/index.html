@@ -158,7 +158,7 @@
                         else {
                             var arr = $('input[type=radio]:checked');
                             var ans = jQuiz.userAnswers = [];
-                            for (var i = 1, ii = arr.length + 1; i < ii; i++) {
+                            for (var i = 0, ii = arr.length; i < ii; i++) {
                                 ans.push(arr[i].getAttribute('id'))
                             }
     
@@ -193,7 +193,7 @@
                     var arr = $('input[type=radio]:checked');
                     var ans = jQuiz.userAnswers = [];
                     for (var i = 0, ii = arr.length; i < ii; i++) {
-                        ans.push(arr[i].getAttribute('id'))
+                        ans.push(arr[i+1].getAttribute('id'))
                     }
                 })
     
