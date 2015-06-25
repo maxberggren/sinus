@@ -52,10 +52,11 @@
 
             </div>
 
+            {% set q = 1 %}
             {% for question, explanation, answers in questions %}
             
             <div class="questionContainer radius" style="display: none;">
-                <h4>Fråga {{ loop.index }} av {{ n_questions }}</h4>
+                <h4>Fråga {{ q }} av {{ n_questions }}</h4>
                 <h1>{{ question }}</h1>
                 <hr>
                 <p>{{ explanation }}</p>
@@ -71,6 +72,7 @@
                     </div>
             </div>
             
+            {% set q = q + 1 %}
             {% endfor %}
             
             </div>
