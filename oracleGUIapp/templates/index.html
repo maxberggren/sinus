@@ -71,96 +71,8 @@
                         <div class="clear"></div>
                     </div>
             </div>
-            <div class="questionContainer radius" style="display: none;">
-                <h4>Fråga 2 av 25</h4>
-                <h1>Fara eller åka?</h1>
-                <hr>
-                <p>Använder du ibland fara som i <em>vi skulle vara till farmor</em>?</p>
-                <div class="answers">
-                    <ul>
-                        <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q2" id="q2-a" />Jovisst</label>
-                        </li>
-                        <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q2" id="q2-b" />Nej</label>
-                        </li>
-                    </ul>
-                </div>
-                <div class="btnContainer">
-                        <div class="prev">
-                            <a class="btnPrev">Föregående fråga</a>
-                        </div>                
-                        <div class="clear"></div>
-                    </div>
-            </div>
-            <div class="questionContainer radius" style="display: none;">
-                <h4>Fråga 3 av 25</h4>
-                <h1>Blabla eller blibli?</h1>
-                <hr>
-                <p>Använder du ibland fara som i <em>vi skulle vara till farmor</em>?</p>
-                <div class="answers">
-                    <ul>
-                        <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q3" id="q3-a" />Both the &lt;head&gt; section and the &lt;body&gt; section are correct</label>
-                        </li>
-                        <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q3" id="q3-b" />The &lt;body&gt; section</label>
-                        </li>
-                        <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q3" id="q3-c" />The &lt;head&gt; section</label>
-                        </li>
-                    </ul>
-                </div>
-                <div class="btnContainer">
-                        <div class="prev">
-                            <a class="btnPrev">Föregående fråga</a>
-                        </div>   
-                        <div class="clear"></div>
-                    </div>
-            </div>
-            <div class="questionContainer radius" style="display: none;">
-                <h1>Question 2: Inside which HTML element do we put the JavaScript?</h1>
-                <hr>
-                <div class="answers">
-                    <ul>
-                        <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q4" id="q4-a" />&lt;script type="text/javascript" name="xxx.js"&gt;</label>
-                        </li>
-                        <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q4" id="q4-b" />&lt;script type="text/javascript" href="xxx.js"&gt;</label>
-                        </li>
-                        <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q4" id="q4-c" />&lt;script type="text/javascript" src="xxx.js"&gt;</label>
-                        </li>
-                    </ul>
-                </div>
-                <div class="btnContainer">
-                        <div class="prev">
-                            <a class="btnPrev">Föregående fråga</a>
-                        </div>   
-                        <div class="clear"></div>
-                   </div>
-            </div>
-            <div class="questionContainer radius" style="display: none;">
-                <h1>Question 2: Inside which HTML element do we put the JavaScript?</h1>
-                <hr>
-                <div class="answers">
-                    <ul>
-                        <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q5" id="q5-a" />True</label>
-                        </li>
-                        <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q5" id="q5-b" />False</label>
-                        </li>
-                    </ul>
-                </div>
-                <div class="btnContainer">
-                        <div class="prev">
-                            <a class="btnPrev">Föregående fråga</a>
-                        </div>   
-                    <div class="clear"></div>
-                </div>
-            </div>
+            
+            
             </div>
             <div class="txtStatusBar"></div>
             <div id="answerSummary" class="radius">
@@ -216,8 +128,8 @@
     <script>
 $(function(){
     var jQuiz = {
-        answers: { q1: 'a', q2: 'a', q3: 'a', q4: 'c', q5: 'a' },
-        questionLength: 5,
+        answers: { q1: 'a' },
+        questionLength: 1,
         checkAnswers: function() {
             var arr = this.answers;
             var ans = this.userAnswers;
