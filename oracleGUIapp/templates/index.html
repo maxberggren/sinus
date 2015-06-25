@@ -124,82 +124,82 @@
     <script src="{{ url_for('static', filename='js/jquery.fittext.js') }}"></script>
     <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
 
-
     <script>
-$(function(){
-    var jQuiz = {
-        answers: { q1: 'a' },
-        questionLength: 1,
-        checkAnswers: function() {
-            var arr = this.answers;
-            var ans = this.userAnswers;
-            var resultArr = []
-            for (var p in ans) {
-                var x = parseInt(p) + 1;
-                var key = 'q' + x;
-                var flag = false;
-                if (ans[p] == 'q' + x + '-' + arr[key]) {
-                    flag = true;
-                }
-                else {
-                    flag = false;
-                }
-                resultArr.push(flag);
-            }
-            return resultArr;
-        },
-        init: function(){
-            $('label > input, .begin').click(function(){
-
-                $(this).parents('.questionContainer').fadeOut(500, function(){
-                    
-                    if ($(this).next().length == 1) {
-                        $(this).next().fadeIn(500);
-                    } 
+    $(function(){
+        var jQuiz = {
+            answers: { q1: 'a' },
+            questionLength: {{ n_questions }},
+            checkAnswers: function() {
+                var arr = this.answers;
+                var ans = this.userAnswers;
+                var resultArr = []
+                for (var p in ans) {
+                    var x = parseInt(p) + 1;
+                    var key = 'q' + x;
+                    var flag = false;
+                    if (ans[p] == 'q' + x + '-' + arr[key]) {
+                        flag = true;
+                    }
                     else {
-                        var arr = $('input[type=radio]:checked');
-                        var ans = jQuiz.userAnswers = [];
-                        for (var i = 0, ii = arr.length; i < ii; i++) {
-                            ans.push(arr[i].getAttribute('id'))
-                        }
-
-                        $('#progress').width(300);
-                        $('#progressKeeper').hide();
-                        var results = jQuiz.checkAnswers();
-                        var resultSet = '';
-                        var trueCount = 0;
-                        for (var i = 0, ii = results.length; i < ii; i++){
-                            if (results[i] == true) trueCount++;
-                            resultSet += '<div> Question ' + (i + 1) + ' is ' + results[i] + '</div>'
-                        }
-                        resultSet += '<div class="totalScore">Your total score is ' + trueCount * 20 + ' / 100</div>'
-                        $('#resultKeeper').html(resultSet).show();
-
-                    }                
-
-                });
-
-            });
-
-            $('.btnPrev').click(function(){
-                $(this).parents('.questionContainer').fadeOut(500, function(){
-                    $(this).prev().fadeIn(500)
-                });
-
-            })
-
-            $('.btnShowResult').click(function(){
-                var arr = $('input[type=radio]:checked');
-                var ans = jQuiz.userAnswers = [];
-                for (var i = 0, ii = arr.length; i < ii; i++) {
-                    ans.push(arr[i].getAttribute('id'))
+                        flag = false;
+                    }
+                    resultArr.push(flag);
                 }
-            })
-
-        }
-    };
-    jQuiz.init();
-})
+                return resultArr;
+            },
+            init: function(){
+                $('label > input, .begin').click(function(){
+    
+                    $(this).parents('.questionContainer').fadeOut(500, function(){
+                        
+                        if ($(this).next().length == 1) {
+                            $(this).next().fadeIn(500);
+                        } 
+                        else {
+                            var arr = $('input[type=radio]:checked');
+                            var ans = jQuiz.userAnswers = [];
+                            for (var i = 0, ii = arr.length; i < ii; i++) {
+                                ans.push(arr[i].getAttribute('id'))
+                            }
+    
+                            $('#progress').width(300);
+                            $('#progressKeeper').hide();
+                            var results = jQuiz.checkAnswers();
+                            var resultSet = '';
+                            var trueCount = 0;
+                            for (var i = 0, ii = results.length; i < ii; i++){
+                                if (results[i] == true) trueCount++;
+                                resultSet += '<div> Question ' + (i + 1) + ' is ' + results[i] + '</div>'
+                            }
+                            resultSet += '<div class="totalScore">Your total score is ' + trueCount * 20 + ' / 100</div>'
+                            resultSet += '<div class="totalScore">You answered ' + jQuiz.userAnswers + '</div>'
+                            $('#resultKeeper').html(resultSet).show();
+    
+                        }                
+    
+                    });
+    
+                });
+    
+                $('.btnPrev').click(function(){
+                    $(this).parents('.questionContainer').fadeOut(500, function(){
+                        $(this).prev().fadeIn(500)
+                    });
+    
+                })
+    
+                $('.btnShowResult').click(function(){
+                    var arr = $('input[type=radio]:checked');
+                    var ans = jQuiz.userAnswers = [];
+                    for (var i = 0, ii = arr.length; i < ii; i++) {
+                        ans.push(arr[i].getAttribute('id'))
+                    }
+                })
+    
+            }
+        };
+        jQuiz.init();
+    })
 
 </script>
 
