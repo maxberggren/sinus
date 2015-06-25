@@ -47,15 +47,15 @@
             <div class="questionContainer radius">
                 <h1>Dialektoraklet</h1>
                 <hr>
-                <p>Vi vet var du kommer ifrån! Kanske. Svara på 25 frågor kring ordval och uttal och vår algoritm kommer spå din dialektala hemort.</p>
+                <p>Vi vet var du kommer ifrån! Kanske. Svara på {{ n_questions }} frågor kring ordval och uttal och vår algoritm kommer spå din dialektala hemort.</p>
                 <a class="btn btn-primary btn-xl page-scroll begin">Börja</a>
 
             </div>
 
-            {% for q in questions %} {{ q }} {% endfor %}
+            {% for q in questions %} {% a, b, c = questions %} {{ a }} {% endfor %}
             
             <div class="questionContainer radius" style="display: none;">
-                <h4>Fråga 1 av 25</h4>
+                <h4>Fråga 1 av {{ n_questions }}</h4>
                 <h1>Sluddrar du och pratar grötigt?</h1>
                 <hr>
                 <p>Använder du ibland fara som i <em>vi skulle fara till farmor</em>?</p>
