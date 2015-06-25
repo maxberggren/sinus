@@ -52,7 +52,7 @@
 
             </div>
 
-            {% for q in questions %} {% a, b, c = questions %} {{ a }} {% endfor %}
+            {% for q, s, a in questions %} {{ q }} {% endfor %}
             
             <div class="questionContainer radius" style="display: none;">
                 <h4>Fråga 1 av {{ n_questions }}</h4>
