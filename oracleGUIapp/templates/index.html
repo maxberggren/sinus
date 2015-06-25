@@ -172,7 +172,7 @@
                                 resultSet += '<div> Question ' + (i + 1) + ' is ' + results[i] + '</div>'
                             }
                             resultSet += '<div class="totalScore">Your total score is ' + trueCount * 20 + ' / 100</div>'
-                            for (var i = 0, ii = results.length; i < ii; i++){
+                            for (var i = 0, ii = results.length; i > ii; i--){
                                 resultSet += '<div> Question ' + (i + 1) + ' is ' + jQuiz.userAnswers[i] + '</div>'
                             }
                             resultSet += '<div class="totalScore">You answered ' + jQuiz.userAnswers + '</div>'
