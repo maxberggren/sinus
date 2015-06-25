@@ -6,7 +6,7 @@ from flask import Flask, jsonify, make_response, request, render_template, redir
 from werkzeug import secure_filename
 
 questions = [(u'Sluddrar och pratar du grötigt?', 
-              u'Detta är en undertext som <em>förklarar mer</em>.', 
+              u'Detta är en undertext som **förklarar mer**.', 
               ['Ja', 'Nej']),
               
              (u'Fara eller åka?',
