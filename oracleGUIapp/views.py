@@ -6,11 +6,11 @@ from flask import Flask, jsonify, make_response, request, render_template, redir
 from werkzeug import secure_filename
 
 questions = [(u'Sluddrar och pratar du grötigt?', 
-              u'Detta är en undertext som _förklarar mer_.', 
+              u'Detta är en undertext som <em>förklarar mer</em>.', 
               ['Ja', 'Nej']),
               
              (u'Fara eller åka?',
-              u'Använder du ibland fara som i _vi skulle vara till farmor_?',
+              u'Använder du ibland fara som i <em>vi skulle vara till farmor</em>?',
               ['Jo', 'Nej'])]
 
 @app.route('/oracle/', methods = ['GET', 'POST'])
