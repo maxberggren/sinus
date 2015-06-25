@@ -16,6 +16,6 @@ questions = [('Sluddrar och pratar du grötigt?',
 @app.route('/oracle/', methods = ['GET', 'POST'])
 @app.route('/oracle', methods = ['GET', 'POST'])
 def oracle():
-    return render_template("index.html", questions)
+    return render_template("index.html", questions=questions)
 
     
