@@ -420,16 +420,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             except KeyError:
                 mapped_points[word] = pd.DataFrame({'points': points})
                 mapped_points[word]['rank'] = 2
-    
-            #start_time = time.time()                                                   
-            # Use prep to optimize polygons for faster computation
-            #hood_polygons[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
-            #print("--- %s sekunder att göra prep(MultiPolygon) ---" % (time.time() - start_time))
-            
-            # Filter out the points that do not fall within the map we're making
-            #mapped_points[word] = [p for p in all_points[word] if hood_polygons[word].contains(p)]
-            #ranks[word] = [r for p, r in zip(all_points[word], ranks[word]) 
-            #               if hood_polygons[word].contains(p)]
 
 
         def num_of_contained_points(apolygon, mapped_points):
@@ -445,7 +435,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     
             return num
         
-        #poly_df[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
 
         for word in uniqeWords:
             start_time = time.time()   
