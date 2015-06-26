@@ -439,9 +439,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             num = 0            
             for rank, ld in mapped_points.groupby(['rank']):  
                 if rank >= 4: # Downweight badly ranked points
-                    num += int(0.5*len(filter(prep(apolygon).contains, ld['points'])))
+                    num += int(0.5*len(filter(apolygon.contains, ld['points'])))
                 else:
-                    num += int(len(filter(prep(apolygon).contains, ld['points'])))
+                    num += int(len(filter(apolygon.contains, ld['points'])))
                     
             return num
         
