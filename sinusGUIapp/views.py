@@ -445,10 +445,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     
             return num
         
-        poly_df[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
+        #poly_df[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
 
         for word in uniqeWords:
             start_time = time.time()   
+            poly_df[word] = poly_df['poly'].apply(prep)
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
                                                   args=(mapped_points[word],))
             poly_df[word][poly_df[word] < binThreshold] = 0
