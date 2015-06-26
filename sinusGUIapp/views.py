@@ -439,17 +439,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             num = 0            
             for rank, ld in mapped_points.groupby(['rank']):  
                 if rank >= 4: # Downweight badly ranked points
-                    num += int(0.5*len(filter(apolygon.contains, ld['points'])))
+                    num += int(0.5*len(filter(prep(apolygon).contains, ld['points'])))
                 else:
-                    num += int(len(filter(apolygon.contains, ld['points'])))
+                    num += int(len(filter(prep(apolygon).contains, ld['points'])))
                     
             return num
         
-        # poly_df[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
-
         for word in uniqeWords:
             start_time = time.time()   
-            poly_df[word] = poly_df['poly'].apply(prep)
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
                                                   args=(mapped_points[word],))
             poly_df[word][poly_df[word] < binThreshold] = 0
@@ -668,6 +665,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         for df_map in shapesToPutOnMap:
             
             # Create patches
+            print df_map
+
             df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], lw=0, zorder=4), axis=1)
 
             pc = PatchCollection(df_map['patches'], match_original=True)
