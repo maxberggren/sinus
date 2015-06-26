@@ -445,6 +445,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     
             return num
         
+        #poly_df[word] = prep(MultiPolygon(list(poly_df['poly'].values)))
+
         for word in uniqeWords:
             start_time = time.time()   
             poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
@@ -665,8 +667,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         for df_map in shapesToPutOnMap:
             
             # Create patches
-            print df_map
-
             df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], lw=0, zorder=4), axis=1)
 
             pc = PatchCollection(df_map['patches'], match_original=True)
