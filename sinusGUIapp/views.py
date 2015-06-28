@@ -1238,7 +1238,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         
         result = mysqldb.query("select count(*) as c from posts "
                                "WHERE MATCH(text) "
-                               "AGAINST('{}') IN BOOLEAN MODE".format(word.encode('utf-8')))
+                               "AGAINST('{}' IN BOOLEAN MODE)".format(word.encode('utf-8')))
         for row in result:
             print "--- Ordet {} har {} träffar, kör dem nu ---".format(word, row['c'])
 
