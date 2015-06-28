@@ -1240,7 +1240,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "WHERE MATCH(text) "
                                "AGAINST('{}' IN BOOLEAN MODE)".format(word.encode('utf-8')))
         for row in result:
-            print "--- Ordet {} har {} träffar, kör dem nu ---".format(word, row['c'])
+            print "--- Ordet {} har {} träffar, kör dem nu ---".format(word.encode('utf-8'), row['c'])
 
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
