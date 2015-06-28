@@ -1236,7 +1236,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         if exclude:
             print "Exkluderar:", exclude
         
-        result = mysqldb.query("select count(*) as c from posts WHERE MATCH(text) AGAINST('deppig')")
+        result = mysqldb.query("select count(*) as c from posts WHERE MATCH(text) AGAINST('{}') IN BOOLEAN MODE".format(word))
         for row in result:
             print "--- Ordet {} har {} träffar, kör dem nu ---".format(word, row['c'])
 
