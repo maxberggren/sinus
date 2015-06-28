@@ -1235,7 +1235,11 @@ def getData(words, xBins=None, scatter=None, zoom=None,
 
         if exclude:
             print "Exkluderar:", exclude
-              
+        
+        result = mysqldb.query("select count(*) as c from posts WHERE MATCH(text) AGAINST('deppig')")
+        for row in result:
+            print "--- Ordet {} har {} träffar, kör dem nu ---".format(word, row['c'])
+
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
                                "blogs.source, "
