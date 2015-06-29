@@ -1283,13 +1283,15 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 oldkwic = newkwic
         
         def addNoise(coordinates):
+            start_time = time.time()
             coordinates = [tuple(c) for c in coordinates]
             lon, lat = zip(*coordinates)
-            lon = np.array(lon) + np.random.normal(0, 1, len(lon))
-            lat = np.array(lat) + np.random.normal(0, 1, len(lat))
+            lon = np.array(lon) + np.random.normal(0, 0.5, len(lon))
+            lat = np.array(lat) + np.random.normal(0, 0.5, len(lat))
             coordinates = zip(lon, lat)
             coordinates = [list(c) for c in coordinates]
-            
+            print("--- %s lägga på brus ---" % (time.time() - start_time))
+
             return coordinates
 
         coordinates = addNoise(coordinates)
