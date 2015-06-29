@@ -589,7 +589,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                          
                 indexWhereNoData = df[word] == 0.0    
                 if smooth:
-                    indexWhereNoData = df.index
+                    indexWhereNoData = df[word].index
 
                 for muni in df[indexWhereNoData]['name'].unique(): 
                 
