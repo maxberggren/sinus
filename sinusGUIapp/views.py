@@ -589,7 +589,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                          
                 indexWhereNoData = df[word] == 0.0    
                 if smooth:
-                    indexWhereNoData = df[word].index
+                    indexWhereNoData = list(range(len(df.index)))
 
                 for muni in df[indexWhereNoData]['name'].unique(): 
                 
@@ -628,7 +628,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             start_time = time.time() 
             df_map_fallback = genFallbackMap(df_map_muni, word)   
             df_map_fallback = genFallbackMap(df_map_fallback, word, smooth=True)   
-              
+
             print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
