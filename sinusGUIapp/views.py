@@ -638,7 +638,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             colormap = "coolwarm"
             
         cmap = plt.get_cmap(colormap)
-        #cmap = opacify(cmap) # Add opacity to colormap
+        cmap = opacify(cmap) # Add opacity to colormap
         
         if binModel == 'municipality+county':
             # County fallback for empty bins
