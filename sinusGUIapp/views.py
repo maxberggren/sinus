@@ -1282,6 +1282,18 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 wordkwic.append(newkwic)
                 oldkwic = newkwic
         
+        def addNoise(c):
+            coordinates = [tuple(c) for c in coordinates]
+            lon, lat = zip(*coordinates)
+            lon = np.array(lon) + np.random.normal(0, 1, len(lon))
+            lat = np.array(lat) + np.random.normal(0, 1, len(lat))
+            coordinates = zip(lon, lat)
+            coordinates = [list(c) for c in coordinates]
+            
+            return coordinates
+
+        coordinates = addNoise(coordinates)
+
         if len(coordinates) > hitsThreshold: # only draw coordinates over limit
         
             wordsOverThreshold.append(word)
