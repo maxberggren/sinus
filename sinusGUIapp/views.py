@@ -1282,7 +1282,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 wordkwic.append(newkwic)
                 oldkwic = newkwic
         
-        def addNoise(c):
+        def addNoise(coordinates):
             coordinates = [tuple(c) for c in coordinates]
             lon, lat = zip(*coordinates)
             lon = np.array(lon) + np.random.normal(0, 1, len(lon))
