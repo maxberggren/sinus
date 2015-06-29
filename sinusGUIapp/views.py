@@ -512,7 +512,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             muniMax = float(df_map_muni[word].max(axis=0))
             
             breaks['muni'][word] = [0., 0.3, 0.6, 1., muniMax/3.0, 2*muniMax/3.0, muniMax]
-            breaks['county'][word] = [0., 0.3, 0.6,, 1., countyMax/3.0, 2*countyMax/3.0, countyMax]
+            breaks['county'][word] = [0., 0.3, 0.6, 1., countyMax/3.0, 2*countyMax/3.0, countyMax]
         
         labels = ['Below avg.', '', '', 'Avg.', '', '', 'Above avg.']    
         
