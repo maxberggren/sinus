@@ -1294,7 +1294,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
 
             return coordinates
 
-        coordinates = addNoise(coordinates)
+        if binModel == "noise":
+            coordinates = addNoise(coordinates)
 
         if len(coordinates) > hitsThreshold: # only draw coordinates over limit
         
