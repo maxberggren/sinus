@@ -620,7 +620,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         print("--- %s sekunder att kategorisera procent) ---" % (time.time() - start_time))
 
         # Also create a fallback DF if needed
-        if binModel == 'lab':
+        if binModel == 'lab' or binModel == 'noise+lab':
             start_time = time.time() 
             df_map_fallback = genFallbackMap(df_map_muni, word)     
             print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
@@ -1294,7 +1294,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
 
             return coordinates
 
-        if binModel == "noise":
+        if binModel == "noise" or binModel == "noise+lab":
             coordinates = addNoise(coordinates)
 
         if len(coordinates) > hitsThreshold: # only draw coordinates over limit
