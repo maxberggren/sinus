@@ -578,7 +578,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             except IndexError:
                 return None
 
-        def updateDF(df, word):
+        def updateDF(df, word, smooth=False):
             """ Find municipalitys with no hits and update according to rule """
             new_df = df.copy(deep=True)
 
@@ -586,8 +586,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                  [u"LA-region", u"FA-region"], 
                                  [u"NDR", u"A", u"Tidningsdistrikt", u"Postnummer", u"P"], 
                                  [u"Län", u"Landskap"]]:
-                                                  
-                for muni in df[df[word] == 0.0]['name'].unique(): 
+                         
+                indexWhereNoData = df[word] == 0.0    
+                if smooth:
+                    indexWhereNoData = df.index
+
+                for muni in df[indexWhereNoData]['name'].unique(): 
                 
                     # Merge the mean of every parent level
                     mean = [getParentMean(df, muni, parentLevel, word) 
@@ -1283,6 +1287,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 oldkwic = newkwic
         
         def addNoise(coordinates):
+            np.random.seed(seed=666)
             start_time = time.time()
             coordinates = [tuple(c) for c in coordinates]
             lon, lat = zip(*coordinates)
