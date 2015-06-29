@@ -558,7 +558,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 return i
         return -1 # under or over break interval
     
-    def genFallbackMap(df, word):
+    def genFallbackMap(df, word, smooth=False):
         """ Generate fallback map from municipalitys """
         hierarchy = pd.io.excel.read_excel("hierarchy.xlsx")
 
@@ -578,7 +578,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             except IndexError:
                 return None
 
-        def updateDF(df, word, smooth=False):
+        def updateDF(df, word):
             """ Find municipalitys with no hits and update according to rule """
             new_df = df.copy(deep=True)
 
@@ -626,7 +626,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Also create a fallback DF if needed
         if binModel == 'lab' or binModel == 'noise+lab':
             start_time = time.time() 
-            df_map_fallback = genFallbackMap(df_map_muni, word)     
+            df_map_fallback = genFallbackMap(df_map_muni, word)   
+            df_map_fallback = genFallbackMap(df_map_fallback, word, smooth=True)   
+              
             print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
