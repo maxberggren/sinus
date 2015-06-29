@@ -240,7 +240,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         if len(koordinater) == 0:
             return np.zeros(shape=(int(xBins*xyRatio-1), xBins-1))
             
-        lon_bins = np.linspace(9, 27, xBins)
+        lon_bins = np.linspace(9, 28, xBins)
         lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
     
         lons, lats = zip(*koordinater)             
@@ -316,7 +316,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     else: #
         llcrnrlon = 9
         llcrnrlat = 54.5
-        urcrnrlon = 27
+        urcrnrlon = 28
         urcrnrlat = 69.5
         resolution = 'i'
         area_thresh = 250
@@ -814,7 +814,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
     fewResults = False
     gifFileName = None 
           
-    lon_bins = np.linspace(9, 27, xBins)
+    lon_bins = np.linspace(9, 28, xBins)
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
     gifFilenames = []
     nBins = len(lon_bins)*len(lat_bins)
@@ -895,7 +895,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
             else:
                 llcrnrlon = 9
                 llcrnrlat = 54.5
-                urcrnrlon = 27
+                urcrnrlon = 28
                 urcrnrlat = 69.5
             
             m = Basemap(projection='merc',
