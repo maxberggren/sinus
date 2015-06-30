@@ -624,7 +624,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
         return df
     
-    fig = plt.figure(figsize=(3.25*len(words),6))
+    fig = plt.figure(figsize=(3.45*len(words),6))
     
     for i, word in enumerate(words):
 
@@ -863,7 +863,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
                 
         #totDensity = ndimage.gaussian_filter(totDensity, blurFactor)
             
-        fig = plt.figure(figsize=(3.25*len(coordinatesByWord),6))
+        fig = plt.figure(figsize=(3.45*len(coordinatesByWord),6))
         
         for i, kordinater in enumerate(coordinatesByWord):
             word = words[i]
@@ -1255,11 +1255,21 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         if exclude:
             print "Exkluderar:", exclude
         
-        result = mysqldb.query("select count(*) as c from posts "
-                               "WHERE MATCH(text) "
-                               "AGAINST('{}' IN BOOLEAN MODE)".format(word.encode('utf-8')))
-        for row in result:
-            print "--- Ordet {} har {} träffar, kör dem nu ---".format(word.encode('utf-8'), row['c'])
+        attempts = 0
+
+        while attempts < 3:
+            try:
+                result = mysqldb.query("select count(*) as c from posts "
+                                       "WHERE MATCH(text) "
+                                       "AGAINST('{}' IN BOOLEAN MODE)".format(word.encode('utf-8')))
+                for row in result:
+                    print "--- Ordet {} har {} träffar, kör dem nu ---".format(word.encode('utf-8'), row['c'])
+
+                break
+            except sqlalchemy.exc.OperationalError:
+                print "--- MySQL ej tillgänglig, testar igen ---"
+                attempts += 1    
+
 
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
