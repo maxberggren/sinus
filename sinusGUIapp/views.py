@@ -637,10 +637,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         print("--- %s sekunder att kategorisera procent) ---" % (time.time() - start_time))
 
         # Also create a fallback DF if needed
-        if binModel == 'MP' or binModel == 'noise+MP' or binModel == 'MP+smooth':
+        if binModel == 'mp' or binModel == 'noise+mp' or binModel == 'mp+smooth':
             start_time = time.time() 
             df_map_fallback = genFallbackMap(df_map_muni, word)   
-            if binModel == 'MP+smooth':
+            if binModel == 'mp+smooth':
                 df_map_fallback = genFallbackMap(df_map_fallback, word, smooth=True)   
 
             print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
@@ -666,7 +666,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         elif binModel == 'county':
             # Just use countys
             shapesToPutOnMap = [df_map_county]
-        elif binModel == 'MP':
+        elif binModel == 'mp':
             # Lab
             shapesToPutOnMap = [df_map_fallback]
         else: 
