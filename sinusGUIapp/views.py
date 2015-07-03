@@ -655,7 +655,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
         colormap = colorCycle(i)
         if len(words) == 1:
-            colormap = "coolwarm"
+            colormap = "coolwarm" 
             
         cmap = plt.get_cmap(colormap)
         #cmap = opacify(cmap) # Add opacity to colormap
