@@ -247,7 +247,7 @@ def make_map(matrix, name):
 
 
 
-cache = SqliteCache("cache") 
+cache = SqliteCache("oracle_cache") 
 mysqldb = dataset.connect(c.LOCATIONDB) 
 mysqldb.query("set names 'utf8'") # Might help
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=155)
