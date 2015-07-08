@@ -157,7 +157,7 @@ def get_grids(queries):
                     lons.append(row['longitude'])
                     
                 print "Hittade {} koordinater".format(len(lats))
-                grid = gen_grid(lats, lons, xBins=xBins)
+                grid = gen_grid(lats, lons)
                 cache.set(str(query) + str(xBins), grid, timeout=60*60*24*31)   
                 grids.append(grid)
                 
