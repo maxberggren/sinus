@@ -54,29 +54,30 @@
 
             {% set q = 1 %}
             {% for data in questions %}
-            {% set question = data['q']
-               set explanation = data['sq']
-               set answers = data['alt'] %}
-            
-            <div class="questionContainer radius" style="display: none;">
-                <h4>Fråga {{ q }} av {{ n_questions }}</h4>
-                <h1>{{ question }}</h1>
-                <hr>
-                <p>{{ explanation|italic|safe }}</p>
-                    <ul>
-                        {% for answer in answers %}
-                        <li>
-                            <label class="btn btn-primary btn-xl"><input type="radio" name="q{{ q }}" id="q{{ q }}-{{ "abcdefghijklmno"[loop.index-1] }}" />{{answer}}</label>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                <div class="btnContainer">
-                    {% if q > 1 %}<div class="prev"><a class="btnPrev">Föregående fråga</a></div>{% endif %} 
-                    <div class="clear"></div> 
+
+                {% set question = data['question'] %}
+                {% set explanation = data['explanation'] %}
+                {% set answers = data['answers'] %}
+                
+                <div class="questionContainer radius" style="display: none;">
+                    <h4>Fråga {{ q }} av {{ n_questions }}</h4>
+                    <h1>{{ question }}</h1>
+                    <hr>
+                    <p>{{ explanation|italic|safe }}</p>
+                        <ul>
+                            {% for answer in answers %}
+                            <li>
+                                <label class="btn btn-primary btn-xl"><input type="radio" name="q{{ q }}" id="q{{ q }}-{{ "abcdefghijklmno"[loop.index-1] }}" />{{answer}}</label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    <div class="btnContainer">
+                        {% if q > 1 %}<div class="prev"><a class="btnPrev">Föregående fråga</a></div>{% endif %} 
+                        <div class="clear"></div> 
+                    </div>
                 </div>
-            </div>
-            
-            {% set q = q + 1 %}
+                
+                {% set q = q + 1 %}
             {% endfor %}
             
             </div>
@@ -181,7 +182,35 @@
         jQuiz.init();
     })
 
-</script>
+
+    $(document).ready(function(){  
+
+        var uname = "max";
+        var password = "tax";
+        var JSONObject = {
+             "uname":uname,
+             "password":password
+             };
+
+        $.ajax({  
+            url: 'http://localhost:5009/oracle/predict',  
+            type: 'post',
+            data : JSONObject,      
+            dataType: 'JSON',
+            success: function(data) { 
+                     var jsonData = $.parseJSON(data); //if data is not json
+                     //$('#name').val(jsonData.name);  
+                     //$('#email').val(jsonData.email);  
+                     alert(jsonData.city1);
+                }  
+        });  
+
+    });      
+
+    </script>
+
+
+
 
 </body>
 
