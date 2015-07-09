@@ -9,6 +9,7 @@ import numpy as np
 from numpy import inf
 import pandas as pd
 from sqlite_cache import SqliteCache
+import sqlalchemy
 
 from mpl_toolkits.basemap import Basemap, cm, maskoceans
 import matplotlib.cm as cm
@@ -248,8 +249,11 @@ def make_map(matrix, name):
 
 
 cache = SqliteCache("oracle_cache") 
-mysqldb = dataset.connect(c.LOCATIONDB) 
-mysqldb.query("set names 'utf8'") # Might help
+try:
+    mysqldb = dataset.connect(c.LOCATIONDB) 
+    mysqldb.query("set names 'utf8'") # Might help
+except sqlalchemy.exc.OperationalError:
+    print "No connection to mysql. Cache better work or it will fail."
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=155)
 
 xBins = 20

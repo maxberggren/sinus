@@ -5,17 +5,20 @@ from oracleGUIapp import app
 from flask import Flask, jsonify, make_response, request, render_template, redirect, url_for
 from werkzeug import secure_filename
 
-questions = [(u'Sluddrar och pratar du grötigt?', 
-              u'Detta är en undertext som **förklarar mer**.', 
-              ['Ja', 'Nej']),
+questions = [{'q': u'Sluddrar och pratar du grötigt?', 
+              'sq': u'Detta är en undertext som **förklarar mer**.', 
+              'alt': ['Ja', 'Nej'], 
+              'id': 1},
               
-             (u'Fara eller åka?',
-              u'Fyll i följande mening: **vi skulle...**',
-              ['...fara till farmor', u'...åka till farmor']),
+             {'q': u'Fara eller åka?',
+              'sq': u'Fyll i följande mening: **vi skulle...**',
+              'alt': ['...fara till farmor', u'...åka till farmor'], 
+              'id': 2},
               
-             (u'Polisen?',
-              u'Vilket av följade använder du oftast för att tala om polisen?',
-              [u'Bängen', 'Snuten', u'Farbror blå'])]
+             {'q': u'Polisen?',
+              'sq': u'Vilket av följade använder du oftast för att tala om polisen?',
+              'alt': [u'Bängen', 'Snuten', u'Farbror blå'], 
+              'id': 3}]
 
 @app.route('/oracle/', methods = ['GET', 'POST'])
 @app.route('/oracle', methods = ['GET', 'POST'])
