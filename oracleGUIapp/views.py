@@ -316,8 +316,9 @@ def make_map(matrix, name, coordinate):
 
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     
-    filename = "sinusGUIapp/static/maps/" + name + ".png"
-    plt.savefig(filename, 
+    filename = "gurkankatt" + ".png"
+    path = "oracleGUIapp/static/maps/" + filename
+    plt.savefig(path, 
                 dpi=100, 
                 bbox_inches='tight')
 
