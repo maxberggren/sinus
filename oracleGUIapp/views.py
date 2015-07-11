@@ -9,6 +9,7 @@ import config as c
 import dataset
 import geocode    
 from geocode import latlon
+import hashlib
 import math
 import numpy as np
 from numpy import inf
@@ -152,10 +153,11 @@ def get_grids(queries):
         print "letar efter {} i {}".format(word.encode('utf-8'), source.encode('utf-8'))
         word = word.replace("NOT ", "")
         
-        grid = cache.get(str(word.encode('utf-8')) + str(source.encode('utf-8')) + str(xBins))
+        hashkey = hashlib.sha224(str(word) + str(source) + str(xBins))
+        grid = cache.get(hashkey)
 
         if isinstance(grid, np.ndarray): # Found in cache
-            print "hämtade från cachen: {}".format(str(query.encode('utf-8')) + str(xBins))
+            print "hämtade från cachen: {}".format(str(query) + str(xBins))
             grids.append(grid)
             
         else: # Not found in cache
@@ -183,7 +185,9 @@ def get_grids(queries):
                     
                 print "Hittade {} koordinater".format(len(lats))
                 grid = gen_grid(lats, lons)
-                cache.set(str(query) + str(xBins), grid, timeout=60*60*24*31)   
+
+                hashkey = hashlib.sha224(str(word) + str(source) + str(xBins))
+                cache.set(hashkey, grid, timeout=60*60*24*31*99999)   
                 grids.append(grid)
                 
             else: # Get from excel file
@@ -204,7 +208,8 @@ def get_grids(queries):
                         lons.append(lon) 
                     
                 grid = gen_grid(lats, lons)
-                cache.set(str(query) + str(xBins), grid, timeout=60*60*24*31) 
+                hashkey = hashlib.sha224(str(word) + str(source) + str(xBins))
+                cache.set(hashkey, grid, timeout=60*60*24*31) 
                 grids.append(grid)
             
     return grids         
