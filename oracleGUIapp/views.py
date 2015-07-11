@@ -327,7 +327,7 @@ def predict():
     product = matrix_product(grids, queries)    
     density = normalize(product)
     make_map(density, "product")
-    print  rg.search((51.520328, -0.097712))
+    print  rg.rg.search((51.520328, -0.097712))
 
     return make_response(jsonify( { 'city1': 'YES', 'matrix': str(density) } ))
 
