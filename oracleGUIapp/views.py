@@ -220,6 +220,7 @@ def get_grids(queries):
 def make_map(matrix, name):
     """ Create image with map and grid overlaid """
 
+    print "skapar karta"
     density = matrix
     fig = plt.figure(figsize=(3.25*1,6))
     
@@ -327,7 +328,7 @@ def predict():
     density = normalize(product)
     make_map(density, "product")
     print  rg.search((51.520328, -0.097712))
-       
+
     return make_response(jsonify( { 'city1': 'YES', 'matrix': str(density) } ))
 
 
