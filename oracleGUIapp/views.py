@@ -234,7 +234,7 @@ def get_grids(queries):
             
     return grids         
  
-def make_map(matrix, name):
+def make_map(matrix, name, coordinate):
     """ Create image with map and grid overlaid """
 
     print "skapar karta"
@@ -248,7 +248,8 @@ def make_map(matrix, name):
     
     lon_bins = np.linspace(llcrnrlon, urcrnrlon, xBins)
     lat_bins = np.linspace(llcrnrlat, urcrnrlat, xBins*xyRatio)
-        
+    
+
     m = Basemap(projection='merc',
                 resolution = 'i', 
                 area_thresh=500,
@@ -279,7 +280,12 @@ def make_map(matrix, name):
                    cmap=theCM, 
                    norm=LogNorm(), 
                    antialiased=True)                    
-    
+ 
+    # Put maximum on map
+    lat, lon = coordinate
+    x1, y1 = m(lat, lon)
+    m.scatter(x1, y1)
+
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     
     plt.savefig("sinusGUIapp/static/maps/" + name + ".pdf", 
@@ -330,7 +336,7 @@ def predict():
     density = normalize(product)
     coordinate = grid_maximum(density)
     print rg.get(coordinate)
-    make_map(density, "product")
+    make_map(density, "product", coordinate)
 
     return make_response(jsonify( { 'city1': 'YES', 'matrix': str(density) } ))
 
