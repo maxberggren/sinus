@@ -155,7 +155,7 @@ def get_grids(queries):
         print "letar efter {} i {}".format(word, source)
         word = word.replace("NOT ", "")
         
-        hashkey = hashlib.sha224(str(word) + str(source) + str(xBins))
+        hashkey = hashlib.sha224(str(word) + str(source) + str(xBins)).hexdigest()
         grid = cache.get(hashkey)
 
         if isinstance(grid, np.ndarray): # Found in cache
@@ -188,7 +188,7 @@ def get_grids(queries):
                 print "Hittade {} koordinater".format(len(lats))
                 grid = gen_grid(lats, lons)
 
-                hashkey = hashlib.sha224(str(word) + str(source) + str(xBins))
+                hashkey = hashlib.sha224(str(word) + str(source) + str(xBins)).hexdigest()
                 cache.set(hashkey, grid, timeout=60*60*24*31*99999)   
                 grids.append(grid)
                 
@@ -210,7 +210,7 @@ def get_grids(queries):
                         lons.append(lon) 
                     
                 grid = gen_grid(lats, lons)
-                hashkey = hashlib.sha224(str(word) + str(source) + str(xBins))
+                hashkey = hashlib.sha224(str(word) + str(source) + str(xBins)).hexdigest()
                 cache.set(hashkey, grid, timeout=60*60*24*31) 
                 grids.append(grid)
             
