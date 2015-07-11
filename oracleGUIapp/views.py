@@ -71,7 +71,7 @@ def grid_maximum(matrix):
     lon_bins = np.linspace(8, 26, xBins)
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
 
-    return lon_bins[i], lat_bins[j]
+    return lat_bins[j], lon_bins[i]
 
 def gen_grid(lats, lons, no_zeros=False):
     """ Generate grid from coordinates """
