@@ -5,6 +5,7 @@ from oracleGUIapp import app
 from flask import Flask, jsonify, make_response, request, render_template, redirect, url_for
 from werkzeug import secure_filename
 
+import binascii
 import config as c
 import dataset
 import geocode    
@@ -316,7 +317,9 @@ def make_map(matrix, name, coordinate):
 
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     
-    filename = "gurkankatt" + ".png"
+    filename += binascii.b2a_hex(os.urandom(15))[:10]
+    filename = secure_filename(filename)
+    filename = filename + ".png"
     path = "oracleGUIapp/static/maps/" + filename
     plt.savefig(path, 
                 dpi=100, 
