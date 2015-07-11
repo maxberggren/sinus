@@ -343,7 +343,7 @@ def predict():
     density = normalize(product)
     coordinate = grid_maximum(density)
     region = rg.get(coordinate)['admin1']
-    make_map(density, "product", coordinate)
+    #make_map(density, "product", coordinate)
 
     return make_response(jsonify( { 'region': region } ))
 
