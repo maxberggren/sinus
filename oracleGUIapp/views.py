@@ -149,7 +149,7 @@ def get_grids(queries):
     
     for query in queries:
         word, source = query
-        print "letar efter {} i {}".format(word, source)
+        print "letar efter {} i {}".format(word.encode('utf-8'), source.encode('utf-8'))
         word = word.replace("NOT ", "")
         
         grid = cache.get(str(query) + str(xBins))
