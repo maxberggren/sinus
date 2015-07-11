@@ -342,10 +342,10 @@ def predict():
     product = matrix_product(grids, queries)    
     density = normalize(product)
     coordinate = grid_maximum(density)
-    print rg.get(coordinate)
+    region = rg.get(coordinate)['admin1']
     make_map(density, "product", coordinate)
 
-    return make_response(jsonify( { 'city1': 'YES', 'matrix': str(density) } ))
+    return make_response(jsonify( { 'region': region } ))
 
 
 
