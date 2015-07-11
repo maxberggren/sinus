@@ -27,8 +27,6 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
 import matplotlib.pyplot as plt
 
-print rg.search((55.735795, 13.67777))
-
 questions = [{'question': u'Fara eller åka?',
               'explanation': u'Fyll i följande mening: **vi skulle...**',
               'answers': ['...fara till farmor', u'...åka till farmor'], 
@@ -64,6 +62,11 @@ def not_in(matrix):
     """ Prob of not being in each element """
     
     return normalize(1 - matrix)
+
+def grid_maximum(matrix):
+    """ Find where in grid highest probability lies """
+    
+    print np.amax(matrix, axis=0), np.amax(matrix, axis=1)
 
 def gen_grid(lats, lons, xyRatio=1.8, no_zeros=False):
     """ Generate grid from coordinates """
@@ -277,21 +280,6 @@ def oracle():
     return render_template("index.html", questions=questions, n_questions=len(questions))
 
 
-queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
-           ('nästkusin', 'DB'),
-           ('NOT tyken', 'DB'),
-           #('äppelpaj', 'DB'),
-           ('gräddbullar', 'DB'),
-           #('fara', 'DB'),
-           #('NOT böla', 'DB'),
-           ('söndrig', 'Moderna dialektskillnader - SONDRIG.xlsx'),
-           ('nyckelen', 'DB'),  
-           ('chokladet', 'DB'),
-           ('NOT svalen', 'DB'),
-           #('NOT böla', 'DB'),
-           ('NOT poängpromenad', 'DB')
-           ]
-
 @app.route('/oracle/predict', methods=['POST'])
 def predict(): 
     """ Predict where user is from """
@@ -328,6 +316,7 @@ def predict():
 
     product = matrix_product(grids, queries)    
     density = normalize(product)
+    grid_maximum(density)
     make_map(density, "product")
 
     return make_response(jsonify( { 'city1': 'YES', 'matrix': str(density) } ))
