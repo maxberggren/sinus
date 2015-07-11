@@ -29,7 +29,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
 import matplotlib.pyplot as plt
 
-questions = [{'question': u'Fara eller åka?',
+questions = ["""{'question': u'Fara eller åka?',
               'explanation': u'Fyll i följande mening: **vi skulle...**',
               'answers': [u'...fara till farmor', u'...åka till farmor'], 
               'query': [u'fara', u'NOT fara'], 
@@ -70,7 +70,7 @@ questions = [{'question': u'Fara eller åka?',
               'query': [u'NOT äppel', u'äppel'], 
               'target': 'DB', 
               'id': 7},
-              
+              """
              {'question': u'Förstörelse',
               'explanation': u'Är något **trasigt** eller **söndrigt**?',
               'answers': [u'Trasigt', u'Söndrigt'], 
@@ -131,8 +131,8 @@ def gen_grid(lats, lons, no_zeros=False):
         density[zeros] = smallest
     
     # Test with logaritmizing the data  
-    density = np.log(density)
-    density[density == -inf] = 0
+    #density = np.log(density)
+    #ensity[density == -inf] = 0
     return normalize(density)
 
 def entropy(pctMatrix):
