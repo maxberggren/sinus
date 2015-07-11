@@ -1,142 +1,225 @@
 ##
 # Author: Ajay Thampi
-# Code extended from http://folk.uio.no/sturlamo/python/multiprocessing-tutorial.pdf
 ##
-import numpy as np
-import scipy
-import scipy.spatial
-import multiprocessing as mp
-import ctypes
+from __future__ import print_function
 import os
 import sys
-from scipy.spatial import cKDTree
+import csv
+csv.field_size_limit(sys.maxsize)
+import zipfile
+from scipy.spatial import cKDTree as KDTree
+from reverseGeocoderSupport import cKDTree_MP as KDTree_MP
+import numpy as np
 
-def shmem_as_nparray(shmem_array):
-    return np.frombuffer(shmem_array.get_obj())
+GN_URL = 'http://download.geonames.org/export/dump/'
+GN_CITIES1000 = 'cities1000'
+GN_ADMIN1 = 'admin1CodesASCII.txt'
+GN_ADMIN2 = 'admin2Codes.txt'
 
-def _pquery(scheduler,data,ndata,ndim,leafsize,
-                x,nx,d,i,k,eps,p,dub,ierr):
-    try:
-        _data = shmem_as_nparray(data).reshape((ndata,ndim))
-        _x = shmem_as_nparray(x).reshape((nx,ndim))
-        _d = shmem_as_nparray(d).reshape((nx,k))
-        _i = shmem_as_nparray(i).reshape((nx,k))
+GN_COLUMNS = {
+    'geoNameId': 0, 
+    'name': 1, 
+    'asciiName': 2,
+    'alternateNames': 3, 
+    'latitude': 4, 
+    'longitude': 5, 
+    'featureClass': 6,
+    'featureCode': 7,
+    'countryCode': 8,
+    'cc2': 9, 
+    'admin1Code': 10,
+    'admin2Code': 11, 
+    'admin3Code': 12, 
+    'admin4Code': 13, 
+    'population': 14, 
+    'elevation': 15, 
+    'dem': 16, 
+    'timezone': 17, 
+    'modificationDate': 18
+}
 
-        kdtree = cKDTree(_data,leafsize=leafsize)
+ADMIN_COLUMNS = {
+    'concatCodes': 0,
+    'name': 1,
+    'asciiName': 2,
+    'geoNameId': 3   
+}
 
-        for s in scheduler:
-            d_out,i_out = kdtree.query(_x[s,:],k=k,eps=eps,p=p,distance_upper_bound=dub)
-            m_d = d_out.shape[0]
-            m_i = i_out.shape[0]
-            _d[s,:],_i[s,:] = d_out.reshape(m_d,1),i_out.reshape(m_i,1)
-    except:
-        ierr.value += 1
+RG_COLUMNS = [
+    'lat',
+    'lon',
+    'name',
+    'admin1',
+    'admin2',
+    'cc'
+]
 
-def num_cpus():
-    try:
-        return mp.cpu_count()        
-    except NotImplementedError:
-        return 2 
+RG_FILE = 'rg_cities1000.csv'
 
-class cKDTree_MP(cKDTree):
-    def __init__(self,data_list,leafsize=30):
-        data = np.array(data_list)
-        n,m = data.shape
-        self.shmem_data = mp.Array(ctypes.c_double,n*m)
+A = 6378.137 # major axis in kms
+E2 = 0.00669437999014
 
-        _data = shmem_as_nparray(self.shmem_data).reshape((n,m))
-        _data[:,:] = data
+def singleton(cls):
+    instances = {}
+    def getinstance(mode=2,verbose=True):
+        if cls not in instances:
+            instances[cls] = cls(mode=mode,verbose=verbose)
+        return instances[cls]
+    return getinstance
 
-        self._leafsize = leafsize
-        super(cKDTree_MP,self).__init__(_data,leafsize=leafsize)
-
-    def pquery(self,x_list,k=1,eps=0,p=2,
-               distance_upper_bound=np.inf):
-        x = np.array(x_list)
-        nx,mx = x.shape
-        shmem_x = mp.Array(ctypes.c_double,nx*mx)
-        shmem_d = mp.Array(ctypes.c_double,nx*k)
-        shmem_i = mp.Array(ctypes.c_double,nx*k)
-
-        _x = shmem_as_nparray(shmem_x).reshape((nx,mx))
-        _d = shmem_as_nparray(shmem_d).reshape((nx,k))
-
-        _i = shmem_as_nparray(shmem_i)
-        if k != 1:
-            _i = _i.reshape((nx,k))
-
-        _x[:,:] = x
-
-        nprocs = num_cpus()
-        scheduler = Scheduler(nx,nprocs)
-
-        ierr = mp.Value(ctypes.c_int, 0)
-
-        query_args = (scheduler,
-                      self.shmem_data,self.n,self.m,self.leafsize,
-                      shmem_x,nx,shmem_d,shmem_i,
-                      k,eps,p,distance_upper_bound,
-                      ierr
-                     )
-        pool = [mp.Process(target=_pquery,args=query_args) for n in range(nprocs)]
-        for p in pool: p.start()
-        for p in pool: p.join()
-        if ierr.value != 0:
-            raise RuntimeError('%d errors in worker processes' % (ierr.value))
-
-        return _d.copy(),_i.astype(int).copy()
-
-class Scheduler:
-    def __init__(self,ndata,nprocs):
-        self._ndata = mp.RawValue(ctypes.c_int,ndata)
-        self._start = mp.RawValue(ctypes.c_int,0)
-        self._lock = mp.Lock()
-        min_chunk = ndata // nprocs
-        min_chunk = ndata if min_chunk <= 2 else min_chunk
-        self._chunk = min_chunk
-
-    def __iter__(self):
-        return self
-
-    def next(self): # Python 2 support
-        self._lock.acquire()
-        ndata = self._ndata.value
-        start = self._start.value
-        chunk = self._chunk 
-        if ndata:
-            if chunk > ndata:
-                s0 = start
-                s1 = start + ndata
-                self._ndata.value = 0
-            else:
-                s0 = start
-                s1 = start + chunk
-                self._ndata.value = ndata - chunk
-                self._start.value = start + chunk
-            self._lock.release()
-            return slice(s0, s1)
-        else:
-            self._lock.release()
-            raise StopIteration  
-
-    def __next__(self): # Python 3 support
-        self._lock.acquire()
-        ndata = self._ndata.value
-        start = self._start.value
-        chunk = self._chunk 
-        if ndata:
-            if chunk > ndata:
-                s0 = start
-                s1 = start + ndata
-                self._ndata.value = 0
-            else:
-                s0 = start
-                s1 = start + chunk
-                self._ndata.value = ndata - chunk
-                self._start.value = start + chunk
-            self._lock.release()
-            return slice(s0, s1)
-        else:
-            self._lock.release()
-            raise StopIteration 
+@singleton
+class RGeocoder:
+    def __init__(self,mode=2,verbose=True):
+        self.mode = mode
+        self.verbose = verbose
+        coordinates, self.locations = self.extract(rel_path(RG_FILE))
+        if mode == 1: # Single-process
+            self.tree = KDTree(coordinates)
+        else: # Multi-process
+            self.tree = KDTree_MP.cKDTree_MP(coordinates)
         
+
+    def query(self,coordinates):
+        try:
+            if self.mode == 1:
+                distances,indices = self.tree.query(coordinates,k=1)
+            else:
+                distances,indices = self.tree.pquery(coordinates,k=1)
+        except ValueError as e:
+            raise e
+        else:
+            return [self.locations[index] for index in indices]
+
+    def extract(self,local_filename):
+        if os.path.exists(local_filename):
+            if self.verbose:
+                print('Loading formatted geocoded file...')
+            rows = csv.DictReader(open(local_filename,'rt'))
+        else:
+            gn_cities1000_url = GN_URL + GN_CITIES1000 + '.zip'
+            gn_admin1_url = GN_URL + GN_ADMIN1
+            gn_admin2_url = GN_URL + GN_ADMIN2
+
+            cities1000_zipfilename = GN_CITIES1000 + '.zip'
+            cities1000_filename = GN_CITIES1000 + '.txt'
+
+            if not os.path.exists(cities1000_zipfilename):
+                if self.verbose:
+                    print('Downloading files from Geoname...')
+                try: # Python 3
+                    import urllib.request
+                    urllib.request.urlretrieve(gn_cities1000_url,cities1000_zipfilename)
+                    urllib.request.urlretrieve(gn_admin1_url,GN_ADMIN1)
+                    urllib.request.urlretrieve(gn_admin2_url,GN_ADMIN2)
+                except ImportError: # Python 2
+                    import urllib
+                    urllib.urlretrieve(gn_cities1000_url,cities1000_zipfilename)
+                    urllib.urlretrieve(gn_admin1_url,GN_ADMIN1)
+                    urllib.urlretrieve(gn_admin2_url,GN_ADMIN2)
+
+
+            if self.verbose:
+                print('Extracting cities1000...')
+            z = zipfile.ZipFile(open(cities1000_zipfilename,'rb'))
+            open(cities1000_filename,'wb').write(z.read(cities1000_filename))
+
+            if self.verbose:
+                print('Loading admin1 codes...')
+            admin1_map = {}
+            t_rows = csv.reader(open(GN_ADMIN1,'rt'),delimiter='\t')
+            for row in t_rows:
+                admin1_map[row[ADMIN_COLUMNS['concatCodes']]] = row[ADMIN_COLUMNS['asciiName']]
+
+            if self.verbose:
+                print('Loading admin2 codes...')
+            admin2_map = {}
+            for row in csv.reader(open(GN_ADMIN2,'rt'),delimiter='\t'):
+                admin2_map[row[ADMIN_COLUMNS['concatCodes']]] = row[ADMIN_COLUMNS['asciiName']]
+
+            if self.verbose:
+                print('Creating formatted geocoded file...')
+            writer = csv.DictWriter(open(local_filename,'wt'),fieldnames=RG_COLUMNS)
+            rows = []
+            for row in csv.reader(open(cities1000_filename,'rt'),delimiter='\t',quoting=csv.QUOTE_NONE):
+                lat = row[GN_COLUMNS['latitude']]
+                lon = row[GN_COLUMNS['longitude']]
+                name = row[GN_COLUMNS['asciiName']]
+                cc = row[GN_COLUMNS['countryCode']]
+
+                admin1_c = row[GN_COLUMNS['admin1Code']]
+                admin2_c = row[GN_COLUMNS['admin2Code']]
+
+                cc_admin1 = cc+'.'+admin1_c
+                cc_admin2 = cc+'.'+admin1_c+'.'+admin2_c
+
+                admin1 = ''
+                admin2 = ''
+
+                if cc_admin1 in admin1_map:
+                    admin1 = admin1_map[cc_admin1]
+                if cc_admin2 in admin2_map:
+                    admin2 = admin2_map[cc_admin2]
+
+                write_row = {'lat':lat,'lon':lon,'name':name,'admin1':admin1,'admin2':admin2,'cc':cc}
+                rows.append(write_row)
+            writer.writeheader()
+            writer.writerows(rows)
+
+            if self.verbose:
+                print('Removing extracted cities1000 to save space...')
+            os.remove(cities1000_filename)
+
+        # Load all the coordinates and locations
+        geo_coords,locations = [],[]
+        for row in rows:
+            geo_coords.append((row['lat'],row['lon']))
+            locations.append(row)
+        ecef_coords = geodetic_in_ecef(geo_coords)
+        return geo_coords,locations
+
+def geodetic_in_ecef(geo_coords):
+    geo_coords = np.asarray(geo_coords).astype(np.float)
+    lat = geo_coords[:,0]
+    lon = geo_coords[:,1]
+
+    lat_r = np.radians(lat)
+    lon_r = np.radians(lon)
+    normal = A / (np.sqrt(1 - E2*(np.sin(lat_r) ** 2)))
+
+    x = normal * np.cos(lat_r) * np.cos(lon_r)
+    y = normal * np.cos(lat_r) * np.sin(lon_r)
+    z = normal * (1 - E2) * np.sin(lat)
+
+    return np.column_stack([x,y,z])
+
+def rel_path(filename):
+    return os.path.join(os.getcwd(), os.path.dirname(__file__), filename)
+
+def get(geo_coord,mode=2,verbose=True):
+    if type(geo_coord) != tuple or type(geo_coord[0]) != float:
+        raise TypeError('Expecting a tuple')
+
+    rg = RGeocoder(mode=mode,verbose=verbose)
+    return rg.query([geo_coord])[0]
+
+def search(geo_coords,mode=2,verbose=True):
+    if type(geo_coords) != tuple and type(geo_coords) != list:
+        raise TypeError('Expecting a tuple or a tuple/list of tuples')
+    elif type(geo_coords[0]) != tuple:
+        geo_coords = [geo_coords]
+    
+    rg = RGeocoder(mode=mode,verbose=verbose)
+    return rg.query(geo_coords)
+
+if __name__ == '__main__':
+    print('Testing single coordinate through get...')
+    city = (37.78674,-122.39222)
+    print('Reverse geocoding 1 city...')
+    result = get(city)
+    print(result)
+
+    print('Testing coordinates...')
+    cities = [(51.5214588,-0.1729636),(9.936033, 76.259952),(37.38605,-122.08385)]
+    print('Reverse geocoding %d cities...' % len(cities))
+    results = search(cities)
+    print(results)
