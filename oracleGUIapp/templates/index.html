@@ -146,6 +146,7 @@
                 posting.done(function(data) {
                     console.log(data);
                     resultSet = '<div class="totalScore">You get: ' + JSON.stringify(data) + '</div>';
+                    resultSet = '<img src="' + data['filename'] + '">';
                     $('#resultKeeper').append(resultSet).show();
                 });
                 posting.fail(function(data) {

@@ -316,9 +316,12 @@ def make_map(matrix, name, coordinate):
 
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     
-    plt.savefig("sinusGUIapp/static/maps/" + name + ".pdf", 
+    filename = "sinusGUIapp/static/maps/" + name + ".png"
+    plt.savefig(filename, 
                 dpi=100, 
                 bbox_inches='tight')
+
+    return filename
                 
 @app.route('/oracle/', methods = ['GET', 'POST'])
 @app.route('/oracle', methods = ['GET', 'POST'])
@@ -364,9 +367,9 @@ def predict():
     density = normalize(product)
     coordinate = grid_maximum(density)
     region = rg.get(coordinate)['admin1']
-    #make_map(density, "product", coordinate)
+    filename = make_map(density, "product", coordinate)
 
-    return make_response(jsonify( { 'region': region } ))
+    return make_response(jsonify( { 'region': region, 'filename': filename } ))
 
 
 
