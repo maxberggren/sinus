@@ -247,7 +247,7 @@ def make_map(matrix, name):
     urcrnrlat = 69.5
     
     lon_bins = np.linspace(llcrnrlon, urcrnrlon, xBins)
-    lat_bins = np.linspace(llcrnrlat, urcrnrlat, xBins*1.8)
+    lat_bins = np.linspace(llcrnrlat, urcrnrlat, xBins*xyRatio)
         
     m = Basemap(projection='merc',
                 resolution = 'i', 
@@ -340,7 +340,7 @@ def predict():
 
 
 print rg.get((37.78674,-122.39222))
-xBins = 20
+xBins = 8
 xyRatio = 1.8
 cache = SqliteCache("oracle_cache") 
 try:
