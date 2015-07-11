@@ -75,7 +75,7 @@ questions = [{'question': u'Fara eller åka?',
               'explanation': u'Är något **trasigt** eller **söndrigt**?',
               'answers': [u'Trasigt', u'Söndrigt'], 
               'query': [u'NOT söndrig', u'söndrig'], 
-              'target': 'Moderna dialektskillnader - SONDRIG.xlsx', 
+              'target': 'DB', 
               'id': 8}]
 
  
