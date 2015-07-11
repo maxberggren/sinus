@@ -150,7 +150,9 @@ def get_grids(queries):
     
     for query in queries:
         word, source = query
-        print "letar efter {} i {}".format(word.encode('utf-8'), source.encode('utf-8'))
+        word, source = word.encode('utf-8'), source.encode('utf-8')
+        
+        print "letar efter {} i {}".format(word, source)
         word = word.replace("NOT ", "")
         
         hashkey = hashlib.sha224(str(word) + str(source) + str(xBins))
