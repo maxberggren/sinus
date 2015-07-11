@@ -323,7 +323,8 @@ def predict():
     density = normalize(product)
     coordinate = grid_maximum(density)
     print type(coordinate)
-    print rg.get(coordinate)
+    print coordinate
+    print rg.get((37.78674,-122.39222))
     #make_map(density, "product")
 
     return make_response(jsonify( { 'city1': 'YES', 'matrix': str(density) } ))
