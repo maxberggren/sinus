@@ -322,6 +322,7 @@ def predict():
     product = matrix_product(grids, queries)    
     density = normalize(product)
     coordinate = grid_maximum(density)
+    print type(coordinate)
     print rg.get(coordinate)
     #make_map(density, "product")
 
