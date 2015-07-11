@@ -76,7 +76,14 @@ questions = [{'question': u'Fara eller åka?',
               'answers': [u'Trasigt', u'Söndrigt'], 
               'query': [u'NOT söndrig', u'söndrig'], 
               'target': 'DB', 
-              'id': 8}]
+              'id': 8},
+              
+             {'question': u'Potatis',
+              'explanation': u'Kallar du den nypotatis eller färskpotatis?',
+              'answers': [u'Färskpotatis', u'Nypotatis'], 
+              'query': [u'färskpotatis', u'nypotatis'], 
+              'target': 'DB', 
+              'id': 9}]
 
  
 def negative(query):
@@ -382,7 +389,7 @@ def predict():
 
 
 print rg.get((37.78674,-122.39222))
-xBins = 13
+xBins = 20
 xyRatio = 1.8
 cache = SqliteCache("oracle_cache") 
 try:
