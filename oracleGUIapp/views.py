@@ -131,8 +131,8 @@ def gen_grid(lats, lons, no_zeros=False):
         density[zeros] = smallest
     
     # Test with logaritmizing the data  
-    #density = np.log(density)
-    #density[density == -inf] = 0
+    density = np.log(density)
+    density[density == -inf] = 0
     return normalize(density)
 
 def entropy(pctMatrix):
@@ -314,7 +314,7 @@ def make_map(matrix, name, coordinate):
     # Put maximum on map
     lat, lon = coordinate
     x1, y1 = m(lon, lat)
-    m.scatter(x1, y1, s=30)
+    m.scatter(x1, y1, s=30, c='r')
 
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     
