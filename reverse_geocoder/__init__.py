@@ -210,3 +210,16 @@ def search(geo_coords,mode=2,verbose=True):
     
     rg = RGeocoder(mode=mode,verbose=verbose)
     return rg.query(geo_coords)
+
+if __name__ == '__main__':
+    print('Testing single coordinate through get...')
+    city = (37.78674,-122.39222)
+    print('Reverse geocoding 1 city...')
+    result = get(city)
+    print(result)
+
+    print('Testing coordinates...')
+    cities = [(51.5214588,-0.1729636),(9.936033, 76.259952),(37.38605,-122.08385)]
+    print('Reverse geocoding %d cities...' % len(cities))
+    results = search(cities)
+    print(results)
