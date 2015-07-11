@@ -27,6 +27,8 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
 import matplotlib.pyplot as plt
 
+print rg.search((51.520328, -0.097712))
+
 questions = [{'question': u'Fara eller åka?',
               'explanation': u'Fyll i följande mening: **vi skulle...**',
               'answers': ['...fara till farmor', u'...åka till farmor'], 
@@ -327,7 +329,6 @@ def predict():
     product = matrix_product(grids, queries)    
     density = normalize(product)
     make_map(density, "product")
-    print  rg.rg.search((51.520328, -0.097712))
 
     return make_response(jsonify( { 'city1': 'YES', 'matrix': str(density) } ))
 
