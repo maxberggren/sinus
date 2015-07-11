@@ -76,7 +76,7 @@ class RGeocoder:
         if mode == 1: # Single-process
             self.tree = KDTree(coordinates)
         else: # Multi-process
-            self.tree = KDTree_MP.cKDTree_MP(coordinates)
+            self.tree = KDTree_MP(coordinates)
         
 
     def query(self,coordinates):
