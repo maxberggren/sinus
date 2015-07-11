@@ -29,24 +29,31 @@ import matplotlib.pyplot as plt
 
 questions = [{'question': u'Fara eller åka?',
               'explanation': u'Fyll i följande mening: **vi skulle...**',
-              'answers': ['...fara till farmor', u'...åka till farmor'], 
-              'query': ['fara', u'NOT fara'], 
+              'answers': [u'...fara till farmor', u'...åka till farmor'], 
+              'query': [u'fara', u'NOT fara'], 
               'target': 'DB', 
               'id': 2},
               
              {'question': u'Polisen?',
               'explanation': u'Vilket av följade använder du oftast för att tala om polisen?',
-              'answers': [u'Bängen', 'Snuten', u'Farbror blå'], 
-              'query': [u'bängen', 'snuten', u'farbror blå'], 
+              'answers': [u'Bängen', u'Snuten', u'Farbror blå'], 
+              'query': [u'bängen', u'snuten', u'farbror blå'], 
               'target': 'DB', 
               'id': 3},
               
              {'question': u'Skottkärra',
               'explanation': u'Har du under din omgivning ibland pratat om en **rullebör**?',
-              'answers': [u'O-Ja', 'Nej'], 
-              'query': [u'rullebör', 'NOT rullebör'], 
+              'answers': [u'O-Ja', u'Nej'], 
+              'query': [u'rullebör', u'NOT rullebör'], 
               'target': 'DB', 
-              'id': 4}]
+              'id': 4},
+              
+             {'question': u'Släktskap',
+              'explanation': u'Vad kallar du en person som du delar morfar med?',
+              'answers': [u'Nästkusin', u'Tremänning', u'Småkusin', u'Syssling'], 
+              'query': [u'nästkusin', u'tremänning', u'småkusin', u'syssling'], 
+              'target': 'DB', 
+              'id': 5}]
 
  
 def negative(query):
