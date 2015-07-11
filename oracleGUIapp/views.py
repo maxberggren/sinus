@@ -317,7 +317,7 @@ def make_map(matrix, name, coordinate):
 
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     
-    filename += binascii.b2a_hex(os.urandom(15))[:10]
+    filename = binascii.b2a_hex(os.urandom(15))[:10]
     filename = secure_filename(filename)
     filename = filename + ".png"
     path = "oracleGUIapp/static/maps/" + filename
