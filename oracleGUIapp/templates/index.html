@@ -58,6 +58,7 @@
                 {% set question = data['question'] %}
                 {% set explanation = data['explanation'] %}
                 {% set answers = data['answers'] %}
+                {% set id = data['id'] %}
                 
                 <div class="questionContainer radius" style="display: none;">
                     <h4>Fråga {{ q }} av {{ n_questions }}</h4>
@@ -67,7 +68,7 @@
                         <ul>
                             {% for answer in answers %}
                             <li>
-                                <label class="btn btn-primary btn-xl"><input type="radio" name="q{{ q }}" id="q{{ q }}-{{ "abcdefghijklmno"[loop.index-1] }}" />{{answer}}</label>
+                                <label class="btn btn-primary btn-xl"><input type="radio" name="q{{ q }}" qid="{{ id }}" choise="{{ loop.index-1 }}" id="q{{ q }}-{{ "abcdefghijklmno"[loop.index-1] }}" />{{answer}}</label>
                             </li>
                             {% endfor %}
                         </ul>
@@ -134,7 +135,26 @@
     <script>
     $(function(){
         var jQuiz = {
+            sendUserResult: function(answers) {
+                var posting = $.ajax({
+                                        type : "POST",
+                                        url : "/oracle/predict",
+                                        data: JSON.stringify(answers, null, '\t'),
+                                        contentType: 'application/json;charset=UTF-8'
+                                    });
+
+                posting.done(function(data) {
+                    console.log(data);
+                    resultSet = '<div class="totalScore">You get: ' + JSON.stringify(data) + '</div>';
+                    $('#resultKeeper').append(resultSet).show();
+                });
+                posting.fail(function(data) {
+                    console.log("Could not send data to flask");
+                });
+            },
+
             questionLength: {{ n_questions }},
+
             init: function(){
                 $('label > input, .begin').click(function(){
     
@@ -146,15 +166,20 @@
                         else {
                             var arr = $('input[type=radio]:checked');
                             var ans = jQuiz.userAnswers = [];
+                            var answers = {};
                             for (var i = 0, ii = arr.length; i < ii; i++) {
-                                ans.push(arr[i].getAttribute('id'))
+                                ans.push(arr[i].getAttribute('choise'))
+                                answers[arr[i].getAttribute('qid')] = arr[i].getAttribute('choise')
                             }
     
                             $('#progress').width(300);
                             $('#progressKeeper').hide();
                             var resultSet = '';
-                            resultSet += '<div class="totalScore">Your answers: ' + ans + '</div>'
-                            $('#resultKeeper').html(resultSet).show();
+                            console.log(answers)
+                            resultSet += '<div class="totalScore">Your answers: ' + ans + '</div>';
+                            $('#resultKeeper').append(resultSet).show();
+
+                            jQuiz.sendUserResult(answers);
     
                         }                
     
@@ -183,29 +208,7 @@
     })
 
 
-    $(document).ready(function(){  
-
-        var uname = "max";
-        var password = "tax";
-        var JSONObject = {
-             "uname":uname,
-             "password":password
-             };
-
-        $.ajax({  
-            url: 'http://localhost:5009/oracle/predict',  
-            type: 'post',
-            data : JSONObject,      
-            dataType: 'JSON',
-            success: function(data) { 
-                     var jsonData = $.parseJSON(data); //if data is not json
-                     //$('#name').val(jsonData.name);  
-                     //$('#email').val(jsonData.email);  
-                     alert(jsonData.city1);
-                }  
-        });  
-
-    });      
+  
 
     </script>
 

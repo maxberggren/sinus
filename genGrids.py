@@ -245,8 +245,7 @@ def make_map(matrix, name):
                 dpi=100, 
                 bbox_inches='tight')
                 
-
-
+                
 
 cache = SqliteCache("oracle_cache") 
 try:
@@ -254,6 +253,7 @@ try:
     mysqldb.query("set names 'utf8'") # Might help
 except sqlalchemy.exc.OperationalError:
     print "No connection to mysql. Cache better work or it will fail."
+
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=155)
 
 xBins = 20
@@ -271,13 +271,10 @@ queries = [#('NOT sovde', 'Moderna dialektskillnader - SOVDE.xlsx'),
            #('NOT böla', 'DB'),
            ('NOT poängpromenad', 'DB')
            ]
-           
-#[3.0261368612279473, 9.0789762435053003, 3.4817350502751632, 5.2375385048799039, 3.9100301581369665, 2.5767977201749948, 9.0325154827791145, 9.2289144202172508]
 
-          
+      
 grids = get_grids(queries)
-print [entropy(m) for m in grids] # Show entropy for the matrixes
-product = np.ones(grids[0].shape)      
+product = np.ones(grids[0].shape) # Set up uniform distribution
  
 def negative(query):
     return query[0][0:4] == "NOT "
@@ -285,15 +282,10 @@ def negative(query):
 # Multiply all distributions into a final one      
 for grid, query in zip(grids, queries): 
     if negative(query):
-        #print not_in(grid)
-        #make_map(not_in(grid), query[0]) 
         product = np.multiply(product, not_in(grid)) 
     else:
-        #print grid
-        #make_map(grid, query[0]) 
         product = np.multiply(product, grid) 
     
-print normalize(product)
 density = normalize(product)
 make_map(density, "product")
 
