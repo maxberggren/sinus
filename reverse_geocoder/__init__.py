@@ -196,7 +196,7 @@ def rel_path(filename):
     return os.path.join(os.getcwd(), os.path.dirname(__file__), filename)
 
 def get(geo_coord,mode=2,verbose=True):
-    if type(geo_coord) != tuple or type(geo_coord[0]) != float:
+    if type(geo_coord) != tuple:
         raise TypeError('Expecting a tuple')
 
     rg = RGeocoder(mode=mode,verbose=verbose)
