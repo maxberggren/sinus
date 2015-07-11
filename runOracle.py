@@ -10,4 +10,4 @@ def italic(s):
     return re.sub('\*{2}(.+)\*{2}', '<em>\\1</em>', s)
 
 app.debug = True
-app.run(host='0.0.0.0', port=5009)
+app.run(host='0.0.0.0', port=5010)
