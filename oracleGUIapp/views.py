@@ -382,7 +382,7 @@ def predict():
 
 
 print rg.get((37.78674,-122.39222))
-xBins = 20
+xBins = 13
 xyRatio = 1.8
 cache = SqliteCache("oracle_cache") 
 try:
