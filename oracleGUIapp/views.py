@@ -66,7 +66,8 @@ def not_in(matrix):
 def grid_maximum(matrix):
     """ Find where in grid highest probability lies """
     
-    print np.amax(matrix, axis=0), np.amax(matrix, axis=1)
+    i, j = np.unravel_index(matrix.argmax(), matrix.shape)
+    print matrix[i, j]
 
 def gen_grid(lats, lons, xyRatio=1.8, no_zeros=False):
     """ Generate grid from coordinates """
