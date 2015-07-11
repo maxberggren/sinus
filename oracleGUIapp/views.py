@@ -53,7 +53,28 @@ questions = [{'question': u'Fara eller åka?',
               'answers': [u'Nästkusin', u'Tremänning', u'Småkusin', u'Syssling'], 
               'query': [u'nästkusin', u'tremänning', u'småkusin', u'syssling'], 
               'target': 'DB', 
-              'id': 5}]
+              'id': 5},
+              
+             {'question': u'Sötsaker',
+              'explanation': u'Kallar du det **gräddbullar** eller **mums-mums**?',
+              'answers': [u'Gräddbullar', u'Mums-mums'], 
+              'query': [u'gräddbullar', u'NOT gräddbullar'], 
+              'target': 'DB', 
+              'id': 6},
+              
+             {'question': u'Frukt',
+              'explanation': u'Säger du äpp**el** eller äpp**le**?',
+              'answers': [u'Äpple', u'Äppel'], 
+              'query': [u'NOT äppel', u'äppel'], 
+              'target': 'DB', 
+              'id': 7},
+              
+             {'question': u'Förstörelse',
+              'explanation': u'Är något **trasigt** eller **söndrigt**?',
+              'answers': [u'Trasigt', u'Söndrigt'], 
+              'query': [u'NOT söndrig', u'söndrig'], 
+              'target': 'Moderna dialektskillnader - SONDRIG.xlsx', 
+              'id': 8}]
 
  
 def negative(query):
