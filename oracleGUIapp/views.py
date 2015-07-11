@@ -152,7 +152,7 @@ def get_grids(queries):
         print "letar efter {} i {}".format(word.encode('utf-8'), source.encode('utf-8'))
         word = word.replace("NOT ", "")
         
-        grid = cache.get(str(word) + source + str(xBins))
+        grid = cache.get(str(word) + str(source) + str(xBins))
 
         if isinstance(grid, np.ndarray): # Found in cache
             print "hämtade från cachen: {}".format(str(query) + str(xBins))
