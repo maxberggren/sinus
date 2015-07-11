@@ -283,8 +283,8 @@ def make_map(matrix, name, coordinate):
  
     # Put maximum on map
     lat, lon = coordinate
-    x1, y1 = m(lat, lon)
-    m.scatter(x1, y1)
+    x1, y1 = m(lon, lat)
+    m.scatter(x1, y1, s=30)
 
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     
