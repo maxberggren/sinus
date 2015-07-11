@@ -30,14 +30,7 @@ questions = [{'question': u'Fara eller åka?',
               'answers': ['...fara till farmor', u'...åka till farmor'], 
               'query': ['fara', u'NOT fara'], 
               'target': 'DB', 
-              'id': 2},
-              
-             {'question': u'Polisen?',
-              'explanation': u'Vilket av följade använder du oftast för att tala om polisen?',
-              'answers': [u'Bängen', 'Snuten', u'Farbror blå'], 
-              'query': [u'bängen', 'snuten', u'farbror blå'], 
-              'target': 'DB', 
-              'id': 3}]
+              'id': 2}]
 
  
 def negative(query):
