@@ -75,7 +75,7 @@ def grid_maximum(matrix):
     print lon_bins[i]
     print lat_bins[j]
 
-def gen_grid(lats, lons, xyRatio=1.8, no_zeros=False):
+def gen_grid(lats, lons, no_zeros=False):
     """ Generate grid from coordinates """
     
     if len(lats) == 0:
@@ -335,6 +335,7 @@ def predict():
 
 #print rg.get((37.78674,-122.39222))
 xBins = 20
+xyRatio = 1.8
 cache = SqliteCache("oracle_cache") 
 try:
     mysqldb = dataset.connect(c.LOCATIONDB) 
