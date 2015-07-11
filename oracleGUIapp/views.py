@@ -30,7 +30,14 @@ questions = [{'question': u'Fara eller åka?',
               'answers': ['...fara till farmor', u'...åka till farmor'], 
               'query': ['fara', u'NOT fara'], 
               'target': 'DB', 
-              'id': 2}]
+              'id': 2},
+              
+             {'question': u'Polisen?',
+              'explanation': u'Vilket av följade använder du oftast för att tala om polisen?',
+              'answers': [u'Bängen', 'Snuten', u'Farbror blå'], 
+              'query': [u'bängen', 'snuten', u'farbror blå'], 
+              'target': 'DB', 
+              'id': 3}]
 
  
 def negative(query):
@@ -145,7 +152,7 @@ def get_grids(queries):
         print "letar efter {} i {}".format(word.encode('utf-8'), source.encode('utf-8'))
         word = word.replace("NOT ", "")
         
-        grid = cache.get(str(query) + str(xBins))
+        grid = cache.get(str(word.encode('utf-8')) + source + str(xBins))
 
         if isinstance(grid, np.ndarray): # Found in cache
             print "hämtade från cachen: {}".format(str(query) + str(xBins))
