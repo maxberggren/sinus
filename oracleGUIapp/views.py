@@ -71,9 +71,7 @@ def grid_maximum(matrix):
     lon_bins = np.linspace(8, 26, xBins)
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
 
-    print matrix[i, j]
-    print lon_bins[i]
-    print lat_bins[j]
+    return lon_bins[i], lat_bins[j]
 
 def gen_grid(lats, lons, no_zeros=False):
     """ Generate grid from coordinates """
@@ -323,8 +321,9 @@ def predict():
 
     product = matrix_product(grids, queries)    
     density = normalize(product)
-    grid_maximum(density)
-    make_map(density, "product")
+    lon, lat = grid_maximum(density)
+    print rg.get((lon, lat))
+    #make_map(density, "product")
 
     return make_response(jsonify( { 'city1': 'YES', 'matrix': str(density) } ))
 
@@ -333,7 +332,7 @@ def predict():
 
 
 
-#print rg.get((37.78674,-122.39222))
+print rg.get((37.78674,-122.39222))
 xBins = 20
 xyRatio = 1.8
 cache = SqliteCache("oracle_cache") 
