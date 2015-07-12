@@ -430,6 +430,7 @@ def predict():
 
     product = matrix_product(grids, queries)    
     density = normalize(product)
+    coordinate = grid_maximum(density)
     region = rg.get(coordinate)['admin1']
 
     filename_product = make_map(density)
@@ -449,8 +450,6 @@ def predict():
 
 
 
-
-print rg.get((37.78674,-122.39222))
 xBins = 20
 xyRatio = 1.8
 cache = SqliteCache("oracle_cache") 
