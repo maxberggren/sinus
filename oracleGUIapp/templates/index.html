@@ -147,7 +147,7 @@
                     console.log(data);
                     resultSet = '<div class="totalScore">You get: ' + JSON.stringify(data) + '</div>';
                     resultSet += '<img src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
-                    resultSet += '<img src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
+                    resultSet += '<img src="{{ url_for('static', filename='maps/') }}' + data['filename_deviation'] + '">';
                     $('#resultKeeper').append(resultSet).show();
                 });
                 posting.fail(function(data) {
