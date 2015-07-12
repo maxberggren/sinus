@@ -297,7 +297,7 @@ def get_grids(queries):
 def dev_from_null_hyp(grid):
     """ Calc deviation from null hypothesis """
 
-    hashkey = "hypothesis grid" + str(xBins)
+    hashkey = "hypothesis grid2" + str(xBins)
     null_hyp_grid = cache.get(hashkey)
 
     if isinstance(null_hyp_grid, np.ndarray): # Found in cache
@@ -307,7 +307,7 @@ def dev_from_null_hyp(grid):
         print "null hyp not found in cachge"
         lons, lats = get_enough_data()
         null_hyp_grid = gen_grid(lats, lons)
-        cache.set(hashkey, grid, timeout=60*60*24*31*99999) 
+        cache.set(hashkey, null_hyp_grid, timeout=60*60*24*31*99999) 
 
     quotent = np.divide(grid, null_hyp_grid)
     NaNs = np.isnan(quotent)
