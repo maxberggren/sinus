@@ -424,8 +424,10 @@ def predict():
         for grid, query in zip(grids, queries): 
             if negative(query):
                 product = np.multiply(product, not_in(grid)) 
+                make_map(not_in(grid))
             else:
                 product = np.multiply(product, grid) 
+                make_map(grid)
 
         return product
 
