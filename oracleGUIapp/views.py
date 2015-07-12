@@ -117,7 +117,7 @@ def grid_maximum(matrix):
 
     return lat_bins[i], lon_bins[j]
 
-def gen_grid(lats, lons, no_zeros=False):
+def gen_grid(lats, lons, no_zeros=True):
     """ Generate grid from coordinates """
     
     if len(lats) == 0:
@@ -209,7 +209,7 @@ def get_enough_data():
                                     "WHERE longitude is not NULL and "
                                     "latitude is not NULL "
                                     "ORDER BY RAND() "
-                                    "LIMIT 500000"):   
+                                    "LIMIT 1000000"):   
 
             lons.append(source['longitude'])
             lats.append(source['latitude'])
@@ -297,7 +297,7 @@ def get_grids(queries):
 def dev_from_null_hyp(grid):
     """ Calc deviation from null hypothesis """
 
-    hashkey = "null hypothesis grid68" + str(xBins)
+    hashkey = "null hypothesis grid10" + str(xBins)
     null_hyp_grid = cache.get(hashkey)
 
     if isinstance(null_hyp_grid, np.ndarray): # Found in cache
@@ -382,7 +382,7 @@ def make_map(matrix, log=True, filename=False):
     if not filename:
         filename = binascii.b2a_hex(os.urandom(15))[:10]
         filename = secure_filename(filename)
-        
+
     filename = filename + ".png"
     path = "oracleGUIapp/static/maps/" + filename
     plt.savefig(path, 
