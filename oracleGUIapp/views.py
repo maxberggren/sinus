@@ -307,10 +307,14 @@ def dev_from_null_hyp(grid):
 
     print null_hyp_grid.shape
     print grid.shape
-    ### samma shape?
-    ### räkna ut avvikelse
 
-    return None # returnera avvikelsegrid
+    quotent = np.divide(grid, null_hyp_grid)
+    NaNs = isnan(quotent)
+    quotent[NaNs] = 0
+    Infs = isinf(quotent)
+    quotent[Infs] = 0
+
+    return quotent
       
  
 def make_map(matrix, name, coordinate):
@@ -423,9 +427,9 @@ def predict():
     region = rg.get(coordinate)['admin1']
     filename = make_map(density, "product", coordinate)
 
-    deviation = dev_from_null_hyp(density) #!!!!!!
-    #coordinate = grid_maximum(deviation)
-    #filename = make_map(density, "deviation", coordinate)
+    deviation = dev_from_null_hyp(density)
+    coordinate = grid_maximum(deviation)
+    filename = make_map(density, "deviation", coordinate)
 
     return make_response(jsonify( { 'region': region, 'filename': filename } ))
 
