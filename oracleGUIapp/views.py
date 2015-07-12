@@ -140,6 +140,8 @@ def gen_grid(lats, lons, no_zeros=False):
     # Test with logaritmizing the data  
     #density = np.log(density)
     #ensity[density == -inf] = 0
+    print "griddade precis {} st coordianter".format(len(lons))
+
     return normalize(density)
 
 def entropy(pctMatrix):
@@ -306,9 +308,6 @@ def dev_from_null_hyp(grid):
         null_hyp_grid = gen_grid(lats, lons)
         cache.set(hashkey, grid, timeout=60*60*24*31*99999) 
 
-    print null_hyp_grid.shape
-    print grid.shape
-
     quotent = np.divide(grid, null_hyp_grid)
     NaNs = np.isnan(quotent)
     quotent[NaNs] = 0
@@ -442,6 +441,7 @@ def predict():
 
     print density
     print deviation
+    print null_hyp_grid
 
     return make_response(jsonify( { 'region': region, 'filename_deviation': filename_deviation, 
                                     'filename_product': filename_product, 
