@@ -212,9 +212,9 @@ def get_enough_data():
                                     "LIMIT 500000"):   
 
             lons.append(source['longitude'])
-            lons.append(source['latitude'])
+            lats.append(source['latitude'])
             
-        print "Plockade just 500000 coordinater fr DB"
+        print "Plockade just {} coordinater fr DB".format(len(lons))
         return lons, lats
 
     except KeyboardInterrupt:
