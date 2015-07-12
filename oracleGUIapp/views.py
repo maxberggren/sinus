@@ -212,6 +212,7 @@ def get_enough_data():
             lons.append(source['longitude'])
             lons.append(source['latitude'])
             
+        print "Plockade just 500000 coordinater fr DB"
         return lons, lats
 
     except KeyboardInterrupt:
@@ -294,7 +295,7 @@ def get_grids(queries):
 def dev_from_null_hyp(grid):
     """ Calc deviation from null hypothesis """
 
-    hashkey = "null hypothesis grid2" + str(xBins)
+    hashkey = "null hypothesis grid3" + str(xBins)
     null_hyp_grid = cache.get(hashkey)
 
     if isinstance(null_hyp_grid, np.ndarray): # Found in cache
