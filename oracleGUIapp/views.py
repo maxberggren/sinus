@@ -197,6 +197,26 @@ def get_coordinate(place):
     
     return coordinate
 
+def get_enough_data():
+    """ Get alot of data until a suitable null hypothesis has converged """
+    
+    try:        
+        lons, lats = [], []
+
+        for source in mysqldb.query("SELECT longitude, latitude from blogs "
+                                    "WHERE longitude is not NULL and "
+                                    "latitude is not NULL "
+                                    "ORDER BY RAND() "
+                                    "LIMIT 1000"):   
+
+            lons.append(source['longitude'])
+            lons.append(source['latitude'])
+            
+        return lons, lats
+
+    except KeyboardInterrupt:
+        print "Avbryter..."    
+
 def get_grids(queries):
     """ Take queries and get their grids from the database. Or,
         from excel file. But ideally, get cached version. """
@@ -270,6 +290,28 @@ def get_grids(queries):
                 grids.append(grid)
             
     return grids         
+
+def dev_from_null_hyp(grid):
+    """ Calc deviation from null hypothesis """
+
+    hashkey = "null hypothesis grid" + str(xBins)
+    null_hyp_grid = cache.get(hashkey)
+
+    if isinstance(null_hyp_grid, np.ndarray): # Found in cache
+        print "got null hypothesis grid from cache"
+        
+    else: # Not found in cache
+        lons, lats = get_enough_data()
+        null_hyp_grid = gen_grid(lats, lons)
+        cache.set(hashkey, grid, timeout=60*60*24*31*99999) 
+
+    print null_hyp_grid.shape
+    print grid.shape
+    ### samma shape?
+    ### räkna ut avvikelse
+
+    return None # returnera avvikelsegrid
+      
  
 def make_map(matrix, name, coordinate):
     """ Create image with map and grid overlaid """
@@ -380,6 +422,10 @@ def predict():
     coordinate = grid_maximum(density)
     region = rg.get(coordinate)['admin1']
     filename = make_map(density, "product", coordinate)
+
+    deviation = dev_from_null_hyp(density) #!!!!!!
+    #coordinate = grid_maximum(deviation)
+    #filename = make_map(density, "deviation", coordinate)
 
     return make_response(jsonify( { 'region': region, 'filename': filename } ))
 
