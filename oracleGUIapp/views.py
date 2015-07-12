@@ -436,7 +436,7 @@ def predict():
     coordinate = grid_maximum(deviation)
     filename_deviation = make_map(density, "deviation", coordinate, log=False)
 
-    return make_response(jsonify( { 'region': region, 'filename_product': filename_product, 
+    return make_response(jsonify( { 'region': region, 'filename_deviation': filename_deviation, 
                                     'filename_product': filename_product } ))
 
 
