@@ -363,7 +363,7 @@ def make_map(matrix, name, coordinate, log=True):
         norm = LogNorm()
     else:
         norm = None
-        
+
     p = plt.pcolor(xs, ys, density, 
                    cmap=theCM, 
                    norm=norm, 
@@ -436,8 +436,8 @@ def predict():
     coordinate = grid_maximum(deviation)
     filename_deviation = make_map(density, "deviation", coordinate, log=False)
 
-    return make_response(jsonify( { 'region': region, 'filename_product': filename_product }, 
-                                    'filename_product': filename_deviation } ))
+    return make_response(jsonify( { 'region': region, 'filename_product': filename_product, 
+                                    'filename_product': filename_product } ))
 
 
 
