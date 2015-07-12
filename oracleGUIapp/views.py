@@ -207,7 +207,7 @@ def get_enough_data():
                                     "WHERE longitude is not NULL and "
                                     "latitude is not NULL "
                                     "ORDER BY RAND() "
-                                    "LIMIT 500000"):   
+                                    "LIMIT 1000"):   
 
             lons.append(source['longitude'])
             lons.append(source['latitude'])
@@ -298,7 +298,7 @@ def dev_from_null_hyp(grid):
     null_hyp_grid = cache.get(hashkey)
 
     if isinstance(null_hyp_grid, np.ndarray): # Found in cache
-        print "get null hypothesis grid from cache"
+        print "got null hypothesis grid from cache"
         
     else: # Not found in cache
         lons, lats = get_enough_data()
@@ -317,7 +317,7 @@ def dev_from_null_hyp(grid):
     return quotent
       
  
-def make_map(matrix, name, coordinate):
+def make_map(matrix, name, coordinate, log=True):
     """ Create image with map and grid overlaid """
 
     print "skapar karta"
@@ -359,9 +359,14 @@ def make_map(matrix, name, coordinate):
     alphas = np.abs(np.linspace(0, 1.0, theCM.N))
     theCM._lut[:-3,-1] = alphas
     
+    if log:
+        norm = LogNorm()
+    else:
+        norm = None
+        
     p = plt.pcolor(xs, ys, density, 
                    cmap=theCM, 
-                   norm=LogNorm(), 
+                   norm=norm, 
                    antialiased=True)                    
  
     # Put maximum on map
@@ -425,13 +430,14 @@ def predict():
     density = normalize(product)
     coordinate = grid_maximum(density)
     region = rg.get(coordinate)['admin1']
-    filename = make_map(density, "product", coordinate)
+    filename_product = make_map(density, "product", coordinate)
 
     deviation = dev_from_null_hyp(density)
     coordinate = grid_maximum(deviation)
-    filename = make_map(density, "deviation", coordinate)
+    filename_deviation = make_map(density, "deviation", coordinate, log=False)
 
-    return make_response(jsonify( { 'region': region, 'filename': filename } ))
+    return make_response(jsonify( { 'region': region, 'filename_product': filename_product }, 
+                                    'filename_product': filename_deviation } ))
 
 
 
