@@ -434,7 +434,7 @@ def predict():
 
     deviation = dev_from_null_hyp(density)
     coordinate = grid_maximum(deviation)
-    filename_deviation = make_map(density, "deviation", coordinate, log=False)
+    filename_deviation = make_map(density, "deviation", coordinate)
 
     print density
     print deviation
