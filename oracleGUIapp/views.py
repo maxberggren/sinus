@@ -309,9 +309,9 @@ def dev_from_null_hyp(grid):
     print grid.shape
 
     quotent = np.divide(grid, null_hyp_grid)
-    NaNs = isnan(quotent)
+    NaNs = np.isnan(quotent)
     quotent[NaNs] = 0
-    Infs = isinf(quotent)
+    Infs = np.isinf(quotent)
     quotent[Infs] = 0
 
     return quotent
