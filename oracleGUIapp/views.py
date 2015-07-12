@@ -318,7 +318,7 @@ def dev_from_null_hyp(grid):
     return quotent, null_hyp_grid
       
  
-def make_map(matrix, log=True):
+def make_map(matrix, log=True, filename=False):
     """ Create image with map and grid overlaid """
 
     print "skapar karta"
@@ -379,8 +379,10 @@ def make_map(matrix, log=True):
 
     fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     
-    filename = binascii.b2a_hex(os.urandom(15))[:10]
-    filename = secure_filename(filename)
+    if not filename:
+        filename = binascii.b2a_hex(os.urandom(15))[:10]
+        filename = secure_filename(filename)
+        
     filename = filename + ".png"
     path = "oracleGUIapp/static/maps/" + filename
     plt.savefig(path, 
@@ -424,10 +426,10 @@ def predict():
         for grid, query in zip(grids, queries): 
             if negative(query):
                 product = np.multiply(product, not_in(grid)) 
-                make_map(not_in(grid))
+                make_map(not_in(grid), filename=str(query))
             else:
                 product = np.multiply(product, grid) 
-                make_map(grid)
+                make_map(grid, filename=str(query))
 
         return product
 
