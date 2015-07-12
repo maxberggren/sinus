@@ -80,6 +80,9 @@ if __name__ == "__main__":
                 muni = row['municipality'] 
                 county = row['county'] 
                 country = row['country']   
+
+                if coordinate == (62.1983, 17.565):
+                    coordinate = None
                   
                 if coordinate:
                     print (city + "," if city else ""),
