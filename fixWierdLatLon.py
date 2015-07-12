@@ -111,7 +111,9 @@ if __name__ == "__main__":
                 else: 
                     # No coordinate found -> flag as DoNotTryAgain
                     try:
-                        data = dict(noCoordinate=1,
+                        data = dict(longitude=None,
+                                    latitude=None,
+                                    noCoordinate=1,
                                     city=city.decode('utf-8'),
                                     municipality=muni.decode('utf-8'),
                                     county=county.decode('utf-8'),
