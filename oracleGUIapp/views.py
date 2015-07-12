@@ -207,7 +207,7 @@ def get_enough_data():
                                     "WHERE longitude is not NULL and "
                                     "latitude is not NULL "
                                     "ORDER BY RAND() "
-                                    "LIMIT 1000"):   
+                                    "LIMIT 500000"):   
 
             lons.append(source['longitude'])
             lons.append(source['latitude'])
@@ -294,7 +294,7 @@ def get_grids(queries):
 def dev_from_null_hyp(grid):
     """ Calc deviation from null hypothesis """
 
-    hashkey = "null hypothesis grid" + str(xBins)
+    hashkey = "null hypothesis grid2" + str(xBins)
     null_hyp_grid = cache.get(hashkey)
 
     if isinstance(null_hyp_grid, np.ndarray): # Found in cache
