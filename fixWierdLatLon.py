@@ -82,6 +82,7 @@ if __name__ == "__main__":
                 country = row['country']   
 
                 if coordinate == (62.1983, 17.565):
+                    print "Sveriges mitt e inte sau gott"
                     coordinate = None
                   
                 if coordinate:
