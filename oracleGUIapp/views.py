@@ -314,13 +314,15 @@ def dev_from_null_hyp(grid):
     Infs = np.isinf(quotent)
     quotent[Infs] = 0
 
-    return quotent
+    return quotent, null_hyp_grid
       
  
-def make_map(matrix, name, coordinate, log=True):
+def make_map(matrix):
     """ Create image with map and grid overlaid """
 
     print "skapar karta"
+
+    coordinate = grid_maximum(matrix)
     density = matrix
     fig = plt.figure(figsize=(3.25*1,6))
     
@@ -428,19 +430,20 @@ def predict():
 
     product = matrix_product(grids, queries)    
     density = normalize(product)
-    coordinate = grid_maximum(density)
     region = rg.get(coordinate)['admin1']
-    filename_product = make_map(density, "product", coordinate)
 
-    deviation = dev_from_null_hyp(density)
-    coordinate = grid_maximum(deviation)
-    filename_deviation = make_map(density, "deviation", coordinate)
+    filename_product = make_map(density)
+
+    deviation, null_hyp_grid = dev_from_null_hyp(density)
+    filename_deviation = make_map(density)
+    filename_hypo = make_map(null_hyp_grid)
 
     print density
     print deviation
 
     return make_response(jsonify( { 'region': region, 'filename_deviation': filename_deviation, 
-                                    'filename_product': filename_product } ))
+                                    'filename_product': filename_product, 
+                                    'filename_hypo': filename_hypo } ))
 
 
 
