@@ -427,13 +427,13 @@ def predict():
 
         for grid, query in zip(grids, queries): 
             if negative(query):
-                grid = dev_from_null_hyp(grid)
+                grid, _ = dev_from_null_hyp(grid)
                 grid = normalize(grid)
-                
+
                 product = np.multiply(product, not_in(grid)) 
                 #make_map(not_in(grid), filename=str(query))
             else:
-                grid = dev_from_null_hyp(grid)
+                grid, _ = dev_from_null_hyp(grid)
                 grid = normalize(grid)
 
                 product = np.multiply(product, grid) 
