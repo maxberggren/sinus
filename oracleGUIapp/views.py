@@ -373,7 +373,9 @@ def make_map(matrix, log=True, filename=False):
     p = plt.pcolor(xs, ys, density, 
                    cmap=theCM, 
                    norm=norm, 
-                   antialiased=True)                    
+                   antialiased=True)
+
+    plt.colorbar()                    
  
     # Put maximum on map
     lat, lon = coordinate
