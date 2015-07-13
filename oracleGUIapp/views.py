@@ -109,7 +109,7 @@ def not_in(matrix):
 
 def grid_maximum(matrix):
     """ Find where in grid highest probability lies """
-    
+    print np.unravel_index(matrix.argmax(), matrix.shape)
     i, j = np.unravel_index(matrix.argmax(), matrix.shape)
         
     lon_bins = np.linspace(8, 26, xBins)
