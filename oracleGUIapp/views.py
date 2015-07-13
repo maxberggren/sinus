@@ -449,7 +449,7 @@ def predict():
     filename_deviation = make_map(deviation, log=False)
     filename_hypo = make_map(null_hyp_grid)
 
-    print density
+    print product
     print deviation
     print null_hyp_grid
 
