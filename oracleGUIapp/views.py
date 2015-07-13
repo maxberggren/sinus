@@ -443,10 +443,10 @@ def predict():
     coordinate = grid_maximum(product)
     region = rg.get(coordinate)['admin1']
 
-    filename_product = make_map(product, log=False)
+    filename_product = make_map(product)
 
     deviation, null_hyp_grid = dev_from_null_hyp(product)
-    filename_deviation = make_map(deviation, log=False)
+    filename_deviation = make_map(deviation)
     filename_hypo = make_map(null_hyp_grid)
 
     print product
@@ -470,5 +470,5 @@ try:
 except sqlalchemy.exc.OperationalError:
     print "No connection to mysql. Cache better work or it will fail."
 
-np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)}, linewidth=155)
+np.set_printoptions(formatter={'float': lambda x: "{0:0.4f}".format(x)}, linewidth=155)
     
