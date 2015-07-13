@@ -309,11 +309,14 @@ def dev_from_null_hyp(grid):
         null_hyp_grid = gen_grid(lats, lons)
         cache.set(hashkey, null_hyp_grid, timeout=60*60*24*31*99999) 
 
+    """
     quotent = np.divide(grid, null_hyp_grid)
     NaNs = np.isnan(quotent)
     quotent[NaNs] = 0
     Infs = np.isinf(quotent)
     quotent[Infs] = 0
+    """
+    quotent = grid - null_hyp_grid
 
     return quotent, null_hyp_grid
       
@@ -426,10 +429,10 @@ def predict():
         for grid, query in zip(grids, queries): 
             if negative(query):
                 product = np.multiply(product, not_in(grid)) 
-                make_map(not_in(grid), filename=str(query))
+                #make_map(not_in(grid), filename=str(query))
             else:
                 product = np.multiply(product, grid) 
-                make_map(grid, filename=str(query))
+                #make_map(grid, filename=str(query))
 
         return product
 
