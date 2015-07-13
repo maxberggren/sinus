@@ -316,7 +316,7 @@ def dev_from_null_hyp(grid):
     Infs = np.isinf(quotent)
     quotent[Infs] = 0
     """
-    quotent = grid - null_hyp_grid
+    quotent = grid - null_hyp_grid + np.amax(null_hyp_grid)
 
     return quotent, null_hyp_grid
       
