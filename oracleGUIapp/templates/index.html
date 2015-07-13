@@ -161,10 +161,10 @@
             init: function(){
                 $('label > input, .begin').click(function(){
     
-                    $(this).parents('.questionContainer').fadeOut(200, function(){
+                    $(this).parents('.questionContainer').fadeOut(100, function(){
                         
                         if ($(this).next().length == 1) {
-                            $(this).next().fadeIn(200);
+                            $(this).next().fadeIn(100);
                         } 
                         else {
                             var arr = $('input[type=radio]:checked');
@@ -191,8 +191,8 @@
                 });
     
                 $('.btnPrev').click(function(){
-                    $(this).parents('.questionContainer').fadeOut(200, function(){
-                        $(this).prev().fadeIn(200)
+                    $(this).parents('.questionContainer').fadeOut(100, function(){
+                        $(this).prev().fadeIn(100)
                     });
     
                 })
