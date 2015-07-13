@@ -109,8 +109,8 @@ def not_in(matrix):
 
 def grid_maximum(matrix):
     """ Find where in grid highest probability lies """
-
-    i, j, _ = np.unravel_index(matrix.argmax(), matrix.shape)
+    
+    i, j = np.unravel_index(matrix.argmax(), matrix.shape)
         
     lon_bins = np.linspace(8, 26, xBins)
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
@@ -427,10 +427,10 @@ def predict():
 
         for grid, query in zip(grids, queries): 
             if negative(query):
-                product = np.multiply(product, not_in(normalize(dev_from_null_hyp(grid))))
+                product = np.multiply(product, not_in(dev_from_null_hyp(grid))) 
                 #make_map(not_in(grid), filename=str(query))
             else:
-                product = np.multiply(product, normalize(dev_from_null_hyp(grid)))
+                product = np.multiply(product, dev_from_null_hyp(grid)) 
                 #make_map(grid, filename=str(query))
 
         return product
