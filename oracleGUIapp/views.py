@@ -439,14 +439,14 @@ def predict():
         return product
 
     product = matrix_product(grids, queries)    
-    density = normalize(product)
-    coordinate = grid_maximum(density)
+    product = normalize(product)
+    coordinate = grid_maximum(product)
     region = rg.get(coordinate)['admin1']
 
-    filename_product = make_map(density)
+    filename_product = make_map(product, log=False)
 
     deviation, null_hyp_grid = dev_from_null_hyp(density)
-    filename_deviation = make_map(deviation)
+    filename_deviation = make_map(deviation, log=False)
     filename_hypo = make_map(null_hyp_grid)
 
     print density
