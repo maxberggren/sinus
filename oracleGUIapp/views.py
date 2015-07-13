@@ -310,10 +310,10 @@ def dev_from_null_hyp(grid):
         cache.set(hashkey, null_hyp_grid, timeout=60*60*24*31*99999) 
 
     quotent = np.divide(grid, null_hyp_grid)
-    #NaNs = np.isnan(quotent)
-    #quotent[NaNs] = 0
-    #Infs = np.isinf(quotent)
-    #quotent[Infs] = 0
+    NaNs = np.isnan(quotent)
+    quotent[NaNs] = 0
+    Infs = np.isinf(quotent)
+    quotent[Infs] = 0
 
     return quotent, null_hyp_grid
       
