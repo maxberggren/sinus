@@ -326,7 +326,7 @@ def dev_from_null_hyp(grid, use_relative_deviation=False, null_hyp_grid=None):
         quotent = quotent + maxerr
     else: 
         # Use absolute deviation (best so far)
-        quotent = grid - null_hyp_grid
+        quotent = grid - null_hyp_grid + null_hyp_grid.max()
 
     return quotent, null_hyp_grid
       
@@ -460,18 +460,20 @@ def predict():
     coordinate = grid_maximum(product)
     region = rg.get(coordinate)['admin1']
 
+    def min_max_scaling(arr):
+        return np.divide(arr - arr.min(), arr.max() - arr.min())
+        
+    product = min_max_scaling(product)
     filename_product = make_map(product)
 
-    deviation, null_hyp_grid = dev_from_null_hyp(product)
-    filename_deviation = make_map(deviation)
-    
+    _, null_hyp_grid = dev_from_null_hyp(product)
     filename_hypo = make_map(null_hyp_grid, log=True)
 
     print product
     print deviation
     print null_hyp_grid
 
-    return make_response(jsonify( { 'region': region, 'filename_deviation': filename_deviation, 
+    return make_response(jsonify( { 'region': region, 'filename_deviation': "filename_deviation", 
                                     'filename_product': filename_product, 
                                     'filename_hypo': filename_hypo } ))
 
