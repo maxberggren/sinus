@@ -124,7 +124,7 @@ def grid_maximum(matrix):
 
     return lat_bins[i], lon_bins[j]
 
-def gen_grid(lats, lons, no_zeros=False): 
+def gen_grid(lats, lons, no_zeros=True):
     """ Generate grid from coordinates """
     
     if len(lats) == 0:
