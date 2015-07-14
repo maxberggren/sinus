@@ -316,11 +316,14 @@ def dev_from_null_hyp(grid):
         null_hyp_grid = gen_grid(lats, lons)
         cache.set(hashkey, null_hyp_grid, timeout=60*60*24*31*99999) 
 
+    """
     quotent = np.divide(grid, null_hyp_grid)
     NaNs = np.isnan(quotent)
     quotent[NaNs] = 0
     Infs = np.isinf(quotent)
     quotent[Infs] = 0
+    """
+    quotent = grid - null_hyp_grid + null_hyp_grid.max()
 
     return quotent, null_hyp_grid
       
@@ -455,15 +458,16 @@ def predict():
 
     filename_product = make_map(product)
 
-    deviation, null_hyp_grid = dev_from_null_hyp(product)
-    filename_deviation = make_map(deviation, log=False)
+    #deviation, null_hyp_grid = dev_from_null_hyp(product)
+    #filename_deviation = make_map(deviation, log=False)
+    
     filename_hypo = make_map(null_hyp_grid)
 
     print product
     print deviation
     print null_hyp_grid
 
-    return make_response(jsonify( { 'region': region, 'filename_deviation': filename_deviation, 
+    return make_response(jsonify( { 'region': region, 'filename_deviation': "filename_deviation", 
                                     'filename_product': filename_product, 
                                     'filename_hypo': filename_hypo } ))
 
