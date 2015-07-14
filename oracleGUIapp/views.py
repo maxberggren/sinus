@@ -325,7 +325,8 @@ def dev_from_null_hyp(grid, use_relative_deviation=False, null_hyp_grid=None):
         maxerr = quotent.max()
         quotent = quotent + maxerr
     else: 
-        # Use absolute deviation (best so far)
+        # Use absolute deviation plus max element 
+        # to remove entries < 0 (best try so far)
         quotent = grid - null_hyp_grid + null_hyp_grid.max()
 
     return quotent, null_hyp_grid
@@ -462,7 +463,7 @@ def predict():
 
     def min_max_scaling(arr):
         return np.divide(arr - arr.min(), arr.max() - arr.min())
-        
+
     product = min_max_scaling(product)
     filename_product = make_map(product)
 
@@ -470,7 +471,6 @@ def predict():
     filename_hypo = make_map(null_hyp_grid, log=True)
 
     print product
-    print deviation
     print null_hyp_grid
 
     return make_response(jsonify( { 'region': region, 'filename_deviation': "filename_deviation", 
