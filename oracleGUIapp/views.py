@@ -469,7 +469,7 @@ def predict():
     coordinate = grid_maximum(product)
     region = rg.get(coordinate)['admin1']
 
-    filename_product = make_map(product)
+    filename_product = make_map(product, log=False)
 
     deviation, null_hyp_grid = dev_from_null_hyp(product)
     filename_deviation = make_map(deviation, log=False)
