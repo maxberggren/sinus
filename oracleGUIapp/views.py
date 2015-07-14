@@ -323,10 +323,11 @@ def dev_from_null_hyp(grid):
     Infs = np.isinf(quotent)
     quotent[Infs] = 0
     """
-    #quotent = grid - null_hyp_grid + null_hyp_grid.max()
+    quotent = grid - null_hyp_grid + null_hyp_grid.max()
 
-    maxerr = np.divide(grid - null_hyp_grid, null_hyp_grid).max()
-    quotent = np.divide(grid - null_hyp_grid, null_hyp_grid) + maxerr
+    #maxerr = np.divide(grid - null_hyp_grid, null_hyp_grid).max()
+    print maxerr
+    #quotent = np.divide(grid - null_hyp_grid, null_hyp_grid) + maxerr
 
     #relativfel?
 
