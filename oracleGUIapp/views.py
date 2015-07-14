@@ -301,46 +301,37 @@ def get_grids(queries):
             
     return grids         
 
-def dev_from_null_hyp(grid):
+def dev_from_null_hyp(grid, use_relative_deviation=False):
     """ Calc deviation from null hypothesis """
 
     hashkey = "hypothesis grid2" + str(xBins)
     null_hyp_grid = cache.get(hashkey)
 
     if isinstance(null_hyp_grid, np.ndarray): # Found in cache
-        print "got null hypothesis grid from cache"
+        print "null hypothesis grid loaded from cache"
         
     else: # Not found in cache
-        print "null hyp not found in cachge"
+        print "null hypothesis not found in cache"
         lons, lats = get_enough_data()
         null_hyp_grid = gen_grid(lats, lons)
         cache.set(hashkey, null_hyp_grid, timeout=60*60*24*31*99999) 
 
-    """
-    quotent = np.divide(grid, null_hyp_grid)
-    NaNs = np.isnan(quotent)
-    quotent[NaNs] = 0
-    Infs = np.isinf(quotent)
-    quotent[Infs] = 0
-    """
-    # Absolutfel
-    quotent = grid - null_hyp_grid + null_hyp_grid.max()
-
-    # Reltativfel
-    #quotent = np.divide(grid - null_hyp_grid, null_hyp_grid)
-    #NaNs = np.isnan(quotent)
-    #quotent[NaNs] = 0
-    #Infs = np.isinf(quotent)
-    #quotent[Infs] = 0
-    #maxerr = quotent.max()
-    #quotent = quotent + maxerr
-
-    #print maxerr
+    if use_relative_deviation:
+        quotent = np.divide(grid - null_hyp_grid, null_hyp_grid)
+        NaNs = np.isnan(quotent)
+        quotent[NaNs] = 0
+        Infs = np.isinf(quotent)
+        quotent[Infs] = 0
+        maxerr = quotent.max()
+        quotent = quotent + maxerr
+    else: 
+        # Use absolute deviation (best so far)
+        quotent = grid - null_hyp_grid + null_hyp_grid.max()
 
     return quotent, null_hyp_grid
       
  
-def make_map(matrix, log=True, filename=False):
+def make_map(matrix, log=False, filename=False):
     print matrix
     """ Create image with map and grid overlaid """
 
@@ -469,12 +460,12 @@ def predict():
     coordinate = grid_maximum(product)
     region = rg.get(coordinate)['admin1']
 
-    filename_product = make_map(product, log=False)
+    filename_product = make_map(product)
 
     deviation, null_hyp_grid = dev_from_null_hyp(product)
-    filename_deviation = make_map(deviation, log=False)
+    filename_deviation = make_map(deviation)
     
-    filename_hypo = make_map(null_hyp_grid)
+    filename_hypo = make_map(null_hyp_grid, log=True)
 
     print product
     print deviation
