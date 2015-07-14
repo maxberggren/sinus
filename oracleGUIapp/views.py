@@ -301,7 +301,7 @@ def get_grids(queries):
             
     return grids         
 
-def dev_from_null_hyp(grid, use_relative_deviation=False):
+def dev_from_null_hyp(grid, use_relative_deviation=False, null_hyp_grid=None):
     """ Calc deviation from null hypothesis """
 
     hashkey = "hypothesis grid2" + str(xBins)
@@ -326,7 +326,7 @@ def dev_from_null_hyp(grid, use_relative_deviation=False):
         quotent = quotent + maxerr
     else: 
         # Use absolute deviation (best so far)
-        quotent = grid - null_hyp_grid + null_hyp_grid.max()
+        quotent = grid - null_hyp_grid
 
     return quotent, null_hyp_grid
       
@@ -372,9 +372,9 @@ def make_map(matrix, log=False, filename=False):
             
     # Colormap transparency
     theCM = cm.get_cmap('bwr') 
-    theCM._init()
-    alphas = np.abs(np.linspace(0, 1.0, theCM.N))
-    theCM._lut[:-3,-1] = alphas
+    #theCM._init()
+    #alphas = np.abs(np.linspace(0, 1.0, theCM.N))
+    #theCM._lut[:-3,-1] = alphas
     
     if log:
         norm = LogNorm()
