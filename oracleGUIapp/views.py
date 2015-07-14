@@ -325,8 +325,8 @@ def dev_from_null_hyp(grid):
     """
     #quotent = grid - null_hyp_grid + null_hyp_grid.max()
 
-    maxerr = np.divide(grid - null_hyp_grid, null_hyp_grid).max()
-    quotent = np.divide(grid - null_hyp_grid, null_hyp_grid) + maxerr
+    maxerr = np.divide(grid - null_hyp_grid, grid).max()
+    quotent = np.divide(grid - null_hyp_grid, grid) + maxerr
 
     #relativfel?
 
