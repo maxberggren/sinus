@@ -325,6 +325,8 @@ def dev_from_null_hyp(grid):
     """
     quotent = grid - null_hyp_grid + null_hyp_grid.max()
 
+    #relativfel?
+
     return quotent, null_hyp_grid
       
  
@@ -458,8 +460,8 @@ def predict():
 
     filename_product = make_map(product)
 
-    #deviation, null_hyp_grid = dev_from_null_hyp(product)
-    #filename_deviation = make_map(deviation, log=False)
+    deviation, null_hyp_grid = dev_from_null_hyp(product)
+    filename_deviation = make_map(deviation, log=False)
     
     filename_hypo = make_map(null_hyp_grid)
 
@@ -467,7 +469,7 @@ def predict():
     print deviation
     print null_hyp_grid
 
-    return make_response(jsonify( { 'region': region, 'filename_deviation': "filename_deviation", 
+    return make_response(jsonify( { 'region': region, 'filename_deviation': filename_deviation, 
                                     'filename_product': filename_product, 
                                     'filename_hypo': filename_hypo } ))
 
