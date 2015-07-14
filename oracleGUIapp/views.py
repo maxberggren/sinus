@@ -124,7 +124,7 @@ def grid_maximum(matrix):
 
     return lat_bins[i], lon_bins[j]
 
-def gen_grid(lats, lons, no_zeros=True):
+def gen_grid(lats, lons, no_zeros=False):
     """ Generate grid from coordinates """
     
     if len(lats) == 0:
@@ -445,13 +445,13 @@ def predict():
                 deviation_grid = normalize(deviation_grid)
 
                 product = np.multiply(product, not_in(deviation_grid)) 
-                make_map(not_in(deviation_grid), filename=str(query))
+                #make_map(not_in(deviation_grid), filename=str(query))
             else:
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 deviation_grid = normalize(deviation_grid)
 
                 product = np.multiply(product, deviation_grid) 
-                make_map(deviation_grid, filename=str(query))
+                #make_map(deviation_grid, filename=str(query))
 
         return product
 
