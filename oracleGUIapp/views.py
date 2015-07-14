@@ -438,13 +438,13 @@ def predict():
                 grid = normalize(grid)
 
                 product = np.multiply(product, not_in(grid)) 
-                #make_map(not_in(grid), filename=str(query))
+                make_map(not_in(grid), filename=str(query))
             else:
                 grid, _ = dev_from_null_hyp(grid)
                 grid = normalize(grid)
 
                 product = np.multiply(product, grid) 
-                #make_map(grid, filename=str(query))
+                make_map(grid, filename=str(query))
 
         return product
 
