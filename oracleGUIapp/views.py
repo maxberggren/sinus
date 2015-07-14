@@ -323,22 +323,19 @@ def dev_from_null_hyp(grid):
     Infs = np.isinf(quotent)
     quotent[Infs] = 0
     """
-    #quotent = grid - null_hyp_grid + null_hyp_grid.max()
+    # Absolutfel
+    quotent = grid - null_hyp_grid + null_hyp_grid.max()
 
-    quotent = np.divide(grid - null_hyp_grid, null_hyp_grid)
-    NaNs = np.isnan(quotent)
-    quotent[NaNs] = 0
-    Infs = np.isinf(quotent)
-    quotent[Infs] = 0
+    # Reltativfel
+    #quotent = np.divide(grid - null_hyp_grid, null_hyp_grid)
+    #NaNs = np.isnan(quotent)
+    #quotent[NaNs] = 0
+    #Infs = np.isinf(quotent)
+    #quotent[Infs] = 0
+    #maxerr = quotent.max()
+    #quotent = quotent + maxerr
 
-    maxerr = quotent.max()
-
-    quotent = quotent + maxerr
-
-    print maxerr
-    #quotent = np.divide(grid - null_hyp_grid, null_hyp_grid) + maxerr
-
-    #relativfel?
+    #print maxerr
 
     return quotent, null_hyp_grid
       
