@@ -332,7 +332,7 @@ def dev_from_null_hyp(grid):
     return quotent, null_hyp_grid
       
  
-def make_map(matrix, log=True, filename=False):
+def make_map(matrix, log=False, filename=False):
     """ Create image with map and grid overlaid """
 
     print "skapar karta"
