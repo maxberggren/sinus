@@ -29,68 +29,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
 import matplotlib.pyplot as plt
 
-questions = [{'question': u'Fara eller åka?',
-              'explanation': u'Fyll i följande mening: **vi skulle...**',
-              'answers': [u'...fara till farmor', u'...åka till farmor'], 
-              'query': [u'fara', u'NOT fara'], 
-              'target': 'DB', 
-              'id': 2},
-              
-             {'question': u'Polisen?',
-              'explanation': u'Vilket av följade använder du oftast för att tala om polisen?',
-              'answers': [u'Bängen', u'Snuten', u'Farbror blå'], 
-              'query': [u'bängen', u'snuten', u'farbror blå'], 
-              'target': 'DB', 
-              'id': 3},
-              
-             {'question': u'Skottkärra',
-              'explanation': u'Har du under din omgivning ibland pratat om en **rullebör**?',
-              'answers': [u'O-Ja', u'Nej'], 
-              'query': [u'rullebör', u'NOT rullebör'], 
-              'target': 'DB', 
-              'id': 4},
-              
-             {'question': u'Släktskap',
-              'explanation': u'Vad kallar du en person som du delar morfar med?',
-              'answers': [u'Nästkusin', u'Tremänning', u'Småkusin', u'Syssling'], 
-              'query': [u'nästkusin', u'tremänning', u'småkusin', u'syssling'], 
-              'target': 'DB', 
-              'id': 5},
-              
-             {'question': u'Sötsaker',
-              'explanation': u'Kallar du det **gräddbullar** eller **mums-mums**?',
-              'answers': [u'Gräddbullar', u'Mums-mums'], 
-              'query': [u'gräddbullar', u'NOT gräddbullar'], 
-              'target': 'DB', 
-              'id': 6},
-              
-             {'question': u'Frukt',
-              'explanation': u'Säger du äpp**el** eller äpp**le**?',
-              'answers': [u'Äpple', u'Äppel'], 
-              'query': [u'NOT äppel', u'äppel'], 
-              'target': 'DB', 
-              'id': 7},
-              
-             {'question': u'Förstörelse',
-              'explanation': u'Är något **trasigt** eller **söndrigt**?',
-              'answers': [u'Trasigt', u'Söndrigt'], 
-              'query': [u'NOT söndrig', u'söndrig'], 
-              'target': 'DB', 
-              'id': 8},
-              
-             {'question': u'Potatis',
-              'explanation': u'Kallar du den nypotatis eller färskpotatis?',
-              'answers': [u'Färskpotatis', u'Nypotatis'], 
-              'query': [u'färskpotatis', u'nypotatis'], 
-              'target': 'DB', 
-              'id': 9},
-              
-             {'question': u'Strand',
-              'explanation': u'Badar du på en badstrand eller simstrand?',
-              'answers': [u'Badstrand', u'Simstrand'], 
-              'query': [u'NOT simstrand OR simstranden', u'simstrand OR simstranden'], 
-              'target': 'DB', 
-              'id': 10},
+questions = [
               
              {'question': u'Frågesport',
               'explanation': u'Vad kallar du en promenad där du svarar 1X2 på frågor?',
