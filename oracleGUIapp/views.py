@@ -325,14 +325,14 @@ def dev_from_null_hyp(grid):
     """
     #quotent = grid - null_hyp_grid + null_hyp_grid.max()
 
-    quotent = np.divide(grid - null_hyp_grid, null_hyp_grid)
+    quotent = np.divide(grid - null_hyp_grid + null_hyp_grid.max(), null_hyp_grid)
 
     #relativfel?
 
     return quotent, null_hyp_grid
       
  
-def make_map(matrix, log=False, filename=False):
+def make_map(matrix, log=True, filename=False):
     """ Create image with map and grid overlaid """
 
     print "skapar karta"
