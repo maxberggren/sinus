@@ -434,17 +434,17 @@ def predict():
 
         for grid, query in zip(grids, queries): 
             if negative(query):
-                grid, _ = dev_from_null_hyp(grid)
-                grid = normalize(grid)
+                deviation_grid, _ = dev_from_null_hyp(grid)
+                deviation_grid = normalize(deviation_grid)
 
-                product = np.multiply(product, not_in(grid)) 
-                make_map(not_in(grid), filename=str(query))
+                product = np.multiply(product, not_in(deviation_grid)) 
+                make_map(not_in(deviation_grid), filename=str(query))
             else:
-                grid, _ = dev_from_null_hyp(grid)
-                grid = normalize(grid)
+                deviation_grid, _ = dev_from_null_hyp(grid)
+                deviation_grid = normalize(deviation_grid)
 
-                product = np.multiply(product, grid) 
-                make_map(grid, filename=str(query))
+                product = np.multiply(product, deviation_grid) 
+                make_map(deviation_grid, filename=str(query))
 
         return product
 
