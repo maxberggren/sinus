@@ -122,7 +122,10 @@ def grid_maximum(matrix):
     lon_bins = np.linspace(8, 26, xBins)
     lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
 
-    return lat_bins[i], lon_bins[j]
+    lon_corr = lon_bins[1]-lon_bins[0]
+    lat_corr = lat_bins[1]-lat_bins[0]
+
+    return lat_bins[i]+lat_corr, lon_bins[j]+lon_corr
 
 def gen_grid(lats, lons, no_zeros=True):
     """ Generate grid from coordinates """
@@ -476,9 +479,6 @@ def predict():
     return make_response(jsonify( { 'region': region, 'filename_deviation': "filename_deviation", 
                                     'filename_product': filename_product, 
                                     'filename_hypo': filename_hypo } ))
-
-
-
 
 
 xBins = 20
