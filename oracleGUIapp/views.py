@@ -90,6 +90,13 @@ questions = [{'question': u'Fara eller åka?',
               'answers': [u'Badstrand', u'Simstrand'], 
               'query': [u'NOT simstrand OR simstranden', u'simstrand OR simstranden'], 
               'target': 'DB', 
+              'id': 10}},
+              
+             {'question': u'Frågesport',
+              'explanation': u'Vad kallar du en promenad där du svarar 1X2 på frågor?',
+              'answers': [u'Tipsrunda', u'Tipspromenad', u'Poängpromenad'], 
+              'query': [u'tipsrunda', u'tipspromenad', u'poängpromenad'], 
+              'target': 'DB', 
               'id': 10}]
 
  
