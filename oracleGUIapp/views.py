@@ -125,7 +125,7 @@ def grid_maximum(matrix):
     lon_corr = lon_bins[1]-lon_bins[0]
     lat_corr = lat_bins[1]-lat_bins[0]
 
-    return lat_bins[i]+lat_corr, lon_bins[j]+lon_corr
+    return lat_bins[i]+lat_corr*0.5, lon_bins[j]+lon_corr*0.5
 
 def gen_grid(lats, lons, no_zeros=True):
     """ Generate grid from coordinates """
