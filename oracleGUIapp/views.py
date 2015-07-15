@@ -352,13 +352,13 @@ def make_map(matrix, log=False, filename=False):
     density = matrix
     fig = plt.figure(figsize=(3.25*1,6))
     
-    llcrnrlon = 8
+    llcrnrlon = 9.5
     llcrnrlat = 54.5
-    urcrnrlon = 26
+    urcrnrlon = 28.5
     urcrnrlat = 69.5
     
-    lon_bins = np.linspace(llcrnrlon, urcrnrlon, xBins)
-    lat_bins = np.linspace(llcrnrlat, urcrnrlat, xBins*xyRatio)
+    lon_bins = np.linspace(llcrnrlon, urcrnrlon+1, xBins)
+    lat_bins = np.linspace(llcrnrlat, urcrnrlat+1, xBins*xyRatio)
     
 
     m = Basemap(projection='merc',
