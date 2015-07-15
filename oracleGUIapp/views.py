@@ -475,17 +475,17 @@ def predict():
         return np.divide(arr - arr.min(), arr.max() - arr.min())
 
     product = min_max_scaling(product)
-    filename_product = make_map(product)
+    #filename_product = make_map(product)
 
     _, null_hyp_grid = dev_from_null_hyp(product)
-    filename_hypo = make_map(null_hyp_grid, log=True)
+    #filename_hypo = make_map(null_hyp_grid, log=True)
 
     print product
     print null_hyp_grid
 
     return make_response(jsonify( { 'region': region, 'filename_deviation': "filename_deviation", 
-                                    'filename_product': filename_product, 
-                                    'filename_hypo': filename_hypo } ))
+                                    'filename_product': "filename_product", 
+                                    'filename_hypo': "filename_hypo" } ))
 
 
 xBins = 20
