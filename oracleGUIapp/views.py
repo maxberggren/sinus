@@ -51,7 +51,7 @@ questions = [{'question': u'Fara eller åka?',
               'id': 4},
               
              {'question': u'Släktskap',
-              'explanation': u'Vad kallar du en person som du delar morfar med?',
+              'explanation': u'Vad kallar du dina föräldras kusiners barn?',
               'answers': [u'Nästkusin', u'Tremänning', u'Småkusin', u'Syssling'], 
               'query': [u'nästkusin', u'tremänning', u'småkusin', u'syssling'], 
               'target': 'DB', 
@@ -93,7 +93,7 @@ questions = [{'question': u'Fara eller åka?',
               'id': 10},
               
              {'question': u'Frågesport',
-              'explanation': u'Vad kallar du en promenad där du svarar 1X2 på frågor?',
+              'explanation': u'Vad kallar du en promenad där du svarar 1, X eller 2 på frågor?',
               'answers': [u'Tipsrunda', u'Tipspromenad', u'Poängpromenad'], 
               'query': [u'tipsrunda', u'tipspromenad', u'poängpromenad'], 
               'target': 'DB', 
@@ -475,7 +475,7 @@ def predict():
         return np.divide(arr - arr.min(), arr.max() - arr.min())
 
     product = min_max_scaling(product)
-    #filename_product = make_map(product)
+    filename_product = make_map(product)
 
     _, null_hyp_grid = dev_from_null_hyp(product)
     #filename_hypo = make_map(null_hyp_grid, log=True)
@@ -484,7 +484,7 @@ def predict():
     print null_hyp_grid
 
     return make_response(jsonify( { 'region': region, 'filename_deviation': "filename_deviation", 
-                                    'filename_product': "filename_product", 
+                                    'filename_product': filename_product, 
                                     'filename_hypo': "filename_hypo" } ))
 
 
