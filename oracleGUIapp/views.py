@@ -34,6 +34,9 @@ llcrnrlat = 54.5
 urcrnrlon = 28.5
 urcrnrlat = 69.5
 
+xBins = 9
+xyRatio = 1.8
+
 questions = [{'question': u'Fara eller åka?',
               'explanation': u'Fyll i följande mening: **vi skulle...**',
               'answers': [u'...fara till farmor', u'...åka till farmor'], 
@@ -312,7 +315,7 @@ def get_grids(queries):
 def dev_from_null_hyp(grid, use_relative_deviation=False):
     """ Calc deviation from null hypothesis """
 
-    hashkey = "hypothesis grid4" + str(xBins)
+    hashkey = "hypothesis grid5" + str(xBins)
     null_hyp_grid = cache.get(hashkey)
 
     if isinstance(null_hyp_grid, np.ndarray): # Found in cache
@@ -482,9 +485,6 @@ def predict():
                                     'filename_product': filename_product, 
                                     'filename_hypo': "filename_hypo" } ))
 
-
-xBins = 12
-xyRatio = 1.8
 cache = SqliteCache("oracle_cache") 
 try:
     mysqldb = dataset.connect(c.LOCATIONDB) 
