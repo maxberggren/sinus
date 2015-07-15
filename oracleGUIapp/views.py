@@ -85,13 +85,6 @@ questions = [{'question': u'Fara eller åka?',
               'target': 'DB', 
               'id': 9},
               
-             {'question': u'Strand',
-              'explanation': u'Badar du på en badstrand eller simstrand?',
-              'answers': [u'Badstrand', u'Simstrand'], 
-              'query': [u'NOT simstrand OR simstranden', u'simstrand OR simstranden'], 
-              'target': 'DB', 
-              'id': 10},
-              
              {'question': u'Frågesport',
               'explanation': u'Vad kallar du en promenad där du svarar 1, X eller 2 på frågor?',
               'answers': [u'Tipsrunda', u'Tipspromenad', u'Poängpromenad'], 
@@ -314,7 +307,7 @@ def get_grids(queries):
 def dev_from_null_hyp(grid, use_relative_deviation=False):
     """ Calc deviation from null hypothesis """
 
-    hashkey = "hypothesis grid3" + str(xBins)
+    hashkey = "hypothesis grid4" + str(xBins)
     null_hyp_grid = cache.get(hashkey)
 
     if isinstance(null_hyp_grid, np.ndarray): # Found in cache
@@ -357,8 +350,8 @@ def make_map(matrix, log=False, filename=False):
     urcrnrlon = 28.5
     urcrnrlat = 69.5
     
-    lon_bins = np.linspace(llcrnrlon, urcrnrlon+1, xBins)
-    lat_bins = np.linspace(llcrnrlat, urcrnrlat+2, xBins*xyRatio)
+    lon_bins = np.linspace(llcrnrlon, urcrnrlon+2, xBins)
+    lat_bins = np.linspace(llcrnrlat, urcrnrlat+1, xBins*xyRatio)
     
 
     m = Basemap(projection='merc',
@@ -490,7 +483,7 @@ def predict():
                                     'filename_hypo': "filename_hypo" } ))
 
 
-xBins = 10
+xBins = 12
 xyRatio = 1.8
 cache = SqliteCache("oracle_cache") 
 try:
