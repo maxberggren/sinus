@@ -314,7 +314,7 @@ def get_grids(queries):
 def dev_from_null_hyp(grid, use_relative_deviation=False):
     """ Calc deviation from null hypothesis """
 
-    hashkey = "hypothesis grid2" + str(xBins)
+    hashkey = "hypothesis grid3" + str(xBins)
     null_hyp_grid = cache.get(hashkey)
 
     if isinstance(null_hyp_grid, np.ndarray): # Found in cache
@@ -358,7 +358,7 @@ def make_map(matrix, log=False, filename=False):
     urcrnrlat = 69.5
     
     lon_bins = np.linspace(llcrnrlon, urcrnrlon+1, xBins)
-    lat_bins = np.linspace(llcrnrlat, urcrnrlat+1, xBins*xyRatio)
+    lat_bins = np.linspace(llcrnrlat, urcrnrlat+2, xBins*xyRatio)
     
 
     m = Basemap(projection='merc',
