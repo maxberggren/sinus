@@ -36,13 +36,6 @@ questions = [{'question': u'Fara eller åka?',
               'target': 'DB', 
               'id': 2},
               
-             {'question': u'Polisen?',
-              'explanation': u'Vilket av följade använder du oftast för att tala om polisen?',
-              'answers': [u'Bängen', u'Snuten', u'Farbror blå'], 
-              'query': [u'bängen', u'snuten', u'farbror blå'], 
-              'target': 'DB', 
-              'id': 3},
-              
              {'question': u'Skottkärra',
               'explanation': u'Har du under din omgivning ibland pratat om en **rullebör**?',
               'answers': [u'O-Ja', u'Nej'], 
