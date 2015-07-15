@@ -36,6 +36,13 @@ questions = [{'question': u'Fara eller åka?',
               'target': 'DB', 
               'id': 2},
               
+             {'question': u'Polisen?',
+              'explanation': u'Vilket av följade använder du oftast för att tala om polisen?',
+              'answers': [u'Bängen', u'Snuten', u'Farbror blå'], 
+              'query': [u'bängen', u'snuten', u'farbror blå'], 
+              'target': 'DB', 
+              'id': 3},
+              
              {'question': u'Skottkärra',
               'explanation': u'Har du under din omgivning ibland pratat om en **rullebör**?',
               'answers': [u'O-Ja', u'Nej'], 
@@ -304,7 +311,7 @@ def get_grids(queries):
             
     return grids         
 
-def dev_from_null_hyp(grid, use_relative_deviation=False, null_hyp_grid=None):
+def dev_from_null_hyp(grid, use_relative_deviation=False):
     """ Calc deviation from null hypothesis """
 
     hashkey = "hypothesis grid2" + str(xBins)
@@ -446,13 +453,15 @@ def predict():
         for grid, query in zip(grids, queries): 
             if negative(query):
                 deviation_grid, _ = dev_from_null_hyp(grid)
-                deviation_grid = normalize(deviation_grid)
+                deviation_grid = min_max_scaling(deviation_grid)
+                #deviation_grid = normalize(deviation_grid)
 
                 product = np.multiply(product, not_in(deviation_grid)) 
                 make_map(not_in(deviation_grid), filename=str(query))
             else:
                 deviation_grid, _ = dev_from_null_hyp(grid)
-                deviation_grid = normalize(deviation_grid)
+                deviation_grid = min_max_scaling(deviation_grid)
+                #deviation_grid = normalize(deviation_grid)
 
                 product = np.multiply(product, deviation_grid) 
                 make_map(deviation_grid, filename=str(query))
