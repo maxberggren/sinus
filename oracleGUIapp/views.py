@@ -37,7 +37,14 @@ urcrnrlat = 69.5
 xBins = 9
 xyRatio = 1.8
 
-questions = [{'question': u'Fara eller åka?',
+questions = [{'question': u'Sovit eller sovde?',
+              'explanation': u'Säger du **sovde** eller **sovit**?',
+              'answers': [u'Sovde', u'Sovit'], 
+              'query': [u'sovde', u'NOT sovde'], 
+              'target': 'DB', 
+              'id': 1},
+              
+             {'question': u'Fara eller åka?',
               'explanation': u'Fyll i följande mening: **vi skulle...**',
               'answers': [u'...fara till farmor', u'...åka till farmor'], 
               'query': [u'fara', u'NOT fara'], 
@@ -98,7 +105,14 @@ questions = [{'question': u'Fara eller åka?',
               'answers': [u'Tipsrunda', u'Tipspromenad', u'Poängpromenad'], 
               'query': [u'tipsrunda', u'tipspromenad', u'poängpromenad'], 
               'target': 'DB', 
-              'id': 11}]
+              'id': 11},
+              
+             {'question': u'Slang för bjuda',
+              'explanation': u'Vilket av följande slang för **att bjuda** föredrar du?',
+              'answers': [u'Bjussa', u'Bjucka', u'Bjuppa/Bjubba'], 
+              'query': [u'bjussa', u'bjucka', u'bjuppa OR bjubba'], 
+              'target': 'DB', 
+              'id': 12}]
 
  
 def negative(query):
