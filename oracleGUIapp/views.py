@@ -445,6 +445,9 @@ def predict():
     def negative(query):
         return query[0][0:4] == "NOT "
 
+    def min_max_scaling(arr):
+        return np.divide(arr - arr.min(), arr.max() - arr.min())
+
     def matrix_product(grids, queries):
         """ Multiply all distributions into a final one """ 
 
@@ -472,9 +475,6 @@ def predict():
     product = normalize(product)
     coordinate = grid_maximum(product)
     region = rg.get(coordinate)['admin1']
-
-    def min_max_scaling(arr):
-        return np.divide(arr - arr.min(), arr.max() - arr.min())
 
     product = min_max_scaling(product)
     filename_product = make_map(product)
