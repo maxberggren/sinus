@@ -28,6 +28,11 @@ from matplotlib.ticker import LogFormatter
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
 import matplotlib.pyplot as plt
+  
+llcrnrlon = 9.5
+llcrnrlat = 54.5
+urcrnrlon = 28.5
+urcrnrlat = 69.5
 
 questions = [{'question': u'Fara eller åka?',
               'explanation': u'Fyll i följande mening: **vi skulle...**',
@@ -119,8 +124,8 @@ def grid_maximum(matrix):
     
     i, j = np.unravel_index(matrix.argmax(), matrix.shape)
         
-    lon_bins = np.linspace(8, 26, xBins)
-    lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
+    lon_bins = np.linspace(llcrnrlon, urcrnrlon+2, xBins)
+    lat_bins = np.linspace(llcrnrlat, urcrnrlat+1, xBins*xyRatio)
 
     lon_corr = lon_bins[1]-lon_bins[0]
     lat_corr = lat_bins[1]-lat_bins[0]
@@ -133,8 +138,8 @@ def gen_grid(lats, lons, no_zeros=True):
     if len(lats) == 0:
         return np.zeros(shape=(int(xBins*xyRatio-1), xBins-1))
         
-    lon_bins = np.linspace(8, 26, xBins)
-    lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
+    lon_bins = np.linspace(llcrnrlon, urcrnrlon+2, xBins)
+    lat_bins = np.linspace(llcrnrlat, urcrnrlat+1, xBins*xyRatio)
     
     lons = np.array(lons)
     lats = np.array(lats)
@@ -344,11 +349,6 @@ def make_map(matrix, log=False, filename=False):
     coordinate = grid_maximum(matrix)
     density = matrix
     fig = plt.figure(figsize=(3.25*1,6))
-    
-    llcrnrlon = 9.5
-    llcrnrlat = 54.5
-    urcrnrlon = 28.5
-    urcrnrlat = 69.5
     
     lon_bins = np.linspace(llcrnrlon, urcrnrlon+2, xBins)
     lat_bins = np.linspace(llcrnrlat, urcrnrlat+1, xBins*xyRatio)
