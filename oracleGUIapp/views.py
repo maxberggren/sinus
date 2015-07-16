@@ -401,7 +401,7 @@ def make_map(matrix, log=False, filename=False):
     # Colormap transparency
     theCM = cm.get_cmap('bwr') 
     theCM._init()
-    half_n = theCM.N
+    half_n = int(theCM.N / 2.0)
     alphas = np.abs(np.linspace(0, 0.5, half_n) + np.linspace(0.5, 1.0, half_n))
     theCM._lut[:-3,-1] = alphas
     
