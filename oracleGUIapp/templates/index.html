@@ -168,7 +168,10 @@
                         data: JSON.stringify(answers, null, '\t'),
                         contentType: 'application/json;charset=UTF-8'
                     });
-                    
+                    map.done(function(data) {
+                        console.log("Casdadsda");
+                    });
+
                 });
                 posting.fail(function(data) {
                     console.log("Could not send data to flask");
