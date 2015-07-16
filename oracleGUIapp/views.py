@@ -146,8 +146,9 @@ def not_in(matrix):
 def grid_maximum(matrix):
     """ Find where in grid highest probability lies """
     
+    arr = np.copy(matrix)
     # 1st maximum
-    i, j = np.unravel_index(matrix.argmax(), matrix.shape)
+    i, j = np.unravel_index(arr.argmax(), arr.shape)
         
     lon_bins = np.linspace(llcrnrlon, urcrnrlon+2, xBins)
     lat_bins = np.linspace(llcrnrlat, urcrnrlat+1, xBins*xyRatio)
@@ -158,13 +159,13 @@ def grid_maximum(matrix):
     maximum = lat_bins[i]+lat_corr*0.5, lon_bins[j]+lon_corr*0.5
 
     # 2nd maximum
-    matrix[i, j] = 0
-    i, j = np.unravel_index(matrix.argmax(), matrix.shape)
+    arr[i, j] = 0
+    i, j = np.unravel_index(arr.argmax(), arr.shape)
     second_maximum = lat_bins[i]+lat_corr*0.5, lon_bins[j]+lon_corr*0.5
 
     # 3rd maximum
-    matrix[i, j] = 0
-    i, j = np.unravel_index(matrix.argmax(), matrix.shape)
+    arr[i, j] = 0
+    i, j = np.unravel_index(arr.argmax(), arr.shape)
     third_maximum = lat_bins[i]+lat_corr*0.5, lon_bins[j]+lon_corr*0.5
 
     return maximum, second_maximum, third_maximum
@@ -378,7 +379,6 @@ def dev_from_null_hyp(grid, use_relative_deviation=False):
       
  
 def make_map(matrix, log=False, filename=False):
-    print matrix
     """ Create image with map and grid overlaid """
 
     print "skapar karta"
