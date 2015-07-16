@@ -533,6 +533,11 @@ def predict(get_map=False):
     return make_response(jsonify( { 'region': region, 'region2': region2, 'region3': region3, 
                                     'filename_product': filename_product } ))
 
+@app.route('/oracle/map', methods=['POST'])
+def map(): 
+    return predict(get_map=True)
+
+
 cache = SqliteCache("oracle_cache") 
 try:
     mysqldb = dataset.connect(c.LOCATIONDB) 
