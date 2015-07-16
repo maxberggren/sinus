@@ -400,9 +400,10 @@ def make_map(matrix, log=False, filename=False):
             
     # Colormap transparency
     theCM = cm.get_cmap('bwr') 
-    #theCM._init()
-    #alphas = np.abs(np.linspace(0, 1.0, theCM.N))
-    #theCM._lut[:-3,-1] = alphas
+    theCM._init()
+    half_n = theCM.N
+    alphas = np.abs(np.linspace(0, 0.5, half_n) + np.linspace(0.5, 1.0, half_n))
+    theCM._lut[:-3,-1] = alphas
     
     if log:
         norm = LogNorm()
@@ -490,7 +491,7 @@ def predict():
 
     product = matrix_product(grids, queries)    
     product = normalize(product)
-    coordinate = grid_maximum(product)
+    coordinate = grid_maximum(product) # TODO: 1st, 2d and 3d place
     region = rg.get(coordinate)['admin1']
 
     product = min_max_scaling(product)
