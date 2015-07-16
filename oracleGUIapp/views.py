@@ -399,12 +399,12 @@ def make_map(matrix, log=False, filename=False):
                 urcrnrlon=urcrnrlon, 
                 urcrnrlat=urcrnrlat,)   
     
-    m.drawcoastlines(linewidth=0.5)
+    #m.drawcoastlines(linewidth=0.5)
     m.drawcountries()
     m.drawstates()
     m.drawmapboundary()
-    m.fillcontinents(color='white', lake_color='black', zorder=0)
-    m.drawmapboundary(fill_color='black')
+    m.fillcontinents(color='white', lake_color='grey', zorder=0)
+    #m.drawmapboundary(fill_color='black')
     
     lon_bins_2d, lat_bins_2d = np.meshgrid(lon_bins, lat_bins)
     xs, ys = m(lon_bins_2d, lat_bins_2d)
@@ -412,7 +412,7 @@ def make_map(matrix, log=False, filename=False):
     ys = ys[0:density.shape[0], 0:density.shape[1]]
             
     # Colormap transparency
-    theCM = cm.get_cmap('bwr') 
+    theCM = cm.get_cmap('spring') 
     theCM._init()
     half_n = int(theCM.N / 2.0)
     forth_n = int(half_n / 2.0) 
