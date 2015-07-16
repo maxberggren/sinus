@@ -401,7 +401,7 @@ def make_map(matrix, log=False, filename=False):
     
     m.drawcoastlines(linewidth=0.5, color='k')
     m.drawcountries()
-    m.drawstates()
+    #m.drawstates()
     #m.drawmapboundary()
     m.fillcontinents(color='white', lake_color=(0.8,0.8,0.8,0.5), zorder=0)
     
