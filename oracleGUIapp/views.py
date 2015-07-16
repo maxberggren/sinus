@@ -457,7 +457,7 @@ def make_map(matrix, log=False, filename=False):
     width = img.size[0]
     height = img.size[1]
     img = img.crop((10, 10, width-10, height-10))
-    img.save(path)
+    img.save("oracleGUIapp/static/maps/padasdsdsad.png")
 
     return filename
                 
