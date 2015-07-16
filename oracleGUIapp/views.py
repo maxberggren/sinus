@@ -478,14 +478,14 @@ def predict():
                 deviation_grid = normalize(deviation_grid)
 
                 product = np.multiply(product, not_in(deviation_grid)) 
-                make_map(not_in(deviation_grid), filename=str(query))
+                #make_map(not_in(deviation_grid), filename=str(query))
             else:
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 #deviation_grid = min_max_scaling(deviation_grid)
                 deviation_grid = normalize(deviation_grid)
 
                 product = np.multiply(product, deviation_grid) 
-                make_map(deviation_grid, filename=str(query))
+                #make_map(deviation_grid, filename=str(query))
 
         return product
 
