@@ -402,9 +402,8 @@ def make_map(matrix, log=False, filename=False):
     m.drawcoastlines(linewidth=0.5, color='k')
     m.drawcountries()
     m.drawstates()
-    m.drawmapboundary()
-    m.fillcontinents(color='white', lake_color=(0.8,0.8,0.8,0), zorder=0)
-    #m.drawmapboundary(fill_color='black')
+    #m.drawmapboundary()
+    m.fillcontinents(color='white', lake_color=(0.8,0.8,0.8,0.5), zorder=0)
     
     lon_bins_2d, lat_bins_2d = np.meshgrid(lon_bins, lat_bins)
     xs, ys = m(lon_bins_2d, lat_bins_2d)
@@ -433,7 +432,7 @@ def make_map(matrix, log=False, filename=False):
                    norm=norm, 
                    antialiased=True)
 
-    plt.colorbar()                    
+    #plt.colorbar()                    
  
     # Put maximum on map
     lat, lon = coordinate
