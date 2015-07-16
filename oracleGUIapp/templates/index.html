@@ -167,7 +167,7 @@
                     map.done(function(data) {
                         resultSet = '<img style="border: #ccc 1px solid; margin-bottom: 50px;" src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
                         resultSet += '<p>Men där det är <em style="background-color: rgb(255, 30, 249);">rosa</em>, där är du iaf absolut inte ifrån. Det vet Oraklet.</p>'
-                        resultSet += '<a class="btn btn-primary btn-xl">Oraklet har fel!</a>';
+                        resultSet += '<a class="btn btn-primary btn-xl">Hjälp Oraklet bli bättre</a>';
                         $('#mapholder').html(resultSet).show();
                     });
 
@@ -200,7 +200,7 @@
                             $('#progressKeeper').hide();
                             var resultSet = '';
                             console.log(answers)
-                            resultSet += '<div class="totalScore"><p>Oraklet tänker...</p></div>';
+                            resultSet += '<div class="totalScore"><p>Oraklet mediterar på din dialekt.</p></div>';
                             $('#resultKeeper').append(resultSet).show();
 
                             jQuiz.sendUserResult(answers);
