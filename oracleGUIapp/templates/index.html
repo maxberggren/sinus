@@ -145,7 +145,13 @@
 
                 posting.done(function(data) {
                     console.log(data);
-                    resultSet = '<div class="totalScore">Oraklet vet att du kommer ifrån <em>' + data['region1'] + '</em></div>';
+                    resultSet = 'Oraklet vet att du kommer ifrån <em>' + data['region'] + '</em>';
+
+                    if (data['region'] != data['region2']) resultSet += ", och om hen har fel (vilket hen aldrig har) kommer du från <em>" + data['region2'] + "</em>";
+
+                    if (data['region2'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
+
+                    resultSet += '.'
                     resultSet += '<img style="border: #ccc 1px solid;" src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
                     $('#resultKeeper').html(resultSet).show();
                 });
