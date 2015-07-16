@@ -428,10 +428,10 @@ def make_map(matrix, log=False, filename=False):
     else:
         norm = None
 
-    p = plt.pcolor(xs, ys, density, 
-                   cmap=theCM, 
-                   norm=norm, 
-                   antialiased=True)
+    #p = plt.pcolor(xs, ys, density, 
+    #               cmap=theCM, 
+    #               norm=norm, 
+    #               antialiased=True)
 
     #plt.colorbar()                    
  
