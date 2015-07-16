@@ -146,10 +146,10 @@
                 posting.done(function(data) {
                     console.log(data);
                     resultSet = '<div class="totalScore">You get: ' + JSON.stringify(data) + '</div>';
-                    resultSet += '<img src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
+                    resultSet += '<img style="border: #ccc 1px solid;" src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
                     resultSet += '<img src="{{ url_for('static', filename='maps/') }}' + data['filename_deviation'] + '">';
                     resultSet += '<img src="{{ url_for('static', filename='maps/') }}' + data['filename_hypo'] + '">';
-                    $('#resultKeeper').append(resultSet).show();
+                    $('#resultKeeper').html(resultSet).show();
                 });
                 posting.fail(function(data) {
                     console.log("Could not send data to flask");
@@ -179,7 +179,7 @@
                             $('#progressKeeper').hide();
                             var resultSet = '';
                             console.log(answers)
-                            resultSet += '<div class="totalScore">Your answers: ' + ans + '</div>';
+                            resultSet += '<div class="totalScore">Oraklet tänker...</div>';
                             $('#resultKeeper').append(resultSet).show();
 
                             jQuiz.sendUserResult(answers);
