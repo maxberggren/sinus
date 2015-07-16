@@ -530,9 +530,8 @@ def predict():
     print product
     print null_hyp_grid
 
-    return make_response(jsonify( { 'region': region, 'region2': region2, 'region3': region3, 'filename_deviation': "filename_deviation", 
-                                    'filename_product': filename_product, 
-                                    'filename_hypo': "filename_hypo" } ))
+    return make_response(jsonify( { 'region': region, 'region2': region2, 'region3': region3, 
+                                    'filename_product': filename_product,))
 
 cache = SqliteCache("oracle_cache") 
 try:
