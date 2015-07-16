@@ -468,7 +468,7 @@ def oracle():
 
 
 @app.route('/oracle/predict', methods=['POST'])
-def predict(): 
+def predict(get_map=False): 
     """ Predict where user is from """
 
     def interp_answers(data):
@@ -521,14 +521,14 @@ def predict():
     region2 = rg.get(second_maximum)['admin1']
     region3 = rg.get(third_maximum)['admin1']
 
-    product = min_max_scaling(product)
-    filename_product = make_map(product)
+    if get_map:
+        product = min_max_scaling(product)
+        filename_product = make_map(product)
+    else:
+        filename_product = None
 
-    _, null_hyp_grid = dev_from_null_hyp(product)
+    #_, null_hyp_grid = dev_from_null_hyp(product)
     #filename_hypo = make_map(null_hyp_grid, log=True)
-
-    print product
-    print null_hyp_grid
 
     return make_response(jsonify( { 'region': region, 'region2': region2, 'region3': region3, 
                                     'filename_product': filename_product } ))
