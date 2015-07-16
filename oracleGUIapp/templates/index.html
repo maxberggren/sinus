@@ -169,7 +169,8 @@
                         contentType: 'application/json;charset=UTF-8'
                     });
                     map.done(function(data) {
-                        console.log("Casdadsda");
+                        resultSet = '<img style="border: #ccc 1px solid;" src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
+                        $('#mapholder').html(resultSet).show();
                     });
 
                 });
