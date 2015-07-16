@@ -452,13 +452,6 @@ def make_map(matrix, log=False, filename=False):
                 dpi=100, 
                 bbox_inches='tight')
 
-    # Crop
-    img = Image.open(path)
-    width = img.size[0]
-    height = img.size[1]
-    img = img.crop((10, 10, width-10, height-10))
-    img.save("oracleGUIapp/static/maps/padasdsdsad.png")
-
     return filename
                 
 @app.route('/oracle/', methods = ['GET', 'POST'])
