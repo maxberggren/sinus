@@ -399,11 +399,11 @@ def make_map(matrix, log=False, filename=False):
                 urcrnrlon=urcrnrlon, 
                 urcrnrlat=urcrnrlat,)   
     
-    #m.drawcoastlines(linewidth=0.5)
+    m.drawcoastlines(linewidth=0.5, color='k')
     m.drawcountries()
     m.drawstates()
     m.drawmapboundary()
-    m.fillcontinents(color='white', lake_color='grey', zorder=0)
+    m.fillcontinents(color='white', lake_color=(200,200,200,0), zorder=0)
     #m.drawmapboundary(fill_color='black')
     
     lon_bins_2d, lat_bins_2d = np.meshgrid(lon_bins, lat_bins)
