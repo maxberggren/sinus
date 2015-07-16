@@ -154,11 +154,7 @@
 
                     resultSet += '.</p>'
 
-                    //if (data['filename_product'] != null) {
-                    //resultSet += '<img style="border: #ccc 1px solid;" src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
-                    //}
-
-                    resultSet += '<div id="mapholder" style="margin-bottom: 50px;"><p>Oraklet genererar en karta åt dig. Den kommer strax.</p></div>'
+                    resultSet += '<div id="mapholder"><p>Oraklet genererar en karta åt dig. Den kommer strax.</p></div>'
 
                     $('#resultKeeper').html(resultSet).show();
 
@@ -169,7 +165,7 @@
                         contentType: 'application/json;charset=UTF-8'
                     });
                     map.done(function(data) {
-                        resultSet = '<img style="border: #ccc 1px solid;" src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
+                        resultSet = '<img style="border: #ccc 1px solid; margin-bottom: 50px;" src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
                         resultSet += '<p>Men där det är <em style="background-color: rgb(255, 30, 249);">rosa</em>, där är du iaf absolut inte ifrån. Det vet Oraklet.</p>'
                         resultSet += '<a class="btn btn-primary btn-xl">Oraklet har fel!</a>';
                         $('#mapholder').html(resultSet).show();
