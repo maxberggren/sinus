@@ -402,7 +402,10 @@ def make_map(matrix, log=False, filename=False):
     theCM = cm.get_cmap('bwr') 
     theCM._init()
     half_n = int(theCM.N / 2.0)
-    alphas = np.abs(np.append(np.linspace(1, 0, half_n), np.linspace(0, 1, half_n)))
+    forth_n = int(half_n / 2.0)
+    alphas = np.abs(np.append(np.linspace(1, 0, forth_n), 
+                              np.linspace(0, 0, half_n), 
+                              np.linspace(0, 1, forth_n)))
     theCM._lut[:-3,-1] = alphas
     
     if log:
