@@ -152,7 +152,10 @@
 
                     if (data['region2'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
 
-                    resultSet += '.</p></div>'
+                    resultSet += '.</p>'
+
+                    resultSet += '<a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">Hjälp Oraklet bli bättre</a>';
+                    resultSet += '<br /><a href="/oracle" class="btn btn-primary btn-xl">Gör om testet</a></div>';
 
                     resultSet += '<div class="col-md-6" id="mapholder"><p>Oraklet genererar en karta åt dig. Den kommer strax.</p></div>'
 
@@ -167,8 +170,6 @@
                     map.done(function(data) {
                         resultSet = '<img style="border: #ccc 1px solid; margin-bottom: 50px;" src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
                         resultSet += '<p>Men där det är <em style="background-color: rgb(255, 30, 249);">rosa</em>, där är du iaf absolut inte ifrån. Det vet Oraklet.</p>'
-                        resultSet += '<a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">Hjälp Oraklet bli bättre</a>';
-                        resultSet += '<br /><a href="/oracle" class="btn btn-primary btn-xl">Gör om testet</a>';
                         $('#mapholder').html(resultSet).show();
                     });
 
