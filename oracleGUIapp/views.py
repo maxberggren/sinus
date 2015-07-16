@@ -404,9 +404,9 @@ def make_map(matrix, log=False, filename=False):
     half_n = int(theCM.N / 2.0)
     forth_n = int(half_n / 2.0) 
     print half_n, forth_n
-    alphas = np.abs(np.append(np.linspace(1, 0, forth_n), 
-                              np.linspace(0, 0, half_n), 
-                              np.linspace(0, 1, forth_n)))
+    alphas = np.append(np.linspace(1, 0, forth_n), 
+                       np.linspace(0, 0, half_n), 
+                       np.linspace(0, 1, forth_n))
     theCM._lut[:-3,-1] = alphas
     
     if log:
