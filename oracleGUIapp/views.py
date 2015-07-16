@@ -456,7 +456,7 @@ def make_map(matrix, log=False, filename=False):
     img = Image.open(path)
     width = img.size[0]
     height = img.size[1]
-    img = img.crop((4, 4, width-10, height-4))
+    img = img.crop((10, 10, width-10, height-10))
     img.save(path)
 
     return filename
