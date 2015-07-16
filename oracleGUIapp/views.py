@@ -146,6 +146,7 @@ def not_in(matrix):
 def grid_maximum(matrix):
     """ Find where in grid highest probability lies """
     
+    # 1st maximum
     i, j = np.unravel_index(matrix.argmax(), matrix.shape)
         
     lon_bins = np.linspace(llcrnrlon, urcrnrlon+2, xBins)
@@ -154,7 +155,19 @@ def grid_maximum(matrix):
     lon_corr = lon_bins[1]-lon_bins[0]
     lat_corr = lat_bins[1]-lat_bins[0]
 
-    return lat_bins[i]+lat_corr*0.5, lon_bins[j]+lon_corr*0.5
+    maximum = lat_bins[i]+lat_corr*0.5, lon_bins[j]+lon_corr*0.5
+
+    # 2nd maximum
+    matrix[i, j] = 0
+    i, j = np.unravel_index(matrix.argmax(), matrix.shape)
+    second_maximum = lat_bins[i]+lat_corr*0.5, lon_bins[j]+lon_corr*0.5
+
+    # 3rd maximum
+    matrix[i, j] = 0
+    i, j = np.unravel_index(matrix.argmax(), matrix.shape)
+    third_maximum = lat_bins[i]+lat_corr*0.5, lon_bins[j]+lon_corr*0.5
+
+    return maximum, second_maximum, third_maximum
 
 def gen_grid(lats, lons, no_zeros=True):
     """ Generate grid from coordinates """
@@ -370,7 +383,7 @@ def make_map(matrix, log=False, filename=False):
 
     print "skapar karta"
 
-    coordinate = grid_maximum(matrix)
+    coordinate, second_maximum, third_maximum = grid_maximum(matrix)
     density = matrix
     fig = plt.figure(figsize=(3.25*1,6))
     
@@ -403,10 +416,8 @@ def make_map(matrix, log=False, filename=False):
     theCM._init()
     half_n = int(theCM.N / 2.0)
     forth_n = int(half_n / 2.0) 
-    print half_n, forth_n
     alphas = np.append(np.linspace(1, 0, forth_n), 
                        np.linspace(0, 0, half_n))
-    print alphas
     alphas = np.append(alphas, 
                        np.linspace(0, 1, forth_n))
 
@@ -498,8 +509,10 @@ def predict():
 
     product = matrix_product(grids, queries)    
     product = normalize(product)
-    coordinate = grid_maximum(product) # TODO: 1st, 2d and 3d place
+    coordinate, second_maximum, third_maximum = grid_maximum(product) 
     region = rg.get(coordinate)['admin1']
+    region2 = rg.get(second_maximum)['admin1']
+    region3 = rg.get(third_maximum)['admin1']
 
     product = min_max_scaling(product)
     filename_product = make_map(product)
@@ -510,7 +523,7 @@ def predict():
     print product
     print null_hyp_grid
 
-    return make_response(jsonify( { 'region': region, 'filename_deviation': "filename_deviation", 
+    return make_response(jsonify( { 'region': region, 'region2': region2, 'region3': region3, 'filename_deviation': "filename_deviation", 
                                     'filename_product': filename_product, 
                                     'filename_hypo': "filename_hypo" } ))
 
