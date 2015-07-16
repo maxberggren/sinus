@@ -393,8 +393,8 @@ def make_map(matrix, log=False, filename=False):
     
 
     m = Basemap(projection='merc',
-                resolution = 'i', 
-                area_thresh=500,
+                resolution = 'l', 
+                #area_thresh=500,
                 llcrnrlon=llcrnrlon, 
                 llcrnrlat=llcrnrlat,
                 urcrnrlon=urcrnrlon, 
@@ -456,7 +456,7 @@ def make_map(matrix, log=False, filename=False):
     img = Image.open(path)
     width = img.size[0]
     height = img.size[1]
-    img = img.crop((1, 1, width-1, height-1))
+    img = img.crop((2, 2, width-2, height-2))
     img.save(path)
 
     return filename
