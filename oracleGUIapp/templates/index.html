@@ -145,16 +145,16 @@
 
                 posting.done(function(data) {
                     console.log(data);
-                    resultSet = '<p>'
+                    resultSet = '<div class="col-lg-8 col-lg-offset-2 text-center"><p>'
                     resultSet += 'Oraklet vet att du kommer ifrån <em>' + data['region'] + '</em>';
 
                     if (data['region'] != data['region2']) resultSet += ", och om hen har fel (vilket hen aldrig har) kommer du från <em>" + data['region2'] + "</em>";
 
                     if (data['region2'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
 
-                    resultSet += '.</p>'
+                    resultSet += '.</p></div>'
 
-                    resultSet += '<div id="mapholder"><p>Oraklet genererar en karta åt dig. Den kommer strax.</p></div>'
+                    resultSet += '<div class="col-lg-8 col-lg-offset-2 text-center" id="mapholder"><p>Oraklet genererar en karta åt dig. Den kommer strax.</p></div>'
 
                     $('#resultKeeper').html(resultSet).show();
 
