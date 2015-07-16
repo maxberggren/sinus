@@ -28,6 +28,7 @@ from matplotlib.ticker import LogFormatter
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
 import matplotlib.pyplot as plt
+from PIL import Image
   
 llcrnrlon = 9.5
 llcrnrlat = 54.5
@@ -399,8 +400,8 @@ def make_map(matrix, log=False, filename=False):
                 urcrnrlon=urcrnrlon, 
                 urcrnrlat=urcrnrlat,)   
     
-    m.drawcoastlines(linewidth=0.5, color='k')
-    m.drawcountries()
+    m.drawcoastlines(linewidth=0.3, color='k')
+    m.drawcountries(linewidth=0.3)
     #m.drawstates()
     m.drawmapboundary(linewidth=0, color='none', fill_color=(0.8, 0.8, 0.8, 0.5))
     m.fillcontinents(color='white', lake_color=(0.8, 0.8, 0.8, 0.5), zorder=0)
@@ -450,6 +451,13 @@ def make_map(matrix, log=False, filename=False):
     plt.savefig(path, 
                 dpi=100, 
                 bbox_inches='tight')
+
+    # Crop
+    img = Image.open(path)
+    width = img.size[0]
+    height = img.size[1]
+    img = img.crop((1, 1, width-1, height-1))
+    img.save(path)
 
     return filename
                 
