@@ -10,6 +10,5 @@ def italic(s):
     my_regex = re.compile(r"\*\*(.+?)\*\*")
     return my_regex.sub(r'<em>\1</em>', s)
 
-if __name__ == "__main__":
-    app.debug = True
-    app.run(host='0.0.0.0', port=5011)
+app.debug = True
+app.run(host='0.0.0.0', port=5011)
