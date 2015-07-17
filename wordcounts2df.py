@@ -4,7 +4,7 @@ import pandas as pd
 import config as c
 import dataset
 
-check_region = "maelardalen"
+check_region = "malardalen"
 threshold = 0.3
 
 db = dataset.connect(c.LOCATIONDB)
