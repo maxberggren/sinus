@@ -38,9 +38,9 @@ urcrnrlat = 69.5
 xBins = 9
 xyRatio = 1.8
 
-questions = [{'question': u'Sovit eller sovde?',
+questions = [{'question': u'Sov eller sovde?',
               'explanation': u'Säger du **sovde** eller **sovit**?',
-              'answers': [u'Sovde', u'Sovit'], 
+              'answers': [u'Sovde', u'Sov'], 
               'query': [u'sovde', u'NOT sovde'], 
               'target': 'DB', 
               'id': 1},
