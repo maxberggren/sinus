@@ -150,7 +150,7 @@
 
                     if (data['region'] != data['region2']) resultSet += ", och om hen har fel (vilket hen aldrig har) kommer du från <em>" + data['region2'] + "</em>";
 
-                    if (data['region2'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
+                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
 
                     resultSet += '.</p>'
 

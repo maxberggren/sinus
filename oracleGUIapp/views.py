@@ -295,6 +295,7 @@ def get_grids(queries):
             grids.append(grid)
             
         else: # Not found in cache
+            print "söker i db efter: {}".format(str(query) + str(xBins))
             if source == "DB": # Database
                 lats, lons = [], []
                 result = mysqldb.query("SELECT blogs.longitude, "
