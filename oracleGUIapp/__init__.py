@@ -3,6 +3,7 @@
 import matplotlib
 matplotlib.use('Agg')
 from flask import Flask, jsonify, make_response, request
+import re
 
 app = Flask(__name__)
 
