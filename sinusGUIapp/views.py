@@ -319,7 +319,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         urcrnrlon = 28.5
         urcrnrlat = 69.5
         resolution = 'l'
-        area_thresh = 150
+        area_thresh = 50
 
     cachedMapWithShapes = "mapwithshapefiles.pkl"
 
