@@ -588,17 +588,15 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                  [u"Län", u"Landskap"]]:
 
                 if smooth:
-                    municipalitys = df['name'].unique()
+                    municipalitys = df['name'].unique() # All
                 else:
-                    municipalitys = df[df[word] == 0.0]['name'].unique()
+                    municipalitys = df[df[word] == 0.0]['name'].unique() # Just where zero hits
 
                 for muni in municipalitys: 
                     # Merge the mean of every parent level
-                    mean = [getParentMean(df, muni, parentLevel, word) 
-                            for parentLevel in parentLevels]
-                    mean = np.array(mean)
-                    mean = mean[mean != np.array(None)] # Remove Nones 
-                    mean = np.mean(mean)
+                    mean = np.array([getParentMean(df, muni, parentLevel, word) 
+                                     for parentLevel in parentLevels])
+                    mean = np.mean(mean[mean != np.array(None)]) # Remove Nones and then mean
     
                     # Update municipality with fallback according to rule
                     if mean and mean != 0.0 and mean != True:
@@ -745,7 +743,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
     """ Generate the images i.e. the main image, the 
         time series gif and the histogram.
         
-        NOTE: going to be depreciated alltogether!
+        NOTE: going to be depreciated someday!
 
     Parameters
     ----------
@@ -1478,37 +1476,43 @@ def explore(word=None):
     """ Run if explore in the menu is choosen """    
     
     check_region = "finland"
-    threshold = 0.3
+    threshold = 10
+    data = {}
     
     db = dataset.connect(c.LOCATIONDB)
-    common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
+    results = db.query("SELECT DISTINCT region FROM wordcounts")
     
-    engine = create_engine(c.LOCATIONDB, echo=False)
-    df = pd.read_sql_query('SELECT * FROM wordcounts '
-                           'WHERE region = "country" '
-                           'or region = "{}"' 
-                           'and frequency > {}'.format(check_region, common_word_occurance*0.00009902951079*threshold), 
-                           engine, index_col='id')
-    
-    def rel_frq(values):
-        if len(values) == 2:
-            return (values.values[1] - values.values[0])/values.values[0]
-        else: 
-            return 0.0
-    
-    grouped_count = df.groupby("token").frequency.agg(rel_frq)
-    
-    words, frqs = [], []
-    for index, value in grouped_count.order(ascending=False).iteritems():
-        #print index.decode('latin-1').encode('utf-8'), value
-        words.append(index.decode('latin-1')) 
-        frqs.append(value)
-        if value < 0.3:
-            break
+    for result in results:
+        check_region = result['region']
 
-    skewedWords = zip(words, frqs)
-    
-    data = { 'skewedWords': skewedWords }    
+        common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
+        
+        engine = create_engine(c.LOCATIONDB, echo=False)
+        df = pd.read_sql_query('SELECT * FROM wordcounts '
+                               'WHERE region = "country" '
+                               'or region = "{}"' 
+                               'and frequency > {}'.format(check_region, common_word_occurance*0.00009902951079*threshold), 
+                               engine, index_col='id')
+        
+        def rel_frq(values):
+            if len(values) == 2:
+                return (values.values[1] - values.values[0])/values.values[0]
+            else: 
+                return 0.0
+        
+        grouped_count = df.groupby("token").frequency.agg(rel_frq)
+        
+        words, frqs = [], []
+        for index, value in grouped_count.order(ascending=False).iteritems():
+            #print index.decode('latin-1').encode('utf-8'), value
+            words.append(index.decode('latin-1')) 
+            frqs.append(value)
+            if value < 0.3:
+                break
+
+        skewedWords = zip(words, frqs)
+        
+        data[check_region] = skewedWords  
              
     return render_template("explore.html", data=data)
 

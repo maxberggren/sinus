@@ -32,93 +32,26 @@
       </div>       
       {% endif %}
 
+      {% for region, words in data.iteritems() %}   
+
       <div class="row">    
           <div class="col-md-12">
           <div class="panel panel-default">
     		  <div class="panel-heading">
-    		    <h3 class="panel-title">Ord vars förekomst sticker ut för Finland (procentuellt)</h3>
+    		    <h3 class="panel-title">Ord vars förekomst sticker ut för {{ region }} (procentuellt)</h3>
     		  </div>
     		  <div class="panel-body">
 		     
-    		  {% for word, entropy in data['skewedWords'] %} <a href="/sinus/explore/{{ word }}">{{ word }}</a> ({{ '{0:0.2f}'.format(entropy) }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %}
+    		  {% for word, entropy in words %} <a href="/sinus/explore/{{ word }}">{{ word }}</a> ({{ '{0:0.2f}'.format(entropy) }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %}
  
     		  </div>
           </div>
           </div>
-      </div>      
-
-      <!--
-      <div class="row">    
-          <div class="col-md-12">
-          <div class="panel panel-default">
-    		  <div class="panel-heading">
-    		    <h3 class="panel-title">Ord med hög förändring i tidsserien mellan <b>första och sista 10 %</b> av posterna (entropi inom parantes)</h3>
-    		  </div>
-    		  <div class="panel-body">
-    		  {% for word, entropy in data['deltaEnt10Words'] %} <a href="/sinus/explore/{{ word }}">{{ word }}</a> ({{ '{0:0.2f}'.format(entropy) }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %} 
-    		
-    		  </div>
-          </div>
-          </div>
       </div>  
+      
 
-      <div class="row">    
-          <div class="col-md-12">
-          <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Ord med hög förändring i tidsserien mellan <b>första och sista 20 %</b> av posterna (entropi inom parantes)</h3>
-              </div>
-              <div class="panel-body">
-              {% for word, entropy in data['deltaEnt20Words'] %} <a href="/sinus/explore/{{ word }}">{{ word }}</a> ({{ '{0:0.2f}'.format(entropy) }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %} 
-            
-              </div>
-          </div>
-          </div>
-      </div>  
+      {% endfor %}    
 
-      <div class="row">    
-          <div class="col-md-12">
-          <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Ord med hög förändring i tidsserien mellan <b>första och sista 30 %</b> av posterna (entropi inom parantes)</h3>
-              </div>
-              <div class="panel-body">
-              {% for word, entropy in data['deltaEnt30Words'] %} <a href="/sinus/explore/{{ word }}">{{ word }}</a> ({{ '{0:0.2f}'.format(entropy) }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %} 
-            
-              </div>
-          </div>
-          </div>
-      </div>  
-
-
-      <div class="row">    
-          <div class="col-md-12">
-          <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Ord med hög förändring i tidsserien mellan <b>första och sista 40 %</b> av posterna (entropi inom parantes)</h3>
-              </div>
-              <div class="panel-body">
-              {% for word, entropy in data['deltaEnt40Words'] %} <a href="/sinus/explore/{{ word }}">{{ word }}</a> ({{ '{0:0.2f}'.format(entropy) }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %} 
-            
-              </div>
-          </div>
-          </div>
-      </div>  
-
-      <div class="row">    
-          <div class="col-md-12">
-          <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Ord med hög förändring i tidsserien mellan <b>första och sista 50 %</b> av posterna (entropi inom parantes)</h3>
-              </div>
-              <div class="panel-body">
-              {% for word, entropy in data['deltaEnt50Words'] %} <a href="/sinus/explore/{{ word }}">{{ word }}</a> ({{ '{0:0.2f}'.format(entropy) }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %} 
-            
-              </div>
-          </div>
-          </div>
-      </div>  
-      -->
       </form>
 {% endblock %}
 
