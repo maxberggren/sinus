@@ -1517,7 +1517,7 @@ def explore(word=None):
             
             data[check_region] = skewedWords  
 
-        cache.set(key) = data
+        cache.set(key, data, timeout=9999999999)
         
     else:
         data = cache.get(key)
