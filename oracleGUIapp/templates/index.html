@@ -164,7 +164,7 @@
                     if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
                     
                     
-                    resultSet += '.<br/><br/><b>Vilken var rätt?</b><br/><br/><div id="predictionalternatives">';
+                    resultSet += '.<br/><br/><b>Vilken var rätt?</b><br/><div id="predictionalternatives"><br/>';
                     resultSet += '<a id="1" class="btn btn-primary btn-sm acceptprediction">' + data['region'] + '</a> ';
                     if (data['region'] != data['region2']) resultSet += '<a id="2" class="btn btn-primary btn-sm acceptprediction">' + data['region2'] + '</a> ';
                     if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += '<a id="3" class="btn btn-primary btn-sm acceptprediction">' + data['region3'] + '</a> ';
@@ -203,9 +203,7 @@
                         acceptance.done(function(data) {
                             console.log(data);
                         });
-                        $("#predictionalternatives").fadeOut(100);
                         $("#predictionalternatives").html("Tack");
-                        $("#predictionalternatives").fadeIn(100);
                     });
 
 
