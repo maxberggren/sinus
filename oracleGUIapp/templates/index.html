@@ -156,7 +156,7 @@
 
                 posting.done(function(data) {
                     console.log(data);
-                    resultSet = '<div class="col-md-6"><p>'
+                    resultSet = '<div class="col-md-6"><p>';
                     resultSet += 'Oraklet vet att du kommer ifrån <em>' + data['region'] + '</em>';
 
                     if (data['region'] != data['region2']) resultSet += ", och om hen har fel (vilket hen aldrig har) kommer du från <em>" + data['region2'] + "</em>";
@@ -211,8 +211,8 @@
                             var ans = jQuiz.userAnswers = [];
                             var answers = {};
                             for (var i = 0, ii = arr.length; i < ii; i++) {
-                                ans.push(arr[i].getAttribute('choise'))
-                                answers[arr[i].getAttribute('qid')] = arr[i].getAttribute('choise')
+                                ans.push(arr[i].getAttribute('choise'));
+                                answers[arr[i].getAttribute('qid')] = arr[i].getAttribute('choise');
                             }
     
                             $('#progress').width(300);
@@ -232,7 +232,7 @@
     
                 $('.btnPrev').click(function(){
                     $(this).parents('.questionContainer').fadeOut(100, function(){
-                        $(this).prev().fadeIn(100)
+                        $(this).prev().fadeIn(100);
                     });
     
                 })
@@ -241,7 +241,7 @@
                     var arr = $('input[type=radio]:checked');
                     var ans = jQuiz.userAnswers = [];
                     for (var i = 0, ii = arr.length; i < ii; i++) {
-                        ans.push(arr[i].getAttribute('id'))
+                        ans.push(arr[i].getAttribute('id'));
                     }
                 })
     
@@ -255,13 +255,6 @@
 
     </script>
 
-    <script>
-    
-    $('.acceptprediction').click(function(){
-        console.log("skicka ajax");
-
-    });
-    </script>
 
 
 </body>
