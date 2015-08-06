@@ -153,10 +153,10 @@
                     if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
                     
                     
-                    resultSet += '<br/><br/><b>Vilken var rätt?</b><br/><br/>';
-                    resultSet += '<a href="#"><em>' + data['region'] + '</em></a> ';
-                    if (data['region'] != data['region2']) resultSet += '<a href="#"><em>' + data['region2'] + '</em></a> ';
-                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += '<a href="#"><em>' + data['region3'] + '</em></a> ';
+                    resultSet += '<br/><br/><b>Vilken var rätt? (så att Oraklet kan bli ännu smartare till nästa gång)</b><br/><br/>';
+                    resultSet += '<a href="#" class="btn btn-sm"><em>' + data['region'] + '</em></a> ';
+                    if (data['region'] != data['region2']) resultSet += '<a href="#" class="btn btn-sm"><em>' + data['region2'] + '</em></a> ';
+                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += '<a href="#" class="btn btn-sm"><em>' + data['region3'] + '</em></a> ';
 
                     resultSet += '.</p>';
 
