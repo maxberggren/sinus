@@ -318,8 +318,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         llcrnrlat = 54.5
         urcrnrlon = 28.5
         urcrnrlat = 69.5
-        resolution = 'c'
-        area_thresh = 250
+        resolution = 'i'
+        area_thresh = 150
 
     cachedMapWithShapes = "mapwithshapefiles.pkl"
 
@@ -345,7 +345,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Finnish regions (sv: landskap)
         _out = m.readshapefile('shapedata/finland/fin-adm2', 
                                name='regions_fi', drawbounds=True, 
-                               color='red', zorder=2)
+                               color='red', linewidth=5, zorder=2)
         
         # Åland
         _out = m.readshapefile('shapedata/finland/ala-adm0', 
