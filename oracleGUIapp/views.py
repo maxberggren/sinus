@@ -540,7 +540,7 @@ def map():
     
 @app.route('/oracle/confirm/<prediction_nr>', methods=['POST'])
 def mapconfirm(prediction_nr=None): 
-    return predict(and_confirm=int(prediction_nr))
+    return predict(and_confirm=int(prediction_nr)-1)
 
 
 cache = SqliteCache("oracle_cache") 
