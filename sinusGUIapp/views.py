@@ -311,8 +311,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         llcrnrlat = lds['latitude'].quantile(0.20) - padding
         urcrnrlon = lds['longitude'].quantile(0.88) + padding
         urcrnrlat = lds['latitude'].quantile(0.83) + padding
-        resolution = "h"
-        area_thresh = 50
+        resolution = "c"
+        area_thresh = 250
     else: #
         llcrnrlon = 9.5
         llcrnrlat = 54.5
@@ -345,7 +345,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Finnish regions (sv: landskap)
         _out = m.readshapefile('shapedata/finland/fin-adm2', 
                                name='regions_fi', drawbounds=True, 
-                               color='none', zorder=2)
+                               color='red', zorder=2)
         
         # Åland
         _out = m.readshapefile('shapedata/finland/ala-adm0', 
