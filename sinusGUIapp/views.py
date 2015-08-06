@@ -311,15 +311,15 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         llcrnrlat = lds['latitude'].quantile(0.20) - padding
         urcrnrlon = lds['longitude'].quantile(0.88) + padding
         urcrnrlat = lds['latitude'].quantile(0.83) + padding
-        resolution = "c"
-        area_thresh = 250
+        resolution = "h"
+        area_thresh = 50
     else: #
         llcrnrlon = 9.5
         llcrnrlat = 54.5
         urcrnrlon = 28.5
         urcrnrlat = 69.5
-        resolution = 'l'
-        area_thresh = 50
+        resolution = 'c'
+        area_thresh = 250
 
     cachedMapWithShapes = "mapwithshapefiles.pkl"
 
