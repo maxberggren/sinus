@@ -346,7 +346,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         _out = m.readshapefile('shapedata/finland/fin-adm2', 
                                name='regions_fi', drawbounds=False, 
                                color='none', zorder=2)
-        print m.regions_fi_info
         
         # Åland
         _out = m.readshapefile('shapedata/finland/ala-adm0', 
@@ -371,13 +370,14 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             m = pickle.load(f)
         print("--- %s sekunder att läsa alla shapefiles från cache ---" % (time.time() - start_time))
 
-
+    
+    print m.regions_fi_info
     start_time = time.time()
             
     # Municipality DF (SE + FI)   
     df_map_muni = pd.DataFrame({
         'poly': [Polygon(p) for p in m.muni] + \
-                [Polygon(p) for p in m.regions_fi] + \
+                [Polygon(p) for p, r in zip(m.regions_fi, m.regions_fi_info)] + \
                 [Polygon(p) for p in m.region_al], 
         'name': [r['KNNAMN'] for r in m.muni_info] + \
                 ["temp" for r in m.regions_fi_info] + \
