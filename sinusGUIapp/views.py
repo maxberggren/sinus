@@ -635,7 +635,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         start_time = time.time()                                                                                                       
         # Subplot for every word
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
-        ax.set_title(u"{word} - hits: {hits}".format(word=word.replace(" OR ", "/"), 
+        ax.set_title(u"{word} - hits: {hits}".format(word=word.replace(" OR ", "/")[0:40], 
                                                      hits=coord_count[word]), 
                      y=1.01, fontsize=9)
     
