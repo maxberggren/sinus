@@ -24,6 +24,14 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/creative.css') }}" type="text/css">
+    <style>
+    .btn-sm { 
+      padding: 2px 3px;
+      line-height: 1.3;
+      font-size: 18px!important;
+      border: 2px solid!important;
+      }
+    </style>
 
 
 </head>
@@ -154,9 +162,9 @@
                     
                     
                     resultSet += '<br/><br/><b>Vilken var rätt? (så att Oraklet kan bli ännu smartare till nästa gång)</b><br/><br/>';
-                    resultSet += '<a href="#" class="btn btn-primary btn-sm"><em>' + data['region'] + '</em></a> ';
-                    if (data['region'] != data['region2']) resultSet += '<a href="#" class="btn btn-primary btn-sm"><em>' + data['region2'] + '</em></a> ';
-                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += '<a href="#" class="btn btn-primary btn-sm"><em>' + data['region3'] + '</em></a> ';
+                    resultSet += '<a href="#" class="btn btn-primary btn-sm">' + data['region'] + '</a> ';
+                    if (data['region'] != data['region2']) resultSet += '<a href="#" class="btn btn-primary btn-sm">' + data['region2'] + '</a> ';
+                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += '<a href="#" class="btn btn-primary btn-sm">' + data['region3'] + '</a> ';
 
                     resultSet += '.</p>';
 
