@@ -528,7 +528,7 @@ def predict(get_map=False, and_confirm=None):
 
     if and_confirm:
         # TODO: Write datapoint to mysql
-        return make_response(jsonify( { 'confirmed': predictions[and_confirm] } ))
+        return make_response(jsonify( { 'confirmed': predictions[and_confirm-1] } ))
     else:
         return make_response(jsonify( { 'region': region, 'region2': region2, 'region3': region3, 
                                         'filename_product': filename_product } ))
@@ -540,7 +540,7 @@ def map():
     
 @app.route('/oracle/confirm/<prediction_nr>', methods=['POST'])
 def mapconfirm(prediction_nr=None): 
-    return predict(and_confirm=int(prediction_nr)-1)
+    return predict(and_confirm=int(prediction_nr))
 
 
 cache = SqliteCache("oracle_cache") 
