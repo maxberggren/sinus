@@ -26,10 +26,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/creative.css') }}" type="text/css">
     <style>
     .btn-sm { 
-      padding: 2px 3px;
-      line-height: 1.3;
-      font-size: 18px!important;
-      border: 2px solid!important;
+  padding: 2px 4px;
+  margin: 2px 2px;
+  line-height: 1.3;
+  font-size: 18px!important;
+  border: 2px solid!important;
+  text-transform: initial;
+  font-weight: normal;
       }
     </style>
 
@@ -161,14 +164,14 @@
                     if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
                     
                     
-                    resultSet += '<br/><br/><b>Vilken var rätt? (så att Oraklet kan bli ännu smartare till nästa gång)</b><br/><br/>';
+                    resultSet += '.<br/><br/><b>Vilken var rätt?</b><br/><br/>';
                     resultSet += '<a href="#" class="btn btn-primary btn-sm">' + data['region'] + '</a> ';
                     if (data['region'] != data['region2']) resultSet += '<a href="#" class="btn btn-primary btn-sm">' + data['region2'] + '</a> ';
                     if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += '<a href="#" class="btn btn-primary btn-sm">' + data['region3'] + '</a> ';
 
-                    resultSet += '.</p>';
+                    resultSet += '</p>';
 
-                    resultSet += '<a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">Oraklet har fel!</a>';
+                    resultSet += '<a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">Oraklet har helt fel!</a>';
                     resultSet += '<br /><a href="/oracle" style="margin-bottom: 50px;" class="btn btn-primary btn-xl">Gör om testet</a></div>';
 
                     resultSet += '<div class="col-md-6" id="mapholder"><img style="border: #ccc 1px solid; margin-bottom: 50px;" src="/static/img/loading_map.gif"><p>Oraklet genererar en karta åt dig. Den kommer strax.</p></div>';
