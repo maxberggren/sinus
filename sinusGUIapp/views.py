@@ -377,11 +377,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     df_map_muni = pd.DataFrame({
         'poly': [Polygon(p) for p in m.muni] + \
                 [Polygon(p) for p, r in zip(m.regions_fi, m.regions_fi_info) \
-                            if r['FID'] not in [1, 2]] + \
+                            if r['FID'] not in [1, 3]] + \
                 [Polygon(p) for p in m.region_al], 
         'name': [r['KNNAMN'] for r in m.muni_info] + \
                 ["n/a" for r in m.regions_fi_info \
-                       if r['FID'] not in [1, 2]] + \
+                       if r['FID'] not in [1, 3]] + \
                 ["åland" for r in m.region_al_info] })    
     
     # County DF
