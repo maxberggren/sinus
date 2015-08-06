@@ -151,12 +151,17 @@
                     if (data['region'] != data['region2']) resultSet += ", och om hen har fel (vilket hen aldrig har) kommer du från <em>" + data['region2'] + "</em>";
 
                     if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
+                    
+                    
+                    resultSet += '<br/><br/><b>Vilken var rätt?</b><br/><br/>';
+                    resultSet += '<a href="#"><em>' + data['region'] + '</em></a> ';
+                    if (data['region'] != data['region2']) resultSet += '<a href="#"><em>' + data['region2'] + '</em></a> ';
+                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += '<a href="#"><em>' + data['region3'] + '</em></a> ';
 
-                    resultSet += '.';
+                    resultSet += '.</p>';
 
-                    resultSet += '<b>Vilket var rätt?</b><div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group"><a href="#" class="btn btn-default"><em>' + data['region'] + '</em></a><a href="#" class="btn btn-default"><em>' + data['region2'] + '</em></a><a href="#" class="btn btn-default"><em>' + data['region3'] + '</em></a></div></p>';   
                     resultSet += '<a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">Oraklet har fel!</a>';
-                    resultSet += '<br /><a href="/oracle" style="margin-bottom: 50px;" class="btn btn-primary btn-xl">Gör om testet</a><br /></div>';
+                    resultSet += '<br /><a href="/oracle" style="margin-bottom: 50px;" class="btn btn-primary btn-xl">Gör om testet</a></div>';
 
                     resultSet += '<div class="col-md-6" id="mapholder"><img style="border: #ccc 1px solid; margin-bottom: 50px;" src="/static/img/loading_map.gif"><p>Oraklet genererar en karta åt dig. Den kommer strax.</p></div>';
 
