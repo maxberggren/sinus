@@ -344,8 +344,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         
         # Finnish regions (sv: landskap)
         _out = m.readshapefile('shapedata/finland/fin-adm2', 
-                               name='regions_fi', drawbounds=True, 
-                               color='red', linewidth=5, zorder=2)
+                               name='regions_fi', drawbounds=False, 
+                               color='none', zorder=2)
         
         # Åland
         _out = m.readshapefile('shapedata/finland/ala-adm0', 
@@ -377,7 +377,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     # Municipality DF (SE + FI)   
     df_map_muni = pd.DataFrame({
         'poly': [Polygon(p) for p in m.muni] + \
-                [Polygon(p) for p, r in zip(m.regions_fi, m.regions_fi_info)] + \
+                [Polygon(p) for p, r in zip(m.regions_fi, m.regions_fi_info) if r['FID'] != 1] + \
                 [Polygon(p) for p in m.region_al], 
         'name': [r['KNNAMN'] for r in m.muni_info] + \
                 ["temp" for r in m.regions_fi_info] + \
