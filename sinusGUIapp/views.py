@@ -311,7 +311,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         llcrnrlat = lds['latitude'].quantile(0.20) - padding
         urcrnrlon = lds['longitude'].quantile(0.88) + padding
         urcrnrlat = lds['latitude'].quantile(0.83) + padding
-        resolution = "h"
+        resolution = "c"
         area_thresh = 250
     else: #
         llcrnrlon = 9.5
