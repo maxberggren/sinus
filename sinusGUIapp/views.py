@@ -636,7 +636,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Subplot for every word
         if len(word) > 30:
             title = word.replace(" OR ", "/")[0:30] + " [...]"
-        else
+        else:
             title = word.replace(" OR ", "/")
             
         ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
