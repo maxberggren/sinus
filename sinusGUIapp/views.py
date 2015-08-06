@@ -380,7 +380,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 [Polygon(p) for p, r in zip(m.regions_fi, m.regions_fi_info) if r['FID'] != 1] + \
                 [Polygon(p) for p in m.region_al], 
         'name': [r['KNNAMN'] for r in m.muni_info] + \
-                ["temp" for r in m.regions_fi_info] + \
+                ["n/a" for r in m.regions_fi_info r['FID'] != 1] + \
                 ["åland" for r in m.region_al_info] })    
     
     # County DF
