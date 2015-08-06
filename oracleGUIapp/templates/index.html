@@ -143,13 +143,6 @@
     <script src="{{ url_for('static', filename='js/jquery.fittext.js') }}"></script>
     <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
 
-<script>
-$( "a" ).click(function() {
-  console.log("ajajajaxx");
-});
-</script>
-
-
     <script>
      $(function(){
         var jQuiz = {
@@ -171,12 +164,12 @@ $( "a" ).click(function() {
                     if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
                     
                     
-                    resultSet += '.<br/><br/><b>Vilken var rätt?</b><br/><br/>';
+                    resultSet += '.<br/><br/><b>Vilken var rätt?</b><br/><br/><div id="predictionalternatives">';
                     resultSet += '<a id="1" class="btn btn-primary btn-sm acceptprediction">' + data['region'] + '</a> ';
                     if (data['region'] != data['region2']) resultSet += '<a id="2" class="btn btn-primary btn-sm acceptprediction">' + data['region2'] + '</a> ';
                     if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += '<a id="3" class="btn btn-primary btn-sm acceptprediction">' + data['region3'] + '</a> ';
 
-                    resultSet += '<br/><br/>(så oraklet kan bli smartare)<br/></p>';
+                    resultSet += '<br/><br/>(så oraklet kan bli smartare)<br/></div></p>';
 
                     resultSet += '<a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">Oraklet har helt fel!</a>';
                     resultSet += '<br /><a href="/oracle" style="margin-bottom: 50px;" class="btn btn-primary btn-xl">Gör om testet</a></div>';
@@ -210,6 +203,9 @@ $( "a" ).click(function() {
                         acceptance.done(function(data) {
                             console.log(data);
                         });
+                        $("#predictionalternatives").fadeOut(100);
+                        $("#predictionalternatives").html("Tack");
+                        $("#predictionalternatives").fadeIn(100);
                     });
 
 
