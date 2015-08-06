@@ -370,17 +370,18 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             m = pickle.load(f)
         print("--- %s sekunder att läsa alla shapefiles från cache ---" % (time.time() - start_time))
 
-    
-    print m.regions_fi_info
     start_time = time.time()
             
-    # Municipality DF (SE + FI)   
+    # Municipality DF (SE + FI)
+    # (FID is for removing Finnish Lapland and North Osterbothnia)   
     df_map_muni = pd.DataFrame({
         'poly': [Polygon(p) for p in m.muni] + \
-                [Polygon(p) for p, r in zip(m.regions_fi, m.regions_fi_info) if r['FID'] != 1] + \
+                [Polygon(p) for p, r in zip(m.regions_fi, m.regions_fi_info) \
+                            if r['FID'] not in [1, 2]] + \
                 [Polygon(p) for p in m.region_al], 
         'name': [r['KNNAMN'] for r in m.muni_info] + \
-                ["n/a" for r in m.regions_fi_info if r['FID'] != 1] + \
+                ["n/a" for r in m.regions_fi_info \
+                       if r['FID'] not in [1, 2]] + \
                 ["åland" for r in m.region_al_info] })    
     
     # County DF
