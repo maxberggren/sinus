@@ -165,11 +165,11 @@
                     
                     
                     resultSet += '.<br/><br/><b>Vilken var rätt?</b><br/><br/>';
-                    resultSet += '<a href="#" class="btn btn-primary btn-sm">' + data['region'] + '</a> ';
-                    if (data['region'] != data['region2']) resultSet += '<a href="#" class="btn btn-primary btn-sm">' + data['region2'] + '</a> ';
-                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += '<a href="#" class="btn btn-primary btn-sm">' + data['region3'] + '</a> ';
+                    resultSet += '<a href="#" class="btn btn-primary btn-sm acceptprediction">' + data['region'] + '</a> ';
+                    if (data['region'] != data['region2']) resultSet += '<a href="#" class="btn btn-primary btn-sm acceptprediction">' + data['region2'] + '</a> ';
+                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += '<a href="#" class="btn btn-primary btn-sm acceptprediction">' + data['region3'] + '</a> ';
 
-                    resultSet += '<br/><br/>(så oraklet kan bli smaratare)<br/></p>';
+                    resultSet += '<br/><br/>(så oraklet kan bli smartare)<br/></p>';
 
                     resultSet += '<a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">Oraklet har helt fel!</a>';
                     resultSet += '<br /><a href="/oracle" style="margin-bottom: 50px;" class="btn btn-primary btn-xl">Gör om testet</a></div>';
@@ -250,7 +250,12 @@
         jQuiz.init();
     })
 
+    $('.acceptprediction').click(function(){
+        $(this).parents('.questionContainer').fadeOut(100, function(){
+            $(this).prev().fadeIn(100)
+        });
 
+    })
   
 
     </script>

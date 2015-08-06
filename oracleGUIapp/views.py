@@ -462,7 +462,7 @@ def oracle():
 
 
 @app.route('/oracle/predict', methods=['POST'])
-def predict(get_map=False): 
+def predict(get_map=False, and_confirm=None): 
     """ Predict where user is from """
 
     def interp_answers(data):
@@ -524,12 +524,23 @@ def predict(get_map=False):
     #_, null_hyp_grid = dev_from_null_hyp(product)
     #filename_hypo = make_map(null_hyp_grid, log=True)
 
-    return make_response(jsonify( { 'region': region, 'region2': region2, 'region3': region3, 
-                                    'filename_product': filename_product } ))
+    predictions = [region, region2, region3]
+
+    if and_confirm:
+        # TODO: Write datapoint to mysql
+        return make_response(jsonify( { 'confirmed': predictions[and_confirm] } ))
+    else:
+        return make_response(jsonify( { 'region': region, 'region2': region2, 'region3': region3, 
+                                        'filename_product': filename_product } ))
+    
 
 @app.route('/oracle/map', methods=['POST'])
 def map(): 
     return predict(get_map=True)
+    
+@app.route('/oracle/confirm/<prediction_nr>', methods=['POST'])
+def mapconfirm(prediction_nr=None): 
+    return predict(and_confirm=int(prediction_nr))
 
 
 cache = SqliteCache("oracle_cache") 
