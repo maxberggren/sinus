@@ -143,18 +143,20 @@
     <script src="{{ url_for('static', filename='js/jquery.fittext.js') }}"></script>
     <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
 
-    <script>
-    $('.acceptprediction').click(function(){
-        console.log("skicka ajax");
+<script>
+$( "a" ).click(function() {
+  console.log("ajajajaxx");
+});
+</script>
 
-    });
-    
-    $(function(){
+
+    <script>
+     $(function(){
         var jQuiz = {
             sendUserResult: function(answers) {
                 var posting = $.ajax({
-                                        type : "POST",
-                                        url : "/oracle/predict",
+                                        type: "POST",
+                                        url: "/oracle/predict",
                                         data: JSON.stringify(answers, null, '\t'),
                                         contentType: 'application/json;charset=UTF-8'
                                     });
