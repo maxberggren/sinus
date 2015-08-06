@@ -148,11 +148,11 @@
                     resultSet = '<div class="col-md-6"><p>'
                     resultSet += 'Oraklet vet att du kommer ifrån <em>' + data['region'] + '</em><br/><br/><a class="btn btn-primary btn-sm" style="margin-bottom: 10px;">' + data['region'] + '<br/>är rätt!</a>';
 
-                    if (data['region'] != data['region2']) resultSet += '<br /><br /> och om hen har fel (vilket hen aldrig har) kommer du från <em>' + data['region2'] + '</em><a class="btn btn-primary btn-sm" style="margin-bottom: 10px;">' + data['region2'] + '<br/>är rätt!</a>';
+                    if (data['region'] != data['region2']) resultSet += '<br /><br /> och om hen har fel (vilket hen aldrig har) kommer du från <em>' + data['region2'] + '</em><br/><br/><a class="btn btn-primary btn-sm" style="margin-bottom: 10px;">' + data['region2'] + '<br/>är rätt!</a><br/><br/>';
 
-                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += ', men det finns även en pyttechans att du är från <em>' + data['region3'] + '</em>';
+                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += 'men det finns även en pyttechans att du är från <em>' + data['region3'] + '</em><br/><br/><a class="btn btn-primary btn-sm" style="margin-bottom: 10px;">' + data['region3'] + '<br/>är rätt!</a><br/><br/>';
 
-                    resultSet += '.</p>'
+                    resultSet += '</p>'
 
                     resultSet += '<a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">Oraklet har fel!</a>';
                     resultSet += '<br /><a href="/oracle" style="margin-bottom: 50px;" class="btn btn-primary btn-xl">Gör om testet</a></div>';
