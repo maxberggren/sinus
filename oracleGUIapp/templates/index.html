@@ -203,7 +203,7 @@ $( "a" ).click(function() {
                         
                         var acceptance = $.ajax({
                             type : "POST",
-                            url : "/oracle/confirm/xxxx",
+                            url : "/oracle/confirm/" + event.target.id,
                             data: JSON.stringify(answers, null, '\t'),
                             contentType: 'application/json;charset=UTF-8'
                         });
