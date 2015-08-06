@@ -146,7 +146,7 @@
                 posting.done(function(data) {
                     console.log(data);
                     resultSet = '<div class="col-md-6"><p>'
-                    resultSet += 'Oraklet vet att du kommer ifrån <em>' + data['region'] + '</em><a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">ZXX är rätt!</a>';
+                    resultSet += 'Oraklet vet att du kommer ifrån <em>' + data['region'] + '</em></p><p><a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">' + data['region'] + ' är rätt!</a>';
 
                     if (data['region'] != data['region2']) resultSet += ", och om hen har fel (vilket hen aldrig har) kommer du från <em>" + data['region2'] + "</em>";
 
