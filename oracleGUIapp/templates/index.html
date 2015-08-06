@@ -197,9 +197,19 @@ $( "a" ).click(function() {
                         $('#mapholder').html(resultSet).show();
                     });
                     
-                    $( "a" ).click(function() {
-                      console.log("ajajajaxx");
+                    // Log accepted answer
+                    $("a.acceptprediction").click(function() {
+                        var acceptance = $.ajax({
+                            type : "POST",
+                            url : "/oracle/confirm/xxxx",
+                            data: JSON.stringify(answers, null, '\t'),
+                            contentType: 'application/json;charset=UTF-8'
+                        });
+                        acceptance.done(function(data) {
+                            console.log(data);
+                        });
                     });
+
 
                 });
                 posting.fail(function(data) {
