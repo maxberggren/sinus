@@ -634,8 +634,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                                         args=(breaks['muni'][word],)) 
         start_time = time.time()                                                                                                       
         # Subplot for every word
-        if len(word) > 30:
-            title = word.replace(" OR ", "/")[0:30] + " [...]"
+        if len(word) > 25:
+            title = word.replace(" OR ", "/")[0:25] + " [...]"
         else:
             title = word.replace(" OR ", "/")
             
