@@ -152,9 +152,9 @@
 
                     if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
 
-                    resultSet += '.<br/><br/><b>Vilket var rätt?</b>';
+                    resultSet += '.';
 
-                    resultSet += '<div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group"><a href="#" class="btn btn-default"><em>' + data['region'] + '</em></a><a href="#" class="btn btn-default"><em>' + data['region2'] + '</em></a><a href="#" class="btn btn-default"><em>' + data['region3'] + '</em></a></div></p>';   
+                    resultSet += '<b>Vilket var rätt?</b><div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group"><a href="#" class="btn btn-default"><em>' + data['region'] + '</em></a><a href="#" class="btn btn-default"><em>' + data['region2'] + '</em></a><a href="#" class="btn btn-default"><em>' + data['region3'] + '</em></a></div></p>';   
                     resultSet += '<a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">Oraklet har fel!</a>';
                     resultSet += '<br /><a href="/oracle" style="margin-bottom: 50px;" class="btn btn-primary btn-xl">Gör om testet</a><br /></div>';
 
