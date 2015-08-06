@@ -346,6 +346,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         _out = m.readshapefile('shapedata/finland/fin-adm2', 
                                name='regions_fi', drawbounds=False, 
                                color='none', zorder=2)
+        print m.regions_fi_info
         
         # Åland
         _out = m.readshapefile('shapedata/finland/ala-adm0', 
