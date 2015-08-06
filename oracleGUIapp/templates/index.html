@@ -144,6 +144,11 @@
     <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
 
     <script>
+    $('.acceptprediction').click(function(){
+        console.log("skicka ajax");
+
+    });
+    
     $(function(){
         var jQuiz = {
             sendUserResult: function(answers) {
