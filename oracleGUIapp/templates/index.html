@@ -146,11 +146,11 @@
                 posting.done(function(data) {
                     console.log(data);
                     resultSet = '<div class="col-md-6"><p>'
-                    resultSet += 'Oraklet vet att du kommer ifrån <em>' + data['region'] + '</em></p><p><a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">' + data['region'] + ' är rätt!</a>';
+                    resultSet += 'Oraklet vet att du kommer ifrån <em>' + data['region'] + '</em></p><p><a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">' + data['region'] + ' är rätt!</a></p><p>';
 
-                    if (data['region'] != data['region2']) resultSet += ", och om hen har fel (vilket hen aldrig har) kommer du från <em>" + data['region2'] + "</em>";
+                    if (data['region'] != data['region2']) resultSet += " och om hen har fel (vilket hen aldrig har) kommer du från <em>" + data['region2'] + "</em></p><p><a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">' + data['region2'] + ' är rätt!</a></p><p>";
 
-                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
+                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += "</p><p>men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
 
                     resultSet += '.</p>'
 
