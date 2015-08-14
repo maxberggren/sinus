@@ -503,7 +503,7 @@ def predict(get_map=False, and_confirm=None):
             query = [q for q in questions if q['id'] == int(key)][0]['query'][int(value)]
             source = [q for q in questions if q['id'] == int(key)][0]['target']
             
-            if source != "fishing":
+            if source == "fishing":
                 print query, key, value
                 found_words.append(query)
             else:
