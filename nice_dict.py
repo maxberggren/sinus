@@ -147,5 +147,6 @@ Murmansk
 Finnmark Fylke
 """
 
-for row in data.split("\n"):
+data = data.split("\n")
+for row in set(data):
     print row
