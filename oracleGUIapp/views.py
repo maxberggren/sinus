@@ -123,12 +123,13 @@ questions = [{'question': u'Mopeder',
               'target': 'DB', 
               'id': 13},
               
-             {'question': u'Test',
-              'explanation': u'Denna frågan finns här bara för att du ska ge oss info!',
-              'answers': [u'Hamsterpaj', u'Va?'], 
-              'query': [u'hamsterpaj', None], 
-              'target': 'just fishing', 
-              'id': 14}]
+             #{'question': u'Test',
+             # 'explanation': u'Denna frågan finns här bara för att du ska ge oss info!',
+             # 'answers': [u'Hamsterpaj', u'Va?'], 
+             # 'query': [u'hamsterpaj', None], 
+             # 'target': 'just fishing', 
+             # 'id': 14}
+             ]
 
  
 def negative(query):
@@ -164,6 +165,11 @@ def grid_maximum(matrix):
 
     lon_corr = lon_bins[1]-lon_bins[0]
     lat_corr = lat_bins[1]-lat_bins[0]
+    
+    for lon in lon_bins:
+        for lat in lat_bins:
+            coord = lat+lat_corr*0.5, lon+lon_corr*0.5
+            print rg.get(coord)['admin1']
 
     maximum = lat_bins[i]+lat_corr*0.5, lon_bins[j]+lon_corr*0.5
 
