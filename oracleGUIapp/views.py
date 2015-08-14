@@ -121,7 +121,14 @@ questions = [{'question': u'Mopeder',
               'answers': [u'Äppelpaj', u'Äpplepaj'], 
               'query': [u'äppelpaj', u'äpplepaj'], 
               'target': 'DB', 
-              'id': 13}]
+              'id': 13},
+              
+             {'question': u'Test',
+              'explanation': u'Denna frågan finns här bara för att du ska ge oss info!',
+              'answers': [u'Hamsterpaj', u'Va?'], 
+              'query': [u'hamsterpaj', None], 
+              'target': 'fishing', 
+              'id': 14}]
 
  
 def negative(query):
@@ -505,8 +512,11 @@ def predict(get_map=False, and_confirm=None):
             source = [q for q in questions if q['id'] == int(key)][0]['target']
             
             if source == "fishing":
-                print query, key, value
-                found_words.append(query)
+                if query:
+                    print query, key, value
+                    found_words.append(query)
+                else:
+                    print "användaren svarade ett svar som inte var värt att spara"
             else:
                 queries.append((query, source))
 
