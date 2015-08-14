@@ -38,7 +38,14 @@ urcrnrlat = 69.5
 xBins = 9
 xyRatio = 1.8
 
-questions = [{'question': u'Sov eller sovde?',
+questions = [{'question': u'Mopeder',
+              'explanation': u'Säger du **flak**moped/moppe, **last**moped/moppe eller **pack**moped/moppe?',
+              'answers': [u'Flakmoped', u'Lastmoped', u'Packmoped'], 
+              'query': [u'flakmoped', u'lastmoped', u'packmoped'], 
+              'target': 'fishing', 
+              'id': 99},
+              
+             {'question': u'Sov eller sovde?',
               'explanation': u'Säger du **sovde** eller **sov**?',
               'answers': [u'Sovde', u'Sov'], 
               'query': [u'sovde', u'NOT sovde'], 
@@ -53,14 +60,14 @@ questions = [{'question': u'Sov eller sovde?',
               'id': 2},
               
              {'question': u'Skottkärra',
-              'explanation': u'Har du under din omgivning ibland pratat om en **rullebör**?',
-              'answers': [u'O-Ja', u'Nej'], 
+              'explanation': u'Har det under din uppväxt ibland pratats om att använda en **rullebör**?',
+              'answers': [u'Ja', u'Nej'], 
               'query': [u'rullebör', u'NOT rullebör'], 
               'target': 'DB', 
               'id': 4},
               
              {'question': u'Släktskap',
-              'explanation': u'Vad kallar du dina föräldras kusiners barn?',
+              'explanation': u'Vad kallar du dina föräldrars kusiners barn?',
               'answers': [u'Nästkusin', u'Tremänning', u'Småkusin', u'Syssling'], 
               'query': [u'nästkusin', u'tremänning', u'småkusin', u'syssling'], 
               'target': 'DB', 
@@ -460,11 +467,34 @@ def make_map(matrix, log=False, filename=False):
 def oracle():
     return render_template("index.html", questions=questions, n_questions=len(questions))
 
+def addDatapoint(place, longitude, latitude, found_words):
+    randomHandler = binascii.b2a_hex(os.urandom(15))[:10]
+    randomHandler = secure_filename(randomHandler)
+    uniqeHandler = "oracle://" + randomHandler
+    
+    blog = dict(url=uniqeHandler, 
+                source="oracle",
+                rank=3,
+                longitude=longitude,
+                latitude=latitude)
+    print blog            
+    #mysql['blogs'].insert(blog)
+    #insertedId = mysql['blogs'].find_one(url=uniqeHandler)['id']
+    insertedId = 99999999
+    for word in found_words:
+        post = dict(blog_id=insertedId, 
+                    date=datetime.datetime.now(),
+                    text=word)
+        print post
+    #mysql['posts'].insert(post)
+
 
 @app.route('/oracle/predict', methods=['POST'])
 def predict(get_map=False, and_confirm=None): 
     """ Predict where user is from """
 
+    found_words = []
+    
     def interp_answers(data):
         """ Put json data from GUI in the right form """
         queries = []
@@ -472,7 +502,12 @@ def predict(get_map=False, and_confirm=None):
         for key, value in data.iteritems():
             query = [q for q in questions if q['id'] == int(key)][0]['query'][int(value)]
             source = [q for q in questions if q['id'] == int(key)][0]['target']
-            queries.append((query, source))
+            
+            if source != "fishing":
+                print query, key, value
+                found_words.append(query)
+            else:
+                queries.append((query, source))
 
         return queries
 
@@ -528,10 +563,13 @@ def predict(get_map=False, and_confirm=None):
     predictionCoordinates = [coordinate, second_maximum, third_maximum]
 
     if and_confirm:
-        # TODO: Write datapoint to mysql
-        #mysql.insert(dict(name='John Doe', age=37))
-        # blogs och posts
-        return make_response(jsonify( { 'confirmed': predictions[and_confirm-1], 'coordinate': predictionCoordinates[and_confirm-1] } ))
+        addDatapoint(place=predictions[and_confirm-1], 
+                     longitude=predictionCoordinates[and_confirm-1][1], 
+                     latitude=predictionCoordinates[and_confirm-1][0], 
+                     found_words=found_words)
+                     
+        return make_response(jsonify( { 'confirmed': predictions[and_confirm-1], 
+                                        'coordinate': predictionCoordinates[and_confirm-1] } ))
     else:
         return make_response(jsonify( { 'region': region, 'region2': region2, 'region3': region3, 
                                         'filename_product': filename_product } ))
