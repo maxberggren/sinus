@@ -166,10 +166,10 @@ def grid_maximum(matrix):
     lon_corr = lon_bins[1]-lon_bins[0]
     lat_corr = lat_bins[1]-lat_bins[0]
     
-    for lon in lon_bins:
-        for lat in lat_bins:
-            coord = lat+lat_corr*0.5, lon+lon_corr*0.5
-            print rg.get(coord)['admin1']
+    #for lon in lon_bins:
+    #    for lat in lat_bins:
+    #        coord = lat+lat_corr*0.5, lon+lon_corr*0.5
+    #        print rg.get(coord)['admin1']
 
     maximum = lat_bins[i]+lat_corr*0.5, lon_bins[j]+lon_corr*0.5
 
