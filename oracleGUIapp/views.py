@@ -475,7 +475,7 @@ def make_map(matrix, log=False, filename=False):
 def oracle():
     return render_template("index.html", questions=questions, n_questions=len(questions))
 
-def addDatapoint(place, longitude, latitude, found_words):
+def addDatapoints(place, longitude, latitude, found_words):
     randomHandler = binascii.b2a_hex(os.urandom(15))[:10]
     randomHandler = secure_filename(randomHandler)
     uniqeHandler = "oracle://" + randomHandler
@@ -508,20 +508,18 @@ def predict(get_map=False, and_confirm=None):
         queries = []
 
         for key, value in data.iteritems():
+            # Extract what the user answered in connection to the questions
             query = [q for q in questions if q['id'] == int(key)][0]['query'][int(value)]
             source = [q for q in questions if q['id'] == int(key)][0]['target']
             
             if source == "just fishing":
-                if query:
-                    print query, key, value
+                if query: # If worthy to save
                     found_words.append(query)
-                else:
-                    print "användaren svarade ett svar som inte var värt att spara"
             else:
                 queries.append((query, source))
+                # Let's actually take all data from user
                 if query[0:4] != "NOT ":
-                    print query, key, value
-                    found_words.append(query) # Comment if we don't want all data
+                    found_words.append(query) 
 
         return queries
 
@@ -568,7 +566,7 @@ def predict(get_map=False, and_confirm=None):
         product = min_max_scaling(product)
         filename_product = make_map(product)
     else:
-        filename_product = None
+        filename_product = None 
 
     #_, null_hyp_grid = dev_from_null_hyp(product)
     #filename_hypo = make_map(null_hyp_grid, log=True)
@@ -577,10 +575,10 @@ def predict(get_map=False, and_confirm=None):
     predictionCoordinates = [coordinate, second_maximum, third_maximum]
 
     if and_confirm:
-        addDatapoint(place=predictions[and_confirm-1], 
-                     longitude=predictionCoordinates[and_confirm-1][1], 
-                     latitude=predictionCoordinates[and_confirm-1][0], 
-                     found_words=found_words)
+        addDatapoints(place=predictions[and_confirm-1], 
+                      longitude=predictionCoordinates[and_confirm-1][1], 
+                      latitude=predictionCoordinates[and_confirm-1][0], 
+                      found_words=found_words)
                      
         return make_response(jsonify( { 'confirmed': predictions[and_confirm-1], 
                                         'coordinate': predictionCoordinates[and_confirm-1] } ))
