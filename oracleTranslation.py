@@ -69,3 +69,12 @@ translation = {
 'Pavilostas': '',
 'Stockholm': ''
 }
+
+newtranslation = {}
+for key, value in translation.iteritems():
+    if len(value) > 0:
+        newtranslation[key] = value
+    else:
+        newtranslation[key] = key
+        
+translation = newtranslation
