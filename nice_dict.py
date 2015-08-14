@@ -146,7 +146,7 @@ Murmansk
 Murmansk
 Finnmark Fylke
 """
-
+print "{"
 data = data.split("\n")
 for row in set(data):
-    print row
+    print "'" + row + "': '',"
