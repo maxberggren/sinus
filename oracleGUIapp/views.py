@@ -525,10 +525,13 @@ def predict(get_map=False, and_confirm=None):
     #filename_hypo = make_map(null_hyp_grid, log=True)
 
     predictions = [region, region2, region3]
+    predictionCoordinates = [coordinate, second_maximum, third_maximum]
 
     if and_confirm:
         # TODO: Write datapoint to mysql
-        return make_response(jsonify( { 'confirmed': predictions[and_confirm-1] } ))
+        #mysql.insert(dict(name='John Doe', age=37))
+        # blogs och posts
+        return make_response(jsonify( { 'confirmed': predictions[and_confirm-1], 'coordinate': predictionCoordinates[and_confirm-1] } ))
     else:
         return make_response(jsonify( { 'region': region, 'region2': region2, 'region3': region3, 
                                         'filename_product': filename_product } ))
