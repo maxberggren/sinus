@@ -16,6 +16,7 @@ import math
 import numpy as np
 from numpy import inf
 import os
+from oracleTranslation import translation
 import pandas as pd
 import reverse_geocoder as rg
 from sqlite_cache import SqliteCache
@@ -564,9 +565,9 @@ def predict(get_map=False, and_confirm=None):
     product = matrix_product(grids, queries)    
     product = normalize(product)
     coordinate, second_maximum, third_maximum = grid_maximum(product) 
-    region = rg.get(coordinate)['admin1']
-    region2 = rg.get(second_maximum)['admin1']
-    region3 = rg.get(third_maximum)['admin1']
+    region = translation[rg.get(coordinate)['admin1']]
+    region2 = translation[rg.get(second_maximum)['admin1']]
+    region3 = translation[rg.get(third_maximum)['admin1']]
 
     if get_map:
         product = min_max_scaling(product)
