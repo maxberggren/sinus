@@ -43,7 +43,7 @@ questions = [{'question': u'Mopeder',
               'explanation': u'Säger du **flak**moped/moppe, **last**moped/moppe eller **pack**moped/moppe?',
               'answers': [u'Flakmoped', u'Lastmoped', u'Packmoped'], 
               'query': [u'flakmoped', u'lastmoped', u'packmoped'], 
-              'target': 'fishing', 
+              'target': 'just fishing', 
               'id': 99},
               
              {'question': u'Sov eller sovde?',
@@ -127,7 +127,7 @@ questions = [{'question': u'Mopeder',
               'explanation': u'Denna frågan finns här bara för att du ska ge oss info!',
               'answers': [u'Hamsterpaj', u'Va?'], 
               'query': [u'hamsterpaj', None], 
-              'target': 'fishing', 
+              'target': 'just fishing', 
               'id': 14}]
 
  
@@ -494,7 +494,7 @@ def addDatapoint(place, longitude, latitude, found_words):
                     date=datetime.datetime.now(),
                     text=word)
         print post
-    #mysql['posts'].insert(post)
+        #mysql['posts'].insert(post)
 
 
 @app.route('/oracle/predict', methods=['POST'])
@@ -511,7 +511,7 @@ def predict(get_map=False, and_confirm=None):
             query = [q for q in questions if q['id'] == int(key)][0]['query'][int(value)]
             source = [q for q in questions if q['id'] == int(key)][0]['target']
             
-            if source == "fishing":
+            if source == "just fishing":
                 if query:
                     print query, key, value
                     found_words.append(query)
@@ -519,6 +519,9 @@ def predict(get_map=False, and_confirm=None):
                     print "användaren svarade ett svar som inte var värt att spara"
             else:
                 queries.append((query, source))
+                if query[0:4] != "NOT ":
+                    print query, key, value
+                    found_words.append(query) # Comment if we don't want all data
 
         return queries
 
