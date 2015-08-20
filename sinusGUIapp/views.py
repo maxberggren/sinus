@@ -699,12 +699,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
             
-        m.drawcoastlines(linewidth=0) 
+        m.drawcoastlines(linewidth=0.5) 
         m.drawcountries()
         m.drawstates()
         m.drawmapboundary()
-        m.fillcontinents(color='white', lake_color='black', zorder=0)
-        m.drawmapboundary(fill_color='black')
+        m.fillcontinents(color='white', lake_color='grey', zorder=0)
+        m.drawmapboundary(fill_color='grey')
     
         divider = make_axes_locatable(plt.gca())
         cax = divider.append_axes("bottom", 
@@ -898,13 +898,13 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
                         urcrnrlon=urcrnrlon, 
                         urcrnrlat=urcrnrlat,)   
             
-            m.drawcoastlines(linewidth=0)
+            m.drawcoastlines(linewidth=0.5)
             m.drawcountries()
             m.drawmapboundary()
             m.fillcontinents(color='white',
-                             lake_color='black',
+                             lake_color='grey',
                              zorder=0)
-            m.drawmapboundary(fill_color='black')
+            m.drawmapboundary(fill_color='grey')
             
             density, _, _ = np.histogram2d(lats, 
                                            lons, 
