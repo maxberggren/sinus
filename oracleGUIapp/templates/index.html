@@ -135,6 +135,8 @@
                 $("#coordinate").select();
                 console.log(event.latLng.lat());
                 console.log(event.latLng.lng());
+                var corrLat = event.latLng.lat();
+                var corrLon = event.latLng.lng();
 
                 if (marker) { marker.setMap(null); }
                    marker = new google.maps.Marker({ position: event.latLng, map: map});
@@ -339,6 +341,7 @@
                     $("a.sendcorrection").click(function() {
                         
                         console.log("skickar corr data");
+                        console.log(corrLat);
                     });
 
 
