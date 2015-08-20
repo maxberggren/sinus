@@ -1661,6 +1661,7 @@ def byod():
           
         # Save hits of different terms
         hits = df.form.value_counts().to_dict()
+        print hits
             
         # Remove words under threshold
         df = df[df.groupby('form').form.transform(len) > hitsThreshold]
