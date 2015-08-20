@@ -124,6 +124,13 @@ questions = [{'question': u'Mopeder',
               'target': 'DB', 
               'id': 13},
               
+             {'question': u'Bilens förvaringsutrymme',
+              'explanation': u'Vad kallar du förvaringsutrymmet på bilar?',
+              'answers': [u'Bagagelucka', u'Baklucka', u'Koffert', u'Skuff', u'Trunk'], 
+              'query': [u'bagagelucka OR bagageluckan', u'baklucka OR bakluckan', u'koffert OR kofferten', u'skuff OR skuffen', u'trunken'], 
+              'target': 'DB', 
+              'id': 15},
+              
              #{'question': u'Test',
              # 'explanation': u'Denna frågan finns här bara för att du ska ge oss info!',
              # 'answers': [u'Hamsterpaj', u'Va?'], 
