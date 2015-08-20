@@ -55,7 +55,7 @@
                 disableDefaultUI: true,
                 center: new google.maps.LatLng(62.5,18.8),
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
-                draggable: false,
+                draggable: true,
             };
 
             map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -201,6 +201,7 @@
                 </div>
                 
                 {% set q = q + 1 %}
+                
             {% endfor %}
             
             </div>
@@ -212,11 +213,11 @@
            
             <div id="correctionMap" class="radius">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <p>Oj. Kan du peka ut på kartan vart du egentligen kommer ifrån så att Oraklet kan bli bättre till nästa gång?</p>
+                    <p style="margin-bottom: 20px;">Oj. Kan du peka ut på kartan vart du egentligen kommer ifrån så att Oraklet kan bli bättre till nästa gång?</p>
                     <input type="text" id="coordinate" value="Latitude, Longitude" style="display: none;" />
                     <div id="map" class="text-center"></div>
                     
-                    <a class="btn btn-primary btn-xl" style="margin-top: 20px;">Skicka</a>
+                    <a class="btn btn-primary btn-xl sendcorrection" style="margin-top: 20px;">Skicka</a>
                 </div>
             </div>
           
@@ -333,6 +334,11 @@
                         $("#resultKeeper").html("");
                         $("#correctionMap").show();
                         initializemap();
+                    });
+                    
+                    $("a.sendcorrection").click(function() {
+                        
+                        console.log("skickar corr data");
                     });
 
 
