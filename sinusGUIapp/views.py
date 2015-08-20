@@ -1694,7 +1694,7 @@ def byod():
 
         documentQuery = { 'query': query,
                           'filename': filename,
-                          'hits': None,
+                          'hits': hits,
                           'KWICs': None,
                           'fewResults': fewResults,
                           'gifFileName': None ,
