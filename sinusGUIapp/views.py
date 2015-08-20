@@ -397,7 +397,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
     df_map_county['name'] = df_map_county.apply(lambda row: row['name'].decode('latin-1'), axis=1)
     
-    print("--- %s sekunder att sätta upp dataframes med polygoner ---" % (time.time() - start_time))
+    #print("--- %s sekunder att sätta upp dataframes med polygoner ---" % (time.time() - start_time))
 
     def mapPointsToPoly(coordinates_df, poly_df):
         """ Take coordiates DF and put into polygon DF """
@@ -414,7 +414,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                       for mapped_x, mapped_y 
                       in zip(ld['longitude'], ld['latitude'])]
             
-            print("--- %s sekunder att konvertera till Point() ---" % (time.time() - start_time))
+            #print("--- %s sekunder att konvertera till Point() ---" % (time.time() - start_time))
             # If we did not get ranked data, assume rank 2          
             try:
                 mapped_points[word] = pd.DataFrame({'points': points,
@@ -542,7 +542,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         start_time = time.time()   
         df_map_county = df_percent(df_map_county)
         df_map_muni = df_percent(df_map_muni)
-        print("--- %s sekunder att konvertera till procent) ---" % (time.time() - start_time))
+        #print("--- %s sekunder att konvertera till procent) ---" % (time.time() - start_time))
 
         breaks['muni'], breaks['county'] = {}, {}
                
@@ -717,7 +717,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                cax=cax)
         cbar.ax.tick_params(labelsize=6)
         
-        print("--- %s sekunder att skapa karta) ---" % (time.time() - start_time))      
+        #print("--- %s sekunder att skapa karta) ---" % (time.time() - start_time))      
             
     try:
         fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
