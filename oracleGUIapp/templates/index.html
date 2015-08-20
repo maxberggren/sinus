@@ -37,7 +37,7 @@
 
     #map { width:150px; height:600px; }
     
-    #correctionMap {display:none;}
+    
     </style>
 
     <!-- Loading Google Map API engine v3 -->
@@ -138,6 +138,16 @@
                 <div id="answer"></div>
             </div>
            <div id="answerKeeper" class="radius" style="display: none;"></div>
+           
+            <div id="correctionMap" class="radius">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <p>Oj. Kan du peka ut på kartan vart du egentligen kommer ifrån så att Oraklet kan bli bättre till nästa gång?</p>
+                    <input type="text" id="coordinate" value="Latitude, Longitude" style="display: none;" />
+                    <div id="map"></div>
+                    
+                    <a class="btn btn-primary btn-xl" style="margin-top: 10px;">OK</a>
+                </div>
+            </div>
           
            <div id="resultKeeper" class="radius" style="display: none;"></div>
            
@@ -145,12 +155,6 @@
 
 
 
-            </div>
-            <div id="correctionMap" class="radius">
-                <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <input type="text" id="coordinate" value="Latitude, Longitude"/>
-                    <div id="map"></div>
-                </div>
             </div>
         </div>
     </header>
