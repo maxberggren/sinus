@@ -103,15 +103,15 @@
            
 
 
-           </div>  
-                     
-            <div id="correctionMap" class="radius" style="display: none;"></div>
+
+
+            </div>
+            <div id="correctionMap" class="radius"></div>
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <input type="text" id="coordinate" value="Latitude, Longitude"/>
                     <div id="map"></div>
                 </div>
             </div>
-            
         </div>
     </header>
 
@@ -177,7 +177,7 @@
 
                     resultSet += '<br/><br/>(så oraklet kan bli smartare)<br/></div></p>';
 
-                    resultSet += '<a class="btn btn-primary btn-xl showmap" style="margin-bottom: 10px;">Oraklet har helt fel!</a>';
+                    resultSet += '<a class="btn btn-primary btn-xl" style="margin-bottom: 10px;">Oraklet har helt fel!</a>';
                     resultSet += '<br /><a href="/oracle" style="margin-bottom: 50px;" class="btn btn-primary btn-xl">Gör om testet</a></div>';
 
                     resultSet += '<div class="col-md-6" id="mapholder"><img style="border: #ccc 1px solid; margin-bottom: 50px;" src="/static/img/loading_map.gif"><p>Oraklet genererar en karta åt dig. Den kommer strax.</p></div>';
@@ -210,14 +210,6 @@
                             console.log(data);
                         });
                         $("#predictionalternatives").html("<p>Tack! Nästa gång är jag lite smartare.</p>");
-                    });
-                    
-                    // Show map for correction
-                    $("a.showmap").click(function() {
-                        console.log("heeelt fel!");
-                        
-                        $('#resultKeeper').hide();
-                        $('#correctionMap').show();
                     });
 
 
