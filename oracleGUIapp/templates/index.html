@@ -35,7 +35,11 @@
           font-weight: normal;
       }
 
-    #map { width:100%; height:350px; left-margin: auto; right-margin: auto; }
+    #map { width:100%; height:350px; 
+           left-margin: auto; 
+           right-margin: auto;
+           border: #ccc 1px solid; }
+           
     #correctionMap {display:none;}
     
     </style>
@@ -185,14 +189,7 @@
 
             map = new google.maps.Map(document.getElementById('map'), mapOptions);
             map.set('styles', [
-              {
-                featureType: 'road',
-                elementType: 'geometry',
-                stylers: [
-                  { color: '#000000' },
-                  { weight: 1.6 }
-                ]
-              }, {
+               {
                 featureType: 'road',
                 elementType: 'labels',
                 stylers: [
@@ -203,16 +200,16 @@
                 featureType: 'landscape',
                 elementType: 'geometry',
                 stylers: [
-                  { hue: '#ffff00' },
+                  { hue: '#ffffff' },
                   { gamma: 1.4 },
                   { saturation: 82 },
-                  { lightness: 96 }
+                  { lightness: 99 }
                 ]
               }, {
                 featureType: 'poi.school',
                 elementType: 'geometry',
                 stylers: [
-                  { hue: '#fff700' },
+                  { hue: '#ffffff' },
                   { lightness: -15 },
                   { saturation: 99 }
                 ]
@@ -268,8 +265,6 @@
             });
 
         }  
-
-        //google.maps.event.addDomListener(window, 'load', initializemap);
 
         var jQuiz = {
             sendUserResult: function(answers) {
@@ -344,6 +339,16 @@
                         
                         console.log("skickar corr data");
                         console.log(corrLat);
+                        
+                        var correction = $.ajax({
+                            type : "POST",
+                            url : "/oracle/correct/" + corrLat + "/" + corrLon,
+                            data: JSON.stringify(answers, null, '\t'),
+                            contentType: 'application/json;charset=UTF-8'
+                        });
+                        correction.done(function(data) {
+                            console.log(data);
+                        });
                     });
 
 

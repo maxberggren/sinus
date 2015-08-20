@@ -483,6 +483,7 @@ def oracle():
     return render_template("index.html", questions=questions, n_questions=len(questions))
 
 def addDatapoints(place, longitude, latitude, found_words):
+    """ Add datapoints to database from user """
     randomHandler = binascii.b2a_hex(os.urandom(15))[:10]
     randomHandler = secure_filename(randomHandler)
     uniqeHandler = "oracle://" + randomHandler
@@ -504,33 +505,34 @@ def addDatapoints(place, longitude, latitude, found_words):
         #mysql['posts'].insert(post)
 
 
+def interp_answers(data):
+    """ Put json data from GUI in the right form """
+    queries = []
+    found_words = []
+    for key, value in data.iteritems():
+        # Extract what the user answered in connection to the questions
+        query = [q for q in questions if q['id'] == int(key)][0]['query'][int(value)]
+        source = [q for q in questions if q['id'] == int(key)][0]['target']
+        
+        if source == "just fishing":
+            if query: # If worthy to save
+                found_words.append(query)
+        else:
+            queries.append((query, source))
+            # Let's actually take all data from user
+            if query[0:4] != "NOT ":
+                found_words.append(query) 
+
+    return queries, found_words
+
+
 @app.route('/oracle/predict', methods=['POST'])
 def predict(get_map=False, and_confirm=None): 
     """ Predict where user is from """
 
-    found_words = []
     
-    def interp_answers(data):
-        """ Put json data from GUI in the right form """
-        queries = []
 
-        for key, value in data.iteritems():
-            # Extract what the user answered in connection to the questions
-            query = [q for q in questions if q['id'] == int(key)][0]['query'][int(value)]
-            source = [q for q in questions if q['id'] == int(key)][0]['target']
-            
-            if source == "just fishing":
-                if query: # If worthy to save
-                    found_words.append(query)
-            else:
-                queries.append((query, source))
-                # Let's actually take all data from user
-                if query[0:4] != "NOT ":
-                    found_words.append(query) 
-
-        return queries
-
-    queries = interp_answers(request.json)
+    queries, found_words = interp_answers(request.json)
     grids = get_grids(queries)
      
     def negative(query):
@@ -601,6 +603,20 @@ def map():
 @app.route('/oracle/confirm/<prediction_nr>', methods=['POST'])
 def mapconfirm(prediction_nr=None): 
     return predict(and_confirm=int(prediction_nr))
+    
+@app.route('/oracle/correct/<lat>/<lon>', methods=['POST'])
+def correct(lat, lon): 
+    """ If a user is correcting the Oracle 
+        with a coordinate from map
+    """
+    queries, found_words = interp_answers(request.json)
+    addDatapoints(place="from_oracle_map", 
+                  longitude=lon, 
+                  latitude=lat, 
+                  found_words=found_words)
+                 
+    return make_response(jsonify( { 'confirmed': None, 
+                                    'coordinate': (lon, lat) } ))
 
 
 cache = SqliteCache("oracle_cache") 
