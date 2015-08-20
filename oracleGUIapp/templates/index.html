@@ -37,12 +37,6 @@
     </style>
 
 
-        <!-- Loading Google Map API engine v3 -->
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-
-        <style>
-            #map { width:200px; height:600px; }
-        </style>
         
 
 
@@ -116,7 +110,14 @@
 
             </div>
             <div id="correctionMap" class="radius">
-                            <!-- Map Script -->
+                
+                <!-- Loading Google Map API engine v3 -->
+                <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        
+                <style>
+                    #map { width:150px; height:600px; }
+                </style>
+                <!-- Map Script -->
                 <script>
                     var map;
                     var marker = null;
