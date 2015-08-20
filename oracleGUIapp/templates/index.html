@@ -309,6 +309,8 @@
                     resultSet += '<div class="col-md-6" id="mapholder"><img style="border: #ccc 1px solid; margin-bottom: 50px;" src="/static/img/loading_map.gif"><p>Oraklet genererar en karta åt dig. Den kommer strax.</p></div>';
 
                     $('#resultKeeper').html(resultSet).show();
+                    
+                    window.scrollTo(0, 0);
 
                     var map = $.ajax({
                         type : "POST",
@@ -396,7 +398,7 @@
                             console.log(answers)
                             resultSet += '<div class="totalScore"><p>Oraklet mediterar på din dialekt.</p></div>';
                             $('#resultKeeper').append(resultSet).show();
-                            window.scrollTo(0, 0);
+                            
 
                             jQuiz.sendUserResult(answers);
     
