@@ -620,7 +620,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                                                                 args=(breaks['county'][word],))
         df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
                                                              args=(breaks['muni'][word],))      
-        print("--- %s sekunder att kategorisera procent) ---" % (time.time() - start_time))
+        #print("--- %s sekunder att kategorisera procent) ---" % (time.time() - start_time))
 
         # Also create a fallback DF if needed
         if binModel == 'MP' or binModel == 'noise+MP' or binModel == 'MP+smooth':
@@ -699,7 +699,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
             
-        m.drawcoastlines(linewidth=0.5) 
+        m.drawcoastlines(linewidth=0.25) 
         m.drawcountries()
         m.drawstates()
         m.drawmapboundary()
@@ -898,7 +898,7 @@ def genGridImg(coordinatesByWord, xBins, words, zoom,
                         urcrnrlon=urcrnrlon, 
                         urcrnrlat=urcrnrlat,)   
             
-            m.drawcoastlines(linewidth=0.5)
+            m.drawcoastlines(linewidth=0.25)
             m.drawcountries()
             m.drawmapboundary()
             m.fillcontinents(color='white',
@@ -1661,7 +1661,6 @@ def byod():
           
         # Save hits of different terms
         hits = df.form.value_counts().to_dict()
-        print hits
             
         # Remove words under threshold
         df = df[df.groupby('form').form.transform(len) > hitsThreshold]
