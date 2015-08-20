@@ -64,6 +64,8 @@
             google.maps.event.addListener(map, 'click', function(event) {
                 $("#coordinate").val(event.latLng.lat() + ", " + event.latLng.lng());
                 $("#coordinate").select();
+                console.log(event.latLng.lat());
+                console.log(event.latLng.lng());
 
                 if (marker) { marker.setMap(null); }
                    marker = new google.maps.Marker({ position: event.latLng, map: map});
@@ -145,7 +147,7 @@
                     <input type="text" id="coordinate" value="Latitude, Longitude" style="display: none;" />
                     <div id="map" class="text-center"></div>
                     
-                    <a class="btn btn-primary btn-xl" style="margin-top: 10px;">OK</a>
+                    <a class="btn btn-primary btn-xl" style="margin-top: 20px;">Skicka</a>
                 </div>
             </div>
           
