@@ -573,6 +573,9 @@ def predict(get_map=False, and_confirm=None):
     product = normalize(product)
     coordinate, second_maximum, third_maximum = grid_maximum(product) 
     print coordinate
+
+    print rg.get(coordinate)
+
     region = translation[rg.get(coordinate)['admin1']]
     region2 = translation[rg.get(second_maximum)['admin1']]
     region3 = translation[rg.get(third_maximum)['admin1']]
