@@ -123,6 +123,13 @@ questions = [{'question': u'Mopeder',
               'query': [u'äppelpaj', u'äpplepaj'], 
               'target': 'DB', 
               'id': 13},
+              
+             {'question': u'Bilens förvaringsutrymme',
+              'explanation': u'Vad kallar du förvaringsutrymmet på bilar?',
+              'answers': [u'Bagagelucka', u'Baklucka', u'Koffert', u'Skuff', u'Trunk'], 
+              'query': [u'bagagelucka OR bagageluckan', u'baklucka OR bakluckan', u'koffert OR kofferten', u'skuff OR skuffen', u'trunken'], 
+              'target': 'DB', 
+              'id': 15},
                
              #{'question': u'Test',
              # 'explanation': u'Denna frågan finns här bara för att du ska ge oss info!',
@@ -549,13 +556,14 @@ def predict(get_map=False, and_confirm=None):
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 #deviation_grid = min_max_scaling(deviation_grid)
                 deviation_grid = normalize(deviation_grid)
-
+                print deviation_grid
                 product = np.multiply(product, not_in(deviation_grid)) 
                 make_map(not_in(deviation_grid), filename=str(query))
             else:
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 #deviation_grid = min_max_scaling(deviation_grid)
                 deviation_grid = normalize(deviation_grid)
+                print deviation_grid
 
                 product = np.multiply(product, deviation_grid) 
                 make_map(deviation_grid, filename=str(query))
