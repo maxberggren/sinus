@@ -374,7 +374,7 @@ def get_grids(queries):
 def dev_from_null_hyp(grid, use_relative_deviation=False):
     """ Calc deviation from null hypothesis """
 
-    hashkey = "hypothesis grid5" + str(xBins)
+    hashkey = "hypothesis grid6" + str(xBins)
     null_hyp_grid = cache.get(hashkey)
 
     if isinstance(null_hyp_grid, np.ndarray): # Found in cache
