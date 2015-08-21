@@ -67,6 +67,7 @@ translation = {
 'Satakunta': '',
 'Southern Savonia': '',
 'Pavilostas': '',
+'': 'Osäker',
 'Stockholm': ''
 }
 
