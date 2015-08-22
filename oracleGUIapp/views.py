@@ -143,17 +143,8 @@ questions = [{'question': u'Mopeder',
 def negative(query):
     return query[0][0:4] == "NOT "
 
-def sum1(input):
-    """ Sum all elements in matrix """
-    
-    return sum(map(sum, input))
-
 def normalize(matrix):
     """ Divide all elements by sum of all elements """
-    print "delar"
-    print matrix
-    print "med"
-    print np.sum(matrix)
     return matrix / np.sum(matrix) 
 
 def not_in(matrix):
@@ -195,8 +186,7 @@ def grid_maximum(matrix):
 
 def gen_grid(lats, lons, no_zeros=True):
     """ Generate grid from coordinates """
-    print "nu ska det SKAPAS"
-    print len(lats), len(lons)
+
     if len(lats) == 0:
         return np.zeros(shape=(int(xBins*xyRatio-1), xBins-1))
         
@@ -207,8 +197,6 @@ def gen_grid(lats, lons, no_zeros=True):
     lats = np.array(lats)
 
     density, _, _ = np.histogram2d(lats, lons, [lat_bins, lon_bins])   
-    print "innan alla andra blir det"
-    print density
        
     if no_zeros:
         # Set zeros to the smallest value in the matrix  
@@ -345,8 +333,6 @@ def get_grids(queries):
                     
                 print "Hittade {} koordinater".format(len(lats))
                 grid = gen_grid(lats, lons)
-                print "skapade just:"
-                print grid
 
                 hashkey = hashlib.sha224(str(word) + str(source) + str(xBins)).hexdigest()
                 cache.set(hashkey, grid, timeout=60*60*24*31*99999)   
@@ -389,13 +375,7 @@ def dev_from_null_hyp(grid, use_relative_deviation=False):
         print "null hypothesis not found in cache"
         lons, lats = get_enough_data()
         null_hyp_grid = gen_grid(lats, lons)
-        print "skapde just en nullhypo"
-        print null_hyp_grid
         cache.set(hashkey, null_hyp_grid, timeout=60*60*24*31*99999) 
-
-    print "null hyp grid is:"
-    print null_hyp_grid
-    print grid
 
     if use_relative_deviation:
         quotent = np.divide(grid - null_hyp_grid, null_hyp_grid)
@@ -550,7 +530,6 @@ def predict(get_map=False, and_confirm=None):
 
     queries, found_words = interp_answers(request.json)
     grids = get_grids(queries)
-    print grids
      
     def negative(query):
         return query[0][0:4] == "NOT "
@@ -564,19 +543,16 @@ def predict(get_map=False, and_confirm=None):
         product = np.ones(grids[0].shape) # Set up uniform distribution
 
         for grid, query in zip(grids, queries): 
-            print query
             if negative(query):
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 #deviation_grid = min_max_scaling(deviation_grid)
                 deviation_grid = normalize(deviation_grid)
-                print deviation_grid
                 product = np.multiply(product, not_in(deviation_grid)) 
                 make_map(not_in(deviation_grid), filename=str(query))
             else:
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 #deviation_grid = min_max_scaling(deviation_grid)
                 deviation_grid = normalize(deviation_grid)
-                print deviation_grid
 
                 product = np.multiply(product, deviation_grid) 
                 make_map(deviation_grid, filename=str(query))
