@@ -195,7 +195,8 @@ def grid_maximum(matrix):
 
 def gen_grid(lats, lons, no_zeros=True):
     """ Generate grid from coordinates """
-    
+    print "nu ska det SKAPAS"
+    print lats, lons
     if len(lats) == 0:
         return np.zeros(shape=(int(xBins*xyRatio-1), xBins-1))
         
