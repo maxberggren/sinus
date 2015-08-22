@@ -54,12 +54,12 @@ questions = [{'question': u'Mopeder',
               'target': 'DB', 
               'id': 1},
               
-             {'question': u'Fara eller åka?',
-              'explanation': u'Fyll i följande mening: **vi skulle...**',
-              'answers': [u'...fara till farmor', u'...åka till farmor'], 
-              'query': [u'fara', u'NOT fara'], 
-              'target': 'DB', 
-              'id': 2},
+             #{'question': u'Fara eller åka?',
+             # 'explanation': u'Fyll i följande mening: **vi skulle...**',
+             # 'answers': [u'...fara till farmor', u'...åka till farmor'], 
+             # 'query': [u'fara', u'NOT fara'], 
+             # 'target': 'DB', 
+             # 'id': 2},
               
              {'question': u'Skottkärra',
               'explanation': u'Har det under din uppväxt ibland pratats om att använda en **rullebör**?',
@@ -193,7 +193,7 @@ def grid_maximum(matrix):
 
     return maximum, second_maximum, third_maximum
 
-def gen_grid(lats, lons, no_zeros=False):
+def gen_grid(lats, lons, no_zeros=True):
     """ Generate grid from coordinates """
     
     if len(lats) == 0:
