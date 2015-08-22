@@ -386,6 +386,9 @@ def dev_from_null_hyp(grid, use_relative_deviation=False):
         null_hyp_grid = gen_grid(lats, lons)
         cache.set(hashkey, null_hyp_grid, timeout=60*60*24*31*99999) 
 
+    print "null hyp grid is:"
+    print null_hyp_grid
+
     if use_relative_deviation:
         quotent = np.divide(grid - null_hyp_grid, null_hyp_grid)
         NaNs = np.isnan(quotent)
