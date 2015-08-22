@@ -207,6 +207,8 @@ def gen_grid(lats, lons, no_zeros=True):
     lats = np.array(lats)
 
     density, _, _ = np.histogram2d(lats, lons, [lat_bins, lon_bins])   
+    print "innan alla andra blir det"
+    print density
        
     if no_zeros:
         # Set zeros to the smallest value in the matrix  
