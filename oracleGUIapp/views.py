@@ -386,6 +386,8 @@ def dev_from_null_hyp(grid, use_relative_deviation=False):
         print "null hypothesis not found in cache"
         lons, lats = get_enough_data()
         null_hyp_grid = gen_grid(lats, lons)
+        print "skapde just en nullhypo"
+        print null_hyp_grid
         cache.set(hashkey, null_hyp_grid, timeout=60*60*24*31*99999) 
 
     print "null hyp grid is:"
