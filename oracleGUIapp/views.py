@@ -539,6 +539,7 @@ def predict(get_map=False, and_confirm=None):
 
     queries, found_words = interp_answers(request.json)
     grids = get_grids(queries)
+    print grids
      
     def negative(query):
         return query[0][0:4] == "NOT "
