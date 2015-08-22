@@ -342,6 +342,8 @@ def get_grids(queries):
                     
                 print "Hittade {} koordinater".format(len(lats))
                 grid = gen_grid(lats, lons)
+                print "skapade just:"
+                print grid
 
                 hashkey = hashlib.sha224(str(word) + str(source) + str(xBins)).hexdigest()
                 cache.set(hashkey, grid, timeout=60*60*24*31*99999)   
