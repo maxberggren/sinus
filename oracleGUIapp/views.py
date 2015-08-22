@@ -146,18 +146,15 @@ def negative(query):
 def sum1(input):
     """ Sum all elements in matrix """
     
-    try:
-        return sum(map(sum, input))
-    except Exception:
-        return sum(input)
+    return sum(map(sum, input))
 
 def normalize(matrix):
     """ Divide all elements by sum of all elements """
     print "delar"
     print matrix
     print "med"
-    print sum1(matrix)
-    return matrix / sum1(matrix) 
+    print np.sum(matrix)
+    return matrix / np.sum(matrix) 
 
 def not_in(matrix):
     """ Prob of not being in each element """
