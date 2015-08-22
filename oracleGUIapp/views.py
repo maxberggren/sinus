@@ -553,6 +553,7 @@ def predict(get_map=False, and_confirm=None):
         product = np.ones(grids[0].shape) # Set up uniform distribution
 
         for grid, query in zip(grids, queries): 
+            print query
             if negative(query):
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 #deviation_grid = min_max_scaling(deviation_grid)
