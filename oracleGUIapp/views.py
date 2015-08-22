@@ -153,7 +153,10 @@ def sum1(input):
 
 def normalize(matrix):
     """ Divide all elements by sum of all elements """
-    
+    print "delar"
+    print matrix
+    print "med"
+    print sum1(matrix)
     return matrix / sum1(matrix) 
 
 def not_in(matrix):
