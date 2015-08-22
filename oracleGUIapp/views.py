@@ -388,6 +388,7 @@ def dev_from_null_hyp(grid, use_relative_deviation=False):
 
     print "null hyp grid is:"
     print null_hyp_grid
+    print grid
 
     if use_relative_deviation:
         quotent = np.divide(grid - null_hyp_grid, null_hyp_grid)
