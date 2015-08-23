@@ -311,22 +311,32 @@ def get_grids(queries):
             print "söker i db efter: {}".format(str(query) + str(xBins))
             if source == "DB": # Database
                 lats, lons = [], []
-                result = mysqldb.query("SELECT blogs.longitude, "
-                                       "blogs.latitude, "
-                                       "blogs.source, "
-                                       "posts.text, "
-                                       "posts.date, "
-                                       "blogs.rank, "
-                                       "blogs.id "
-                                       "FROM posts INNER JOIN blogs ON "
-                                       "blogs.id=posts.blog_id "
-                                       "WHERE MATCH(posts.text) "
-                                       "AGAINST ('" + word + "' "
-                                       "IN BOOLEAN MODE) "
-                                       "AND blogs.latitude is not NULL "
-                                       "AND blogs.longitude is not NULL "
-                                       "AND blogs.rank <= 3 "
-                                       "ORDER BY posts.date ")
+
+                attempts = 0
+                while attempts < 3:
+                    try:
+                        mysqldb.query("set names 'utf8'")
+                        result = mysqldb.query("SELECT blogs.longitude, "
+                                               "blogs.latitude, "
+                                               "blogs.source, "
+                                               "posts.text, "
+                                               "posts.date, "
+                                               "blogs.rank, "
+                                               "blogs.id "
+                                               "FROM posts INNER JOIN blogs ON "
+                                               "blogs.id=posts.blog_id "
+                                               "WHERE MATCH(posts.text) "
+                                               "AGAINST ('" + word + "' "
+                                               "IN BOOLEAN MODE) "
+                                               "AND blogs.latitude is not NULL "
+                                               "AND blogs.longitude is not NULL "
+                                               "AND blogs.rank <= 3 "
+                                               "ORDER BY posts.date ")                   
+                        break
+                    except sqlalchemy.exc.OperationalError:
+                        print "--- MySQL ej tillgänglig, testar igen ---"
+                        attempts += 1   
+
                 for row in result:
                     lats.append(row['latitude'])
                     lons.append(row['longitude'])
