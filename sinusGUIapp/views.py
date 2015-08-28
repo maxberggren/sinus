@@ -1263,7 +1263,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 print "--- MySQL ej tillgänglig, testar igen ---"
                 attempts += 1    
 
-
+        mysqldb.query("set names 'utf8'")
         result = mysqldb.query("SELECT blogs.longitude, "
                                "blogs.latitude, "
                                "blogs.source, "
