@@ -82,13 +82,6 @@ questions = [{'question': u'Mopeder',
               'target': 'DB', 
               'id': 6},
               
-             {'question': u'Frukt',
-              'explanation': u'Säger du äpp**el** eller äpp**le**?',
-              'answers': [u'Äpple', u'Äppel'], 
-              'query': [u'NOT äppel', u'äppel'], 
-              'target': 'DB', 
-              'id': 7},
-              
              {'question': u'Förstörelse',
               'explanation': u'Är något **trasigt** eller **söndrigt**?',
               'answers': [u'Trasigt', u'Söndrigt'], 
