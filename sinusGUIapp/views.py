@@ -1392,6 +1392,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
     #    return None, hits, KWIC, fewResults, None
     
 
+@app.route('/', methods = ['GET', 'POST'])
 @app.route('/sinus', methods = ['GET', 'POST'])
 @app.route('/sinus/', methods = ['GET', 'POST'])
 @app.route('/sinus/search/<urlSearch>', methods = ['GET'])
