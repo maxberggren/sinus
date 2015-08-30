@@ -40,7 +40,7 @@ urcrnrlat = 69.5
 xBins = 9
 xyRatio = 1.8
 
-questions = [,sadsad2e2222     {'question': u'Mopeder',
+questions = [{'question': u'Mopeder',
               'explanation': u'Säger du **flak**moped/moppe, **last**moped/moppe eller **pack**moped/moppe?',
               'answers': [u'Flakmoped', u'Lastmoped', u'Packmoped'], 
               'query': [u'flakmoped', u'lastmoped', u'packmoped'], 
