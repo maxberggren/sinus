@@ -498,19 +498,19 @@ def addDatapoints(place, longitude, latitude, found_words):
     
     blog = dict(url=uniqeHandler, 
                 source="oracle",
-                rank=3,
+                rank=5,
                 longitude=longitude,
                 latitude=latitude)
-    print blog            
-    #mysql['blogs'].insert(blog)
-    #insertedId = mysql['blogs'].find_one(url=uniqeHandler)['id']
-    insertedId = 99999999
+    #print blog            
+    mysql['blogs'].insert(blog)
+    insertedId = mysql['blogs'].find_one(url=uniqeHandler)['id']
+    #insertedId = 99999999
     for word in found_words:
         post = dict(blog_id=insertedId, 
                     date=datetime.datetime.now(),
                     text=word)
-        print post
-        #mysql['posts'].insert(post)
+        #print post
+        mysql['posts'].insert(post)
 
 
 def interp_answers(data):
