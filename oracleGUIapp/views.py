@@ -486,6 +486,7 @@ def make_map(matrix, log=False, filename=False):
 
     return filename
                 
+@app.route('/', methods = ['GET', 'POST'])
 @app.route('/oracle/', methods = ['GET', 'POST'])
 @app.route('/oracle', methods = ['GET', 'POST'])
 def oracle():
