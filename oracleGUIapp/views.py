@@ -407,7 +407,7 @@ def dev_from_null_hyp(grid, use_relative_deviation=False):
 def make_map(matrix, log=False, filename=False):
     """ Create image with map and grid overlaid """
 
-    print "skapar karta"
+    #print "skapar karta"
 
     coordinate, second_maximum, third_maximum = grid_maximum(matrix)
     density = matrix
@@ -503,15 +503,15 @@ def addDatapoints(place, longitude, latitude, found_words):
                 longitude=longitude,
                 latitude=latitude)
     #print blog            
-    mysql['blogs'].insert(blog)
-    insertedId = mysql['blogs'].find_one(url=uniqeHandler)['id']
+    mysqldb['blogs'].insert(blog)
+    insertedId = mysqldb['blogs'].find_one(url=uniqeHandler)['id']
     #insertedId = 99999999
     for word in found_words:
         post = dict(blog_id=insertedId, 
                     date=datetime.datetime.now(),
                     text=word)
         #print post
-        mysql['posts'].insert(post)
+        mysqldb['posts'].insert(post)
 
 
 def interp_answers(data):
