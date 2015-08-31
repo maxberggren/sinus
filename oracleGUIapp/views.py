@@ -509,7 +509,7 @@ def addDatapoints(place, longitude, latitude, found_words):
     for word in found_words:
         post = dict(blog_id=insertedId, 
                     date=datetime.datetime.now(),
-                    text=word)
+                    text=word.encode('utf-8'))
         #print post
         mysqldb['posts'].insert(post)
 
