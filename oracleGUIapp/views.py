@@ -297,14 +297,14 @@ def get_grids(queries):
         word, source = query
         word, source = word.encode('utf-8'), source.encode('utf-8')
 
-        print "letar efter {} i {}".format(word, source)
+        #print "letar efter {} i {}".format(word, source)
         word = word.replace("NOT ", "")
         
         hashkey = hashlib.sha224(str(word) + str(source) + str(xBins)).hexdigest()
         grid = cache.get(hashkey)
 
         if isinstance(grid, np.ndarray): # Found in cache
-            print "hämtade från cachen: {}".format(str(query) + str(xBins))
+            #print "hämtade från cachen: {}".format(str(query) + str(xBins))
             grids.append(grid)
             
         else: # Not found in cache
@@ -379,7 +379,8 @@ def dev_from_null_hyp(grid, use_relative_deviation=False):
     null_hyp_grid = cache.get(hashkey)
 
     if isinstance(null_hyp_grid, np.ndarray): # Found in cache
-        print "null hypothesis grid loaded from cache"
+        #print "null hypothesis grid loaded from cache"
+        pass
         
     else: # Not found in cache
         print "null hypothesis not found in cache"
