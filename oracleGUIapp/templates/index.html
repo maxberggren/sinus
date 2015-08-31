@@ -326,7 +326,7 @@
                     });
                     
                     // Log accepted answer
-                    $("a.acceptprediction").click(function() {
+                    $("a.acceptprediction").click(function(event) {
                         console.log(event.target.id);
                         
                         var acceptance = $.ajax({
