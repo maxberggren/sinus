@@ -130,6 +130,41 @@ questions = [{'question': u'Mopeder',
               'query': [u'moffade OR moffat', u'NOT moffade OR moffat'], 
               'target': 'DB', 
               'id': 16},
+              
+             {'question': u'Gymnastik',
+              'explanation': u'Vad kallar du gymnastiklektionen?',
+              'answers': [u'Gympan', u'Jumpan'], 
+              'query': [u'gympa OR gympan', u'jumpa OR jumpan'], 
+              'target': 'DB', 
+              'id': 17},
+              
+             {'question': u'Varma byxor',
+              'explanation': u'Vad kallar du tjocka stoppade byxor som används vid vinterlek?',
+              'answers': [u'Termobyxor', u'Täckbyxor'], 
+              'query': [u'termobyxor OR termobyxorna', u'täckbyxor OR täckbyxorna'], 
+              'target': 'DB', 
+              'id': 18},
+              
+             {'question': u'Promenad',
+              'explanation': u'Vilket slang föredrar du?',
+              'answers': [u'Prommis', u'Promenix'], 
+              'query': [u'prommis', u'promenix'], 
+              'target': 'DB', 
+              'id': 19},
+              
+             {'question': u'Skolmaten',
+              'explanation': u'Vad kallar/kallade du platsen i skolan där det åts?',
+              'answers': [u'Bamba', u'Matan', u'Matsalen'], 
+              'query': [u'bamba', u'matan', u'matsalen'], 
+              'target': 'DB', 
+              'id': 20},
+              
+             {'question': u'Snacks',
+              'explanation': u'Ostbågar eller ostkrokar?',
+              'answers': [u'Ostbågar', u'Ostkrokar'], 
+              'query': [u'ostbågar', u'ostkrokar'], 
+              'target': 'DB', 
+              'id': 21},
                
              #{'question': u'Test',
              # 'explanation': u'Denna frågan finns här bara för att du ska ge oss info!',
@@ -138,7 +173,7 @@ questions = [{'question': u'Mopeder',
              # 'target': 'just fishing', 
              # 'id': 14}
              ]
-
+#gympa OR gympan, jumpa OR jumpan
  
 def negative(query):
     return query[0][0:4] == "NOT "
