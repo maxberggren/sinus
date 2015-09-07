@@ -338,9 +338,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         ### Read shapefiles
 
         # County data (SV)
-        _out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
-                               name='countys', drawbounds=False, 
-                               color='none', zorder=2)
+        #_out = m.readshapefile('shapedata/alla_lan/alla_lan_Std', 
+        #                       name='countys', drawbounds=False, 
+        #                       color='none', zorder=2)
         
         # Finnish regions (sv: landskap)
         _out = m.readshapefile('shapedata/finland/fin-adm2', 
@@ -385,17 +385,17 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 ["åland" for r in m.region_al_info] })    
     
     # County DF
-    df_map_county = pd.DataFrame({
-        'poly': [Polygon(p) for p in m.countys] + \
-                [Polygon(p) for p in m.regions_fi] + \
-                [Polygon(p) for p in m.region_al],
-        'name': [r['LAN_NAMN'] for r in m.countys_info] + \
-                ["temp" for r in m.regions_fi_info] + \
-                ["åland" for r in m.region_al_info]})
+    #df_map_county = pd.DataFrame({
+    #    'poly': [Polygon(p) for p in m.countys] + \
+    #            [Polygon(p) for p in m.regions_fi] + \
+    #            [Polygon(p) for p in m.region_al],
+    #    'name': [r['LAN_NAMN'] for r in m.countys_info] + \
+    #            ["temp" for r in m.regions_fi_info] + \
+    #            ["åland" for r in m.region_al_info]})
     
     # Fix encoding
     df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
-    df_map_county['name'] = df_map_county.apply(lambda row: row['name'].decode('latin-1'), axis=1)
+    #df_map_county['name'] = df_map_county.apply(lambda row: row['name'].decode('latin-1'), axis=1)
     
     #print("--- %s sekunder att sätta upp dataframes med polygoner ---" % (time.time() - start_time))
 
@@ -449,7 +449,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         
         
     df_map_muni = mapPointsToPoly(lds, df_map_muni)
-    df_map_county = mapPointsToPoly(lds, df_map_county)
+    #df_map_county = mapPointsToPoly(lds, df_map_county)
 
     print words
         
@@ -457,7 +457,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     if len(words) == 1: 
         
         fname_muni = "null_hypothesis_muni_df.pkl" 
-        fname_county = "null_hypothesis_county_df.pkl" 
+        #fname_county = "null_hypothesis_county_df.pkl" 
         
         start_time = time.time()   
         if not os.path.isfile(fname_muni):
@@ -467,13 +467,13 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             
             # Make dataframe and pickle 
             null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
-            null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
-            null_h_county_df.to_pickle(fname_county)
+            #null_h_county_df = mapPointsToPoly(temp_latlon_df, df_map_county)
+            #null_h_county_df.to_pickle(fname_county)
             null_h_muni_df.to_pickle(fname_muni)
         else:
             # Read from pickle
             null_h_muni_df = pd.io.pickle.read_pickle(fname_muni)
-            null_h_county_df = pd.io.pickle.read_pickle(fname_county)
+            #null_h_county_df = pd.io.pickle.read_pickle(fname_county)
         
         print("--- %s sekunder att ladda nollhypotes) ---" % (time.time() - start_time))
 
@@ -504,17 +504,18 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         start_time = time.time()   
         # Since only one word, calculate deviation from country average   
         df_map_muni = deviationFromAverage(df_map_muni, null_h_muni_df)
-        df_map_county = deviationFromAverage(df_map_county, null_h_county_df)
+        #df_map_county = deviationFromAverage(df_map_county, null_h_county_df)
         print("--- %s sekunder att kolla avvikelse fr nollhypotes) ---" % (time.time() - start_time))
         
         breaks['muni'], breaks['county'] = {}, {}
                
         for word in words:    
-            countyMax = float(df_map_county[word].max(axis=0))
+            #countyMax = float(df_map_county[word].max(axis=0))
             muniMax = float(df_map_muni[word].max(axis=0))
             
             breaks['muni'][word] = [0., 0.5, 1., muniMax/2.0, muniMax]
-            breaks['county'][word] = [0., 0.5, 1., countyMax/2.0, countyMax]
+            print [0., 0.5, 1., muniMax/2.0, muniMax]
+            #breaks['county'][word] = [0., 0.5, 1., countyMax/2.0, countyMax]
         
         labels = ['Below avg.', '', 'Avg.', '', 'Above avg.']    
         
@@ -522,7 +523,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         ### More than one word: compare words against each other 
            
         # Get total occurencies in every county/municipality
-        df_map_county["sum"] = df_map_county[words].sum(axis=1)
+        #df_map_county["sum"] = df_map_county[words].sum(axis=1)
         df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
             
         def df_percent(df_map):
@@ -540,15 +541,16 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         
         # Convert to percentages and skip where there is none
         start_time = time.time()   
-        df_map_county = df_percent(df_map_county)
+        #df_map_county = df_percent(df_map_county)
         df_map_muni = df_percent(df_map_muni)
         #print("--- %s sekunder att konvertera till procent) ---" % (time.time() - start_time))
 
-        breaks['muni'], breaks['county'] = {}, {}
+        breaks['muni'] = {}
+        #breaks['county'] = {}
                
         for word in words:    
             breaks['muni'][word] = [0., 0.25, 0.5, 0.75, 1.0]
-            breaks['county'][word] = [0., 0.25, 0.5, 0.75, 1.0]
+            #breaks['county'][word] = [0., 0.25, 0.5, 0.75, 1.0]
             
         labels = ['None', 'Low', 'Medium', 'High', 'Very high']
         
@@ -616,8 +618,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
         start_time = time.time()  
         # Create columns stating which break precentages belongs to
-        df_map_county['bins_'+word] = df_map_county[word].apply(self_categorize, 
-                                                                args=(breaks['county'][word],))
+        #df_map_county['bins_'+word] = df_map_county[word].apply(self_categorize, 
+        #                                                        args=(breaks['county'][word],))
         df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
                                                              args=(breaks['muni'][word],))      
         #print("--- %s sekunder att kategorisera procent) ---" % (time.time() - start_time))
@@ -651,13 +653,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         cmap = plt.get_cmap(colormap)
         #cmap = opacify(cmap) # Add opacity to colormap
         
-        if binModel == 'municipality+county':
-            # County fallback for empty bins
-            shapesToPutOnMap = [df_map_county, df_map_muni]
-        elif binModel == 'county':
-            # Just use countys
-            shapesToPutOnMap = [df_map_county]
-        elif binModel == 'MP' or binModel == 'MP+smooth':
+        if binModel == 'MP' or binModel == 'MP+smooth':
             # Lab
             shapesToPutOnMap = [df_map_fallback]
         else: 
