@@ -638,10 +638,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
             pc = PatchCollection(df_map['patches'], match_original=True)
             # Apply our custom color values onto the patch collection
-            cmaps = (df_map['bins_'+word].values - 
-                       df_map['bins_'+word].values.min())/(
-                           df_map['bins_'+word].values.max()-
-                               float(df_map['bins_'+word].values.min()))
+
+            #cmaps = (df_map['bins_'+word].values - 
+            #           df_map['bins_'+word].values.min())/(
+            #               df_map['bins_'+word].values.max()-
+            #                   float(df_map['bins_'+word].values.min()))
+            cmaps = df_map['bins_'+word].values
                                            
             cmap_list = []
 
