@@ -602,8 +602,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
-            print df_map_fallback[df_map_fallback['bins_'+word] > -1]['bins_'+word]
-            
+            print df_map_fallback[df_map_fallback['bins_'+word] > -1]['bins_'+word].values
+
         start_time = time.time()                                                                                                       
         # Subplot for every word
         if len(word) > 25:
