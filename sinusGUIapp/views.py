@@ -594,7 +594,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Also create a fallback DF if needed
         if binModel == 'MP' or binModel == 'MP+smooth':
             start_time = time.time() 
-            df_map_muni[word].values
+            print df_map_muni[word].values
             df_map_fallback = genFallbackMap(df_map_muni, word)   
             if binModel == 'MP+smooth':
                 df_map_fallback = genFallbackMap(df_map_fallback, word, smooth=True)   
