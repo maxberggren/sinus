@@ -594,16 +594,19 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Also create a fallback DF if needed
         if binModel == 'MP' or binModel == 'MP+smooth':
             start_time = time.time() 
-            print df_map_muni[word].values
             df_map_fallback = genFallbackMap(df_map_muni, word)   
             if binModel == 'MP+smooth':
                 df_map_fallback = genFallbackMap(df_map_fallback, word, smooth=True)   
+
+                df_concat = pd.concat((df_map_fallback, df_map_muni))
+                by_row_index = df_concat.groupby(df_concat.index)
+                df_means = by_row_index.mean()
+
+                df_map_fallback = df_means
                 
             print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
-            print df_map_fallback[word].values
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
                                                                         args=(breaks['muni'][word],)) 
-            print df_map_fallback[df_map_fallback['bins_'+word] > -1]['bins_'+word].values
 
         start_time = time.time()                                                                                                       
         # Subplot for every word
