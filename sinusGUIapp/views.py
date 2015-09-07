@@ -545,7 +545,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 if not parent == "-":
                     munis = getMuni(hierarchy, level, parent)
                     parentData = df.loc[df['name'].isin(munis), word]
-                    mean = np.mean(parentData)  
+                    mean = np.median(parentData)  
                     return mean
                 else:
                     return None
