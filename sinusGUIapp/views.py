@@ -595,10 +595,11 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         if binModel == 'MP' or binModel == 'MP+smooth':
             start_time = time.time() 
             df_map_fallback = genFallbackMap(df_map_muni, word)   
+            df_map_fallback_MP = df_map_fallback.copy()
             if binModel == 'MP+smooth':
                 df_map_fallback = genFallbackMap(df_map_fallback, word, smooth=True)   
 
-                df_concat = pd.concat((df_map_fallback, df_map_muni))
+                df_concat = pd.concat((df_map_fallback, df_map_fallback_MP))
                 by_row_index = df_concat.groupby(df_concat.index)
                 df_means = by_row_index.mean()
 
