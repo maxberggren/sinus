@@ -575,7 +575,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                     # Update municipality with fallback according to rule
                     if mean and mean != 0.0 and mean != True:
                         if smooth:
-                            new_df.loc[new_df['name'] == muni, word] = (mean+df.loc[df['name'] == muni, word])/2.0
+                            new_df.loc[new_df['name'] == muni, word] = (3*mean+df.loc[df['name'] == muni, word])/4.0
                         else:
                             new_df.loc[new_df['name'] == muni, word] = mean
                         
