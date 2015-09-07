@@ -574,7 +574,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     
                     # Update municipality with fallback according to rule
                     if mean and mean != 0.0 and mean != True:
-                        new_df.loc[new_df['name'] == muni, word] = mean
+                        new_df.loc[new_df['name'] == muni, word] = (mean+df.loc[df['name'] == muni, word])/2.0
                         
             return new_df 
 
@@ -595,15 +595,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         if binModel == 'MP' or binModel == 'MP+smooth':
             start_time = time.time() 
             df_map_fallback = genFallbackMap(df_map_muni, word)   
-            df_map_fallback_MP = df_map_fallback.copy()
             if binModel == 'MP+smooth':
                 df_map_fallback = genFallbackMap(df_map_fallback, word, smooth=True)   
-
-                df_concat = pd.concat((df_map_fallback, df_map_fallback_MP))
-                by_row_index = df_concat.groupby(df_concat.index)
-                df_means = by_row_index.mean()
-
-                df_map_fallback = df_means
                 
             print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
             df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
