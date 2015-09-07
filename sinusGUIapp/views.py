@@ -590,7 +590,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Create columns stating which break precentages belongs to
         df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
                                                              args=(breaks['muni'][word],))      
-        print df_map_muni[df_map_muni['bins_'+word] > -1]['bins_'+word]
         #print("--- %s sekunder att kategorisera procent) ---" % (time.time() - start_time))
 
         # Also create a fallback DF if needed
