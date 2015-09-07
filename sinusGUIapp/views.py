@@ -489,9 +489,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                
         for word in words:    
             muniMax = float(df_map_muni[word].max(axis=0))
-            
             breaks['muni'][word] = [0., 0.5, 1., muniMax/2.0, muniMax]
-            print [0., 0.5, 1., muniMax/2.0, muniMax]
         
         labels = ['Below avg.', '', 'Avg.', '', 'Above avg.']    
         
@@ -592,6 +590,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         # Create columns stating which break precentages belongs to
         df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
                                                              args=(breaks['muni'][word],))      
+        print df_map_muni['bins_'+word]
         #print("--- %s sekunder att kategorisera procent) ---" % (time.time() - start_time))
 
         # Also create a fallback DF if needed
