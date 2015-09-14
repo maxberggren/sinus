@@ -32,7 +32,8 @@ def count_words_in_region(region, bounding_box):
                       "AND blogs.longitude > " + str(llcrnrlon) + " "
                       "AND blogs.longitude < " + str(urcrnrlon) + " "
                       "AND blogs.latitude > " + str(llcrnrlat) + " "
-                      "AND blogs.latitude < " + str(urcrnrlat) + " ")
+                      "AND blogs.latitude < " + str(urcrnrlat) + " "
+                      "AND blogs.source <> 'fotosidan' ")
 
     for row in result:
         nPosts = row['count']
@@ -64,11 +65,7 @@ def count_words_in_region(region, bounding_box):
         #result = db.query("SELECT text from posts limit "
         #                  ""+str(batch)+" offset " + str(offset))
         
-        result = db.query("SELECT blogs.longitude, "
-                          "blogs.latitude, "
-                          "blogs.rank, "
-                          "blogs.id, "
-                          "posts.text "
+        result = db.query("SELECT posts.text "
                           "FROM posts INNER JOIN blogs ON "
                           "blogs.id=posts.blog_id "
                           "WHERE blogs.latitude is not NULL "
@@ -78,6 +75,7 @@ def count_words_in_region(region, bounding_box):
                           "AND blogs.longitude < " + str(urcrnrlon) + " "
                           "AND blogs.latitude > " + str(llcrnrlat) + " "
                           "AND blogs.latitude < " + str(urcrnrlat) + " "
+                          "AND blogs.source <> 'fotosidan' "
                           "LIMIT "+ str(batch) +" offset " + str(offset))
         
         for row in result:
@@ -163,7 +161,7 @@ if __name__ == "__main__":
     # Småland 
     #count_words_in_region("smauland", (16.880994, 58.143755, 13.349390, 56.624219))
     # Göteborg
-    #count_words_in_region("gotlaborg", (13.867365, 59.393105, 11.401765, 56.482094))
+    count_words_in_region("gotlaborg2", (13.867365, 59.393105, 11.401765, 56.482094))
     # Mälardalen
     #count_words_in_region("malardalen", (18.532594, 59.933278, 14.962038, 58.497572))
     # Mälardalen
