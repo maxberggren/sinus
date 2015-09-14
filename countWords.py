@@ -40,7 +40,7 @@ def count_words_in_region(region, bounding_box):
     print "{} dokument finns i rutan {}".format(nPosts, region) 
     
     batch = 100000
-    percent = 10
+    percent = 100
     print "Räknar ord i {} procent av dem i batchar om {}".format(percent, batch)
 
     nPosts = int(percent*nPosts/100.0) 
