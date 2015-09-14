@@ -1458,48 +1458,49 @@ def explore(word=None):
     data = {}
 
     key = "wordregions"
-    if not cache.get(key):   
+    #if not cache.get(key):   
 
-        db = dataset.connect(c.LOCATIONDB)
-        results = db.query("SELECT DISTINCT region FROM wordcounts")
+    #db = dataset.connect(c.LOCATIONDB)
+    #results = db.query("SELECT DISTINCT region FROM wordcounts")
 
-        for result in results:
-            check_region = result['region']
+    #for result in results:
+        #check_region = result['region']
+    check_region = 'finland'
 
-            common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
-            
-            engine = create_engine(c.LOCATIONDB, echo=False)
-            df = pd.read_sql_query('SELECT * FROM wordcounts '
-                                   'WHERE region = "country" '
-                                   'or region = "{}"' 
-                                   'and frequency > {}'.format(check_region, common_word_occurance*0.00009902951079*threshold), 
-                                   engine, index_col='id')
-            
-            def rel_frq(values):
-                if len(values) == 2:
-                    return (values.values[1] - values.values[0])/values.values[0]
-                else: 
-                    return 0.0
-            
-            grouped_count = df.groupby("token").frequency.agg(rel_frq)
-            
-            words, frqs = [], []
-            for index, value in grouped_count.order(ascending=False).iteritems():
-                words.append(index.decode('latin-1')) 
-                frqs.append(value)
-                if value < 0.3:
-                    break
+    common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
+    
+    engine = create_engine(c.LOCATIONDB, echo=False)
+    df = pd.read_sql_query('SELECT * FROM wordcounts '
+                           'WHERE region = "country" '
+                           'or region = "{}"' 
+                           'and frequency > {}'.format(check_region, common_word_occurance*0.00009902951079*threshold), 
+                           engine, index_col='id')
+    
+    def rel_frq(values):
+        if len(values) == 2:
+            return (values.values[1] - values.values[0])/values.values[0]
+        else: 
+            return 0.0
+    
+    grouped_count = df.groupby("token").frequency.agg(rel_frq)
+    
+    words, frqs = [], []
+    for index, value in grouped_count.order(ascending=False).iteritems():
+        words.append(index.decode('latin-1')) 
+        frqs.append(value)
+        if value < 0.3:
+            break
 
-            skewedWords = zip(words, frqs)
-            
-            data[check_region] = skewedWords  
+    skewedWords = zip(words, frqs)
+    
+    data[check_region] = skewedWords  
 
-        cache.set(key, data, timeout=9999999999)
+    #cache.set(key, data, timeout=9999999999)
         
-    else:
-        data = cache.get(key)
+    #else:
+    #    data = cache.get(key)
 
-    print data['finland'][0:20]
+    #print data['finland'][0:20]
              
     return render_template("explore.html", data=data)
 
