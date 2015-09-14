@@ -42,7 +42,7 @@
     		  </div>
     		  <div class="panel-body">
 		     
-    		  {% for word, entropy in words %} <a href="/sinus/explore/{{ word }}">{{ word }}</a> ({{ '{0:0.2f}'.format(entropy) }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %}
+    		  {% for word, entropy in words %} <a href="/sinus/search/{{ word }}">{{ word }}</a> ({{ '{0:0.2f}'.format(entropy) }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %}
  
     		  </div>
           </div>
