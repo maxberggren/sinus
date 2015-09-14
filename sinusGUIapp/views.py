@@ -1458,7 +1458,7 @@ def explore(word=None):
     threshold = 0.6
     data = {}
 
-    key = "gotlaborg2"
+    key = "gotlaborg2" 
     #if not cache.get(key):   
 
     db = dataset.connect(c.LOCATIONDB)
