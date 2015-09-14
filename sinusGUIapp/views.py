@@ -1455,7 +1455,7 @@ def site(urlSearch=None):
 def explore(word=None):
     """ Run if explore in the menu is choosen """    
     
-    threshold = 0.3
+    threshold = 0.6
     data = {}
 
     key = "wordregions"
