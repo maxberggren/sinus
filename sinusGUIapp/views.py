@@ -637,18 +637,15 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], lw=0, zorder=4), axis=1)
 
             pc = PatchCollection(df_map['patches'], match_original=True)
-            # Apply our custom color values onto the patch collection
 
-            print "min", df_map['bins_'+word].values.min()
-            print "max", df_map['bins_'+word].values.max()
+            # Apply our custom color values onto the patch collection
             #cmaps = (df_map['bins_'+word].values - 
             #           df_map['bins_'+word].values.min())/(
             #               df_map['bins_'+word].values.max()-
             #                   float(df_map['bins_'+word].values.min()))
             cmaps = (df_map['bins_'+word].values - -1)/(
                            len(breaks['muni'][word])-2-
-                               float(-1))
-            print cmaps                             
+                               float(-1)) # Let's fix the scaling for now
             cmap_list = []
 
             def cmapOpacity(val, opacity):
@@ -1488,7 +1485,6 @@ def explore(word=None):
             
             words, frqs = [], []
             for index, value in grouped_count.order(ascending=False).iteritems():
-                #print index.decode('latin-1').encode('utf-8'), value
                 words.append(index.decode('latin-1')) 
                 frqs.append(value)
                 if value < 0.3:
@@ -1502,6 +1498,8 @@ def explore(word=None):
         
     else:
         data = cache.get(key)
+
+    print data['finland'][0:20]
              
     return render_template("explore.html", data=data)
 
