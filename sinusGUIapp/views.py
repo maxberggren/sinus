@@ -1466,7 +1466,7 @@ def explore(word=None):
 
     #for result in results:
         #check_region = result['region']
-    check_region = 'finland'
+    check_region = 'gotland'
 
     common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
     
