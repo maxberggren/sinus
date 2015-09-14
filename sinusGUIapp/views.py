@@ -1458,7 +1458,7 @@ def explore(word=None):
     threshold = 0.6
     data = {}
 
-    key = "gotlaborg2" 
+    key = "wordregions"
     #if not cache.get(key):   
 
     db = dataset.connect(c.LOCATIONDB)
@@ -1466,7 +1466,7 @@ def explore(word=None):
 
     #for result in results:
         #check_region = result['region']
-    check_region = 'malardalen'
+    check_region = 'gotlaborg2'
 
     common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
     
