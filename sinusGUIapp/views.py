@@ -20,6 +20,7 @@ import numpy.ma as ma
 import binascii
 from matplotlib.patches import Polygon
 import dataset
+import time
 import codecs
 from sets import Set
 import requests
@@ -1470,20 +1471,26 @@ def explore(word=None):
     common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
     
     engine = create_engine(c.LOCATIONDB, echo=False)
+    
+    start = time.time()
     df = pd.read_sql_query('SELECT * FROM wordcounts '
                            'WHERE region = "country" '
                            'or region = "{}"' 
                            'and frequency > {}'.format(check_region, common_word_occurance*0.00009902951079*threshold), 
                            engine, index_col='id')
-    
+
+    print time.time() - start, "att ladda in i pandas"
+
     def rel_frq(values):
         if len(values) == 2:
             return (values.values[1] - values.values[0])/values.values[0]
         else: 
             return 0.0
-    
+
+    start = time.time()
     grouped_count = df.groupby("token").frequency.agg(rel_frq)
-    
+    print time.time() - start, "att gruppera per ord"
+
     words, frqs = [], []
     for index, value in grouped_count.order(ascending=False).iteritems():
         words.append(index.decode('latin-1')) 
