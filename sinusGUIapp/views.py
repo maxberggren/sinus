@@ -1460,7 +1460,7 @@ def explore(word=None):
     key = "wordregions"
     #if not cache.get(key):   
 
-    #db = dataset.connect(c.LOCATIONDB)
+    db = dataset.connect(c.LOCATIONDB)
     #results = db.query("SELECT DISTINCT region FROM wordcounts")
 
     #for result in results:
