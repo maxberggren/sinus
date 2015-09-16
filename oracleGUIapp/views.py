@@ -171,7 +171,7 @@ questions = [{'question': u'Mopeder',
               'answers': [u'Ja', u'Nej'], 
               'query': [u'kusse', u'NOT kusse'], 
               'target': 'DB', 
-              'id': 22},
+              'id': 22}, 
                
              #{'question': u'Test',
              # 'explanation': u'Denna frågan finns här bara för att du ska ge oss info!',
