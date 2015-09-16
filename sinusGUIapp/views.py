@@ -1455,7 +1455,7 @@ def site(urlSearch=None):
 def explore(word=None):
     """ Run if explore in the menu is choosen """    
     
-    threshold = 0.6
+    threshold = 0.5
     data = {}
 
     key = "wordregions"
@@ -1466,7 +1466,7 @@ def explore(word=None):
 
     #for result in results:
         #check_region = result['region']
-    check_region = 'gotlaborg2'
+    check_region = 'skaune'
 
     common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
     

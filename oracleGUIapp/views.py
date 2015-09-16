@@ -165,6 +165,13 @@ questions = [{'question': u'Mopeder',
               'query': [u'ostbågar', u'ostkrokar'], 
               'target': 'DB', 
               'id': 21},
+              
+             {'question': u'Kusiner',
+              'explanation': u'Kallar du någonsin din kusin för **kusse**?',
+              'answers': [u'Ja', u'Nej'], 
+              'query': [u'kusse', u'NOT kusse'], 
+              'target': 'DB', 
+              'id': 22},
                
              #{'question': u'Test',
              # 'explanation': u'Denna frågan finns här bara för att du ska ge oss info!',
