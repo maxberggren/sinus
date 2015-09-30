@@ -1468,7 +1468,7 @@ def explore(region=None):
     for region in regions:
         tokens = []
         deviations = []
-        for result in db['worddeviations'].find(region=region)
+        for result in db['worddeviations'].find(region=region):
             tokens.append(result['token'])
             deviations.append(result['deviation'])
 
