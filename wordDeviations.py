@@ -22,19 +22,13 @@ def deviations(region=None):
     data = {}
 
     common_word_occurance = db['wordcounts'].find_one(token='och', region=region)['frequency']
-    
-    #engine = create_engine(c.LOCATIONDB, echo=False)
+    print common_word_occurance
     
     start = time.time()
-    #df = pd.read_sql('SELECT * FROM wordcounts '
-    #                       'WHERE region = "country" '
-    #                       'or region = "{}"' 
-    #                       'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold), 
-    #                       engine, index_col='id')
 
     data = db.query('SELECT * FROM wordcounts '
                     'WHERE region = "country" '
-                    'or region = "{}"' 
+                    'or region = "{}" ' 
                     'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold))
 
     regions, frequencys, tokens = [], [], []
@@ -61,19 +55,17 @@ def deviations(region=None):
     print time.time() - start, "att gruppera per ord"
 
     words, dev = [], []
+    rows = []
     for index, value in grouped_count.order(ascending=False).iteritems():
-        words.append(index.decode('latin-1')) 
-        dev.append(value)
+
+        rows.append({'token': index.decode('latin-1'),
+                     'deviation': value,
+                     'region': region})
+
         if value < 0.3:
             break
 
-    skewedWords = zip(words, dev)
-    
-    data[region] = skewedWords  
-
-
-
-    print data
+    db['worddeviations'].insert_many(rows)
         
     
 if __name__ == "__main__":

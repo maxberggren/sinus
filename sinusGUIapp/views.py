@@ -1455,58 +1455,25 @@ def site(urlSearch=None):
 def explore(region=None):
     """ Run if explore in the menu is choosen """    
     
-    threshold = 0.5
     data = {}
+    db = dataset.connect(c.LOCATIONDB)
 
-    if not cache.get(region + "2"):   
-
-        db = dataset.connect(c.LOCATIONDB)
-        #results = db.query("SELECT DISTINCT region FROM wordcounts")
-
-        #for result in results:
-            #check_region = result['region']
-        check_region = region
-
-        common_word_occurance = db['wordcounts'].find_one(token='och', region=check_region)['frequency']
-        
-        engine = create_engine(c.LOCATIONDB, echo=False)
-        
-        start = time.time()
-        df = pd.read_sql_query('SELECT * FROM wordcounts '
-                               'WHERE region = "country" '
-                               'or region = "{}"' 
-                               'and frequency > {}'.format(check_region, common_word_occurance*0.00009902951079*threshold), 
-                               engine, index_col='id')
-
-        print time.time() - start, "att ladda in i pandas"
-
-        def rel_frq(values):
-            if len(values) == 2:
-                return (values.values[1] - values.values[0])/values.values[0]
-            else: 
-                return 0.0
-
-        start = time.time()
-        grouped_count = df.groupby("token").frequency.agg(rel_frq)
-        print time.time() - start, "att gruppera per ord"
-
-        words, frqs = [], []
-        for index, value in grouped_count.order(ascending=False).iteritems():
-            words.append(index.decode('latin-1')) 
-            frqs.append(value)
-            if value < 0.3:
-                break
-
-        skewedWords = zip(words, frqs)
-        
-        data[check_region] = skewedWords  
-
-        cache.set(region + "2", data, timeout=9999999999)
-        
+    if not region:
+        regions = []
+        for result in db['worddeviations'].distinct('region'):
+            regions.append(result['region'])
     else:
-        data = cache.get(region + "2")
+        regions = [region]
 
-    #print data['finland'][0:20]
+    for region in regions:
+        tokens = []
+        deviations = []
+        for result in db['worddeviations'].find(region=region)
+            tokens.append(result['token'])
+            deviations.append(result['deviation'])
+
+        skewedWords = zip(tokens, deviations)
+        data[region] = skewedWords  
              
     return render_template("explore.html", data=data)
 
