@@ -23,14 +23,30 @@ def deviations(region=None):
 
     common_word_occurance = db['wordcounts'].find_one(token='och', region=region)['frequency']
     
-    engine = create_engine(c.LOCATIONDB, echo=False)
+    #engine = create_engine(c.LOCATIONDB, echo=False)
     
     start = time.time()
-    df = pd.read_sql('SELECT * FROM wordcounts '
-                           'WHERE region = "country" '
-                           'or region = "{}"' 
-                           'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold), 
-                           engine, index_col='id')
+    #df = pd.read_sql('SELECT * FROM wordcounts '
+    #                       'WHERE region = "country" '
+    #                       'or region = "{}"' 
+    #                       'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold), 
+    #                       engine, index_col='id')
+
+    data = db.query('SELECT * FROM wordcounts '
+                    'WHERE region = "country" '
+                    'or region = "{}"' 
+                    'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold))
+
+    regions, frequencys, tokens = [], [], []
+
+    for result in data:
+        regions.append(region)
+        frequencys.append(result['frequency'])
+        tokens.append(result['token'])
+
+    df = pd.DataFrame({'token': tokens,
+                       'region': regions,
+                       'frequency': frequencys})
 
     print time.time() - start, "att ladda in i pandas"
 
@@ -44,16 +60,19 @@ def deviations(region=None):
     grouped_count = df.groupby("token").frequency.agg(rel_frq)
     print time.time() - start, "att gruppera per ord"
 
-    words, frqs = [], []
+    words, dev = [], []
     for index, value in grouped_count.order(ascending=False).iteritems():
         words.append(index.decode('latin-1')) 
-        frqs.append(value)
+        dev.append(value)
         if value < 0.3:
             break
 
-    skewedWords = zip(words, frqs)
+    skewedWords = zip(words, dev)
     
     data[region] = skewedWords  
+
+
+
     print data
         
     
