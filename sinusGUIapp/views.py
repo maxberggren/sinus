@@ -177,7 +177,7 @@ def kwic(text, word, source):
         if sep:
             kwics.append("[" + source + "] " + left[-26:] + sep + right[:46])
             
-    return "<br />".join(kwics)
+    return kwics
 
 def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     """ Generate an image with shapefiles as bins 
@@ -1275,8 +1275,13 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             newkwic = kwic(row['text'], word, row['source'])
             if oldkwic != newkwic and i < 50:
                 i += 1
-                wordkwic.append(newkwic)
-                oldkwic = newkwic
+
+                if type(newkwic) is list:
+                    wordkwic += newkwic
+                    oldkwic = newkwic
+                else:
+                    wordkwic.append(newkwic)
+                    oldkwic = newkwic
         
         def addNoise(coordinates):
             np.random.seed(seed=666)
