@@ -159,6 +159,8 @@ def kwic(text, word, source):
     
     if " or " in word.lower():
         words = word.lower().split(" or ")
+    elif "-" in word or "+" in word or "(" in word:
+        words = word.resplace("+","").replace("-","").replace("(","").replace(")","").split()
     else:
         words = [word]
         
