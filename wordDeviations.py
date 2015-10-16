@@ -13,6 +13,7 @@ import warnings
 import config as c
 import pandas as pd
 from sqlalchemy import create_engine
+import MySQLdb
 
 db = dataset.connect(c.LOCATIONDB)
 
@@ -22,21 +23,43 @@ def deviations(region=None):
     data = {}
 
     common_word_occurance = db['wordcounts'].find_one(token='och', region=region)['frequency']
-    print common_word_occurance
+    print "Ordet 'och' har frekvensen {} i regionen {}".format(common_word_occurance, region)
     
     start = time.time()
 
-    data = db.query('SELECT * FROM wordcounts '
-                    'WHERE region = "country" '
-                    'or region = "{}" ' 
-                    'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold))
+    result = db.query('SELECT count(*) as c FROM wordcounts '
+                      'WHERE region = "country" '
+                      'or region = "{}" ' 
+                      'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold))
+    for row in result:
+        print row['c'], "ord hittade"
+        n_words = row['c']
+
+    #data = db.query('SELECT region, frequency, token FROM wordcounts '
+    #                'WHERE region = "country" '
+    #                'or region = "{}" ' 
+    #                'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold))
+
+    mysql = MySQLdb.connect(host="locationdb.gavagai.se",
+                            user="sinus",
+                            passwd="5NU4KbP8",
+                            db="sinus2") 
+    cur = mysql.cursor() 
+    cur.execute('SELECT region, frequency, token FROM wordcounts '
+                'WHERE region = "country" '
+                'or region = "{}" ' 
+                'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold))
 
     regions, frequencys, tokens = [], [], []
 
-    for result in data:
+    i = 0
+    for result in cur.fetchall(): #data:
+        i += 1
+        if i % 10000 == 0:
+            print "{} % klart".format(float(i)/float(n_words))
         regions.append(region)
-        frequencys.append(result['frequency'])
-        tokens.append(result['token'])
+        frequencys.append(result[1])
+        tokens.append(result[2])
 
     df = pd.DataFrame({'token': tokens,
                        'region': regions,

@@ -1,0 +1,107 @@
+Sådär, nu ska APIet vara uppe. Tills vidare ligger det på en enkel pythonwebbserver så att vi kan fånga upp felmeddelanden enkelt. Dvs när frontendaren testar så kommer den att promptas med eventuella felmeddelanden som hen kan vidarbefodra till mig. När vi är redo för lansering lägger jag över den på en lite robustare programvara som har "connection pooling" och sådana fancy saker (Gunicorn).
+
+För att allt ska lira så behövs säkerhetsinställningarna på EC2 att ändras så att port 5011 är öppen utåt. Men tills vidare är den porten tunnlad via http://d558dd34.ngrok.io (detta medför en hel del overhead just nu)
+
+Tekniskt funkar backenden typ såhär nu: Data hämtas från vår stora databas och kokas ner till en matris per svarsalternativ när detta svarsalternativ ges. Denna matrisen sparas i en Redis på eran EC2. Så såfort tillräckligt med användare har "trampat upp" alla rimliga svarsalternativ så är kommer er EC2 vara helt fristående från vår databas. Detta bör även betyda att APIet ska bli jäkligt snabbt med tanke på Redis helt överjävliga kvickhet.
+
+### Endpoints
+
+1) För att få tag på frågor:
+
+GET /oracle/questions (dvs http://d558dd34.ngrok.io/oracle/questions tills vidare)
+
+returnerar:
+{
+  "1": {
+    "answers": [
+      "Sovde",
+      "Sov"
+    ],
+    "explanation": "Säger du **sovde** eller **sov**?",
+    "id": 1,
+    "query": [
+      "sovde",
+      "NOT sovde"
+    ],
+    "question": "Sov eller sovde?",
+    "target": "DB"
+  },
+  "4": {
+    "answers": [
+      "Ja",
+      "Nej"
+    ],
+    "explanation": "Har det under din uppväxt ibland pratats om att använda en **rullebör**?",
+    "id": 4,
+    "query": [
+      "rullebör",
+      "NOT rullebör"
+    ],
+    "question": "Skottkärra",
+    "target": "DB"
+  }, ...
+
+}
+
+Detta betyder alltså att frågan med id 1 har svarsalternativen ["Sovde", "Sov"].
+Vilket i sin tur betyder att svarar användaren "Sovde" på fråga med id 1 ska 0 skickas som svarsalternativ. Svarar användaren "Sov" är det 1. Alltså en nollindexerad lista. Lite krångligare än det kanske hade behövt vara. Lessen för det :).
+
+
+2) För att få "förutspåelse" på en uppsättning svar:
+
+POST /oracle/predict
+med raw JSON (application(json): {1: "0", 4: "0", 5: "0", 6: "0", 8: "0", 9: "0", 11: "0", 12: "0", 13: "0", 15: "0", 16: "0", 17: "0", 18: "0", 19: "0", 20: "0", 21: "0", 22: "0", 99: "0"}
+
+Där nyckel är frågeid och strängen är indexet på svarsalternativet som sträng.
+
+Tillbaka fås:
+
+{
+  "region": "Skåne",
+  "region2": "Skåne",
+  "region2_id": 2,
+  "region3": "Norra Danmark",
+  "region3_id": 3,
+  "region_id": 1
+}
+
+Där region är bästa gissningen, region2 är nästbästa osv.
+Svarsalternativ 1 har här nu id 1 (alltså 1indexerat helt plötsligt, sorry).
+
+
+3) För att skicka in att användaren accepterat svar 2 (region2) tex:
+
+POST oracle/confirm/2
+med raw JSON -> {1: "0", 4: "0", 5: "0", 6: "0", 8: "0", 9: "0", 11: "0", 12: "0", 13: "0", 15: "0", 16: "0", 17: "0", 18: "0", 19: "0", 20: "0", 21: "0", 22: "0", 99: "0"}
+
+Detta är alltså samma json med användarsvar som i förra endpointen.
+
+Tillbaka ska 
+{coordinate: Array[2], confirmed: 2}
+komma om allt gått väl. 2an är att val nummer 2 bekräftats.
+
+
+4) Om användaren instället valt att pricka ut koordiant på karta används:
+
+POST /oracle/correct/<latiude>/<longitude>
+med raw JSON -> {1: "0", 4: "0", 5: "0", 6: "0", 8: "0", 9: "0", 11: "0", 12: "0", 13: "0", 15: "0", 16: "0", 17: "0", 18: "0", 19: "0", 20: "0", 21: "0", 22: "0", 99: "0"}
+
+åter igen samma json för svarsuppsättning.
+
+returnerar:
+
+{
+  "confirmed": true,
+  "coordinate": [
+    "13.23",
+    "54.12"
+  ]
+}
+
+Hojta om det är nåt!
+/m
+
+
+
+
+gunicorn oracleAPI.views:app -w 3 -b 127.0.0.1:5011 --timeout 360 --reload --access-logfile logs/tracker_access.log --error-logfile logs/tracker_error.log
