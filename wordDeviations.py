@@ -27,28 +27,31 @@ def deviations(region=None):
     
     start = time.time()
 
+    lower_limit = common_word_occurance*0.00009902951079*threshold
+    upper_limit = common_word_occurance*0.8
+    print "Undre limit", lower_limit
+    print "Ovre limit", upper_limit
+
     result = db.query('SELECT count(*) as c FROM wordcounts '
-                      'WHERE region = "country" '
-                      'or region = "{}" ' 
-                      'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold))
+                      'WHERE (region = "country" '
+                      'or region = "{}") ' 
+                      'and frequency > {} '
+                      'and frequency < {}'.format(region, lower_limit, upper_limit))
     for row in result:
         print row['c'], "ord hittade"
         n_words = row['c']
 
-    #data = db.query('SELECT region, frequency, token FROM wordcounts '
-    #                'WHERE region = "country" '
-    #                'or region = "{}" ' 
-    #                'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold))
-
+    # Using another databasecon that's 
     mysql = MySQLdb.connect(host="locationdb.gavagai.se",
                             user="sinus",
                             passwd="5NU4KbP8",
                             db="sinus2") 
     cur = mysql.cursor() 
     cur.execute('SELECT region, frequency, token FROM wordcounts '
-                'WHERE region = "country" '
-                'or region = "{}" ' 
-                'and frequency > {}'.format(region, common_word_occurance*0.00009902951079*threshold))
+                'WHERE (region = "country" '
+                'or region = "{}") '
+                'and frequency > {} '
+                'and frequency < {}'.format(region, lower_limit, upper_limit))
 
     regions, frequencys, tokens = [], [], []
 
@@ -57,15 +60,17 @@ def deviations(region=None):
         i += 1
         if i % 10000 == 0:
             print "{} % klart".format(float(i)/float(n_words))
+
+        tokens.append(result[2].decode('latin-1'))
         regions.append(region)
         frequencys.append(result[1])
-        tokens.append(result[2])
 
     df = pd.DataFrame({'token': tokens,
                        'region': regions,
                        'frequency': frequencys})
 
     print time.time() - start, "att ladda in i pandas"
+
 
     def rel_frq(values):
         if len(values) == 2:
@@ -74,20 +79,31 @@ def deviations(region=None):
             return 0.0
 
     start = time.time()
-    grouped_count = df.groupby("token").frequency.agg(rel_frq)
-    print time.time() - start, "att gruppera per ord"
+    grouped = df.groupby("token")
+    n_groups = len(grouped)
 
     words, dev = [], []
     rows = []
-    for index, value in grouped_count.order(ascending=False).iteritems():
+    i = 0
+    for token, df in grouped:
+        i += 1        
+        if i % 1000 == 0:
+            print "{} % klart".format(float(i)/float(n_groups))
 
-        rows.append({'token': index.decode('latin-1'),
-                     'deviation': value,
-                     'region': region})
+        vals = df.frequency.values
 
-        if value < 0.3:
-            break
+        if len(vals) > 1:
+            dev = (vals[1] - vals[0])/vals[0]
 
+            if dev > 0.3:
+                rows.append({'token': token,
+                             'deviation': dev,
+                             'region': region})
+
+
+    print time.time() - start, "att gruppera per ord"
+
+    #print rows
     db['worddeviations'].insert_many(rows)
         
     
@@ -110,6 +126,6 @@ if __name__ == "__main__":
     # Dalarna
     #count_words_in_region("dalarna", (16.539451, 61.911557, 12.672264, 60.002842), percent=100)
     # Dalarna
-    deviations("finland")
+    df = deviations("finland")
 
     

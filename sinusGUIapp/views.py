@@ -1477,7 +1477,7 @@ def explore(region=None):
         tokens = []
         deviations = []
         for result in db['worddeviations'].find(region=region):
-            tokens.append(result['token'])
+            tokens.append(result['token'].decode('latin-1'))
             deviations.append(result['deviation'])
 
         skewedWords = zip(tokens, deviations)
