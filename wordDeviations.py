@@ -19,6 +19,9 @@ db = dataset.connect(c.LOCATIONDB)
 
 def deviations(region=None):
     
+    result = db.query('DELETE FROM worddeviations where region = {}'.format(region))
+    print "Tog bort gamla ord i databasen för {}".format(region)
+
     threshold = 0.5
     data = {}
 
