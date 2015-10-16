@@ -1481,6 +1481,7 @@ def explore(region=None):
             deviations.append(result['deviation'])
 
         skewedWords = zip(tokens, deviations)
+        skewedWords = sorted(skewedWords, key=lambda tup: tup[1], asc=False)
         data[region] = skewedWords  
              
     return render_template("explore.html", data=data)
