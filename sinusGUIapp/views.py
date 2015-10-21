@@ -1244,7 +1244,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                                "posts.text, "
                                "posts.date, "
                                "blogs.rank, "
-                               "blogs.id "
+                               "blogs.id as blogid "
                                "FROM posts INNER JOIN blogs ON "
                                "blogs.id=posts.blog_id "
                                "WHERE MATCH(posts.text) "
@@ -1272,7 +1272,7 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             dates.append(row['date'])
             ranks.append(row['rank'])
             
-            newkwic = kwic(row['text'], word, row['source'])
+            newkwic = kwic(row['text'], word, row['source']+":"+str(row['blogid']))
             if oldkwic != newkwic and i < 50:
                 i += 1
 
@@ -1391,7 +1391,6 @@ def site(urlSearch=None):
 
     """  
     #stats = getStats()
-    stats = None
     
     ### Classify text
     try:
@@ -1455,7 +1454,7 @@ def site(urlSearch=None):
         
     return render_template("index.html", localizeText=localizeText,
                                          documentQuery=documentQuery,
-                                         stats=stats)
+                                         stats=None)
 
 
 @app.route('/sinus/explore', methods = ['GET', 'POST'])

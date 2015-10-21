@@ -28,7 +28,7 @@ def count_words_in_region(region, bounding_box, percent=50):
                       "blogs.id=posts.blog_id "
                       "WHERE blogs.latitude is not NULL "
                       "AND blogs.longitude is not NULL "
-                      "AND blogs.rank <= 3 "
+                      "AND blogs.rank <= 4 "
                       "AND blogs.longitude > " + str(llcrnrlon) + " "
                       "AND blogs.longitude < " + str(urcrnrlon) + " "
                       "AND blogs.latitude > " + str(llcrnrlat) + " "
@@ -70,7 +70,7 @@ def count_words_in_region(region, bounding_box, percent=50):
                           "blogs.id=posts.blog_id "
                           "WHERE blogs.latitude is not NULL "
                           "AND blogs.longitude is not NULL "
-                          "AND blogs.rank <= 3 "
+                          "AND blogs.rank <= 4 "
                           "AND blogs.longitude > " + str(llcrnrlon) + " "
                           "AND blogs.longitude < " + str(urcrnrlon) + " "
                           "AND blogs.latitude > " + str(llcrnrlat) + " "
@@ -80,7 +80,7 @@ def count_words_in_region(region, bounding_box, percent=50):
         
         for row in result:
             words = row['text'].translate(transtab, punkter).split()
-            #words = [w.strip() for w in words]
+            words = [w.strip() for w in words]
             onegrams.update(words)
             
             #newbigrams = nltk.bigrams(words)
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     # Sweden total    
     #count_words_in_region("country", (26, 69.5, 8, 54.5), percent=100)
     # Skåne
-    #count_words_in_region("skaune", (14.653015, 56.256273, 12.551880, 55.349353), percent=100)
+    #count_words_in_region("skaune2", (14.653015, 56.256273, 12.551880, 55.349353), percent=100)
     # Norrland
     #count_words_in_region("norrland", (25.975690, 69.173527, 12.372609, 62.213702), percent=100)
     # Småland 
@@ -169,6 +169,35 @@ if __name__ == "__main__":
     # Dalarna
     #count_words_in_region("dalarna", (16.539451, 61.911557, 12.672264, 60.002842), percent=100)
     # Dalarna
-    count_words_in_region("gotland", (19.593651, 58.081954, 17.739940, 56.724710), percent=100)
+    #count_words_in_region("gotland666", (19.593651, 58.081954, 17.739940, 56.724710), percent=100)
 
+    # Genererade
+    count_words_in_region('Vaestra Goetaland', (12.125, 58.7666666667, 9.5, 57.7), percent=100)
+    count_words_in_region('JoenkoepingGislaveds Kommun', (14.75, 57.7, 12.125, 56.6333333333), percent=100)
+    count_words_in_region('Vaestra GoetalandFalkopings Kommun', (14.75, 58.7666666667, 12.125, 57.7), percent=100)
+    count_words_in_region('VaermlandHammaro Kommun', (14.75, 59.8333333333, 12.125, 58.7666666667), percent=100)
+    count_words_in_region('VaermlandHagfors Kommun', (14.75, 60.9, 12.125, 59.8333333333), percent=100)
+    count_words_in_region('DalarnaAlvdalens Kommun', (14.75, 61.9666666667, 12.125, 60.9), percent=100)
+    count_words_in_region('JaemtlandAre kommun', (14.75, 63.0333333333, 12.125, 61.9666666667), percent=100)
+    count_words_in_region('BlekingeKarlskrona Kommun', (17.375, 56.6333333333, 14.75, 55.5666666667), percent=100)
+    count_words_in_region('KalmarHogsby Kommun', (17.375, 57.7, 14.75, 56.6333333333), percent=100)
+    count_words_in_region('OEstergoetlandAtvidabergs Kommun', (17.375, 58.7666666667, 14.75, 57.7), percent=100)
+    count_words_in_region('VaestmanlandKungsoers kommun', (17.375, 59.8333333333, 14.75, 58.7666666667), percent=100)
+    count_words_in_region('DalarnaHedemora Kommun', (17.375, 60.9, 14.75, 59.8333333333), percent=100)
+    count_words_in_region('GaevleborgOvanakers Kommun', (17.375, 61.9666666667, 14.75, 60.9), percent=100)
+    count_words_in_region('VaesternorrlandAnge Kommun', (17.375, 63.0333333333, 14.75, 61.9666666667), percent=100)
+    count_words_in_region('JaemtlandRagunda Kommun', (17.375, 64.1, 14.75, 63.0333333333), percent=100)
+    count_words_in_region('VaesterbottenDorotea Kommun', (17.375, 65.1666666667, 14.75, 64.1), percent=100)
+    count_words_in_region('VaesterbottenStorumans Kommun', (17.375, 66.2333333333, 14.75, 65.1666666667), percent=100)
+    count_words_in_region('StockholmVarmdo Kommun', (20.0, 59.8333333333, 17.375, 58.7666666667), percent=100)
+    count_words_in_region('UppsalaOsthammars Kommun', (20.0, 60.9, 17.375, 59.8333333333), percent=100)
+    count_words_in_region('VaesternorrlandKramfors Kommun', (20.0, 63.0333333333, 17.375, 61.9666666667), percent=100)
+    count_words_in_region('VaesternorrlandOErnskoeldsviks Kommun', (20.0, 64.1, 17.375, 63.0333333333), percent=100)
+    count_words_in_region('VaesterbottenLycksele kommun', (20.0, 65.1666666667, 17.375, 64.1), percent=100)
+    count_words_in_region('NorrbottenArvidsjaurs Kommun', (20.0, 66.2333333333, 17.375, 65.1666666667), percent=100)
+    count_words_in_region('NorrbottenArjeplogs Kommun', (20.0, 67.3, 17.375, 66.2333333333), percent=100)
+    count_words_in_region('VaesterbottenSkelleftea Kommun', (22.625, 65.1666666667, 20.0, 64.1), percent=100)
+    count_words_in_region('NorrbottenAlvsbyns Kommun', (22.625, 66.2333333333, 20.0, 65.1666666667), percent=100)
+    count_words_in_region('NorrbottenGallivare Kommun', (22.625, 67.3, 20.0, 66.2333333333), percent=100)
+    count_words_in_region('NorrbottenHaparanda Kommun', (25.25, 66.2333333333, 22.625, 65.1666666667), percent=100)
     
