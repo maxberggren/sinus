@@ -132,9 +132,6 @@ if __name__ == "__main__":
     # Dalarna
     #count_words_in_region("dalarna", (16.539451, 61.911557, 12.672264, 60.002842), percent=100)
     
-    deviations("norrland")
-    deviations("smauland")
-    deviations("malardalen")
-    deviations("dalarna")
+    deviations("JoenkoepingGislavedsKommun")
 
     
