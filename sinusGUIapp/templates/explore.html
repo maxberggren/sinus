@@ -7,6 +7,16 @@
 
 
 {% block content %}
+
+      <style>
+        .dim {
+          cursor: pointer;
+        }
+        .hidde {
+          display: none;
+        }
+      </style>
+
       <form action="/sinus/" method="post">
       
       {% if data['synonyms'] %}
@@ -38,9 +48,9 @@
           <div class="col-md-12">
           <div class="panel panel-default">
     		  <div class="panel-heading">
-    		    <h3 class="panel-title">Ord vars förekomst sticker ut för {{ region }} (procentuellt)</h3>
+    		    <h3 class="panel-title dim">Ord vars förekomst sticker ut för {{ region }} (procentuellt)</h3>
     		  </div>
-    		  <div class="panel-body">
+    		  <div class="panel-body hidden">
 		     
     		  {% for word, entropy in words %} <a href="/sinus/search/{{ word }}">{{ word }}</a> ({{ '{0:0.2f}'.format(entropy) }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %}
  
@@ -53,6 +63,12 @@
       {% endfor %}    
 
       </form>
+
+      <script>
+      $('.dim').click(function(){
+          $('.hidden', this).toggle(); // p00f
+      });
+      </script>
 {% endblock %}
 
 

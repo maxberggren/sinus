@@ -29,9 +29,9 @@ def deviations(region=None):
     
     start = time.time()
 
-    threshold = 0.01
+    threshold = 0.3
     #lower_limit = common_word_occurance*0.00009902951079*threshold
-    lower_limit = 25
+    lower_limit = 100
     #upper_limit = common_word_occurance*1.0
     upper_limit = None
 
@@ -68,7 +68,7 @@ def deviations(region=None):
             print "{} % klart".format(100.0*float(i)/float(n_words))
 
         tokens.append(result[2].decode('latin-1'))
-        regions.append(region)
+        regions.append(result[0])
         frequencys.append(result[1])
 
     df = pd.DataFrame({'token': tokens,
@@ -90,10 +90,12 @@ def deviations(region=None):
         if i % 1000 == 0:
             print "{} % klart".format(100.0*float(i)/float(n_groups))
 
-        vals = df.frequency.values
+        try:
+            sort = df.sort('frequency').frequency.values
+            country_frq = sort[1]
+            reg_frq = sort[0]
 
-        if len(vals) == 2:
-            dev = (vals[1] - vals[0])/vals[0]
+            dev = float(reg_frq)/float(country_frq)
 
             if dev > threshold:
                 rows.append({'token': token,
@@ -102,6 +104,8 @@ def deviations(region=None):
             if token == "litta":
                 print {'token': token, 'deviation': dev, 'region': region}
 
+        except IndexError:
+            pass
 
     print time.time() - start, "att gruppera per ord"
 
@@ -128,6 +132,9 @@ if __name__ == "__main__":
     # Dalarna
     #count_words_in_region("dalarna", (16.539451, 61.911557, 12.672264, 60.002842), percent=100)
     
-    deviations("skaune2")
+    deviations("norrland")
+    deviations("smauland")
+    deviations("malardalen")
+    deviations("dalarna")
 
     
