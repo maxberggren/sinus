@@ -69,7 +69,7 @@
 
       $('.dim').click(function (){
         console.log($(this).siblings('.hidden'));
-        $(this).siblings('.hidden').toggle();
+        $(this).siblings('.hidden').toggleClass('.hidden'');
       });
       </script>
 {% endblock %}
