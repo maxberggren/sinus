@@ -50,7 +50,7 @@
         		  <div class="panel-heading dim">
         		    <h3 class="panel-title">Ord vars förekomst sticker ut för {{ region }} (procentuellt)</h3>
         		  </div>
-        		  <div class="panel-body hidden">
+        		  <div class="panel-body" style="display: none;">
     		     
         		  {% for word, entropy in words %} <a href="/sinus/search/{{ word }}">{{ word }}</a> ({{ '{0:0.2f}'.format(entropy) }}){% if not loop.last %},{% else %}.{% endif %} {% endfor %}
      
@@ -68,8 +68,7 @@
 
 
       $('.dim').click(function (){
-        console.log($(this).siblings('.hidden'));
-        $(this).siblings().toggleClass('.hidden'');
+        $(this).siblings('.panel-body').show();
       });
       </script>
 {% endblock %}
