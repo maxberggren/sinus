@@ -65,8 +65,10 @@
       </form>
 
       <script>
-      $('.dim').click(function(){
-          $(this).parent().next().toggle();
+
+
+      $('.dim').click(function (){
+        var myUL = $(this).parents().siblings(".panel-body").toggleClass("showme");
       });
       </script>
 {% endblock %}
