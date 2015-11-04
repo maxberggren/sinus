@@ -1132,7 +1132,7 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             facecolors = []
             for c in cmap_list:
                 if c == 0:
-                    facecolors.append(cmapOpacity(val, 0))
+                    facecolors.append(cmapOpacity(val, 1))
                 else:
                     facecolors.append(cmap(c))
 
