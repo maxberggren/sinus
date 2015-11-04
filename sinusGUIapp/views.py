@@ -717,6 +717,560 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     return False, filename, None 
 
 
+
+
+
+
+
+def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
+    """ Generate an image with shapefiles as bins but not multiple maps
+
+    Parameters
+    ----------
+    data : tuple
+        tuple with lists of the coordinates
+    words : list
+        list of words corresponding to the lists in 
+        the tuple coordinatesByWord.
+    zoom : int
+        1 if the user wants the map to be zoomed in 
+        around the avalible data. if 0 it defaults
+        to around sweden.
+    binThreshold : int
+        threshold required for a bin to count and be plotted
+
+    Returns
+    -------
+    fewResults : bool
+        true if the template needs to generate an error
+    filename : str
+        name of the file generated
+    gifFileName : always None for compability   
+    """
+    
+    
+    def custom_colorbar(cmap, ncolors, labels, **kwargs):    
+        """ Create a custom, discretized colorbar with correctly 
+            formatted/aligned labels.
+        
+            cmap: the matplotlib colormap object you plan on using 
+            for your graph
+            ncolors: (int) the number of discrete colors available
+            labels: the list of labels for the colorbar. Should be 
+            the same length as ncolors.
+        """
+        from matplotlib.colors import BoundaryNorm
+        from matplotlib.cm import ScalarMappable
+            
+        norm = BoundaryNorm(range(0, ncolors), cmap.N)
+        mappable = ScalarMappable(cmap=cmap, norm=norm)
+        mappable.set_array([])
+        mappable.set_clim(-0.5, ncolors+0.5)
+        colorbar = plt.colorbar(mappable, **kwargs)
+        colorbar.set_ticks(np.linspace(0, ncolors, ncolors+1)+0.5)
+        colorbar.set_ticklabels(range(0, ncolors))
+        colorbar.set_ticklabels(labels)
+        
+        return colorbar
+    
+    def opacify(cmap):
+        """ Add opacity to a colormap going from full opacity to no opacity """
+        
+        cmap._init()
+        alphas = np.abs(np.linspace(0, 1.0, cmap.N))
+        cmap._lut[:-3,-1] = alphas
+        return cmap
+    
+    def genGrid(koordinater, xBins=10, xyRatio=1.8):
+        """ Generate grid from coordinates """
+        
+        if len(koordinater) == 0:
+            return np.zeros(shape=(int(xBins*xyRatio-1), xBins-1))
+            
+        lon_bins = np.linspace(9.5, 28.5, xBins)
+        lat_bins = np.linspace(54.5, 69.5, xBins*xyRatio)
+    
+        lons, lats = zip(*koordinater)             
+        lons = np.array(lons)
+        lats = np.array(lats)
+    
+        density, _, _ = np.histogram2d(lats, 
+                                       lons, 
+                                       [lat_bins, 
+                                        lon_bins])
+        return density
+    
+    def sum1(input):
+        """ Sum all elements in matrix """
+        
+        try:
+            return sum(map(sum, input))
+        except Exception:
+            return sum(input)
+    
+    def normalize(matrix):
+        """ Divide all elements by sum of all elements """
+        return matrix / sum1(matrix)        
+    
+    @timing    
+    def getEnoughData():
+        """ Get alot of data until a suitable null hypothesis has converged """
+        
+        try:        
+            coordinates = []
+
+            for source in mysqldb.query("SELECT longitude, latitude from blogs "
+                                        "WHERE longitude is not NULL and "
+                                        "latitude is not NULL "
+                                        "ORDER BY RAND() "
+                                        "LIMIT 500000"):   
+    
+                coordinates.append([source['longitude'], source['latitude']])
+                
+            return coordinates
+   
+        except KeyboardInterrupt:
+            print "Avbryter..."        
+
+    lds, coord_count, breaks = [], {}, {}
+
+    # If ranks not sent in, assume rank 2
+    if not ranks:
+        ranks = ()
+        for batch in data:
+            ranks = ranks + ([2]*len(batch),)
+
+    # Put coordinates into DFs 
+    for d, word, rank in zip(data, words, ranks):
+        lon, lat = zip(*d)
+        coord_count[word] = len(d)
+        ld = pd.DataFrame({'longitude': lon, 
+                           'latitude': lat,
+                           'rank': rank})
+        ld['word'] = word
+        lds.append(ld)
+        
+    lds = pd.concat(lds) # One DF with all coordinates
+    
+    if zoom: # User choose to zoom map to iteresting points
+        padding = 0.5
+        llcrnrlon = lds['longitude'].quantile(0.05) - padding
+        llcrnrlat = lds['latitude'].quantile(0.20) - padding
+        urcrnrlon = lds['longitude'].quantile(0.88) + padding
+        urcrnrlat = lds['latitude'].quantile(0.83) + padding
+        resolution = "h"
+        area_thresh = 50
+    else: #
+        llcrnrlon = 9.5
+        llcrnrlat = 54.5
+        urcrnrlon = 28.5
+        urcrnrlat = 69.5
+        resolution = 'i'
+        area_thresh = 250
+
+    cachedMapWithShapes = "mapwithshapefiles.pkl"
+
+    if not os.path.isfile(cachedMapWithShapes) or zoom:
+        # If no cache is awalible, set up object
+        start_time = time.time()
+
+        m = Basemap(projection='merc',
+                    resolution=resolution, 
+                    area_thresh=area_thresh,
+                    llcrnrlon=llcrnrlon, 
+                    llcrnrlat=llcrnrlat,
+                    urcrnrlon=urcrnrlon, 
+                    urcrnrlat=urcrnrlat) 
+
+        ### Read shapefiles
+ 
+        # Finnish regions (sv: landskap)
+        _out = m.readshapefile('shapedata/finland/fin-adm2', 
+                               name='regions_fi', drawbounds=False, 
+                               color='none', zorder=2)
+        
+        # Åland
+        _out = m.readshapefile('shapedata/finland/ala-adm0', 
+                               name='region_al', drawbounds=False, 
+                               color='none', zorder=2)
+        
+        # Municipality data (SV)
+        _out = m.readshapefile('shapedata/Kommuner_SCB/Kommuner_SCB_Std', 
+                               name='muni', drawbounds=False, 
+                               color='none', zorder=3)
+
+        # Make cached map
+        if not zoom:
+            with open(cachedMapWithShapes,'wb') as f:
+                pickle.dump(m, f)
+                               
+        print("--- %s sekunder att läsa alla shapefiles ---" % (time.time() - start_time))
+    else:
+        # Read from cache to save precious time
+        start_time = time.time()
+        with open(cachedMapWithShapes, 'rb') as f:
+            m = pickle.load(f)
+        print("--- %s sekunder att läsa alla shapefiles från cache ---" % (time.time() - start_time))
+
+    start_time = time.time()
+            
+    # Municipality DF (SE + FI)
+    # (FID is for removing Finnish Lapland and North Osterbothnia)   
+    df_map_muni = pd.DataFrame({
+        'poly': [Polygon(p) for p in m.muni] + \
+                [Polygon(p) for p, r in zip(m.regions_fi, m.regions_fi_info) \
+                            if r['FID'] not in [1, 3]] + \
+                [Polygon(p) for p in m.region_al], 
+        'name': [r['KNNAMN'] for r in m.muni_info] + \
+                ["n/a" for r in m.regions_fi_info \
+                       if r['FID'] not in [1, 3]] + \
+                ["åland" for r in m.region_al_info] })    
+    
+    # Fix encoding
+    df_map_muni['name'] = df_map_muni.apply(lambda row: row['name'].decode('latin-1'), axis=1)
+    
+    #print("--- %s sekunder att sätta upp dataframes med polygoner ---" % (time.time() - start_time))
+
+    def mapPointsToPoly(coordinates_df, poly_df):
+        """ Take coordiates DF and put into polygon DF """
+        
+        mapped_points, hood_polygons = {}, {}
+        ranks = {}
+        
+        uniqeWords = coordinates_df['word'].unique()
+        
+        for word, ld in coordinates_df.groupby(['word']):             
+            # Convert our latitude and longitude into Basemap cartesian map coordinates
+            start_time = time.time()
+            points = [Point(m(mapped_x, mapped_y)) 
+                      for mapped_x, mapped_y 
+                      in zip(ld['longitude'], ld['latitude'])]
+            
+            #print("--- %s sekunder att konvertera till Point() ---" % (time.time() - start_time))
+            # If we did not get ranked data, assume rank 2          
+            try:
+                mapped_points[word] = pd.DataFrame({'points': points,
+                                                    'rank': ld['rank']})
+            except KeyError:
+                mapped_points[word] = pd.DataFrame({'points': points})
+                mapped_points[word]['rank'] = 2
+
+
+        def num_of_contained_points(apolygon, mapped_points):
+            """ Counts number of points that fall into a polygon
+                Points with rank >= 4 gets just half weight """
+
+            num = 0            
+            for rank, ld in mapped_points.groupby(['rank']):  
+                if rank >= 4: # Downweight badly ranked points
+                    num += int(0.5*len(filter(prep(apolygon).contains, ld['points'])))
+                else:
+                    num += int(len(filter(prep(apolygon).contains, ld['points'])))
+                    
+            return num
+        
+
+        for word in uniqeWords:
+            start_time = time.time()   
+            poly_df[word] = poly_df['poly'].apply(num_of_contained_points, 
+                                                  args=(mapped_points[word],))
+            poly_df[word][poly_df[word] < binThreshold] = 0
+            print("--- %s sekunder att kolla hur många träffar som är i varje polygon) ---" % (time.time() - start_time))
+            
+        return poly_df
+        
+    df_map_muni = mapPointsToPoly(lds, df_map_muni)
+
+    print words
+        
+    ### Only one word: compare to country average
+    if len(words) == 1: 
+        
+        fname_muni = "null_hypothesis_muni_df.pkl" 
+        
+        start_time = time.time()   
+        if not os.path.isfile(fname_muni):
+            temp_latlon_df = pd.DataFrame(getEnoughData(), 
+                                          columns=['longitude', 'latitude'])
+            temp_latlon_df['word'] = "expected"
+            
+            # Make dataframe and pickle 
+            null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
+            null_h_muni_df.to_pickle(fname_muni)
+        else:
+            # Read from pickle
+            null_h_muni_df = pd.io.pickle.read_pickle(fname_muni)
+        
+        print("--- %s sekunder att ladda nollhypotes) ---" % (time.time() - start_time))
+
+
+        def deviationFromAverage(df_map, avg):
+            """ Make DFs into percentages and see the deviation from country average """
+
+            df_map['expected'] = avg['expected']        
+            df_map = df_map[df_map['expected'] > 0] # remove zeros
+
+            # Calculate percentages
+            df_map['expected'] = df_map['expected'].astype('float')\
+                                                   .div(df_map['expected'].sum(axis=0))
+
+            # Keep the frequencys
+            df_map[words[0] + "_frq"] = df_map[words[0]] 
+
+            # Words will here just be the one word
+            df_map[words] = df_map[words].astype('float')\
+                                         .div(df_map[words].sum(axis=0))
+
+            # Divide distribution percentage by expected percentage   
+            df_map[words] = df_map[words].div(df_map['expected'], axis='index')
+            del df_map['expected']
+
+            return df_map
+         
+        start_time = time.time()   
+        # Since only one word, calculate deviation from country average   
+        df_map_muni = deviationFromAverage(df_map_muni, null_h_muni_df)
+        print("--- %s sekunder att kolla avvikelse fr nollhypotes) ---" % (time.time() - start_time))
+        
+        breaks['muni'] = {}
+               
+        for word in words:    
+            muniMax = float(df_map_muni[word].max(axis=0))
+            breaks['muni'][word] = [0., 0.5, 1., muniMax/2.0, muniMax]
+        
+        labels = ['Below avg.', '', 'Avg.', '', 'Above avg.']    
+        
+    else:     
+        ### More than one word: compare words against each other 
+           
+        # Get total occurencies in every municipality
+        df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
+            
+        def df_percent(df_map):
+            # Save for later use
+            for word in words:
+                df_map[word + "_frq"] = df_map[word]
+
+            # Handle divide by zero as zeros
+            df_map[words] = df_map[words].astype('float').div(df_map["sum"].replace({ 0 : np.nan })
+                                                              .astype('float'), axis='index')
+            df_map[words] = df_map[words].fillna(0)
+            df_map.loc[df_map['sum'] < binThreshold, words] = 0
+                        
+            return df_map
+        
+        # Convert to percentages and skip where there is none
+        start_time = time.time()   
+        df_map_muni = df_percent(df_map_muni)
+        #print("--- %s sekunder att konvertera till procent) ---" % (time.time() - start_time))
+
+        breaks['muni'] = {}
+               
+        for word in words:    
+            breaks['muni'][word] = [0., 0.25, 0.5, 0.75, 1.0]
+            
+        labels = ['None', 'Low', 'Medium', 'High', 'Very high']
+        
+    def self_categorize(entry, breaks):
+        """ Put percent into a category (breaks) """
+        
+        for i in range(len(breaks)-1):
+            if entry > breaks[i] and entry <= breaks[i+1]:
+                return i
+        return -1 # under or over break interval
+    
+    def genFallbackMap(df, word, smooth=False):
+        """ Generate fallback map from municipalitys """
+        hierarchy = pd.io.excel.read_excel("hierarchy.xlsx")
+
+        def getMuni(df, level, key):
+            return df.groupby(level).get_group(key)['Kommun'].unique()
+
+        def getParentMean(df, municipality, level, word):
+            try:
+                parent = hierarchy.loc[hierarchy[u'Kommun'] == municipality][level].values[0]
+                if not parent == "-":
+                    munis = getMuni(hierarchy, level, parent)
+                    parentData = df.loc[df['name'].isin(munis), word]
+                    mean = np.mean(parentData)  
+                    return mean
+                else:
+                    return None
+            except IndexError:
+                return None
+
+        def updateDF(df, word):
+            """ Find municipalitys with no hits and update according to rule """
+            new_df = df.copy(deep=True)
+
+            for parentLevels in [[u"Stadsomland", u"Gymnasieort"], 
+                                 [u"LA-region", u"FA-region"], 
+                                 [u"NDR", u"A", u"Tidningsdistrikt", u"Postnummer", u"P"], 
+                                 [u"Län", u"Landskap"]]:
+
+                if smooth:
+                    municipalitys = df['name'].unique() # All
+                else:
+                    municipalitys = df[df[word] == 0.0]['name'].unique() # Just where zero hits
+
+                for muni in municipalitys: 
+                    # Merge the mean of every parent level
+                    mean = np.array([getParentMean(df, muni, parentLevel, word) 
+                                     for parentLevel in parentLevels])
+                    mean = np.mean(mean[mean != np.array(None)]) # Remove Nones and then mean
+    
+                    # Update municipality with fallback according to rule
+                    if mean and mean != 0.0 and mean != True:
+                        #if smooth:
+                            #new_df.loc[new_df['name'] == muni, word] = (3*mean+df.loc[df['name'] == muni, word])/4.0
+                        #else:
+                        new_df.loc[new_df['name'] == muni, word] = mean
+                        
+            return new_df 
+
+        df = updateDF(df, word)
+
+        return df
+    
+    fig = plt.figure(figsize=(3.45*len(words),6))
+    
+    for i, word in enumerate(words):
+
+        start_time = time.time()  
+        # Create columns stating which break precentages belongs to
+        df_map_muni['bins_'+word] = df_map_muni[word].apply(self_categorize, 
+                                                             args=(breaks['muni'][word],))      
+
+        # Also create a fallback DF if needed
+        if binModel == 'MP' or binModel == 'MP+smooth':
+            start_time = time.time() 
+            df_map_fallback = genFallbackMap(df_map_muni, word)   
+            if binModel == 'MP+smooth':
+                df_map_fallback = genFallbackMap(df_map_fallback, word, smooth=True)   
+                
+            print("--- %s sekunder att skapa mp-stepback) ---" % (time.time() - start_time))        
+            df_map_fallback['bins_'+word] = df_map_fallback[word].apply(self_categorize, 
+                                                                        args=(breaks['muni'][word],)) 
+
+        start_time = time.time()                                                                                                       
+        # Subplot for every word
+        if len(word) > 25:
+            title = word.replace(" OR ", "/")[0:25] + " [...]"
+        else:
+            title = word.replace(" OR ", "/")
+            
+        ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
+        ax.set_title(u"{word} - hits: {hits}".format(word=title, 
+                                                     hits=coord_count[word]), 
+                     y=1.01, fontsize=9)
+    
+        colormap = colorCycle(i)
+        if len(words) == 1:
+            colormap = "coolwarm" 
+            
+        cmap = plt.get_cmap(colormap)
+        #cmap = opacify(cmap) # Add opacity to colormap
+        
+        if binModel == 'MP' or binModel == 'MP+smooth':
+            # Lab
+            shapesToPutOnMap = [df_map_fallback]
+        else: 
+            shapesToPutOnMap = [df_map_muni]
+        
+        # Put all shapes on map
+        for df_map in shapesToPutOnMap:
+            
+            # Create patches
+            df_map['patches'] = df_map.apply(lambda row: PolygonPatch(row['poly'], lw=0, zorder=4), axis=1)
+
+            pc = PatchCollection(df_map['patches'], match_original=True)
+
+            # Apply our custom color values onto the patch collection
+            #cmaps = (df_map['bins_'+word].values - 
+            #           df_map['bins_'+word].values.min())/(
+            #               df_map['bins_'+word].values.max()-
+            #                   float(df_map['bins_'+word].values.min()))
+            cmaps = (df_map['bins_'+word].values - -1)/(
+                           len(breaks['muni'][word])-2-
+                               float(-1)) # Let's fix the scaling for now
+            cmap_list = []
+
+            def cmapOpacity(val, opacity):
+                """ Fix for setting opacity """
+                r, g, b, a = cmap(val)
+                a = opacity
+                return r, g, b, a
+
+            for val, frq in zip(cmaps, df_map[word + "_frq"]):
+                if val == 0:
+                    cmap_list.append('none')
+                else:
+                    if frq > 10:
+                        opacity = 1
+                    else:
+                        opacity = 0.5
+
+                    opacity = 1 # Let's wait with using opacity for significance
+                    cmap_list.append(cmapOpacity(val, opacity))
+            
+            pc.set_facecolor(cmap_list)
+            ax.add_collection(pc)
+            
+        m.drawcoastlines(linewidth=0.25, color="#3b3b3b") 
+        m.drawcountries()
+        m.drawstates()
+        m.drawmapboundary()
+        m.fillcontinents(color='white', lake_color='grey', zorder=0)
+        m.drawmapboundary(fill_color='grey')
+    
+        divider = make_axes_locatable(plt.gca())
+        cax = divider.append_axes("bottom", 
+                                  "2%", 
+                                  pad="2.5%")
+                        
+        cbar = custom_colorbar(cmap, ncolors=len(labels)+1, 
+                               labels=labels, 
+                               orientation='horizontal', 
+                               cax=cax)
+        cbar.ax.tick_params(labelsize=6)
+        
+        #print("--- %s sekunder att skapa karta) ---" % (time.time() - start_time))      
+            
+    try:
+        fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
+    except:
+        pass
+    
+    plt.plot()
+
+    # Generate randomized filename
+    filename = "_".join(words) + "_"
+    filename += binascii.b2a_hex(os.urandom(15))[:10]
+    filename = secure_filename(filename)
+    
+    #emptyFolder('sinusGUIapp/static/maps/')
+    plt.savefig("sinusGUIapp/static/maps/" + filename +".png", 
+                dpi=100)
+    plt.savefig("sinusGUIapp/static/maps/" + filename +".pdf", 
+                dpi=100, 
+                bbox_inches='tight')
+    plt.close('all')
+
+    #return fewResults, filenameSF, gifFileName 
+    return False, filename, None 
+
+
+
+
+
+
+
+
+
+
+
+
+
 def genGridImg(coordinatesByWord, xBins, words, zoom,
               xyRatio, blurFactor, minCoordinates, 
               scatter, hits, chunks=1, dates=None, binThreshold=5):
@@ -1635,7 +2189,13 @@ def byod():
         
         # Generate statistics
         stats = getStats()
-        
+
+        if oneMap:
+            # Get main image with shapefiles
+            fewResults, filename, gifFileName = genOneMapShapefileImg(coordinatesByWord, None, # ranks=None
+                                                                words, zoom,
+                                                                binThreshold=binThreshold,
+                                                                binModel=binModel)          
         if binType == "shape":
             # Get main image with shapefiles
             fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, None, # ranks=None
