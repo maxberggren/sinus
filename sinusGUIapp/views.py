@@ -2107,6 +2107,7 @@ def byod():
         stats = getStats()
 
         if oneMap:
+            print "just one map!"
             # Get main image with shapefiles
             fewResults, filename, gifFileName = genOneMapShapefileImg(coordinatesByWord, None, # ranks=None
                                                                 words, zoom,
