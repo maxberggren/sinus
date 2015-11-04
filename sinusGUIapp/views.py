@@ -1624,7 +1624,7 @@ def getStats():
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, rankthreshold=3, 
             binThreshold=5, datespan=None, binType="shape",
-            binModel=None, hitsThreshold=50):
+            binModel=None, hitsThreshold=50, oneMap=False):
 
     """ Retrive data from the document database
 
@@ -1926,7 +1926,8 @@ def site(urlSearch=None):
                          datespan=datespan,
                          binType=binType,
                          binModel=binModel,
-                         hitsThreshold=hitsThreshold)
+                         hitsThreshold=hitsThreshold,
+                         oneMap=oneMap)
                          
         filename, hits, KWICs, fewResults, gifFileName, resultsOmitted = touple
                               
