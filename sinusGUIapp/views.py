@@ -1123,8 +1123,11 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 if val == 0:
                     cmap_list.append('none')
                 else:
-                    opacity = 1 # Let's wait with using opacity for significance
-                    cmap_list.append(cmapOpacity(val, opacity))
+                    if val > prev:
+                        opacity = 1 # Let's wait with using opacity for significance
+                        cmap_list.append(cmapOpacity(val, opacity))
+                    else:
+                        cmap_list.append('none')
             
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
