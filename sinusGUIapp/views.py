@@ -1117,25 +1117,29 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 a = opacity
                 return r, g, b, a
 
-            old_cmap_list = [0]*len(cmaps)
+            old_vals_list = [0]*len(cmaps)
 
-            for val, frq, prev in zip(cmaps, df_map[word + "_frq"], old_cmap_list):
+            for val, frq, prev in zip(cmaps, df_map[word + "_frq"], old_vals_list):
                 print val, frq, prev
                 if val == 0:
-                    if prev == 0:
-                        cmap_list.append('none')
-                    else:
-                        cmap_list.append(prev)
+                    cmap_list.append(prev)
                 else:
                     if val > prev:
-                        cmap_list.append(cmap(val))
+                        cmap_list.append(val)
                     else:
                         cmap_list.append(prev)
-            
-            pc.set_facecolor(cmap_list)
+
+            facecolors = []
+            for c in cmap_list:
+                if c == 0:
+                    facecolors.append('none')
+                else:
+                    facecolors.append(cmap(c))
+
+            pc.set_facecolor(facecolors)
             ax.add_collection(pc)
 
-            old_cmap_list = cmap_list
+            old_vals_list = cmap_list
             
         m.drawcoastlines(linewidth=0.25, color="#3b3b3b") 
         m.drawcountries()
