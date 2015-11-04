@@ -1117,17 +1117,17 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 a = opacity
                 return r, g, b, a
 
-            old_cmap_list = [0]*len(cmaps)
+            old_cmap_list = ['none']*len(cmaps)
 
             for val, frq, prev in zip(cmaps, df_map[word + "_frq"], old_cmap_list):
+                print val, frq, prev
                 if val == 0:
-                    cmap_list.append('none')
+                    cmap_list.append(prev)
                 else:
                     if val > prev:
-                        opacity = 1 # Let's wait with using opacity for significance
-                        cmap_list.append(cmapOpacity(val, opacity))
+                        cmap_list.append(val)
                     else:
-                        cmap_list.append('none')
+                        cmap_list.append(prev)
             
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
