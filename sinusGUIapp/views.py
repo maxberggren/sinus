@@ -781,14 +781,6 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         cmap._lut[:-3,-1] = alphas
         return cmap
     
-    def opacify_uniform(cmap, opacity):
-        """ Add opacity to a colormap going from full opacity to no opacity """
-        
-        cmap._init()
-        alphas = np.ones(cmap.N)
-        cmap._lut[:-3,-1] = alphas*opacity
-        return cmap
-    
     def genGrid(koordinater, xBins=10, xyRatio=1.8):
         """ Generate grid from coordinates """
         
@@ -1098,7 +1090,6 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             
         cmap = plt.get_cmap(colormap)
         #cmap = opacify(cmap) # Add opacity to colormap
-        cmap = opacify_uniform(cmap, 1.0/len(words)) # Add opacity to colormap
         
         if binModel == 'MP' or binModel == 'MP+smooth':
             # Lab
@@ -1126,20 +1117,19 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 a = opacity
                 return r, g, b, a
 
-            for val, frq in zip(cmaps, df_map[word + "_frq"]):
+            old_cmap_list = [0]*len(cmaps)
+
+            for val, frq in zip(cmaps, df_map[word + "_frq"], old_cmap_list):
                 if val == 0:
                     cmap_list.append('none')
                 else:
-                    if frq > 10:
-                        opacity = 1
-                    else:
-                        opacity = 0.5
-
                     opacity = 1 # Let's wait with using opacity for significance
                     cmap_list.append(cmapOpacity(val, opacity))
             
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
+
+            old_cmap_list = cmap_list
             
         m.drawcoastlines(linewidth=0.25, color="#3b3b3b") 
         m.drawcountries()
