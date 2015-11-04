@@ -1545,14 +1545,10 @@ def getOperators(queryWords):
     try:
         oneMap = int([o.split(":")[1].strip()
                for o in operators if "onemap:" in o][0])
-        
-        print "found onemap"
         if oneMap == 1:
             oneMap = True
     except:
-        print "onemap is false"
         oneMap = False
-    print oneMap
         
     return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, oneMap
 
@@ -2085,7 +2081,8 @@ def byod():
         queryWords = query.split(",")
         
         operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, oneMap = getOperators(queryWords)
-              
+             
+        print oneMap, "onemap" 
         # If no column "form" is found, assume only one word
         if not 'form' in df.columns:
             # Use filename
