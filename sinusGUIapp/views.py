@@ -781,6 +781,14 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         cmap._lut[:-3,-1] = alphas
         return cmap
     
+    def opacify_uniform(cmap, opacity):
+        """ Add opacity to a colormap going from full opacity to no opacity """
+        
+        cmap._init()
+        alphas = np.ones(cmap.N)
+        cmap._lut[:-3,-1] = alphas*opacity
+        return cmap
+    
     def genGrid(koordinater, xBins=10, xyRatio=1.8):
         """ Generate grid from coordinates """
         
@@ -1089,7 +1097,8 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         colormap = colorCycle(i)
             
         cmap = plt.get_cmap(colormap)
-        cmap = opacify(cmap) # Add opacity to colormap
+        #cmap = opacify(cmap) # Add opacity to colormap
+        cmap = opacify_uniform(cmap, 1.0/len(words)) # Add opacity to colormap
         
         if binModel == 'MP' or binModel == 'MP+smooth':
             # Lab
