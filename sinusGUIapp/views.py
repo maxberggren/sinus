@@ -1080,7 +1080,7 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         else:
             title = word.replace(" OR ", "/")
             
-        ax = fig.add_subplot(1, len(words), 1#int(i+1), 
+        ax = fig.add_subplot(1, len(words), 1,#int(i+1), 
                              axisbg='w', frame_on=False)
         ax.set_title(u"{word} - hits: {hits}".format(word=title, 
                                                      hits=coord_count[word]), 
