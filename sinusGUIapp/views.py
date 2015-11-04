@@ -1004,7 +1004,8 @@ def getOperators(queryWords):
                                or "binthreshold:" in o
                                or "bintype:" in o
                                or "binmodel:" in o
-                               or "hitsthreshold:" in o]
+                               or "hitsthreshold:" in o
+                               or "onemap:" in o]
                                
     queryWords = [w.strip() for w in queryWords 
                             if "age:" not in w 
@@ -1017,7 +1018,8 @@ def getOperators(queryWords):
                                and "binthreshold:" not in w
                                and "bintype:" not in w
                                and "binmodel:" not in w
-                               and "hitsthreshold:" not in w]
+                               and "hitsthreshold:" not in w
+                               and "onemap:" not in w]
     
     try:
         xbins = int([o.split(":")[1].strip()
@@ -1070,7 +1072,15 @@ def getOperators(queryWords):
     except:
         hitsThreshold = 50
         
-    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold
+    try:
+        oneMap = int([o.split(":")[1].strip()
+               for o in operators if "onemap:" in o][0])
+        if oneMap == 1:
+            oneMap = True
+    except:
+        oneMap = False
+        
+    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, onemap
 
 def getStats():
     cacheTimeout = 24*60*60 # 1 day
@@ -1426,7 +1436,7 @@ def site(urlSearch=None):
         queryWords = []
         query = None
 
-    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold = getOperators(queryWords)
+    operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, oneMap = getOperators(queryWords)
             
     if len(queryWords) > 0:
         touple = getData(queryWords,        
@@ -1600,7 +1610,7 @@ def byod():
         query = request.form['queryInput']
         queryWords = query.split(",")
         
-        operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold = getOperators(queryWords)
+        operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, oneMap = getOperators(queryWords)
               
         # If no column "form" is found, assume only one word
         if not 'form' in df.columns:
