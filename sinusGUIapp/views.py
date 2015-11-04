@@ -2114,13 +2114,13 @@ def byod():
                                                                 words, zoom,
                                                                 binThreshold=binThreshold,
                                                                 binModel=binModel)          
-        if binType == "shape":
+        elif binType == "shape":
             # Get main image with shapefiles
             fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, None, # ranks=None
                                                                 words, zoom,
                                                                 binThreshold=binThreshold,
                                                                 binModel=binModel)  
-        if binType == "square":
+        elif binType == "square":
             # Get main image
             fewResults, filename, gifFileName = genGridImg(coordinatesByWord=coordinatesByWord,
                                                            xBins=xbins,
