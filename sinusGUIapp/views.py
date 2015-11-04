@@ -1080,7 +1080,7 @@ def getOperators(queryWords):
     except:
         oneMap = False
         
-    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, onemap
+    return operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, oneMap
 
 def getStats():
     cacheTimeout = 24*60*60 # 1 day
