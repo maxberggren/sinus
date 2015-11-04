@@ -1117,12 +1117,15 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                 a = opacity
                 return r, g, b, a
 
-            old_cmap_list = ['none']*len(cmaps)
+            old_cmap_list = [0]*len(cmaps)
 
             for val, frq, prev in zip(cmaps, df_map[word + "_frq"], old_cmap_list):
                 print val, frq, prev
                 if val == 0:
-                    cmap_list.append(prev)
+                    if prev == 0:
+                        cmap_list.append('none')
+                    else:
+                        cmap_list.append(prev)
                 else:
                     if val > prev:
                         cmap_list.append(val)
