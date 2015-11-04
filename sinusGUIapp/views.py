@@ -1119,7 +1119,7 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
 
             old_cmap_list = [0]*len(cmaps)
 
-            for val, frq in zip(cmaps, df_map[word + "_frq"], old_cmap_list):
+            for val, frq, prev in zip(cmaps, df_map[word + "_frq"], old_cmap_list):
                 if val == 0:
                     cmap_list.append('none')
                 else:
