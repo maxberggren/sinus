@@ -626,7 +626,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             colormap = "coolwarm" 
             
         cmap = plt.get_cmap(colormap)
-        cmap = opacify(cmap) # Add opacity to colormap
+        #cmap = opacify(cmap) # Add opacity to colormap
         
         if binModel == 'MP' or binModel == 'MP+smooth':
             # Lab
@@ -1089,7 +1089,7 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         colormap = colorCycle(i)
             
         cmap = plt.get_cmap(colormap)
-        #cmap = opacify(cmap) # Add opacity to colormap
+        cmap = opacify(cmap) # Add opacity to colormap
         
         if binModel == 'MP' or binModel == 'MP+smooth':
             # Lab
