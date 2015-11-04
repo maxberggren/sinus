@@ -812,26 +812,6 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         """ Divide all elements by sum of all elements """
         return matrix / sum1(matrix)        
     
-    @timing    
-    def getEnoughData():
-        """ Get alot of data until a suitable null hypothesis has converged """
-        
-        try:        
-            coordinates = []
-
-            for source in mysqldb.query("SELECT longitude, latitude from blogs "
-                                        "WHERE longitude is not NULL and "
-                                        "latitude is not NULL "
-                                        "ORDER BY RAND() "
-                                        "LIMIT 500000"):   
-    
-                coordinates.append([source['longitude'], source['latitude']])
-                
-            return coordinates
-   
-        except KeyboardInterrupt:
-            print "Avbryter..."        
-
     lds, coord_count, breaks = [], {}, {}
 
     # If ranks not sent in, assume rank 2
@@ -982,94 +962,35 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
     df_map_muni = mapPointsToPoly(lds, df_map_muni)
 
     print words
+    
+    ### More than one word: compare words against each other 
+       
+    # Get total occurencies in every municipality
+    df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
         
-    ### Only one word: compare to country average
-    if len(words) == 1: 
-        
-        fname_muni = "null_hypothesis_muni_df.pkl" 
-        
-        start_time = time.time()   
-        if not os.path.isfile(fname_muni):
-            temp_latlon_df = pd.DataFrame(getEnoughData(), 
-                                          columns=['longitude', 'latitude'])
-            temp_latlon_df['word'] = "expected"
-            
-            # Make dataframe and pickle 
-            null_h_muni_df = mapPointsToPoly(temp_latlon_df, df_map_muni)
-            null_h_muni_df.to_pickle(fname_muni)
-        else:
-            # Read from pickle
-            null_h_muni_df = pd.io.pickle.read_pickle(fname_muni)
-        
-        print("--- %s sekunder att ladda nollhypotes) ---" % (time.time() - start_time))
+    def df_percent(df_map):
+        # Save for later use
+        for word in words:
+            df_map[word + "_frq"] = df_map[word]
 
+        # Handle divide by zero as zeros
+        df_map[words] = df_map[words].astype('float').div(df_map["sum"].replace({ 0 : np.nan })
+                                                          .astype('float'), axis='index')
+        df_map[words] = df_map[words].fillna(0)
+        df_map.loc[df_map['sum'] < binThreshold, words] = 0
+                    
+        return df_map
+    
+    # Convert to percentages and skip where there is none
+    start_time = time.time()   
+    df_map_muni = df_percent(df_map_muni)
 
-        def deviationFromAverage(df_map, avg):
-            """ Make DFs into percentages and see the deviation from country average """
-
-            df_map['expected'] = avg['expected']        
-            df_map = df_map[df_map['expected'] > 0] # remove zeros
-
-            # Calculate percentages
-            df_map['expected'] = df_map['expected'].astype('float')\
-                                                   .div(df_map['expected'].sum(axis=0))
-
-            # Keep the frequencys
-            df_map[words[0] + "_frq"] = df_map[words[0]] 
-
-            # Words will here just be the one word
-            df_map[words] = df_map[words].astype('float')\
-                                         .div(df_map[words].sum(axis=0))
-
-            # Divide distribution percentage by expected percentage   
-            df_map[words] = df_map[words].div(df_map['expected'], axis='index')
-            del df_map['expected']
-
-            return df_map
-         
-        start_time = time.time()   
-        # Since only one word, calculate deviation from country average   
-        df_map_muni = deviationFromAverage(df_map_muni, null_h_muni_df)
-        print("--- %s sekunder att kolla avvikelse fr nollhypotes) ---" % (time.time() - start_time))
-        
-        breaks['muni'] = {}
-               
-        for word in words:    
-            muniMax = float(df_map_muni[word].max(axis=0))
-            breaks['muni'][word] = [0., 0.5, 1., muniMax/2.0, muniMax]
-        
-        labels = ['Below avg.', '', 'Avg.', '', 'Above avg.']    
-        
-    else:     
-        ### More than one word: compare words against each other 
+    breaks['muni'] = {}
            
-        # Get total occurencies in every municipality
-        df_map_muni["sum"] = df_map_muni[words].sum(axis=1)
-            
-        def df_percent(df_map):
-            # Save for later use
-            for word in words:
-                df_map[word + "_frq"] = df_map[word]
-
-            # Handle divide by zero as zeros
-            df_map[words] = df_map[words].astype('float').div(df_map["sum"].replace({ 0 : np.nan })
-                                                              .astype('float'), axis='index')
-            df_map[words] = df_map[words].fillna(0)
-            df_map.loc[df_map['sum'] < binThreshold, words] = 0
-                        
-            return df_map
+    for word in words:    
+        breaks['muni'][word] = [0., 0.25, 0.5, 0.75, 1.0]
         
-        # Convert to percentages and skip where there is none
-        start_time = time.time()   
-        df_map_muni = df_percent(df_map_muni)
-        #print("--- %s sekunder att konvertera till procent) ---" % (time.time() - start_time))
-
-        breaks['muni'] = {}
-               
-        for word in words:    
-            breaks['muni'][word] = [0., 0.25, 0.5, 0.75, 1.0]
-            
-        labels = ['None', 'Low', 'Medium', 'High', 'Very high']
+    labels = ['None', 'Low', 'Medium', 'High', 'Very high']
         
     def self_categorize(entry, breaks):
         """ Put percent into a category (breaks) """
@@ -1159,14 +1080,13 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
         else:
             title = word.replace(" OR ", "/")
             
-        ax = fig.add_subplot(1, len(words), int(i+1), axisbg='w', frame_on=False)
+        ax = fig.add_subplot(1, len(words), 1#int(i+1), 
+                             axisbg='w', frame_on=False)
         ax.set_title(u"{word} - hits: {hits}".format(word=title, 
                                                      hits=coord_count[word]), 
                      y=1.01, fontsize=9)
     
         colormap = colorCycle(i)
-        if len(words) == 1:
-            colormap = "coolwarm" 
             
         cmap = plt.get_cmap(colormap)
         #cmap = opacify(cmap) # Add opacity to colormap
@@ -1186,10 +1106,6 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
             pc = PatchCollection(df_map['patches'], match_original=True)
 
             # Apply our custom color values onto the patch collection
-            #cmaps = (df_map['bins_'+word].values - 
-            #           df_map['bins_'+word].values.min())/(
-            #               df_map['bins_'+word].values.max()-
-            #                   float(df_map['bins_'+word].values.min()))
             cmaps = (df_map['bins_'+word].values - -1)/(
                            len(breaks['muni'][word])-2-
                                float(-1)) # Let's fix the scaling for now
