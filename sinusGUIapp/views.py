@@ -1128,7 +1128,7 @@ def genOneMapShapefileImg(data, ranks, words, zoom, binThreshold, binModel):
                         cmap_list.append(prev)
                 else:
                     if val > prev:
-                        cmap_list.append(val)
+                        cmap_list.append(cmap(val))
                     else:
                         cmap_list.append(prev)
             
