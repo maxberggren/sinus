@@ -712,8 +712,15 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
             
-
-    
+        if not oneMap and i > 0:
+            # Only do on first pass
+            m.drawcoastlines(linewidth=0.25, color="#3b3b3b") 
+            m.drawcountries()
+            m.drawstates()
+            m.drawmapboundary()
+            m.fillcontinents(color='white', lake_color='grey', zorder=0)
+            m.drawmapboundary(fill_color='grey')
+        
         divider = make_axes_locatable(plt.gca())
                 
         legends.append(mpatches.Patch(color=cmap(0.7), label=word) )
@@ -727,15 +734,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                                    orientation='horizontal', 
                                    cax=cax)
             cbar.ax.tick_params(labelsize=6)
-
-
-    m.drawcoastlines(linewidth=0.25, color="#3b3b3b") 
-    m.drawcountries()
-    m.drawstates()
-    m.drawmapboundary()
-    m.fillcontinents(color='white', lake_color='grey', zorder=0)
-    m.drawmapboundary(fill_color='grey')
     
+
     if oneMap:      
         plt.legend(handles=legends, 
                    loc=1, 
