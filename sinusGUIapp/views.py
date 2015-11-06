@@ -595,6 +595,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
     prev_vals_list = [0] * 9999999
     prev_cmap_list = [plt.get_cmap(colorCycle(0))] * 9999999
     temp = []
+    legends = []
 
     for i, word in enumerate(words):
 
@@ -720,8 +721,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
     
         divider = make_axes_locatable(plt.gca())
                 
-
-        red_patch = mpatches.Patch(color='red', label='The red data')   
+        legends.append(mpatches.Patch(color='red', label=word) )
 
         if not oneMap:
             cax = divider.append_axes("bottom", 
