@@ -705,7 +705,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                     else:
                         max_vals.append(prev)
                         max_cmap.append(prev_cmap)
-                        cmap_list.append('none')
+                        if val == 0:
+                            cmap_list.append('none')
+                        else:
+                            cmap_list.append(prev_cmap(prev))   
 
                     
                 prev_vals_list = max_vals  
