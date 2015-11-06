@@ -525,9 +525,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                
         for word in words:    
             breaks['muni'][word] = [0., 0.25, 0.5, 0.75, 1.0]
-
-            if oneMap:
-                breaks['muni'][word] = np.linspace(0,1,10).tolist()
             
         labels = ['None', 'Low', 'Medium', 'High', 'Very high']
         
@@ -596,7 +593,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
 
     prev_cmaps_list = []
     prev_vals_list = [0] * 9999999
-    
+    temp = []
+
     for i, word in enumerate(words):
 
         start_time = time.time()  
@@ -689,7 +687,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                 print word
                 curr_vals = []
                 for val, frq, prev in zip(cmaps, df_map[word + "_frq"], prev_vals_list):
-                    print val, prev
                     if val > prev:
                         if val == 0:
                             cmap_list.append('none')
@@ -708,6 +705,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
             
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
+            temp.append(cmap_list)
+
+        print zip(*cmap_list)
             
         m.drawcoastlines(linewidth=0.25, color="#3b3b3b") 
         m.drawcountries()
