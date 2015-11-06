@@ -1704,10 +1704,11 @@ def byod():
         if oneMap:
             print "just one map!"
             # Get main image with shapefiles
-            fewResults, filename, gifFileName = genOneMapShapefileImg(coordinatesByWord, None, # ranks=None
+            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, None, # ranks=None
                                                                 words, zoom,
                                                                 binThreshold=binThreshold,
-                                                                binModel=binModel)          
+                                                                binModel=binModel,
+                                                                oneMap=True)          
         elif binType == "shape":
             # Get main image with shapefiles
             fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, None, # ranks=None
