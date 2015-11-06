@@ -723,12 +723,16 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
         cax = divider.append_axes("bottom", 
                                   "2%", 
                                   pad="2.5%")
+
+        import matplotlib.patches as mpatches
+        red_patch = mpatches.Patch(color='red', label='The red data')
                         
-        cbar = custom_colorbar(cmap, ncolors=len(labels)+1, 
-                               labels=labels, 
-                               orientation='horizontal', 
-                               cax=cax)
-        cbar.ax.tick_params(labelsize=6)
+        plt.legend(handles=[red_patch])
+        #cbar = custom_colorbar(cmap, ncolors=len(labels)+1, 
+        #                       labels=labels, 
+        #                       orientation='horizontal', 
+        #                       cax=cax)
+        #cbar.ax.tick_params(labelsize=6)
         
         #print("--- %s sekunder att skapa karta) ---" % (time.time() - start_time))      
             
