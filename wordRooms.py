@@ -76,7 +76,7 @@ def data_generator(bounding_box, percent=50):
 def make_dictionary(bounding_box, percent=50, filename='riket.dict'):
 
     # Set up empty object
-    model = gensim.models.Word2Vec(workers=4, size=100, min_count=100)
+    model = gensim.models.Word2Vec(workers=4, size=100, min_count=0.01*percent*100)
     # Fill with vocabulary
     model.build_vocab(data_generator(bounding_box, percent=percent))
     model.save(filename)
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     if gensim.models.word2vec.FAST_VERSION == -1:
         print "Kan inte använda alla processorer, någe e fel."
 
-    dict_filename = make_dictionary(bounding_box=(26, 69.5, 8, 54.5), percent=100)
+    dict_filename = make_dictionary(bounding_box=(26, 69.5, 8, 54.5), percent=11)
 
     # Riket
     make_wordroom((26, 69.5, 8, 54.5), 
