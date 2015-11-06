@@ -683,10 +683,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                         opacity = 1 # Let's wait with using opacity for significance
                         cmap_list.append(cmapOpacity(val, opacity))
             else:
-
+                print word
                 curr_vals = []
                 for val, frq, prev in zip(cmaps, df_map[word + "_frq"], prev_vals_list):
-
+                    print val, prev
                     if val > prev:
                         if val == 0:
                             cmap_list.append('none')
