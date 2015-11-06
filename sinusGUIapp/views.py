@@ -529,9 +529,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
 
             if oneMap:
                 breaks['muni'][word] = np.linspace(0, 1, 10).tolist()
-                labels = [str(p*100.0) + " %" for p in np.linspace(0, 1, 10).tolist()]
+                labels = [str(int(p*100)) + " %" for p in np.linspace(0, 1, 10).tolist()]
             
-        
         
     def self_categorize(entry, breaks):
         """ Put percent into a category (breaks) """
