@@ -707,7 +707,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
             ax.add_collection(pc)
             temp.append(cmap_list)
 
-        print zip(*cmap_list)
+        print cmap_list
             
         m.drawcoastlines(linewidth=0.25, color="#3b3b3b") 
         m.drawcountries()
