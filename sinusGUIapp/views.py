@@ -712,12 +712,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
             
-        m.drawcoastlines(linewidth=0.25, color="#3b3b3b") 
-        m.drawcountries()
-        m.drawstates()
-        m.drawmapboundary()
-        m.fillcontinents(color='white', lake_color='grey', zorder=0)
-        m.drawmapboundary(fill_color='grey')
+
     
         divider = make_axes_locatable(plt.gca())
                 
@@ -732,8 +727,15 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                                    orientation='horizontal', 
                                    cax=cax)
             cbar.ax.tick_params(labelsize=6)
-    
 
+
+    m.drawcoastlines(linewidth=0.25, color="#3b3b3b") 
+    m.drawcountries()
+    m.drawstates()
+    m.drawmapboundary()
+    m.fillcontinents(color='white', lake_color='grey', zorder=0)
+    m.drawmapboundary(fill_color='grey')
+    
     if oneMap:      
         plt.legend(handles=legends, 
                    loc=1, 
