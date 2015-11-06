@@ -590,6 +590,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
         return df
     
     fig = plt.figure(figsize=(3.45*len(words),6))
+
+    prev_cmaps_list = []
     
     for i, word in enumerate(words):
 
@@ -616,11 +618,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
         else:
             title = word.replace(" OR ", "/")
             
+        # Constrain to one subplot if that flag is set
         if oneMap:
             subplotId = 1
         else:
             subplotId = int(i+1)
-            
+
         ax = fig.add_subplot(1, len(words), subplotId, axisbg='w', frame_on=False)
 
 
@@ -665,17 +668,39 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                 a = opacity
                 return r, g, b, a
 
-            for val, frq in zip(cmaps, df_map[word + "_frq"]):
-                if val == 0:
-                    cmap_list.append('none')
-                else:
-                    if frq > 10:
-                        opacity = 1
-                    else:
-                        opacity = 0.5
+            if not oneMap:
 
-                    opacity = 1 # Let's wait with using opacity for significance
-                    cmap_list.append(cmapOpacity(val, opacity))
+                for val, frq in zip(cmaps, df_map[word + "_frq"]):
+                    if val == 0:
+                        cmap_list.append('none')
+                    else:
+                        if frq > 10:
+                            opacity = 1
+                        else:
+                            opacity = 0.5
+
+                        opacity = 1 # Let's wait with using opacity for significance
+                        cmap_list.append(cmapOpacity(val, opacity))
+            else:
+                # If first iteration and we need to intialize the "old" values
+                if len(prev_cmaps_list) == 0:
+                    prev_vals_list = [0] * len(cmaps)
+
+                curr_vals = []
+                for val, frq, prev in zip(cmaps, df_map[word + "_frq"], prev_vals_list):
+
+                    if val > prev:
+                        cmap_list.append(cmap(val))  
+                    else:
+                        if val == 0:
+                            cmap_list.append('none')
+                        else:
+                            prev_cmap = plt.get_cmap(colorCycle(i-1))
+                            cmap_list.append(prev_cmap(prev))   
+
+                    curr_vals.append(val)
+
+                prev_vals_list = curr_vals            
             
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
