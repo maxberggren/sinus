@@ -5,6 +5,7 @@ import matplotlib.cm as cm
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.colors import LogNorm
 from matplotlib.ticker import LogFormatter
+import matplotlib.patches as mpatches
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy import ndimage
 import numpy as np
@@ -734,7 +735,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
     
 
     if oneMap:      
-        import matplotlib.patches as mpatches
         plt.legend(handles=[red_patch], 
                    bbox_to_anchor=(0., 1.02, 1., .102), 
                    loc=1, 
