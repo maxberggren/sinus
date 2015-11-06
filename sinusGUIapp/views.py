@@ -691,6 +691,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                         opacity = 1 # Let's wait with using opacity for significance
                         cmap_list.append(cmapOpacity(val, opacity))
             else:
+                # HERE BE DRAGONS
                 print word
                 max_vals = []
                 max_cmap = []
@@ -704,13 +705,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                     else:
                         max_vals.append(prev)
                         max_cmap.append(prev_cmap)
-                        if val == 0:
-                            cmap_list.append('none')
-                        else:
-                            cmap_list.append(prev_cmap(prev))   
+                        cmap_list.append('none')
 
                     
-
                 prev_vals_list = max_vals  
                 prev_cmap_list = max_cmap            
             
