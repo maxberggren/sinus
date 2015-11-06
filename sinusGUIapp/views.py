@@ -740,13 +740,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                    loc=1, 
                    mode="expand", 
                    borderaxespad=0.,
-                   prop={'size': 9 })        
+                   prop={'size': 6 })        
 
     #print("--- %s sekunder att skapa karta) ---" % (time.time() - start_time))      
             
     try:
-        if not oneMap:
-            fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
+        fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=1.0) 
     except:
         pass
 
