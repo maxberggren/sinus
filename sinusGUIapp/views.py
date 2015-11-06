@@ -686,14 +686,12 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                         opacity = 1 # Let's wait with using opacity for significance
                         cmap_list.append(cmapOpacity(val, opacity))
             else:
-                # HERE BE DRAGONS
+                # Print all on one map
                 print word
                 max_vals = []
                 max_cmap = []
                 for val, frq, prev, name, prev_cmap in zip(cmaps, df_map[word + "_frq"], prev_vals_list, names, prev_cmap_list):
-                    print val, frq, prev, name, "### ",
                     if val > prev:
-                        print "BIGGER!",
                         cmap_list.append(cmap(val))  
                         max_vals.append(val)
                         max_cmap.append(cmap)
@@ -704,7 +702,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                             cmap_list.append('none')
                         else:
                             cmap_list.append(prev_cmap(prev))   
-
                     
                 prev_vals_list = max_vals  
                 prev_cmap_list = max_cmap            
@@ -720,17 +717,17 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
         m.drawmapboundary(fill_color='grey')
     
         divider = make_axes_locatable(plt.gca())
-        cax = divider.append_axes("bottom", 
-                                  "2%", 
-                                  pad="2.5%")
                 
         if oneMap:      
             import matplotlib.patches as mpatches
             red_patch = mpatches.Patch(color='red', label='The red data')   
-            plt.legend(handles=[red_patch], bbox_to_anchor=(0., 1.02, 1., .102), loc=3, mode="expand", borderaxespad=0.)        
+            plt.legend(handles=[red_patch], bbox_to_anchor=(0., 1.02, 1., .102), loc=1, mode="expand", borderaxespad=0.)        
 
 
         if not oneMap:
+            cax = divider.append_axes("bottom", 
+                                      "2%", 
+                                      pad="2.5%")
             cbar = custom_colorbar(cmap, ncolors=len(labels)+1, 
                                    labels=labels, 
                                    orientation='horizontal', 
