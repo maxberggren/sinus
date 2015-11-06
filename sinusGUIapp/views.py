@@ -712,7 +712,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
             
-        if (oneMap and i == 0) or (not oneMap):
+        if i == 0 or not oneMap:
             # Only do on first pass
             m.drawcoastlines(linewidth=0.25, color="#3b3b3b") 
             m.drawcountries()
