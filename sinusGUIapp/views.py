@@ -592,6 +592,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
     fig = plt.figure(figsize=(3.45*len(words),6))
 
     prev_cmaps_list = []
+    prev_vals_list = [0] * 9999999
     
     for i, word in enumerate(words):
 
@@ -682,9 +683,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                         opacity = 1 # Let's wait with using opacity for significance
                         cmap_list.append(cmapOpacity(val, opacity))
             else:
-                # If first iteration and we need to intialize the "old" values
-                if len(prev_cmaps_list) == 0:
-                    prev_vals_list = [0] * len(cmaps)
 
                 curr_vals = []
                 print word
