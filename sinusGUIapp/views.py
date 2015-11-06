@@ -692,7 +692,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                 print word
                 curr_vals = []
                 for val, frq, prev, name in zip(cmaps, df_map[word + "_frq"], prev_vals_list, names):
-                    print val, frq, prev, name
+                    print val, frq, prev, name, "### ",
                     if val > prev:
                         cmap_list.append(cmap(val))  
                     else:
