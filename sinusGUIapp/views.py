@@ -694,10 +694,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                     if val > prev:
                         cmap_list.append(cmap(val))  
                     else:
+                        prev_cmap = plt.get_cmap(colorCycle(i-1))
                         if val == 0:
                             cmap_list.append(prev_cmap(0))
                         else:
-                            prev_cmap = plt.get_cmap(colorCycle(i-1))
                             cmap_list.append(prev_cmap(prev))   
 
                     curr_vals.append(val)
