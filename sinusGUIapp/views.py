@@ -690,22 +690,24 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                         cmap_list.append(cmapOpacity(val, opacity))
             else:
                 print word
-                curr_vals = []
+                max_vals = []
                 for val, frq, prev, name in zip(cmaps, df_map[word + "_frq"], prev_vals_list, names):
                     print val, frq, prev, name, "### ",
                     if val > prev:
                         print "BIGGER!",
                         cmap_list.append(cmap(val))  
+                        max_vals.append(val)
                     else:
+                        max_vals.append(prev)
                         if val == 0:
                             cmap_list.append('none')
                         else:
                             prev_cmap = plt.get_cmap(colorCycle(i-1))
                             cmap_list.append(prev_cmap(prev))   
 
-                    curr_vals.append(val)
+                    
 
-                prev_vals_list = curr_vals            
+                prev_vals_list = max_vals            
             
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
