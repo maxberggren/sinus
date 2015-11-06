@@ -736,10 +736,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
 
     if oneMap:      
         plt.legend(handles=legends, 
-                   bbox_to_anchor=(0., 1.02, 1., .102), 
                    loc=1, 
-                   mode="expand", 
-                   borderaxespad=0.,
                    prop={'size': 6 })        
 
     #print("--- %s sekunder att skapa karta) ---" % (time.time() - start_time))      
