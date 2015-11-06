@@ -723,16 +723,19 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
         cax = divider.append_axes("bottom", 
                                   "2%", 
                                   pad="2.5%")
+                
+        if oneMap:      
+            import matplotlib.patches as mpatches
+            red_patch = mpatches.Patch(color='red', label='The red data')   
+            plt.legend(handles=[red_patch], bbox_to_anchor=(0., 1.02, 1., .102), loc=3, mode="expand", borderaxespad=0.)        
 
-        import matplotlib.patches as mpatches
-        red_patch = mpatches.Patch(color='red', label='The red data')
-                        
-        plt.legend(handles=[red_patch])
-        #cbar = custom_colorbar(cmap, ncolors=len(labels)+1, 
-        #                       labels=labels, 
-        #                       orientation='horizontal', 
-        #                       cax=cax)
-        #cbar.ax.tick_params(labelsize=6)
+
+        if not oneMap:
+            cbar = custom_colorbar(cmap, ncolors=len(labels)+1, 
+                                   labels=labels, 
+                                   orientation='horizontal', 
+                                   cax=cax)
+            cbar.ax.tick_params(labelsize=6)
         
         #print("--- %s sekunder att skapa karta) ---" % (time.time() - start_time))      
             
