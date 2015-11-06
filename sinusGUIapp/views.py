@@ -629,9 +629,10 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
         ax = fig.add_subplot(1, len(words), subplotId, axisbg='w', frame_on=False)
 
 
-        ax.set_title(u"{word} - hits: {hits}".format(word=title, 
-                                                     hits=coord_count[word]), 
-                     y=1.01, fontsize=9)
+        if not oneMap:
+            ax.set_title(u"{word} - hits: {hits}".format(word=title, 
+                                                         hits=coord_count[word]), 
+                         y=1.01, fontsize=9)
     
         colormap = colorCycle(i)
         if len(words) == 1:
@@ -718,11 +719,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
     
         divider = make_axes_locatable(plt.gca())
                 
-        if oneMap:      
-            import matplotlib.patches as mpatches
-            red_patch = mpatches.Patch(color='red', label='The red data')   
-            plt.legend(handles=[red_patch], bbox_to_anchor=(0., 1.02, 1., .102), loc=1, mode="expand", borderaxespad=0.)        
 
+        red_patch = mpatches.Patch(color='red', label='The red data')   
 
         if not oneMap:
             cax = divider.append_axes("bottom", 
@@ -733,11 +731,17 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                                    orientation='horizontal', 
                                    cax=cax)
             cbar.ax.tick_params(labelsize=6)
-        
-        #print("--- %s sekunder att skapa karta) ---" % (time.time() - start_time))      
+    
+
+    if oneMap:      
+        import matplotlib.patches as mpatches
+        plt.legend(handles=[red_patch], bbox_to_anchor=(0., 1.02, 1., .102), loc=1, mode="expand", borderaxespad=0.)        
+
+    #print("--- %s sekunder att skapa karta) ---" % (time.time() - start_time))      
             
     try:
-        fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
+        if not oneMap:
+            fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     except:
         pass
 
