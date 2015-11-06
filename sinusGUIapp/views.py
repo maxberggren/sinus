@@ -597,7 +597,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
 
     prev_cmaps_list = []
     prev_vals_list = [0] * 9999999
-    prev_cmap_list = []
+    prev_cmap_list = [plt.get_cmap(colorCycle(0))] * 9999999
     temp = []
 
     for i, word in enumerate(words):
