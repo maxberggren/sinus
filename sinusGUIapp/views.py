@@ -736,7 +736,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
 
     if oneMap:      
         plt.legend(handles=[red_patch], 
-                   bbox_to_anchor=(0., 1.02, 1., .102), 
+                   bbox_to_anchor=(0.5., 1.02, 1., .102), 
                    loc=1, 
                    mode="expand", 
                    borderaxespad=0.,
@@ -745,7 +745,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
     #print("--- %s sekunder att skapa karta) ---" % (time.time() - start_time))      
             
     try:
-        fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=1.0) 
+        fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     except:
         pass
 
