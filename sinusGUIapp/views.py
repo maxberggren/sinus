@@ -736,7 +736,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
 
     if oneMap:      
         plt.legend(handles=[red_patch], 
-                   bbox_to_anchor=(0.5., 1.02, 1., .102), 
+                   bbox_to_anchor=(0.5, 1.02, 1., .102), 
                    loc=1, 
                    mode="expand", 
                    borderaxespad=0.,
