@@ -525,11 +525,13 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                
         for word in words:    
             breaks['muni'][word] = [0., 0.25, 0.5, 0.75, 1.0]
+            labels = ['None', 'Low', 'Medium', 'High', 'Very high']
 
             if oneMap:
                 breaks['muni'][word] = np.linspace(0, 1, 10).tolist()
+                labels = [str(p*100.0) + " %" for p in np.linspace(0, 1, 10).tolist()]
             
-        labels = ['None', 'Low', 'Medium', 'High', 'Very high']
+        
         
     def self_categorize(entry, breaks):
         """ Put percent into a category (breaks) """
@@ -708,7 +710,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
             
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
-            temp.append(curr_vals)
             
         m.drawcoastlines(linewidth=0.25, color="#3b3b3b") 
         m.drawcountries()
@@ -734,8 +735,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
         fig.tight_layout(pad=2.5, w_pad=0.1, h_pad=0.0) 
     except:
         pass
-    
-    print zip(temp)
 
     plt.plot()
 
