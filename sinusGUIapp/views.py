@@ -519,7 +519,6 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
         # Convert to percentages and skip where there is none
         start_time = time.time()   
         df_map_muni = df_percent(df_map_muni)
-        print df_map_muni
         #print("--- %s sekunder att konvertera till procent) ---" % (time.time() - start_time))
 
         breaks['muni'] = {}
@@ -667,6 +666,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
             cmaps = (df_map['bins_'+word].values - -1)/(
                            len(breaks['muni'][word])-2-
                                float(-1)) # Let's fix the scaling for now
+            names = df_map['name']
             cmap_list = []
 
             def cmapOpacity(val, opacity):
@@ -691,7 +691,8 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
             else:
                 print word
                 curr_vals = []
-                for val, frq, prev in zip(cmaps, df_map[word + "_frq"], prev_vals_list):
+                for val, frq, prev, name in zip(cmaps, df_map[word + "_frq"], prev_vals_list, names):
+                    print val, frq, prev, name
                     if val > prev:
                         cmap_list.append(cmap(val))  
                     else:
