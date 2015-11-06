@@ -525,6 +525,9 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                
         for word in words:    
             breaks['muni'][word] = [0., 0.25, 0.5, 0.75, 1.0]
+
+            if oneMap:
+                breaks['muni'][word] = np.linspace(0, 1, 10).tolist()
             
         labels = ['None', 'Low', 'Medium', 'High', 'Very high']
         
