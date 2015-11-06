@@ -597,6 +597,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
 
     prev_cmaps_list = []
     prev_vals_list = [0] * 9999999
+    prev_cmap_list = []
     temp = []
 
     for i, word in enumerate(words):
@@ -668,6 +669,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
                                float(-1)) # Let's fix the scaling for now
             names = df_map['name']
             cmap_list = []
+            cmap_id_list = []
 
             def cmapOpacity(val, opacity):
                 """ Fix for setting opacity """
@@ -691,23 +693,26 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
             else:
                 print word
                 max_vals = []
-                for val, frq, prev, name in zip(cmaps, df_map[word + "_frq"], prev_vals_list, names):
+                max_cmap = []
+                for val, frq, prev, name, prev_cmap in zip(cmaps, df_map[word + "_frq"], prev_vals_list, names, prev_cmap_list):
                     print val, frq, prev, name, "### ",
                     if val > prev:
                         print "BIGGER!",
                         cmap_list.append(cmap(val))  
                         max_vals.append(val)
+                        max_cmap.append(cmap)
                     else:
                         max_vals.append(prev)
+                        max_cmap.append(prev_cmap)
                         if val == 0:
                             cmap_list.append('none')
                         else:
-                            prev_cmap = plt.get_cmap(colorCycle(i-1))
                             cmap_list.append(prev_cmap(prev))   
 
                     
 
-                prev_vals_list = max_vals            
+                prev_vals_list = max_vals  
+                prev_cmap_list = max_cmap            
             
             pc.set_facecolor(cmap_list)
             ax.add_collection(pc)
