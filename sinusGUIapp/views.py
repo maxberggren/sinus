@@ -1727,7 +1727,7 @@ def byod():
                                       
         return render_template("index.html", localizeText=None,
                                              documentQuery=documentQuery,
-                                             stats=stats)
+                                             stats=None)
     else: # no file submitted yet / error
         return render_template("byod.html", data=None)
 
