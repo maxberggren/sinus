@@ -1208,7 +1208,7 @@ def getStats():
 def getData(words, xBins=None, scatter=None, zoom=None,
             xyRatio=1.8, blurFactor=0.6, rankthreshold=3, 
             binThreshold=5, datespan=None, binType="shape",
-            binModel=None, hitsThreshold=50, oneMap=False):
+            binModel=None, hitsThreshold=50, oneMap=False, makeMaps=True):
 
     """ Retrive data from the document database
 
@@ -1346,22 +1346,6 @@ def getData(words, xBins=None, scatter=None, zoom=None,
                 else:
                     wordkwic.append(newkwic)
                     oldkwic = newkwic
-        
-        def addNoise(coordinates):
-            np.random.seed(seed=666)
-            start_time = time.time()
-            coordinates = [tuple(c) for c in coordinates]
-            lon, lat = zip(*coordinates)
-            lon = np.array(lon) + np.random.normal(0, 0.5, len(lon))
-            lat = np.array(lat) + np.random.normal(0, 0.5, len(lat))
-            coordinates = zip(lon, lat)
-            coordinates = [list(c) for c in coordinates]
-            print("--- %s lägga på brus ---" % (time.time() - start_time))
-
-            return coordinates
-
-        if binModel == "noise" or binModel == "noise+mp":
-            coordinates = addNoise(coordinates)
 
         if len(coordinates) > hitsThreshold: # only draw coordinates over limit
         
@@ -1388,57 +1372,59 @@ def getData(words, xBins=None, scatter=None, zoom=None,
         xBins = math.sqrt(float(minCoordinates)/(float(xyRatio)*float(2)))
         xBins = int(xBins)            
 
-    if not any([(val > hitsThreshold) for val in hits.itervalues()]):
-        # I.e. no word had enough hits
-        fewResults, filename, gifFileName = True, None, None
+    if makeMaps:
 
-    elif oneMap:
-        print "just one map!"
-        # Get main image with shapefiles
-        fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, None, # ranks=None
-                                                            words, zoom,
-                                                            binThreshold=binThreshold,
-                                                            binModel=binModel,
-                                                            oneMap=True)     
+        if not any([(val > hitsThreshold) for val in hits.itervalues()]):
+            # I.e. no word had enough hits
+            fewResults, filename, gifFileName = True, None, None
+
+        elif oneMap:
+            print "just one map!"
+            # Get main image with shapefiles
+            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, None, # ranks=None
+                                                                words, zoom,
+                                                                binThreshold=binThreshold,
+                                                                binModel=binModel,
+                                                                oneMap=True)     
+            
+        elif binType == "shape": 
+            # Get main image with shapefiles
+            fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranks,
+                                                                words, zoom,
+                                                                binThreshold=binThreshold,
+                                                                binModel=binModel)
+        elif binType == "square":
+            # Get main image
+            fewResults, filename, gifFileName = genGridImg(coordinatesByWord=coordinatesByWord,
+                                                           xBins=xBins,
+                                                           words=words,
+                                                           zoom=zoom,
+                                                           xyRatio=xyRatio, 
+                                                           blurFactor=blurFactor, 
+                                                           minCoordinates=minCoordinates,
+                                                           scatter=scatter,
+                                                           hits=hits,
+                                                           chunks=1)
+            # Get time series gif
+            """
+            fewResults, giffile, gifFileName = genGridImg(coordinatesByWord=coordinatesByWord,
+                                                          xBins=xBins,
+                                                          words=words,
+                                                          zoom=zoom,
+                                                          xyRatio=xyRatio, 
+                                                          blurFactor=blurFactor, 
+                                                          minCoordinates=minCoordinates,
+                                                          scatter=scatter,
+                                                          hits=hits,
+                                                          chunks=7,
+                                                          dates=dates,
+                                                          binThreshold=binThreshold)
+            
+            if gifFileName: # no gif = no histogram                                     
+                dateHistogram(dates, gifFileName)
+            """
         
-    elif binType == "shape": 
-        # Get main image with shapefiles
-        fewResults, filename, gifFileName = genShapefileImg(coordinatesByWord, ranks,
-                                                            words, zoom,
-                                                            binThreshold=binThreshold,
-                                                            binModel=binModel)
-    elif binType == "square":
-        # Get main image
-        fewResults, filename, gifFileName = genGridImg(coordinatesByWord=coordinatesByWord,
-                                                       xBins=xBins,
-                                                       words=words,
-                                                       zoom=zoom,
-                                                       xyRatio=xyRatio, 
-                                                       blurFactor=blurFactor, 
-                                                       minCoordinates=minCoordinates,
-                                                       scatter=scatter,
-                                                       hits=hits,
-                                                       chunks=1)
-        # Get time series gif
-        """
-        fewResults, giffile, gifFileName = genGridImg(coordinatesByWord=coordinatesByWord,
-                                                      xBins=xBins,
-                                                      words=words,
-                                                      zoom=zoom,
-                                                      xyRatio=xyRatio, 
-                                                      blurFactor=blurFactor, 
-                                                      minCoordinates=minCoordinates,
-                                                      scatter=scatter,
-                                                      hits=hits,
-                                                      chunks=7,
-                                                      dates=dates,
-                                                      binThreshold=binThreshold)
-        
-        if gifFileName: # no gif = no histogram                                     
-            dateHistogram(dates, gifFileName)
-        """
-        
-    return filename, hits, KWIC, fewResults, gifFileName, resultsOmitted
+    return filename, hits, KWIC, fewResults, gifFileName, resultsOmitted, words, coordinatesByWord
         
     #else: # if a term has to few hits
     #    return None, hits, KWIC, fewResults, None
@@ -1514,7 +1500,7 @@ def site(urlSearch=None):
                          hitsThreshold=hitsThreshold,
                          oneMap=oneMap)
                          
-        filename, hits, KWICs, fewResults, gifFileName, resultsOmitted = touple
+        filename, hits, KWICs, fewResults, gifFileName, resultsOmitted, _, _ = touple
                               
         documentQuery = { 'query': query,
                           'filename': filename,
@@ -1676,7 +1662,6 @@ def byod():
         
         operators, queryWords, xbins, scatter, zoom, rankthreshold, datespan, binThreshold, binType, binModel, hitsThreshold, oneMap = getOperators(queryWords)
              
-        print oneMap, "onemap" 
         # If no column "form" is found, assume only one word
         if not 'form' in df.columns:
             # Use filename
@@ -1699,7 +1684,7 @@ def byod():
         coordinatesByWord, words = dataframe2tuple(df)
         
         # Generate statistics
-        stats = getStats()
+        #stats = getStats()
 
         if oneMap:
             print "just one map!"
