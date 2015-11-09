@@ -1706,8 +1706,8 @@ def byod():
             ixXLSwords = words.index(word)
             print len(coordinatesByWord[ixXLSwords])
             print len(coordinatesFromDB[ixDBwords])
-            print coordinatesByWord[ixXLSwords]
-            coordinatesByWord[ixXLSwords][0] += coordinatesFromDB[ixDBwords][0]
+
+            coordinatesByWord[ixXLSwords] = coordinatesByWord[ixXLSwords] + (coordinatesFromDB[ixDBwords],)
         print hits
 
         print "NEW?"
