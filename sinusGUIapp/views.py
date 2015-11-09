@@ -1695,7 +1695,7 @@ def byod():
             print word, wordsFromDB[0][ixDBwords]
             print words.index(word)
             ixXLSwords = words.index(word)
-            coordinatesByWord[0][ixXLSwords] += coordinatesFromDB[ixDBwords]
+            coordinatesByWord[0][ixXLSwords] += coordinatesFromDB[0][ixDBwords]
 
         if oneMap:
             print "just one map!"
