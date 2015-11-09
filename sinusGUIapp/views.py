@@ -1686,10 +1686,13 @@ def byod():
         coordinatesByWord, words = dataframe2tuple(df)
         
         touple = getData(words, makeMaps=False)
-        _, hits, _, _, _, _, wordsFromDB, coordinatesFromDB = touple
+        _, hitsDB, _, _, _, _, wordsFromDB, coordinatesFromDB = touple
+        print hitsDB
         print hits
-
+        print coordinatesByWord
         for ixDBwords, word in enumerate(wordsFromDB):
+            print word, wordsFromDB[ixDBwords]
+            print words.index(word)
             ixXLSwords = words.index(word)
             coordinatesByWord[ixXLSwords] += coordinatesFromDB[ixDBwords]
 
