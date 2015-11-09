@@ -1687,14 +1687,15 @@ def byod():
         
         touple = getData(words, makeMaps=False)
         _, hitsDB, _, _, _, _, wordsFromDB, coordinatesFromDB = touple
+        print words
         print hitsDB
         print hits
         print coordinatesByWord
         for ixDBwords, word in enumerate(wordsFromDB):
-            print word, wordsFromDB[ixDBwords]
+            print word, wordsFromDB[0][ixDBwords]
             print words.index(word)
             ixXLSwords = words.index(word)
-            coordinatesByWord[ixXLSwords] += coordinatesFromDB[ixDBwords]
+            coordinatesByWord[0][ixXLSwords] += coordinatesFromDB[ixDBwords]
 
         if oneMap:
             print "just one map!"
