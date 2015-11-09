@@ -1709,12 +1709,12 @@ def byod():
             print len(coordinatesFromDB[ixDBwords])
 
             newCoordinatesByWord = newCoordinatesByWord + (list(coordinatesByWord[ixXLSwords]) + list(coordinatesFromDB[ixDBwords]),)
-            #coordinatesByWord[ixXLSwords] = coordinatesByWord[ixXLSwords] + coordinatesFromDB[ixDBwords]
-        print hits 
 
         print "NEW?"
         for word, coords in zip(words, newCoordinatesByWord):
             print word, len(coords)
+
+        coordinatesByWord = newCoordinatesByWord
 
         if oneMap:
             print "just one map!"
