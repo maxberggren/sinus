@@ -1694,6 +1694,7 @@ def byod():
         for ixDBwords, word in enumerate(wordsFromDB):
             print word, wordsFromDB[0][ixDBwords]
             print words.index(word)
+            hits[word] += hitsDB[word]
             ixXLSwords = words.index(word)
             coordinatesByWord[0][ixXLSwords] += coordinatesFromDB[0][ixDBwords]
 
