@@ -1689,6 +1689,10 @@ def byod():
         _, hits, _, _, _, _, wordsFromDB, coordinatesFromDB = touple
         print hits
 
+        for ixDBwords, word in enumerate(wordsFromDB):
+            ixXLSwords = words.index(word)
+            coordinatesByWord[ixXLSwords] += coordinatesFromDB[ixDBwords]
+
         if oneMap:
             print "just one map!"
             # Get main image with shapefiles
