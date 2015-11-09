@@ -1690,11 +1690,24 @@ def byod():
         print words
         print hitsDB
         print hits
+
+        print "XLS"
+        for word, coords in zip(words, coordinatesByWord):
+            print word, len(coords)
+
+        print "DB"
+        for word, coords in zip(wordsFromDB, coordinatesFromDB):
+            print word, len(coords)
+
         for ixDBwords, word in enumerate(wordsFromDB):
             hits[word] += hitsDB[word]
             ixXLSwords = words.index(word)
             coordinatesByWord[0][ixXLSwords] += coordinatesFromDB[0][ixDBwords]
         print hits
+
+        print "NEW?"
+        for word, coords in zip(wordsFromDB, coordinatesFromDB):
+            print word, len(coords)
 
         if oneMap:
             print "just one map!"
