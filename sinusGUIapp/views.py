@@ -723,7 +723,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
         
         divider = make_axes_locatable(plt.gca())
                 
-        legends.append(mpatches.Patch(color=cmap(0.7), label=word) )
+        legends.append(mpatches.Patch(color=cmap(0.75), label=word + "({})".format(coord_count[word])) )
 
         if not oneMap:
             cax = divider.append_axes("bottom", 
