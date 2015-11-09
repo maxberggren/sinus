@@ -1423,8 +1423,8 @@ def getData(words, xBins=None, scatter=None, zoom=None,
             if gifFileName: # no gif = no histogram                                     
                 dateHistogram(dates, gifFileName)
             """
-        else:
-            fewResults, filename, gifFileName = False, None, None
+    else:
+        fewResults, filename, gifFileName = False, None, None
         
     return filename, hits, KWIC, fewResults, gifFileName, resultsOmitted, words, coordinatesByWord
         
