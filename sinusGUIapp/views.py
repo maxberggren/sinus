@@ -1708,7 +1708,7 @@ def byod():
             print len(coordinatesByWord[ixXLSwords])
             print len(coordinatesFromDB[ixDBwords])
 
-            newCoordinatesByWord + newCoordinatesByWord + (list(coordinatesByWord[ixXLSwords]) + list(coordinatesFromDB[ixDBwords]),)
+            newCoordinatesByWord = newCoordinatesByWord + (list(coordinatesByWord[ixXLSwords]) + list(coordinatesFromDB[ixDBwords]),)
             #coordinatesByWord[ixXLSwords] = coordinatesByWord[ixXLSwords] + coordinatesFromDB[ixDBwords]
         print hits
 
