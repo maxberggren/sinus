@@ -1691,6 +1691,8 @@ def byod():
         print hitsDB
         print hits
 
+        print coordinatesByWord
+
         print "XLS"
         for word, coords in zip(words, coordinatesByWord):
             print word, len(coords)
@@ -1702,9 +1704,9 @@ def byod():
         for ixDBwords, word in enumerate(wordsFromDB):
             hits[word] += hitsDB[word]
             ixXLSwords = words.index(word)
-            print len(coordinatesByWord[0][ixXLSwords])
-            print len(coordinatesFromDB[0][ixDBwords])
-            coordinatesByWord[0][ixXLSwords] += coordinatesFromDB[0][ixDBwords]
+            print len(coordinatesByWord[ixXLSwords])
+            print len(coordinatesFromDB[ixDBwords])
+            coordinatesByWord[ixXLSwords] += coordinatesFromDB[ixDBwords]
         print hits
 
         print "NEW?"
