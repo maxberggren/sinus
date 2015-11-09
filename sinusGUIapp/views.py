@@ -1683,8 +1683,9 @@ def byod():
         # Convert DF into tuple format that genShapefileImg accepts
         coordinatesByWord, words = dataframe2tuple(df)
         
-        # Generate statistics
-        #stats = getStats()
+        touple = getData(words, makeMaps=False)
+        _, hits, _, _, _, _, wordsFromDB, coordinatesFromDB = touple
+        print hits
 
         if oneMap:
             print "just one map!"
