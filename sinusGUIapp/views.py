@@ -1690,13 +1690,11 @@ def byod():
         print words
         print hitsDB
         print hits
-        print coordinatesByWord
         for ixDBwords, word in enumerate(wordsFromDB):
-            print word, wordsFromDB[0][ixDBwords]
-            print words.index(word)
             hits[word] += hitsDB[word]
             ixXLSwords = words.index(word)
             coordinatesByWord[0][ixXLSwords] += coordinatesFromDB[0][ixDBwords]
+        print hits
 
         if oneMap:
             print "just one map!"
