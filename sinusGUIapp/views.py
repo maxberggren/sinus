@@ -1699,15 +1699,16 @@ def byod():
         for word, coords in zip(wordsFromDB, coordinatesFromDB):
             print word, len(coords)
 
-        """
         for ixDBwords, word in enumerate(wordsFromDB):
             hits[word] += hitsDB[word]
             ixXLSwords = words.index(word)
+            print len(coordinatesByWord[0][ixXLSwords])
+            print len(coordinatesFromDB[0][ixDBwords])
             coordinatesByWord[0][ixXLSwords] += coordinatesFromDB[0][ixDBwords]
         print hits
-        """
+
         print "NEW?"
-        for word, coords in zip(wordsFromDB, coordinatesFromDB):
+        for word, coords in zip(words, coordinatesByWord):
             print word, len(coords)
 
         if oneMap:
