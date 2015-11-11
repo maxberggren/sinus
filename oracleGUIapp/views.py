@@ -561,6 +561,7 @@ def interp_answers(data):
     """ Put json data from GUI in the right form """
     queries = []
     found_words = []
+    sources = []
     for key, value in data.iteritems():
         # Extract what the user answered in connection to the questions
         query = [q for q in questions if q['id'] == int(key)][0]['query'][int(value)]
@@ -569,20 +570,22 @@ def interp_answers(data):
         if source == "just fishing":
             if query: # If worthy to save
                 found_words.append(query)
+                sources.append(source)
         else:
             queries.append((query, source))
             # Let's actually take all data from user
             if query[0:4] != "NOT ":
                 found_words.append(query) 
+                sources.append(source)
 
-    return queries, found_words
+    return queries, found_words, sources
 
 
 @app.route('/oracle/predict', methods=['POST'])
 def predict(get_map=False, and_confirm=None): 
     """ Predict where user is from """
 
-    queries, found_words = interp_answers(request.json)
+    queries, found_words, sources = interp_answers(request.json)
     grids = get_grids(queries)
      
     def negative(query):
@@ -591,12 +594,12 @@ def predict(get_map=False, and_confirm=None):
     def min_max_scaling(arr):
         return np.divide(arr - arr.min(), arr.max() - arr.min())
 
-    def matrix_product(grids, queries):
+    def matrix_product(,,,,,,,,,,,,,,,,,,,,,,grids, queries):
         """ Multiply all distributions into a final one """ 
 
         product = np.ones(grids[0].shape) # Set up uniform distribution
 
-        for grid, query in zip(grids, queries): 
+        for grid, query, source in zip(grids, queries, sources): 
             if negative(query):
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 #deviation_grid = min_max_scaling(deviation_grid)
@@ -659,7 +662,7 @@ def correct(lat, lon):
     """ If a user is correcting the Oracle 
         with a coordinate from map
     """
-    queries, found_words = interp_answers(request.json)
+    queries, found_words, sources = interp_answers(request.json)
     addDatapoints(place="from_oracle_map", 
                   longitude=lon, 
                   latitude=lat, 
