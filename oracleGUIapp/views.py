@@ -600,19 +600,20 @@ def predict(get_map=False, and_confirm=None):
         product = np.ones(grids[0].shape) # Set up uniform distribution
 
         for grid, query, source in zip(grids, queries, sources): 
+            print query, source
             if negative(query):
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 #deviation_grid = min_max_scaling(deviation_grid)
                 deviation_grid = normalize(deviation_grid)
                 product = np.multiply(product, not_in(deviation_grid)) 
-                make_map(product, filename=str(query))
+                #make_map(product, filename=str(query))
             else:
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 #deviation_grid = min_max_scaling(deviation_grid)
                 deviation_grid = normalize(deviation_grid)
 
                 product = np.multiply(product, deviation_grid) 
-                make_map(product, filename=str(query))
+                #make_map(product, filename=str(query))
 
         return product
 
