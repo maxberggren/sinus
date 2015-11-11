@@ -1702,9 +1702,9 @@ def byod():
             print word, len(coords)
 
         newCoordinatesByWord = ()
-        for ixDBwords, word in enumerate(wordsFromDB):
+        for ixXLSwords, word in enumerate(words):
             hits[word] += hitsDB[word]
-            ixXLSwords = words.index(word)
+            ixDBwords = wordsFromDB.index(word)
             print len(coordinatesByWord[ixXLSwords])
             print len(coordinatesFromDB[ixDBwords])
 
