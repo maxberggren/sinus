@@ -578,7 +578,7 @@ def interp_answers(data):
     return queries, found_words
 
 
-@app.route('/oracle/predict', methods=['POST'])
+@app.route('/oracle/predict', , , ,,,,,,,,,,,,,,,,,,,,,, methods=['POST'])
 def predict(get_map=False, and_confirm=None): 
     """ Predict where user is from """
 
