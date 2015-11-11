@@ -594,7 +594,7 @@ def predict(get_map=False, and_confirm=None):
     def min_max_scaling(arr):
         return np.divide(arr - arr.min(), arr.max() - arr.min())
 
-    def matrix_product(,,,,,,,,,,,,,,,,,,,,,,grids, queries):
+    def matrix_product(grids, queries):
         """ Multiply all distributions into a final one """ 
 
         product = np.ones(grids[0].shape) # Set up uniform distribution
