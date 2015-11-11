@@ -76,7 +76,7 @@ def data_generator(bounding_box, percent=50):
 def make_dictionary(bounding_box, percent=50, filename='riket.dict'):
 
     # Set up empty object
-    model = gensim.models.Word2Vec(workers=4, size=100, min_count=0.01*percent*100)
+    model = gensim.models.Word2Vec(workers=4, size=100, min_count=0.005*percent*100)
     # Fill with vocabulary
     model.build_vocab(data_generator(bounding_box, percent=percent))
     model.save(filename)
