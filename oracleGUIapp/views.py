@@ -583,8 +583,6 @@ def predict(get_map=False, and_confirm=None):
     """ Predict where user is from """
 
     queries, found_words = interp_answers(request.json)
-    print request.json
-    print found_words
     grids = get_grids(queries)
      
     def negative(query):
