@@ -1704,11 +1704,13 @@ def byod():
         newCoordinatesByWord = ()
         for ixXLSwords, word in enumerate(words):
             hits[word] += hitsDB[word]
-            ixDBwords = wordsFromDB.index(word)
-            print len(coordinatesByWord[ixXLSwords])
-            print len(coordinatesFromDB[ixDBwords])
+            try:
+                ixDBwords = wordsFromDB.index(word)
 
-            newCoordinatesByWord = newCoordinatesByWord + (list(coordinatesByWord[ixXLSwords]) + list(coordinatesFromDB[ixDBwords]),)
+                newCoordinatesByWord = newCoordinatesByWord + (list(coordinatesByWord[ixXLSwords]) + list(coordinatesFromDB[ixDBwords]),)
+            except ValueError:
+                # Finns inte i databasen
+                newCoordinatesByWord = newCoordinatesByWord + (list(coordinatesByWord[ixXLSwords]),)
 
         print "NEW?"
         for word, coords in zip(words, newCoordinatesByWord):
