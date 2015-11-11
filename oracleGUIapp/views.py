@@ -561,7 +561,6 @@ def interp_answers(data):
     """ Put json data from GUI in the right form """
     queries = []
     found_words = []
-    sources = []
     for key, value in data.iteritems():
         # Extract what the user answered in connection to the questions
         query = [q for q in questions if q['id'] == int(key)][0]['query'][int(value)]
@@ -570,22 +569,22 @@ def interp_answers(data):
         if source == "just fishing":
             if query: # If worthy to save
                 found_words.append(query)
-                sources.append(source)
         else:
             queries.append((query, source))
             # Let's actually take all data from user
             if query[0:4] != "NOT ":
                 found_words.append(query) 
-                sources.append(source)
 
-    return queries, found_words, sources
+    return queries, found_words
 
 
 @app.route('/oracle/predict', methods=['POST'])
 def predict(get_map=False, and_confirm=None): 
     """ Predict where user is from """
 
-    queries, found_words, sources = interp_answers(request.json)
+    queries, found_words = interp_answers(request.json)
+    print request.json
+    print found_words
     grids = get_grids(queries)
      
     def negative(query):
@@ -599,21 +598,20 @@ def predict(get_map=False, and_confirm=None):
 
         product = np.ones(grids[0].shape) # Set up uniform distribution
 
-        for grid, query, source in zip(grids, queries, sources): 
-            print query, source
+        for grid, query in zip(grids, queries): 
             if negative(query):
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 #deviation_grid = min_max_scaling(deviation_grid)
                 deviation_grid = normalize(deviation_grid)
                 product = np.multiply(product, not_in(deviation_grid)) 
-                #make_map(product, filename=str(query))
+                #make_map(not_in(deviation_grid), filename=str(query))
             else:
                 deviation_grid, _ = dev_from_null_hyp(grid)
                 #deviation_grid = min_max_scaling(deviation_grid)
                 deviation_grid = normalize(deviation_grid)
 
                 product = np.multiply(product, deviation_grid) 
-                #make_map(product, filename=str(query))
+                #make_map(deviation_grid, filename=str(query))
 
         return product
 
@@ -663,7 +661,7 @@ def correct(lat, lon):
     """ If a user is correcting the Oracle 
         with a coordinate from map
     """
-    queries, found_words, sources = interp_answers(request.json)
+    queries, found_words = interp_answers(request.json)
     addDatapoints(place="from_oracle_map", 
                   longitude=lon, 
                   latitude=lat, 
