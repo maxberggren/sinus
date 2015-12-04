@@ -125,9 +125,7 @@ def getSynonyms(word):
     """
     morph = []
     synonyms = []
-    print "letar efter"
-    print word
-    print type(word)
+    
     try:
         r = requests.get(u'https://api.gavagai.se/v3/lexicon/sv/{}?apiKey=4f0796e65d8bcc6f3c416b5c1edea848'.format(word),
                          verify=False)
