@@ -1516,13 +1516,15 @@ def site(urlSearch=None):
                           'fewResults': fewResults,
                           'gifFileName': gifFileName,
                           'resultsOmitted': resultsOmitted }
+
+        fromGavagaiAPI = {}
+        for word in words:
+            synonyms, morph = getSynonyms(word)
+            fromGavagaiAPI[word] = {'synonyms': synonyms, 'morph': morph}
+
     else:
         documentQuery = None
-        
-    fromGavagaiAPI = {}
-    for word in words:
-        synonyms, morph = getSynonyms(word)
-        fromGavagaiAPI[word] = {'synonyms': synonyms, 'morph': morph}
+        fromGavagaiAPI = {}
 
     return render_template("index.html", localizeText=localizeText,
                                          documentQuery=documentQuery,
