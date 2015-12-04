@@ -92,9 +92,14 @@
 
     {% if fromGavagaiAPI %}
     {{ fromGavagaiAPI }}
-    <div class="alert alert-danger"><strong>Liknande ord som kan vara aktuella:</strong>   
-      {% for word in fromGavagaiAPI['morph'] %}{{ word }}{% if not loop.last %}, {% else %}. {% endif %}{% endfor %}<br/>
-      <strong>Ord med liknande användningsområden:</strong> {% for word in fromGavagaiAPI['synonyms'] %}{{ word }}{% if not loop.last %}, {% else %}. {% endif %}{% endfor %}
+    <div class="alert alert-danger">
+      {% for word, keys in fromGavagaiAPI.items() %}
+      <strong>Liknande ord som kan vara aktuella för {{word}}:</strong>   
+      {% for morph in fromGavagaiAPI[word]['morph'] %}{{ morph }}{% if not loop.last %}, {% else %}. {% endif %}{% endfor %}<br/>
+      <strong>Ord med liknande användningsområden som {{word}}:</strong> {% for synonym in fromGavagaiAPI[word]['synonyms'] %}{{ synonym }}{% if not loop.last %}, {% else %}. {% endif %}{% endfor %}<br/>
+      {% endfor %}
+
+
     </div>  
     {% endif %}
 
