@@ -128,7 +128,8 @@ def getSynonyms(word):
     print "letar efter"
     print word
     #try:
-    r = requests.get(u'https://api.gavagai.se/v3/lexicon/sv/{}?apiKey=4f0796e65d8bcc6f3c416b5c1edea848'.format(word))
+    r = requests.get(u'https://api.gavagai.se/v3/lexicon/sv/{}?apiKey=4f0796e65d8bcc6f3c416b5c1edea848'.format(word),
+                     verify=False)
     for word in r.json()['stringSimilarWords']:
         morph.append(word['word'])
 
