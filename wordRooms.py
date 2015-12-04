@@ -12,9 +12,11 @@ import warnings
 import config as c
 import gensim
 import logging
+import os
+import sys
 
 db = dataset.connect(c.LOCATIONDB)
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.ERROR)
 
 def data_generator(bounding_box, percent=50):
 
@@ -96,6 +98,31 @@ if __name__ == "__main__":
     if gensim.models.word2vec.FAST_VERSION == -1:
         print "Kan inte använda alla processorer, någe e fel."
 
+    base_word = sys.argv[1]
+    pattern = "{wordroom:>10} | {similar} "
+
+    print pattern.format(wordroom="ordrum",
+                         similar="mest likt: {}".format(base_word))
+
+    print pattern.format(wordroom="-"*10,
+                         similar="-"*40)
+
+    for filename in ['riket.m', 'skane.m', 'norrland.m', 'finland.m', 'gotland.m']:
+        model = gensim.models.word2vec.Word2Vec.load("wordrooms/" + filename)
+
+        most_sim = u""
+        for i, (word, sim) in enumerate(model.most_similar(positive=[base_word.decode('utf-8').encode('latin-1')], topn=8)):
+            most_sim += u"{}) {} ".format(i+1, word.decode('latin-1'))
+
+        print pattern.format(wordroom=filename.replace(".m",""),
+                             similar=most_sim.encode('utf-8'))
+
+    print ""
+    print ""
+
+
+
+    """
     dict_filename = make_dictionary(bounding_box=(26, 69.5, 8, 54.5), percent=11)
 
     # Riket
@@ -127,13 +154,8 @@ if __name__ == "__main__":
                    dict_filename='riket.dict',
                    filename='gotland.m',
                    percent=100)
+    """
 
-
-
-
-
-
-# skane (14.653015, 56.256273, 12.551880, 55.349353)
 
 
 

@@ -108,33 +108,39 @@ def emptyFolder(folder):
             print e
 
 
-def getSynonyms(query):
+def getSynonyms(word):
     """ Connect to Gavagai API to get synonyms
 
     Parameters
     ----------
-    query : str
+    word : str
         term to be looked up with gavagai
 
     Returns
     -------
     synonyms : list
         list with synonyms
+    morph : list
+        list with morphologic similar terms
     """
-
+    morph = []
+    synonyms = []
     try:
-        r = requests.get('https://ethersource.gavagai.se/ethersource/'
-                         'rest/v2/suggestTerms?'
-                         'apiKey='+c.ES_APIKEY+'&'
-                         'terms='+query+'&'
-                         'language=SV', 
-                         auth=(c.ES_USER, c.ES_PASSW))
-        
-        synonyms = [row['word'] for row in r.json()['paradigmaticNeighbours']]
+        r = requests.get(u'https://api.gavagai.se/v3/lexicon/sv/{}?apiKey=4f0796e65d8bcc6f3c416b5c1edea848'.format(word))
+            for word in r.json()['stringSimilarWords']:
+                morph.append(word['word'])
+
+            for word in r.json()['nGrams']:
+                morph.append(word['word'])
+
+            for sem_sim in r.json()['semanticallySimilarWordFilaments']:
+                for word in sem_sim['words']:
+                    if word['strength'] > 0.35:
+                        synonyms.append(word['word'])
+
+        return synonyms, morph
     except:
-        synonyms = [""]
-    
-    return synonyms
+        return [], []
     
     
 def kwic(text, word, source):
@@ -439,8 +445,7 @@ def genShapefileImg(data, ranks, words, zoom, binThreshold, binModel, oneMap=Fal
         
     df_map_muni = mapPointsToPoly(lds, df_map_muni)
 
-    print words
-        
+
     ### Only one word: compare to country average
     if len(words) == 1: 
         
@@ -1502,7 +1507,7 @@ def site(urlSearch=None):
                          hitsThreshold=hitsThreshold,
                          oneMap=oneMap)
                          
-        filename, hits, KWICs, fewResults, gifFileName, resultsOmitted, _, _ = touple
+        filename, hits, KWICs, fewResults, gifFileName, resultsOmitted, words, _ = touple
                               
         documentQuery = { 'query': query,
                           'filename': filename,
@@ -1514,9 +1519,15 @@ def site(urlSearch=None):
     else:
         documentQuery = None
         
+    fromGavagaiAPI = {}
+    for word in words:
+        synonyms, morph = getSynonyms(word)
+        fromGavagaiAPI[word] = {'synonyms': synonyms, 'morph': morph}
+
     return render_template("index.html", localizeText=localizeText,
                                          documentQuery=documentQuery,
-                                         stats=None)
+                                         stats=None,
+                                         fromGavagaiAPI=fromGavagaiAPI)
 
 
 @app.route('/sinus/explore', methods = ['GET', 'POST'])
