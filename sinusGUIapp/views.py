@@ -127,16 +127,16 @@ def getSynonyms(word):
     synonyms = []
     try:
         r = requests.get(u'https://api.gavagai.se/v3/lexicon/sv/{}?apiKey=4f0796e65d8bcc6f3c416b5c1edea848'.format(word))
-            for word in r.json()['stringSimilarWords']:
-                morph.append(word['word'])
+        for word in r.json()['stringSimilarWords']:
+            morph.append(word['word'])
 
-            for word in r.json()['nGrams']:
-                morph.append(word['word'])
+        for word in r.json()['nGrams']:
+            morph.append(word['word'])
 
-            for sem_sim in r.json()['semanticallySimilarWordFilaments']:
-                for word in sem_sim['words']:
-                    if word['strength'] > 0.35:
-                        synonyms.append(word['word'])
+        for sem_sim in r.json()['semanticallySimilarWordFilaments']:
+            for word in sem_sim['words']:
+                if word['strength'] > 0.35:
+                    synonyms.append(word['word'])
 
         return synonyms, morph
     except:
