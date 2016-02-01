@@ -67,7 +67,7 @@ class MyStreamer(TwythonStreamer):
             last_id = timeline[0].id
             user_last_id[username] = last_id
 
-            print "@{}: {} tecken hämtades".format(username, len(text_blob))
+            print "@{}: {} tecken hämtades".format(username, len(text_blob))  
                     
     def on_error(self, status_code, data):
         print status_code, data
