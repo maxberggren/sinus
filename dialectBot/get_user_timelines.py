@@ -3,7 +3,6 @@
 import sys
 
 import json
-from config import questions
 import re
 import urlparse
 import os
