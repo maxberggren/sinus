@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dialektoraklet</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.min.css') }}" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/creative.css') }}" type="text/css">
+    <style>
+    .btn-sm { 
+          padding: 2px 4px;
+          margin: 2px 2px;
+          line-height: 1.3;
+          font-size: 18px!important;
+          border: 2px solid!important;
+          text-transform: initial;
+          font-weight: normal;
+      }
+
+    #map { width:100%; height:360px; 
+           left-margin: auto; 
+           right-margin: auto;
+           border: #ccc 1px solid; }
+           
+    #correctionMap {display:none;}
+    
+    .btn { font-size: 22px; }
+    h1 { font-size: 33px; }
+    
+    header .header-content {
+    position: relative;
+    top: 0%;
+    transform: none;
+    padding: 50px 15px 50px; }
+    
+    header { min-height: 100%; }
+    
+    </style>
+
+    <!-- Loading Google Map API engine v3 -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+
+    <!-- Map Script -->
+    <script>
+
+        
+    </script>
+        
+
+
+</head>
+
+<body id="page-top">
+
+
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+
+
+            <div id="progressKeeper" class="radius">
+                <div id="progress"></div>
+            </div>
+
+
+            
+            <div id="quiz" class="editable">
+
+            <div class="questionContainer radius">
+                <h1>Dialektoraklet</h1>
+                <hr>
+                <p><em>Vi vet var du kommer ifrån!</em> Kanske. Svara på {{ n_questions }} frågor kring ordval och uttal och vårt orakel kommer spå din dialektala hemort.</p>
+                <a class="btn btn-primary btn-xl page-scroll begin">Börja</a>
+
+            </div>
+
+            {% set q = 1 %}
+            {% for data in questions %}
+
+                {% set question = data['question'] %}
+                {% set explanation = data['explanation'] %}
+                {% set answers = data['answers'] %}
+                {% set id = data['id'] %}
+                
+                <div class="questionContainer radius" style="display: none;">
+                    <h4>Fråga {{ q }} av {{ n_questions }}</h4>
+                    <h1>{{ question }}</h1>
+                    <hr>
+                    <p>{{ explanation|italic|safe }}</p>
+                        <ul>
+                            {% for answer in answers %}
+                            <li>
+                                <label class="btn btn-primary btn-xl"><input type="radio" name="q{{ q }}" qid="{{ id }}" choise="{{ loop.index-1 }}" id="q{{ q }}-{{ "abcdefghijklmno"[loop.index-1] }}" />{{answer}}</label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    <div class="btnContainer">
+                        {% if q > 1 %}<div class="prev"><a class="btnPrev">Föregående fråga</a></div>{% endif %} 
+                        <div class="clear"></div> 
+                    </div>
+                </div>
+                
+                {% set q = q + 1 %}
+                
+            {% endfor %}
+            
+            </div>
+            <div class="txtStatusBar"></div>
+            <div id="answerSummary" class="radius">
+                <div id="answer"></div>
+            </div>
+           <div id="answerKeeper" class="radius" style="display: none;"></div>
+           
+            <div id="correctionMap" class="radius">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <p style="margin-bottom: 20px;">Oj. Kan du peka ut på kartan vart du egentligen kommer ifrån så att Oraklet kan bli bättre till nästa gång?</p>
+                    <input type="text" id="coordinate" value="Latitude, Longitude" style="display: none;" />
+                    <div id="map" class="text-center"></div>
+                    
+                    <a class="btn btn-primary btn-xl sendcorrection" style="margin-top: 20px;">Skicka</a>
+                </div>
+            </div>
+          
+           <div id="resultKeeper" class="radius" style="display: none;"></div>
+           
+
+
+
+
+            </div>
+        </div>
+    </header>
+
+
+
+
+
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Vad är detta?</h2>
+                    <hr class="primary">
+                    <p>Dialektoraklet är en tjänst som med data om svenska dialekter förutspår din härkomst. Oraklet petar även in frågor som den inte vet svaret på och samlar på så vis in ytterligare data så att den kan bli smartare.</p>
+                    <p>Projektet Spridning av innovationer i nutida svenska (SINUS) är finansierat av forskningsrådet och pågår 2013-2017.</p>
+                </div>
+
+
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>
+                    <p><a href="mailto:maxberggren@gmail.com">fragor@dialektoraklet.se</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.fittext.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
+
+    <script>
+     $(function(){
+        var map;
+        var marker = null;
+
+        function initializemap() {
+            console.log("init map");
+            var mapOptions = {
+                zoom: 4,
+                disableDefaultUI: true,
+                zoomControl: true,
+                center: new google.maps.LatLng(62.9,18.8),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                draggable: true,
+            };
+
+            map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            map.set('styles', [
+               {
+                featureType: 'road',
+                elementType: 'labels',
+                stylers: [
+                  { saturation: -100 },
+                  { invert_lightness: true }
+                ]
+              }, {
+                featureType: 'landscape',
+                elementType: 'geometry',
+                stylers: [
+                  { hue: '#ffffff' },
+                  { gamma: 1.4 },
+                  { saturation: 82 },
+                  { lightness: 99 }
+                ]
+              }, {
+                featureType: 'poi.school',
+                elementType: 'geometry',
+                stylers: [
+                  { hue: '#ffffff' },
+                  { lightness: -15 },
+                  { saturation: 99 }
+                ]
+              }, {
+                "featureType": "water",
+                "stylers": [
+                  { "color": "#cccccc" }
+                ]
+              }, {
+                "featureType": "water",
+                "elementType": "labels",
+                "stylers": [
+                  { "color": "#cccccc" },
+                  { "visibility": "off" }
+                ]
+              },
+                          {
+                "featureType": "administrative.country",
+                "elementType": "labels.text",
+                "stylers": [
+                  { "color": "#000000" },
+                  { "visibility": "off" }
+                ]
+              },{
+                "featureType": "administrative.locality",
+                "stylers": [
+                  { "visibility": "off" }
+                ]
+              },{
+                "featureType": "administrative",
+                "elementType": "labels",
+                "stylers": [
+                  { "visibility": "off" }
+                ]
+              },{
+                "elementType": "labels.icon",
+                "stylers": [
+                  { "visibility": "off" }
+                ]
+              }
+            ]);
+            
+            google.maps.event.addListener(map, 'click', function(event) {
+                $("#coordinate").val(event.latLng.lat() + ", " + event.latLng.lng());
+                $("#coordinate").select();
+                console.log(event.latLng.lat());
+                console.log(event.latLng.lng());
+                corrLat = event.latLng.lat();
+                corrLon = event.latLng.lng();
+
+                if (marker) { marker.setMap(null); }
+                   marker = new google.maps.Marker({ position: event.latLng, map: map});
+            });
+
+        }  
+
+        var jQuiz = {
+            sendUserResult: function(answers) {
+                var posting = $.ajax({
+                                        type: "POST",
+                                        url: "/oracle/predict",
+                                        data: JSON.stringify(answers, null, '\t'),
+                                        contentType: 'application/json;charset=UTF-8'
+                                    });
+
+                posting.done(function(data) {
+                    console.log(data);
+                    resultSet = '<div class="col-md-6"><p>';
+                    resultSet += 'Oraklet vet att du kommer ifrån <em>' + data['region'] + '</em>';
+
+                    if (data['region'] != data['region2']) resultSet += ", och om hen har fel (vilket hen aldrig har) kommer du från <em>" + data['region2'] + "</em>";
+
+                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += ", men det finns även en pyttechans att du är från <em>" + data['region3'] + "</em>";
+                    
+                    
+                    resultSet += '.<div id="predictionalternatives"><b>Vilken var rätt?</b><br/><br/>';
+                    resultSet += '<a id="1" style="margin-bottom: 10px;" class="btn btn-primary btn-xl acceptprediction">' + data['region'] + '</a> ';
+                    if (data['region'] != data['region2']) resultSet += '<a id="2" style="margin-bottom: 10px;" class="btn btn-primary btn-xl acceptprediction">' + data['region2'] + '</a> ';
+                    if (data['region2'] != data['region3'] && data['region'] != data['region3']) resultSet += '<a id="3" class="btn btn-primary btn-xl acceptprediction" style="margin-bottom: 10px;">' + data['region3'] + '</a> ';
+
+                    resultSet += '<br/><br/>(så oraklet kan bli smartare)<br/></div></p>';
+
+                    resultSet += '<a class="btn btn-primary btn-xl showmap" style="margin-bottom: 10px;">Oraklet har fel!</a>';
+                    resultSet += '<br /><a href="/oracle" style="margin-bottom: 50px;" class="btn btn-primary btn-xl">Gör om testet</a></div>'; 
+
+                    resultSet += '<div class="col-md-6" id="mapholder"><img style="border: #ccc 1px solid; margin-bottom: 50px;" src="/static/img/loading_map.gif"><p>Oraklet genererar en karta åt dig. Den kommer strax.</p></div>';
+
+                    $('#resultKeeper').html(resultSet).show();
+                    
+                    window.scrollTo(0, 0);
+
+                    var map = $.ajax({
+                        type : "POST",
+                        url : "/oracle/map",
+                        data: JSON.stringify(answers, null, '\t'),
+                        contentType: 'application/json;charset=UTF-8'
+                    });
+                    map.done(function(data) {
+                        resultSet = '<img style="border: #ccc 1px solid; margin-bottom: 50px;" src="{{ url_for('static', filename='maps/') }}' + data['filename_product'] + '">';
+                        resultSet += '<p>Men där det är <em style="background-color: rgb(255, 30, 249);">rosa</em>, där är du iaf absolut inte ifrån. Det vet Oraklet.</p>'
+                        $('#mapholder').html(resultSet).show();
+                    });
+                    
+                    // Log accepted answer
+                    $("a.acceptprediction").click(function(event) {
+                        console.log(event.target.id);
+                        
+                        var acceptance = $.ajax({
+                            type : "POST",
+                            url : "/oracle/confirm/" + event.target.id,
+                            data: JSON.stringify(answers, null, '\t'),
+                            contentType: 'application/json;charset=UTF-8'
+                        });
+                        acceptance.done(function(data) {
+                            console.log(data);
+                        });
+                        $("#predictionalternatives").html("<p>Tack! Nästa gång är jag lite smartare.</p>");
+                    });
+                    
+                    // Show correction map
+                    $("a.showmap").click(function() {
+                        console.log("korrigerar med en karta");
+                        $("#resultKeeper").html("");
+                        $("#correctionMap").show();
+                        initializemap();
+                    });
+                    
+                    $("a.sendcorrection").click(function() {
+                        
+                        console.log("skickar corr data");
+                        console.log(corrLat);
+                        
+                        var correction = $.ajax({
+                            type : "POST",
+                            url : "/oracle/correct/" + corrLat + "/" + corrLon,
+                            data: JSON.stringify(answers, null, '\t'),
+                            contentType: 'application/json;charset=UTF-8'
+                        });
+                        correction.done(function(data) {
+                            console.log(data);
+                            $("#correctionMap").html('<p>Tack! Ska komma ihåg det!<br /><br /><a href="/oracle" class="btn btn-primary btn-xl">Gör om testet</a></p>');
+                            window.scrollTo(0, 0);
+                        });
+                    });
+
+
+                });
+                posting.fail(function(data) {
+                    console.log("Could not send data to flask");
+                });
+            },
+
+            questionLength: {{ n_questions }},
+
+            init: function(){
+                $('label > input, .begin').click(function(){
+    
+                    $(this).parents('.questionContainer').fadeOut(100, function(){
+                        
+                        if ($(this).next().length == 1) {
+                            $(this).next().fadeIn(100);
+                        } 
+                        else {
+                            var arr = $('input[type=radio]:checked');
+                            var ans = jQuiz.userAnswers = [];
+                            var answers = {};
+                            for (var i = 0, ii = arr.length; i < ii; i++) {
+                                ans.push(arr[i].getAttribute('choise'));
+                                answers[arr[i].getAttribute('qid')] = arr[i].getAttribute('choise');
+                            }
+    
+                            $('#progress').width(300);
+                            $('#progressKeeper').hide();
+                            var resultSet = '';
+                            console.log(answers)
+                            resultSet += '<div class="totalScore"><p>Oraklet mediterar över din dialekt.</p></div>';
+                            $('#resultKeeper').append(resultSet).show();
+                            
+
+                            jQuiz.sendUserResult(answers);
+    
+                        }                
+    
+                    });
+    
+                });
+    
+                $('.btnPrev').click(function(){
+                    $(this).parents('.questionContainer').fadeOut(100, function(){
+                        $(this).prev().fadeIn(100);
+                    });
+    
+                })
+    
+                $('.btnShowResult').click(function(){
+                    var arr = $('input[type=radio]:checked');
+                    var ans = jQuiz.userAnswers = [];
+                    for (var i = 0, ii = arr.length; i < ii; i++) {
+                        ans.push(arr[i].getAttribute('id'));
+                    }
+                })
+    
+            }
+        };
+        jQuiz.init();
+    });
+
+
+  
+
+    </script>
+
+
+
+</body>
+
+</html>
