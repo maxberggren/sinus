@@ -52,10 +52,10 @@ if __name__ == "__main__":
             for row in result:
                 # Set Nones to empty strings so latlon gets it
                 
-                city = (row['city'] if row['city'] else "").encode('latin-1')
-                muni = (row['municipality'] if row['municipality'] else "").encode('latin-1')
-                county = (row['county'] if row['county'] else "").encode('latin-1')
-                country = (row['country'] if row['country'] else "").encode('latin-1')         
+                city = (row['city'] if row['city'] else "").decode('latin-1')
+                muni = (row['municipality'] if row['municipality'] else "").decode('latin-1')
+                county = (row['county'] if row['county'] else "").decode('latin-1')
+                country = (row['country'] if row['country'] else "").decode('latin-1')         
                                     
                 coordinate = None
         
