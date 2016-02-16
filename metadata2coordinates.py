@@ -102,15 +102,16 @@ if __name__ == "__main__":
                     #try:
                     data = dict(longitude=coordinate[1],
                                 latitude=coordinate[0],
-                                city=city.decode('utf-8'),
-                                municipality=muni.decode('utf-8'),
-                                county=county.decode('utf-8'),
-                                country=country.decode('utf-8'))
+                                city=(city.decode('utf-8') if city else ""),
+                                municipality=(muni.decode('utf-8') if muni else ""),
+                                county=(county.decode('utf-8') if county else ""),
+                                country=(country.decode('utf-8') if country else ""))
             
                     db['blogs'].update(data, ['city',
                                               'municipality',
                                               'county',
                                               'country'])
+                    print data
                 
                     #except:
                     #    print "Unexpected error:", sys.exc_info()[0]
@@ -128,6 +129,7 @@ if __name__ == "__main__":
                                               'municipality',
                                               'county',
                                               'country'])
+                    print data
         
                     #except:
                     #    print "Unexpected error:", sys.exc_info()[0]
