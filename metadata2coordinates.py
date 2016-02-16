@@ -34,7 +34,7 @@ if __name__ == "__main__":
     
     while True:
         try:
-            result = db.query("SELECT distinct np.source, np.city, np.municipality, "
+            result = db.query("SELECT distinct np.source as source, np.city, np.municipality, "
                               "np.county, np.country, np.source FROM "
                               "(select * from blogs "
                               "  WHERE (latitude is NULL "
