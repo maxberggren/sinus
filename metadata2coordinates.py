@@ -100,7 +100,7 @@ if __name__ == "__main__":
                     print (country + "," if country else ""),
                     print "->", coordinate
 
-                    print source
+                    print source 
                     
                     try:
                         data = dict(longitude=coordinate[1],
