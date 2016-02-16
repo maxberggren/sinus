@@ -46,16 +46,16 @@ if __name__ == "__main__":
                               "         OR "
                               "         (city <> '' or "
                               "          municipality <> '' "
-                              "          OR county <> '')) and source = 'blocket'"
+                              "          OR county <> '')) and source = 'tradera'"
                               " )np ")
                                   
             for row in result:
                 # Set Nones to empty strings so latlon gets it
                 
-                city = (row['city'] if row['city'] else "").decode('latin-1').encode('utf-8')
-                muni = (row['municipality'] if row['municipality'] else "").decode('latin-1').encode('utf-8')
-                county = (row['county'] if row['county'] else "").decode('latin-1').encode('utf-8')
-                country = (row['country'] if row['country'] else "").decode('latin-1').encode('utf-8')      
+                city = (row['city'] if row['city'] else "")
+                muni = (row['municipality'] if row['municipality'] else "")
+                county = (row['county'] if row['county'] else "")
+                country = (row['country'] if row['country'] else "")    
                                     
                 coordinate = None
         
