@@ -99,38 +99,38 @@ if __name__ == "__main__":
                     print (country + "," if country else ""),
                     print "->", coordinate
                     
-                    try:
-                        data = dict(longitude=coordinate[1],
-                                    latitude=coordinate[0],
-                                    city=city.decode('utf-8'),
-                                    municipality=muni.decode('utf-8'),
-                                    county=county.decode('utf-8'),
-                                    country=country.decode('utf-8'))
+                    #try:
+                    data = dict(longitude=coordinate[1],
+                                latitude=coordinate[0],
+                                city=city.decode('utf-8'),
+                                municipality=muni.decode('utf-8'),
+                                county=county.decode('utf-8'),
+                                country=country.decode('utf-8'))
+            
+                    db['blogs'].update(data, ['city',
+                                              'municipality',
+                                              'county',
+                                              'country'])
                 
-                        db['blogs'].update(data, ['city',
-                                                  'municipality',
-                                                  'county',
-                                                  'country'])
-                
-                    except:
-                        print "Unexpected error:", sys.exc_info()[0]
+                    #except:
+                    #    print "Unexpected error:", sys.exc_info()[0]
         
                 else: 
                     # No coordinate found -> flag as DoNotTryAgain
-                    try:
-                        data = dict(noCoordinate=1,
-                                    city=city.decode('utf-8'),
-                                    municipality=muni.decode('utf-8'),
-                                    county=county.decode('utf-8'),
-                                    country=country.decode('utf-8'))
-                                   
-                        db['blogs'].update(data, ['city',
-                                                  'municipality',
-                                                  'county',
-                                                  'country'])
+                    #try:
+                    data = dict(noCoordinate=1,
+                                city=city.decode('utf-8'),
+                                municipality=muni.decode('utf-8'),
+                                county=county.decode('utf-8'),
+                                country=country.decode('utf-8'))
+                               
+                    db['blogs'].update(data, ['city',
+                                              'municipality',
+                                              'county',
+                                              'country'])
         
-                    except:
-                        print "Unexpected error:", sys.exc_info()[0]
+                    #except:
+                    #    print "Unexpected error:", sys.exc_info()[0]
             break
         except KeyboardInterrupt:
             break
