@@ -46,7 +46,7 @@ if __name__ == "__main__":
                               "         OR "
                               "         (city <> '' or "
                               "          municipality <> '' "
-                              "          OR county <> '')) "
+                              "          OR county <> '')) and source = 'blocket'"
                               " )np ")
                                   
             for row in result:
