@@ -51,7 +51,7 @@ if __name__ == "__main__":
                                   
             for row in result:
                 # Set Nones to empty strings so latlon gets it
-                
+                print type(row['city'])
                 city = (row['city'] if row['city'] else "")
                 muni = (row['municipality'] if row['municipality'] else "")
                 county = (row['county'] if row['county'] else "")
@@ -107,10 +107,10 @@ if __name__ == "__main__":
                                 county=(county.decode('utf-8') if county else ""),
                                 country=(country.decode('utf-8') if country else ""))
             
-                    db['blogs'].update(data, ['city',
-                                              'municipality',
-                                              'county',
-                                              'country'])
+                    #db['blogs'].update(data, ['city',
+                    #                          'municipality',
+                    #                          'county',
+                    #                          'country'])
                     print data
                 
                     #except:
@@ -125,10 +125,10 @@ if __name__ == "__main__":
                                 county=(county.decode('utf-8') if county else ""),
                                 country=(country.decode('utf-8') if country else ""))
                                
-                    db['blogs'].update(data, ['city',
-                                              'municipality',
-                                              'county',
-                                              'country'])
+                    #db['blogs'].update(data, ['city',
+                    #                          'municipality',
+                    #                          'county',
+                    #                          'country'])
                     print data
         
                     #except:
