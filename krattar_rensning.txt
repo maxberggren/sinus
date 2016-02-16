@@ -1,0 +1,297 @@
+nu finns NA med i vår mätning av förekomsten män och kvinnor media! 
+
+
+
+
+
+
+BLOOGGAR SOM BORDE KUNNA KASTAS
+-----------------------------
+
+DELETE
+from blogs 
+
+where NOT 
+(NULLIF(municipality, '') IS NOT NULL 
+or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+or latitude IS NOT NULL) 
+
+;
+
+
+
+
+
+
+
+
+
+
+
+select city, country, municipality, county, id, longitude, latitude, gender, age, rank, source from blogs where NULLIF(municipality, '') IS NOT NULL or longitude  IS NOT NULL or latitude IS NOT NULL AND rank = 2 limit 100;
+
+
+select count(id) from blogs where (NULLIF(municipality, '') IS NOT NULL or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL or latitude IS NOT NULL);
+
+select count(id) from blogs;
+
+
+
+
+
+
+
+
+
+
+select city, country, municipality, county, id, longitude, latitude, gender, age, rank, source 
+
+from blogs 
+
+where NOT 
+(NULLIF(municipality, '') IS NOT NULL 
+or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+or latitude IS NOT NULL) 
+
+ORDER BY id desc
+
+LIMIT 10000;
+
+
+
+
+
+
+DESSA BORDE VI KUNNA KASTA
+--------------------------
+
+select count(id) from posts where blog_id IN (
+
+select id
+
+from blogs 
+
+where NOT 
+(NULLIF(municipality, '') IS NOT NULL 
+or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+or latitude IS NOT NULL) 
+
+) LIMIT 10 ;
+
+
+
+
+DESSA SKA INTE KASTAS
+---------------------
+
+select * from posts where blog_id IN (
+
+select id
+
+from blogs 
+
+where 
+(NULLIF(municipality, '') IS NOT NULL 
+or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+or latitude IS NOT NULL) 
+
+) LIMIT 10 ;
+
+
+
+---------------------------------------------------------------
+
+POSTER SOM BORDE KUNNA KASTAS
+-----------------------------
+
+select * from posts where blog_id IN (
+
+select id
+
+from blogs 
+
+where NOT 
+(NULLIF(municipality, '') IS NOT NULL 
+or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+or latitude IS NOT NULL) 
+
+) LIMIT 100;
+
+
+
+
+
+--------------------------------------------------------
+
+
+
+
+BLOGGAR VI GILLAR
+-----------------------------
+
+
+select city, country, municipality, county, id, longitude, latitude, gender, age, rank, source
+
+from blogs 
+
+where 
+(NULLIF(municipality, '') IS NOT NULL 
+or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+or latitude IS NOT NULL) 
+
+order by id desc
+
+LIMIT 100;
+
+
+
+
+
+
+POSTER FRÅN BLOGGAR VI GILLAR
+-----------------------------
+
+select * from posts where blog_id IN (
+
+	select id
+
+	from blogs 
+
+	where 
+	(NULLIF(municipality, '') IS NOT NULL 
+	or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+	or latitude IS NOT NULL) 
+
+) LIMIT 10;
+
+
+
+--------------------------------
+
+POSTER SOM SAKNAR BLOG i DB!!!!!!!!!!!!!!!!!!!!!!!!!!! kör delegte på
+-----------------------------
+
+select blog_id from posts where blog_id NOT IN (
+
+	select id
+
+	from blogs 
+
+	where 
+	(NULLIF(municipality, '') IS NOT NULL 
+	or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+	or latitude IS NOT NULL) 
+
+) LIMIT 10;
+
+--------------------------------------
+
+--------------------------------
+
+POSTER SOM HAAAR BLOG i DB
+-----------------------------
+
+select blog_id from posts where blog_id IN (
+
+	select id
+
+	from blogs 
+
+	where 
+	(NULLIF(municipality, '') IS NOT NULL 
+	or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+	or latitude IS NOT NULL) 
+
+) LIMIT 100;
+
+--------------------------------------
+
+
+
+
+
+
+
+OPTIMIZE TABLE my_big_table;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ANVÄNDAER SOM SKA KASTAS
+--------------------------
+
+select city, country, municipality, county, id, longitude, latitude, gender, age, rank, source 
+
+from blogs 
+
+where NOT 
+(NULLIF(municipality, '') IS NOT NULL 
+or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+or latitude IS NOT NULL) 
+
+LIMIT 10 ;
+
+
+
+ANVÄNDAER SOM IIIIINNNTEEEEE SKA KASTAS
+--------------------------
+
+select city, country, municipality, county, id, longitude, latitude, gender, age, rank, source 
+
+from blogs 
+
+where 
+(NULLIF(municipality, '') IS NOT NULL 
+or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+or latitude IS NOT NULL) 
+
+LIMIT 10 ;
+
+
+
+
+
+
+
+
+
+
+
+
+select count(id) from posts where blog_id IN (
+
+select id
+
+from blogs 
+
+where  
+(NULLIF(municipality, '') IS NOT NULL 
+or NULLIF(city, '') IS NOT NULL or longitude IS NOT NULL 
+or latitude IS NOT NULL) 
+
+) LIMIT 100;
+
+
+
+
+mysqldump -h locationdb.gavagai.se -u sinus -p 5NU4KbP8 sinus2 --default-character-set=utf8 > sinus_backup.sql
+
+
+mysql --host=locationdb.gavagai.se --user=sinus --password=5NU4KbP8 sinus2 --default-character-set=utf8

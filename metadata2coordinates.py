@@ -34,7 +34,7 @@ if __name__ == "__main__":
     
     while True:
         try:
-            result = db.query("SELECT distinct np.city, np.municipality, "
+            result = db.query("SELECT distinct np.source, np.city, np.municipality, "
                               "np.county, np.country, np.source FROM "
                               "(select * from blogs "
                               "  WHERE (latitude is NULL "
@@ -55,7 +55,8 @@ if __name__ == "__main__":
                 city = (row['city'] if row['city'] else "")
                 muni = (row['municipality'] if row['municipality'] else "")
                 county = (row['county'] if row['county'] else "")
-                country = (row['country'] if row['country'] else "")               
+                country = (row['country'] if row['country'] else "")    
+                source = row['source']           
                                     
                 coordinate = None
         
@@ -98,6 +99,8 @@ if __name__ == "__main__":
                     print (county + "," if county else ""),
                     print (country + "," if country else ""),
                     print "->", coordinate
+
+                    print source
                     
                     try:
                         data = dict(longitude=coordinate[1],

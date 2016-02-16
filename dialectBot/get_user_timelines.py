@@ -7,6 +7,9 @@ import re
 import urlparse
 import os
 import cPickle as pickle
+import config as c
+import datetime
+import time
 
 from twython import TwythonStreamer
 OAUTH_TOKEN = '18907132-YidrXI5huIhij4HrSjCA2rlm4cc5C7dkqgZiYvaKQ'
@@ -18,6 +21,31 @@ import tweepy
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(OAUTH_TOKEN, OAUTH_SECRET)
 api = tweepy.API(auth)
+
+import dataset
+mysqldb = dataset.connect(c.LOCATIONDB) 
+mysqldb.query("set names 'utf8'") # Might help
+
+def add_datapoints(username, lat, lon, text):
+
+    #random_handler = binascii.b2a_hex(os.urandom(15))[:10]
+    #random_handler = secure_filename(random_handler)
+    uniqe_handler = "twitter://" + username
+    
+    blog = dict(url=uniqe_handler, 
+                source="twitter",
+                rank=2,
+                longitude=lon,
+                latitude=lat)
+
+    mysqldb['blogs'].upsert(blog, ['url'])
+    inserted_id = mysqldb['blogs'].find_one(url=uniqe_handler)['id']
+
+    post = dict(blog_id=inserted_id, 
+                date=datetime.datetime.now(),
+                text=text.encode('utf-8'))
+    #print post
+    mysqldb['posts'].insert(post)
 
 def strip_tweet(tweet):
     new_string = ''
@@ -54,19 +82,24 @@ class MyStreamer(TwythonStreamer):
             try:
                 timeline = api.user_timeline(data['user']['screen_name'], count=3200, since_id=user_last_id[username])
                 print "This user is aldready saved. Taking only whats new."
-            except KeyError:
+                # Remeber last tweet collected
+                last_id = timeline[0].id
+                user_last_id[username] = last_id
+            except (KeyError, IndexError):
                 timeline = api.user_timeline(data['user']['screen_name'], count=3200)
+
+            coordinates = data['place']['bounding_box']['coordinates']
+            middle_of_box = coordinates[0][1]
+            lat = middle_of_box[1]
+            lon = middle_of_box[0]
 
             text_blob = ""
             for tweet in timeline:
                 if tweet.text[0:3] != "RT ":
                     text_blob += "\n\n" + strip_tweet(tweet.text)
 
-            # Remeber last tweet collected
-            last_id = timeline[0].id
-            user_last_id[username] = last_id
-
-            print "@{}: {} tecken hämtades".format(username, len(text_blob))  
+            print "@{}: {} tecken hämtades {}".format(username, len(text_blob), datetime.datetime.now())  
+            add_datapoints(username, lat, lon, text_blob)
                     
     def on_error(self, status_code, data):
         print status_code, data
@@ -85,5 +118,10 @@ while True:
 
         del stream
         break
-    #except:
-    #    print sys.exc_info()[0]
+    except TypeError:
+        pass
+    except:
+        print sys.exc_info()[0]
+        print "Väntar 2 timmar"
+        time.sleep(60*60*2)
+
